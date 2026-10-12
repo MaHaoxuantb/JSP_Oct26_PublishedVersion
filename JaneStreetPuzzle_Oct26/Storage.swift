@@ -34,28 +34,24 @@ class Board {
     }
 
     struct Relationships {
-        var Relationships: [[Float64]]
-        var BlockStatus: [[UUID]]
+        var VerticalRelationships: [[Float64]]
+        var HorizontalRelationships: [[Float64]]
+        var ColorBlocks: [[UUID]]
         var Capitals: [[Bool]] // True for each capitals
-        var CellCosts: [[Float64]]
-        var BlocksContained: [OneColorBlock]
-        
-        struct OneColorBlock {
-            let id: UUID
-            var CellCost: Int
-            
-            init(CellCost: Int) {
-                self.id = UUID()
-                self.CellCost = CellCost
-            }
-        }
+        var VerticalEnergy: [[Float64]]
+        var HorizontalEnergy: [[Float64]]
+        var BlocksContained: ColorBlocksContained
         
         init(rowNum: Int, colNum: Int) {
-            self.Relationships = Array(
+            self.VerticalRelationships = Array(
                 repeating: Array(repeating: 0.5, count: colNum - 1),
+                count: rowNum
+            )
+            self.HorizontalRelationships = Array(
+                repeating: Array(repeating: 0.5, count: colNum),
                 count: rowNum - 1
             )
-            self.BlockStatus = Array(
+            self.ColorBlocks = Array(
                 repeating: Array(repeating: UUID(), count: colNum),
                 count: rowNum
             )
@@ -63,11 +59,24 @@ class Board {
                 repeating: Array(repeating: false, count: colNum),
                 count: rowNum
             )
-            self.CellCosts = Array(
-                repeating: Array(repeating: 0.0, count: colNum),
+            self.VerticalEnergy = Array(
+                repeating: Array(repeating: 0.5, count: colNum - 1),
                 count: rowNum
             )
-            self.BlocksContained = []
+            self.HorizontalEnergy = Array(
+                repeating: Array(repeating: 0.5, count: colNum),
+                count: rowNum - 1
+            )
+            self.BlocksContained = ColorBlocksContained()
+        }
+        
+        class ColorBlocksContained {
+            var ids: [UUID]
+            var blockCounts: [Int]
+            init() {
+                self.ids = []
+                self.blockCounts = []
+            }
         }
     }
 }
