@@ -11,22 +11,25 @@ class Board {
     let id : UUID
     let BoardBasics: BoardBasics
     var Relationships: Relationships
-    var Energy: [[Int]]
+    var Energy: [[Float64]]
     
-    init(BoardBasics: BoardBasics, Relationships: Relationships, Energy: [[Int]]) {
+    init(rowNum: Int, colNum: Int) {
         self.id = UUID()
-        self.BoardBasics = BoardBasics
-        self.Relationships = Relationships
-        self.Energy = Energy
+        self.BoardBasics = Board.BoardBasics(rowNum: rowNum, colNum: colNum)
+        self.Relationships = Board.Relationships(rowNum: rowNum, colNum: colNum)
+        self.Energy = Array(
+            repeating: Array(repeating: 0.0, count: colNum),
+            count: rowNum
+        )
     }
     
     struct BoardBasics {
-        let RowNum: Int32
-        let ColNum: Int32
+        let rowNum: Int
+        let colNum: Int
         
-        init(RowNum: Int32, ColNum: Int32) {
-            self.RowNum = RowNum
-            self.ColNum = ColNum
+        init(rowNum: Int, colNum: Int) {
+            self.rowNum = rowNum
+            self.colNum = colNum
         }
     }
 
@@ -47,22 +50,22 @@ class Board {
             }
         }
         
-        init(RowNum: Int, ColNum: Int) {
+        init(rowNum: Int, colNum: Int) {
             self.Relationships = Array(
-                repeating: Array(repeating: 0.0, count: ColNum - 1),
-                count: RowNum - 1
+                repeating: Array(repeating: 0.5, count: colNum - 1),
+                count: rowNum - 1
             )
             self.BlockStatus = Array(
-                repeating: Array(repeating: UUID(), count: ColNum),
-                count: RowNum
+                repeating: Array(repeating: UUID(), count: colNum),
+                count: rowNum
             )
             self.Capitals = Array(
-                repeating: Array(repeating: false, count: ColNum),
-                count: RowNum
+                repeating: Array(repeating: false, count: colNum),
+                count: rowNum
             )
             self.CellCosts = Array(
-                repeating: Array(repeating: 0.0, count: ColNum),
-                count: RowNum
+                repeating: Array(repeating: 0.0, count: colNum),
+                count: rowNum
             )
             self.BlocksContained = []
         }

@@ -8,11 +8,11 @@
 import Foundation
 
 struct ShapeGenerator {
-    func GenerateShapes(Boards: [Board], RowNum: Int, ColNum: Int) -> [Board] {
+    func GenerateShapes(Boards: [Board], rowNum: Int, colNum: Int) -> [Board] {
         // Assign All Condition
         var TempBlockStatus: [[UUID]] = [[]]
-        for Row in 0..<RowNum {
-            for Col in 0..<ColNum {
+        for Row in 0..<rowNum {
+            for Col in 0..<colNum {
                 TempBlockStatus[Row][Col] = UUID()
             }
         }
