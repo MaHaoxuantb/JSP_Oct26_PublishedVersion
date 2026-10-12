@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		000000000000000000000120 /* MyTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MyTool; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000000120 /* JaneStreetPuzzle_Oct26 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = JaneStreetPuzzle_Oct26; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -38,7 +38,7 @@
 		000000000000000000000020 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				000000000000000000000120 /* MyTool */,
+				000000000000000000000120 /* JaneStreetPuzzle_Oct26 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -46,9 +46,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		000000000000000100000000 /* MyTool */ = {
+		000000000000000100000000 /* JaneStreetPuzzle_Oct26 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 000000000000000110000000 /* Build configuration list for PBXNativeTarget "MyTool" */;
+			buildConfigurationList = 000000000000000110000000 /* Build configuration list for PBXNativeTarget "JaneStreetPuzzle_Oct26" */;
 			buildPhases = (
 				000000000000000120000000 /* Sources */,
 				000000000000000130000000 /* Frameworks */,
@@ -58,9 +58,9 @@
 			fileSystemSynchronizedGroups = (
 				000000000000000000000010 /* JaneStreetPuzzle_Oct26 */,
 			);
-			name = MyTool;
+			name = JaneStreetPuzzle_Oct26;
 			productName = Tool;
-			productReference = 000000000000000000000120 /* MyTool */;
+			productReference = 000000000000000000000120 /* JaneStreetPuzzle_Oct26 */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -92,7 +92,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				000000000000000100000000 /* MyTool */,
+				000000000000000100000000 /* JaneStreetPuzzle_Oct26 */,
 			);
 		};
 /* End PBXProject section */
@@ -238,11 +238,13 @@
 			};
 			name = Release;
 		};
-		000000000000000111000000 /* Debug configuration for PBXNativeTarget "MyTool" */ = {
+		000000000000000111000000 /* Debug configuration for PBXNativeTarget "JaneStreetPuzzle_Oct26" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MPT8A88ATN;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thomasb.clt.JaneStreetPuzzle-Oct26";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -253,11 +255,13 @@
 			};
 			name = Debug;
 		};
-		000000000000000112000000 /* Release configuration for PBXNativeTarget "MyTool" */ = {
+		000000000000000112000000 /* Release configuration for PBXNativeTarget "JaneStreetPuzzle_Oct26" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MPT8A88ATN;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thomasb.clt.JaneStreetPuzzle-Oct26";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -279,11 +283,11 @@
 			);
 			defaultConfigurationName = Release;
 		};
-		000000000000000110000000 /* Build configuration list for PBXNativeTarget "MyTool" */ = {
+		000000000000000110000000 /* Build configuration list for PBXNativeTarget "JaneStreetPuzzle_Oct26" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				000000000000000111000000 /* Debug configuration for PBXNativeTarget "MyTool" */,
-				000000000000000112000000 /* Release configuration for PBXNativeTarget "MyTool" */,
+				000000000000000111000000 /* Debug configuration for PBXNativeTarget "JaneStreetPuzzle_Oct26" */,
+				000000000000000112000000 /* Release configuration for PBXNativeTarget "JaneStreetPuzzle_Oct26" */,
 			);
 			defaultConfigurationName = Release;
 		};

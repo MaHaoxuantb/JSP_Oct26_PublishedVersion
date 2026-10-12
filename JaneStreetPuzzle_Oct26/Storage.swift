@@ -7,19 +7,17 @@
 
 import Foundation
 
-struct Board {
+class Board {
     let id : UUID
     let BoardBasics: BoardBasics
-    var OriginalCondition: OriginalCondition
-    var ColorBlocks: ColorBlocks
-    var Entropy: EntropyStatus
+    var Relationships: Relationships
+    var Energy: [[Int]]
     
-    init(BoardBasics: BoardBasics, OriginalCondition: OriginalCondition, ColorBlocks: ColorBlocks, Entropy: EntropyStatus) {
+    init(BoardBasics: BoardBasics, Relationships: Relationships, Energy: [[Int]]) {
         self.id = UUID()
         self.BoardBasics = BoardBasics
-        self.OriginalCondition = OriginalCondition
-        self.ColorBlocks = ColorBlocks
-        self.Entropy = Entropy
+        self.Relationships = Relationships
+        self.Energy = Energy
     }
     
     struct BoardBasics {
@@ -32,43 +30,49 @@ struct Board {
         }
     }
 
-    struct OriginalCondition {
-        var Status: [[Int32]]
-        
-        init(Status: [[Int32]]) {
-            self.Status = Status
-        }
-    }
-
-    struct ColorBlocks {
+    struct Relationships {
+        var Relationships: [[Float64]]
         var BlockStatus: [[UUID]]
         var Capitals: [[Bool]] // True for each capitals
-        var CellCosts: [[Int32]]
+        var CellCosts: [[Float64]]
         var BlocksContained: [OneColorBlock]
         
         struct OneColorBlock {
             let id: UUID
-            var CellCost: Int32
+            var CellCost: Int
             
-            init(CellCost: Int32) {
+            init(CellCost: Int) {
                 self.id = UUID()
                 self.CellCost = CellCost
             }
         }
         
-        init(BlockStatus: [[UUID]], Capitals: [[Bool]], CellCosts: [[Int32]], BlocksContained: [OneColorBlock]) {
-            self.BlockStatus = BlockStatus
-            self.Capitals = Capitals
-            self.CellCosts = CellCosts
-            self.BlocksContained = BlocksContained
+        init(RowNum: Int, ColNum: Int) {
+            self.Relationships = Array(
+                repeating: Array(repeating: 0.0, count: ColNum - 1),
+                count: RowNum - 1
+            )
+            self.BlockStatus = Array(
+                repeating: Array(repeating: UUID(), count: ColNum),
+                count: RowNum
+            )
+            self.Capitals = Array(
+                repeating: Array(repeating: false, count: ColNum),
+                count: RowNum
+            )
+            self.CellCosts = Array(
+                repeating: Array(repeating: 0.0, count: ColNum),
+                count: RowNum
+            )
+            self.BlocksContained = []
         }
     }
+}
+
+struct OriginalCondition {
+    var Status: [[Int]]
     
-    struct EntropyStatus {
-        var Status: [[Int32]]
-        
-        init(Status: [[Int32]]) {
-            self.Status = Status
-        }
+    init(Status: [[Int]]) {
+        self.Status = Status
     }
 }
