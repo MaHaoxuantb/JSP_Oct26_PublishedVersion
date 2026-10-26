@@ -14,6 +14,7 @@ class Board {
     var Energy: [[Float64]]
     
     init(rowNum: Int, colNum: Int) {
+        precondition(rowNum > 0 && colNum > 0, "Board dimensions must be positive")
         self.id = UUID()
         self.BoardBasics = Board.BoardBasics(rowNum: rowNum, colNum: colNum)
         self.Relationships = Board.Relationships(rowNum: rowNum, colNum: colNum)
@@ -21,6 +22,14 @@ class Board {
             repeating: Array(repeating: 0.0, count: colNum),
             count: rowNum
         )
+    }
+
+    /// Independent candidate snapshot. All nested storage is value-based.
+    func copy() -> Board {
+        let result = Board(rowNum: self.BoardBasics.rowNum, colNum: self.BoardBasics.colNum)
+        result.Relationships = self.Relationships
+        result.Energy = self.Energy
+        return result
     }
     
     struct BoardBasics {
@@ -70,7 +79,7 @@ class Board {
             self.BlocksContained = ColorBlocksContained()
         }
         
-        class ColorBlocksContained {
+        struct ColorBlocksContained {
             var ids: [UUID]
             var blockCounts: [Int]
             init() {
@@ -81,7 +90,7 @@ class Board {
     }
 }
 
-struct OriginalCondition {
+struct OriginalCondition: Codable, Sendable {
     var Status: [[Int]]
     
     init(Status: [[Int]]) {

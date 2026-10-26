@@ -1,69 +1,48 @@
-//
-//  Runners.swift
-//  JaneStreetPuzzle_Oct26
-//
-//  Created by Thomas B on 10/12/26.
-//
-
 import Foundation
 
-class Runners {
-    // Relationships Into ColorBlocks
-    func IntoColorBlocks(Board: Board) async -> Board {
-        var ThisBoard = Board
-        
-        // Prepare it for this JOB
-        for row in ThisBoard.Relationships.ColorBlocks.indices {
-            for col in ThisBoard.Relationships.ColorBlocks[row].indices {
-                ThisBoard.Relationships.ColorBlocks[row][col] = UUID()
-            }
-        }
-        ThisBoard.Relationships.BlocksContained.ids = []
-        ThisBoard.Relationships.BlocksContained.blockCounts = []
-        
-        // MAIN
-        while true {
-            let LastBoard = ThisBoard
-            ThisBoard = await Propergation(Board: LastBoard)
-            if ThisBoard.Relationships.ColorBlocks == LastBoard.Relationships.ColorBlocks {
-                break
-            }
-        }
-        
-        // Update the UUID Index for color blocks
-        for rowBlocks in ThisBoard.Relationships.ColorBlocks {
-            for oneBlock in rowBlocks {
-                if !ThisBoard.Relationships.BlocksContained.ids.contains(oneBlock) {
-                    ThisBoard.Relationships.BlocksContained.ids.append(oneBlock)
-                    ThisBoard.Relationships.BlocksContained.blockCounts.append(1)
-                } else {
-                    let thisIndex = ThisBoard.Relationships.BlocksContained.ids.firstIndex(of: oneBlock)!
-                    ThisBoard.Relationships.BlocksContained.blockCounts[thisIndex] += 1
+final class Runners {
+    /// Rebuild connected components of the >= 0.5 relationship graph in one
+    /// flood fill. Metadata is regenerated in deterministic row-major order.
+    @discardableResult
+    func IntoColorBlocks(Board: Board) -> Board {
+        let rows = Board.BoardBasics.rowNum
+        let cols = Board.BoardBasics.colNum
+        let vertical = Board.Relationships.VerticalRelationships
+        let horizontal = Board.Relationships.HorizontalRelationships
+        precondition(vertical.count == rows && vertical.allSatisfy { $0.count == cols - 1 })
+        precondition(horizontal.count == rows - 1 && horizontal.allSatisfy { $0.count == cols })
+        precondition(vertical.joined().allSatisfy { $0.isFinite && (0...1).contains($0) }
+                     && horizontal.joined().allSatisfy { $0.isFinite && (0...1).contains($0) })
+        var visited = Array(repeating: false, count: rows * cols)
+        var ids: [UUID] = []
+        var counts: [Int] = []
+        for start in visited.indices where !visited[start] {
+            let id = UUID()
+            var queue = [start]
+            visited[start] = true
+            var next = 0
+            while next < queue.count {
+                let cell = queue[next]
+                next += 1
+                let row = cell / cols
+                let col = cell % cols
+                Board.Relationships.ColorBlocks[row][col] = id
+                var neighbors: [Int] = []
+                if row > 0 && horizontal[row - 1][col] >= 0.5 { neighbors.append(cell - cols) }
+                if col + 1 < cols && vertical[row][col] >= 0.5 { neighbors.append(cell + 1) }
+                if row + 1 < rows && horizontal[row][col] >= 0.5 { neighbors.append(cell + cols) }
+                if col > 0 && vertical[row][col - 1] >= 0.5 { neighbors.append(cell - 1) }
+                for neighbor in neighbors where !visited[neighbor] {
+                    visited[neighbor] = true
+                    queue.append(neighbor)
                 }
             }
+            ids.append(id)
+            counts.append(queue.count)
         }
-        
-        return ThisBoard
-        
-        // Top-Left Propergation
-        func Propergation(Board: Board) async -> Board {
-            // Through each row
-            for row in Board.Relationships.VerticalRelationships.indices {
-                for col in Board.Relationships.VerticalRelationships[row].indices {
-                    if Board.Relationships.VerticalRelationships[row][col] >= 0.5 {
-                        Board.Relationships.ColorBlocks[row][col + 1] = Board.Relationships.ColorBlocks[row][col]
-                    }
-                }
-            }
-            // Through each column
-            for col in Board.Relationships.HorizontalRelationships.first?.indices ?? 0..<0 {
-                for row in Board.Relationships.HorizontalRelationships.indices {
-                    if Board.Relationships.HorizontalRelationships[row][col] >= 0.5 {
-                        Board.Relationships.ColorBlocks[row + 1][col] = Board.Relationships.ColorBlocks[row][col]
-                    }
-                }
-            }
-            return Board
-        }
+        Board.Relationships.BlocksContained.ids = ids
+        Board.Relationships.BlocksContained.blockCounts = counts
+        Board.Relationships.Capitals = Array(repeating: Array(repeating: false, count: cols), count: rows)
+        return Board
     }
 }

@@ -21,9 +21,58 @@ class Energy {
         }
     }
 
-    // Calculate the Energy
-    func EnergyCal(Board: Board) -> [[Float64]] {
-        return [[]]
+    struct Factors: Codable, Sendable {
+        var realAIM: Float64 = 1
+        var symmetry: Float64 = 1
+        var discreteness: Float64 = 1
+    }
+
+    struct Scores: Codable, Sendable {
+        let realAIM: Float64
+        let symmetry: Float64
+        let discreteness: Float64
+        let total: Float64
+    }
+
+    struct Evaluation {
+        let cells: [[Float64]]
+        let scores: Scores
+    }
+
+    /// Combine the three per-cell energies with nonnegative relative factors.
+    /// Factors are normalized to sum to 1, preserving the [0, 1] energy range.
+    /// Equal factors are the default; zero removes a component's contribution.
+    /// Returns the matrix without changing Board.Energy or the relationships.
+    func EnergyCal(Board: Board, Target: OriginalCondition, Factors: Factors = Factors()) -> [[Float64]] {
+        evaluate(Board: Board, Target: Target, Factors: Factors).cells
+    }
+
+    /// Compute component summaries for logging in the same evaluation pass.
+    func evaluate(Board: Board, Target: OriginalCondition, Factors: Factors = Factors()) -> Evaluation {
+        let factors = [Factors.realAIM, Factors.symmetry, Factors.discreteness]
+        precondition(factors.allSatisfy { $0.isFinite && $0 >= 0 },
+                     "Energy factors must be finite and nonnegative")
+        let largest = factors.max()!
+        precondition(largest > 0, "At least one energy factor must be positive")
+        // Scale first so large finite factors cannot overflow their sum.
+        let scaled = factors.map { $0 / largest }
+        let total = scaled.reduce(0, +)
+        let weights = scaled.map { $0 / total }
+        let aim = RealAIMTest(Board: Board, Target: Target)
+        let symmetry = SymmetricalTest(Board: Board)
+        let discreteness = DiscretenessTest(Board: Board)
+        let combined = aim.indices.map { row in
+            aim[row].indices.map { col in
+                let score = weights[0] * aim[row][col] + weights[1] * symmetry[row][col]
+                    + weights[2] * discreteness[row][col]
+                return max(0, min(1, score))
+            }
+        }
+        func mean(_ matrix: [[Float64]]) -> Float64 {
+            matrix.reduce(0) { $0 + $1.reduce(0, +) } / Float64(Board.BoardBasics.rowNum * Board.BoardBasics.colNum)
+        }
+        return Evaluation(cells: combined, scores: Scores(realAIM: mean(aim), symmetry: mean(symmetry),
+                                                         discreteness: mean(discreteness), total: mean(combined)))
     }
     
     typealias CapitolCandidate = (row: Float64, col: Float64, probability: Float64)
@@ -387,28 +436,53 @@ class Energy {
 
     
     // 3. Strength Closeness to 0 or 1
-    func DiscretenessTest(Board: Board) -> ([[Float64]], [[Float64]]) {
-        var VerticalEnergy: [[Float64]] = Array(
-            repeating: Array(repeating: 0, count: Board.BoardBasics.colNum - 1),
-            count: Board.BoardBasics.rowNum
-        )
-        var HorizontalEnergy: [[Float64]] = Array(
-            repeating: Array(repeating: 0, count: Board.BoardBasics.colNum),
-            count: Board.BoardBasics.rowNum - 1
-        )
-        
-        // Through each row
-        for row in 0...(Board.BoardBasics.colNum) {
-            for col in 0...(Board.BoardBasics.rowNum - 1) {
-                VerticalEnergy[row][col] = tan(2 * min(Board.Relationships.VerticalRelationships[row][col], 1 - Board.Relationships.VerticalRelationships[row][col]))
+    /// One score per cell: mean uncertainty of its existing incident edges.
+    /// Each edge scores tan(2 * min(p, 1-p)) / tan(1): 0 at p=0 or 1,
+    /// and 1 at p=0.5. A 1x1 board has no uncertain edges and scores 0.
+    func DiscretenessTest(Board: Board) -> [[Float64]] {
+        let rows = Board.BoardBasics.rowNum
+        let cols = Board.BoardBasics.colNum
+        precondition(rows > 0 && cols > 0, "Board dimensions must be positive")
+        let vertical = Board.Relationships.VerticalRelationships
+        let horizontal = Board.Relationships.HorizontalRelationships
+        precondition(vertical.count == rows && vertical.allSatisfy { $0.count == cols - 1 },
+                     "VerticalRelationships must match the board dimensions")
+        precondition(horizontal.count == rows - 1 && horizontal.allSatisfy { $0.count == cols },
+                     "HorizontalRelationships must match the board dimensions")
+        let normalization = tan(Float64(1))
+        func edgeScore(_ strength: Float64) -> Float64 {
+            precondition(strength.isFinite && strength >= 0 && strength <= 1,
+                         "Relationship strengths must be finite and in [0, 1]")
+            return tan(2 * min(strength, 1 - strength)) / normalization
+        }
+
+        var energy = Array(repeating: Array(repeating: Float64(0), count: cols), count: rows)
+        var counts = Array(repeating: Array(repeating: 0, count: cols), count: rows)
+        // Vertical boundaries separate left/right cells.
+        for row in vertical.indices {
+            for col in vertical[row].indices {
+                let score = edgeScore(vertical[row][col])
+                energy[row][col] += score
+                energy[row][col + 1] += score
+                counts[row][col] += 1
+                counts[row][col + 1] += 1
             }
         }
-        // Through each column
-        for col in 0...(Board.BoardBasics.rowNum) {
-            for row in 0...(Board.BoardBasics.colNum - 1) {
-                HorizontalEnergy[row][col] = tan(2 * min(Board.Relationships.HorizontalRelationships[row][col], 1 - Board.Relationships.HorizontalRelationships[row][col]))
+        // Horizontal boundaries separate upper/lower cells.
+        for row in horizontal.indices {
+            for col in horizontal[row].indices {
+                let score = edgeScore(horizontal[row][col])
+                energy[row][col] += score
+                energy[row + 1][col] += score
+                counts[row][col] += 1
+                counts[row + 1][col] += 1
             }
         }
-        return (VerticalEnergy, HorizontalEnergy)
+        for row in 0..<rows {
+            for col in 0..<cols where counts[row][col] > 0 {
+                energy[row][col] /= Float64(counts[row][col])
+            }
+        }
+        return energy
     }
 }
