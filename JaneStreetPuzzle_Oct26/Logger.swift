@@ -57,7 +57,7 @@ struct SearchStatistics: Codable, Sendable {
 }
 
 enum StopReason: String, Codable, Sendable {
-    case solved, iterationLimit, timeLimit, restartLimit, cancelled
+    case solved, iterationLimit, timeLimit, restartLimit, repairLimit, cancelled
 }
 
 /// Progress and milestones are streamed to JSON Lines. Full snapshots are only
@@ -69,6 +69,7 @@ final class Logger {
     enum Kind: String, Codable {
         case started, initialized, iteration, bestImproved, progress, reheated, restarted, finished, failed
         case parallelStarted, workerFinished, parallelFinished
+        case eliteImported
     }
     struct Event: Codable {
         let kind: Kind
@@ -96,6 +97,7 @@ final class Logger {
         var snapshot: BoardSnapshot?
         var workerID: Int?
         var workerLogPath: String?
+        var repairs: RepairMetrics?
         var message: String?
     }
     struct Entry: Codable {
@@ -150,7 +152,8 @@ final class Logger {
                 let current = event.current.map { String(format: "%.8f", $0.total) } ?? "-"
                 let temperature = event.temperature.map { String(format: "%.5g", $0) } ?? "-"
                 let clues = event.clueMismatchCount.map(String.init) ?? "-"
-                let line = "[\(source)][\(event.kind.rawValue)] iteration=\(event.iteration) restart=\(event.restart) current=\(current) best=\(score) T=\(temperature) bestUnmatchedClues=\(clues) elapsed=\(String(format: "%.1f", elapsedSeconds))s \(event.message ?? "")\n"
+                let repair = event.repairs.map { " evals=\($0.evaluations) merges=\($0.mergesChecked) covers=\($0.coversChecked) budgetStops=\($0.budgetStops)" } ?? ""
+                let line = "[\(source)][\(event.kind.rawValue)] iteration=\(event.iteration) restart=\(event.restart) current=\(current) best=\(score) T=\(temperature) bestUnmatchedClues=\(clues) elapsed=\(String(format: "%.1f", elapsedSeconds))s\(repair) \(event.message ?? "")\n"
                 try Self.consoleLock.withLock {
                     // Direct writes stay visible when stdout is redirected or piped.
                     try FileHandle.standardOutput.write(contentsOf: Data(line.utf8))

@@ -61,11 +61,11 @@ struct SolverTests {
 
     static func exactValidation() {
         let board = example()
-        let report = ExactValidator().validate(board, target: RunConfig().Target)
+        let report = ExactValidator().validate(board, target: RunConfig.example.Target)
         check(report.valid && report.capitols.count == 3, "Solved example rejected")
         check(report.answer?.rowSums == [37, 29, 31, 43, 55], "Wrong example row sums")
         check(report.answer?.sumOfSquares == 8045, "Wrong example answer")
-        var wrong = RunConfig().Target
+        var wrong = RunConfig.example.Target
         wrong.Status[0][0] = 0
         let incorrect = ExactValidator().validate(board, target: wrong)
         check(!incorrect.valid && incorrect.answer == nil && incorrect.mismatches.count == 1,
@@ -81,8 +81,14 @@ struct SolverTests {
     }
 
     static func reproducibilityAndIsolation() throws {
-        var config = RunConfig()
+        var config = RunConfig.example
         config.seed = 12345
+        // Fix work limits and leave ample wall time so scheduler load does not
+        // decide where catalog enumeration stops in this reproducibility test.
+        config.repairTimeLimitSeconds = 60
+        config.catalogCandidateLimit = 100
+        config.exactCoverNodeLimit = 50
+        config.exactCoverSolutionLimit = 4
         try config.validate()
         let firstContext = SearchContext(config: config)
         let secondContext = SearchContext(config: config)
@@ -108,14 +114,15 @@ struct SolverTests {
             first = a.state
             second = b.state
         }
-        let expected = firstContext.energy.EnergyCal(Board: first.board, Target: config.Target, Factors: config.factors)
-        check(expected == first.board.Energy, "Stored cell energy is stale")
+        let reevaluated = firstContext.evaluate(first.board.copy())
+        check(reevaluated.board.Energy == first.board.Energy, "Stored exact energy is stale")
+        check(first.scores.discreteness == 0, "Search must use binary partitions")
     }
 
     static func lifecycleAndLogs() async throws {
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent("solver-tests-\(UUID())")
         defer { try? FileManager.default.removeItem(at: folder) }
-        var config = RunConfig()
+        var config = RunConfig.example
         config.rowNum = 1
         config.colNum = 1
         config.Target = OriginalCondition(Status: [[1]]) // impossible singleton clue
@@ -153,10 +160,10 @@ struct SolverTests {
         let restarted = try await Main().Run(Config: config)
         check(restarted.reason == .restartLimit && restarted.statistics.restarts == 1
               && restarted.statistics.reheats == 2, "Reheat/restart lifecycle is incorrect")
-        let task = Task { [config] in try await Main().Run(Config: config) }
+        let task = Task { [config] in try await Main().Run(Config: config).reason }
         task.cancel()
         let cancelled = try await task.value
-        check(cancelled.reason == .cancelled, "Cancellation was ignored")
+        check(cancelled == .cancelled, "Cancellation was ignored")
 
         config.Target = OriginalCondition(Status: [[0]])
         let solved = try await Main().Run(Config: config)
@@ -175,7 +182,7 @@ struct SolverTests {
     static func parallelLifecycleAndLogs() async throws {
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent("parallel-tests-\(UUID())")
         defer { try? FileManager.default.removeItem(at: folder) }
-        var config = RunConfig()
+        var config = RunConfig.example
         config.workerCount = 10
         config.rowNum = 1
         config.colNum = 1
@@ -237,6 +244,14 @@ struct SolverTests {
     }
 
     static func main() async throws {
+        if Array(CommandLine.arguments.dropFirst()) == ["--lifecycle-only"] {
+            // Tiny fixed 1x1 fixtures exercise scheduling/cancellation/logging
+            // without running a fresh 5x5 puzzle search.
+            try await lifecycleAndLogs()
+            try await parallelLifecycleAndLogs()
+            print("Passed fixed 1x1 lifecycle, ten-worker cancellation and compact-log checks.")
+            return
+        }
         copyingAndComponents()
         exactValidation()
         try reproducibilityAndIsolation()

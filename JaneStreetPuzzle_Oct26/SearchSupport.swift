@@ -23,7 +23,7 @@ struct SearchRandom: RandomNumberGenerator {
 }
 
 enum MoveKind: String, Codable, CaseIterable {
-    case boundary, merge, split, patch, relationship
+    case boundary, merge, split, patch, relationship, regionMerge, constrainedPatch
 }
 
 struct RelationshipChange: Codable {
@@ -113,132 +113,66 @@ struct SearchState {
     let board: Board
     let scores: Energy.Scores
     let validation: ValidationReport
-    func snapshot() -> SearchState { SearchState(board: board.copy(), scores: scores, validation: validation) }
+    var parents: [Int?] = []
+    var quality: SearchQuality { SearchQuality(validation, scores) }
+    func snapshot() -> SearchState {
+        SearchState(board: board.copy(), scores: scores, validation: validation, parents: parents)
+    }
 }
 
 final class SearchContext {
     let config: RunConfig
-    let energy = Energy()
-    let runners = Runners()
     let validator = ExactValidator()
     var rng: SearchRandom
     let grid: Grid
+    let regions: RegionCache
+    let constraints: ClueConstraints
+    let clueCount: Int
+    var metrics = RepairMetrics()
+    var mergeCursors: [[Int]: MergeCursor] = [:]
+    var catalogs: [[Int]: [[Int]]] = [:]
+    var catalogUses: [[Int]: Int] = [:]
+    var repairTicket = 0
+    var deadline = Double.infinity
 
     init(config: RunConfig) {
         self.config = config
-        self.rng = SearchRandom(seed: config.seed)
-        self.grid = Grid(rows: config.rowNum, cols: config.colNum)
+        rng = SearchRandom(seed: config.seed)
+        grid = Grid(rows: config.rowNum, cols: config.colNum)
+        regions = RegionCache(grid: grid)
+        constraints = ClueConstraints(grid: grid, clues: config.Target.Status.flatMap { $0 })
+        clueCount = constraints.clues.filter { $0 >= 0 }.count
     }
 
-    func evaluate(_ board: Board) -> SearchState {
-        runners.IntoColorBlocks(Board: board)
-        let report = validator.validate(board, target: config.Target)
-        // A genuine solution can be made fully discrete without changing states.
-        if report.valid { encodePartition(board, harden: true) }
-        for cell in report.capitols { board.Relationships.Capitals[cell.row][cell.col] = true }
-        let evaluation = energy.evaluate(Board: board, Target: config.Target, Factors: config.factors)
-        board.Energy = evaluation.cells
-        return SearchState(board: board, scores: evaluation.scores, validation: report)
-    }
-
-    /// Materialize a proposed partition as relationships. Preserve unmodified
-    /// strengths, so structural proposals do not reset all discreteness progress.
-    func encodePartition(_ board: Board, harden: Bool = false, initialize: Bool = false) {
+    /// All search relationships are canonical binary boundaries. The public
+    /// continuous energy API remains available for independent experiments.
+    func encodePartition(_ board: Board, harden: Bool = true, initialize: Bool = false) {
         for row in 0..<grid.rows {
             for col in 0..<grid.cols {
+                let id = board.Relationships.ColorBlocks[row][col]
                 if col + 1 < grid.cols {
-                    let joined = board.Relationships.ColorBlocks[row][col] == board.Relationships.ColorBlocks[row][col + 1]
-                    let old = board.Relationships.VerticalRelationships[row][col]
-                    if harden || initialize || (old >= 0.5) != joined {
-                        board.Relationships.VerticalRelationships[row][col] = joined ? (harden ? 1 : 0.9) : (harden ? 0 : 0.1)
-                    }
+                    board.Relationships.VerticalRelationships[row][col] =
+                        id == board.Relationships.ColorBlocks[row][col + 1] ? 1 : 0
                 }
                 if row + 1 < grid.rows {
-                    let joined = board.Relationships.ColorBlocks[row][col] == board.Relationships.ColorBlocks[row + 1][col]
-                    let old = board.Relationships.HorizontalRelationships[row][col]
-                    if harden || initialize || (old >= 0.5) != joined {
-                        board.Relationships.HorizontalRelationships[row][col] = joined ? (harden ? 1 : 0.9) : (harden ? 0 : 0.1)
-                    }
+                    board.Relationships.HorizontalRelationships[row][col] =
+                        id == board.Relationships.ColorBlocks[row + 1][col] ? 1 : 0
                 }
             }
         }
     }
 
-    private func focus(_ board: Board) -> Int {
-        if rng.unit() < config.uniformSelectionProbability { return rng.index(grid.count) }
-        let weights = board.Energy.flatMap { $0 }.map { 0.05 + $0 }
-        var choice = rng.unit() * weights.reduce(0, +)
-        for index in weights.indices {
-            choice -= weights[index]
-            if choice < 0 { return index }
+    func shuffled<T>(_ values: [T]) -> [T] {
+        var values = values
+        if values.count > 1 {
+            for index in stride(from: values.count - 1, through: 1, by: -1) {
+                values.swapAt(index, rng.index(index + 1))
+            }
         }
-        return grid.count - 1
+        return values
     }
 
-    /// Returns nil if this proposal cannot alter the relationships.
-    func propose(from current: Board) -> (board: Board, kind: MoveKind)? {
-        let candidate = current.copy()
-        let choice = rng.unit()
-        let kind: MoveKind
-        if choice < 0.65 { kind = .boundary }
-        else if choice < 0.75 { kind = .merge }
-        else if choice < 0.85 { kind = .split }
-        else if choice < 0.95 { kind = .patch }
-        else { kind = .relationship }
-        let cell = focus(current)
-        var labels = candidate.Relationships.ColorBlocks.flatMap { $0 }
-        switch kind {
-        case .boundary:
-            let destinations = grid.neighbors(cell).filter { labels[$0] != labels[cell] }
-            guard !destinations.isEmpty else { return nil }
-            let donor = labels.indices.filter { labels[$0] == labels[cell] && $0 != cell }
-            guard grid.connected(donor) else { return nil }
-            labels[cell] = labels[destinations[rng.index(destinations.count)]]
-        case .merge:
-            let destinations = grid.neighbors(cell).filter { labels[$0] != labels[cell] }
-            guard !destinations.isEmpty else { return nil }
-            let old = labels[cell]
-            let new = labels[destinations[rng.index(destinations.count)]]
-            for index in labels.indices where labels[index] == old { labels[index] = new }
-        case .split:
-            let cells = labels.indices.filter { labels[$0] == labels[cell] }
-            guard cells.count > 1 else { return nil }
-            let parts = grid.partition(cells, regions: 2, rng: &rng)
-            for index in cells { labels[index] = parts[index]! }
-        case .patch:
-            let radius = 1 + rng.index(2)
-            let row = cell / grid.cols
-            let col = cell % grid.cols
-            var cells: [Int] = []
-            for r in max(0, row - radius)...min(grid.rows - 1, row + radius) {
-                for c in max(0, col - radius)...min(grid.cols - 1, col + radius) { cells.append(r * grid.cols + c) }
-            }
-            guard cells.count > 1 else { return nil }
-            let parts = grid.partition(cells, regions: 1 + rng.index(min(4, cells.count)), rng: &rng)
-            for index in cells { labels[index] = parts[index]! }
-            // Outside fragments disconnected by this patch are separated during
-            // the subsequent component rebuild, including splits of old UUIDs.
-        case .relationship:
-            let neighbors = grid.neighbors(cell)
-            guard !neighbors.isEmpty else { return nil }
-            let neighbor = neighbors[rng.index(neighbors.count)]
-            let row = min(cell, neighbor) / grid.cols
-            let col = min(cell, neighbor) % grid.cols
-            let verticalBoundary = cell / grid.cols == neighbor / grid.cols
-            let old = verticalBoundary ? candidate.Relationships.VerticalRelationships[row][col]
-                : candidate.Relationships.HorizontalRelationships[row][col]
-            let new: Double
-            if rng.unit() < 0.5 { new = old >= 0.5 ? 0.1 : 0.9 }
-            else { new = old >= 0.5 ? 1 : 0 }
-            if verticalBoundary { candidate.Relationships.VerticalRelationships[row][col] = new }
-            else { candidate.Relationships.HorizontalRelationships[row][col] = new }
-        }
-        if kind != .relationship {
-            for index in labels.indices { candidate.Relationships.ColorBlocks[index / grid.cols][index % grid.cols] = labels[index] }
-            encodePartition(candidate)
-        }
-        guard candidate.Relationships.VerticalRelationships != current.Relationships.VerticalRelationships
-                || candidate.Relationships.HorizontalRelationships != current.Relationships.HorizontalRelationships else { return nil }
-        return (candidate, kind)
+    func expired(_ until: Double) -> Bool {
+        Task.isCancelled || ProcessInfo.processInfo.systemUptime >= min(until, deadline)
     }
 }

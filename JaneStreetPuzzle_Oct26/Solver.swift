@@ -3,16 +3,7 @@ import Foundation
 // MARK: - Initialization
 final class Initialization {
     func start(context: SearchContext) -> SearchState {
-        let board = Board(rowNum: context.grid.rows, colNum: context.grid.cols)
-        let minimum = min(context.grid.count, context.config.minimumInitialRegions)
-        let maximum = min(context.grid.count, context.config.maximumInitialRegions)
-        let regionCount = minimum + context.rng.index(maximum - minimum + 1)
-        let partition = context.grid.partition(Array(0..<context.grid.count), regions: regionCount, rng: &context.rng)
-        for cell in 0..<context.grid.count {
-            board.Relationships.ColorBlocks[cell / context.grid.cols][cell % context.grid.cols] = partition[cell]!
-        }
-        context.encodePartition(board, initialize: true)
-        return context.evaluate(board)
+        context.initialState()
     }
 }
 
@@ -34,25 +25,20 @@ struct IterationResult {
 final class Iteration {
     func OneIteration(current: SearchState, context: SearchContext, temperature: Double) -> IterationResult {
         precondition(temperature.isFinite && temperature > 0)
-        for attempt in 1...context.config.proposalAttempts {
-            guard let proposal = context.propose(from: current.board) else { continue }
-            let started = ProcessInfo.processInfo.systemUptime
-            let candidate = context.evaluate(proposal.board)
-            let duration = ProcessInfo.processInfo.systemUptime - started
-            let delta = candidate.scores.total - current.scores.total
-            // Exact validity overrides the heuristic acceptance decision.
-            let probability = candidate.validation.valid || delta <= 0 ? 1 : exp(-delta / temperature)
-            let draw: Double? = probability < 1 ? context.rng.unit() : nil
-            let accepted = draw.map { $0 < probability } ?? true
-            return IterationResult(state: accepted ? candidate : current, move: proposal.kind,
-                candidate: candidate.scores, candidateValidation: candidate.validation,
-                accepted: accepted, acceptanceProbability: probability, randomDraw: draw, delta: delta,
-                evaluationSeconds: duration, proposalAttempts: attempt,
-                changes: RelationshipChange.between(current.board, candidate.board))
+        let started = ProcessInfo.processInfo.systemUptime
+        guard let (candidate, kind) = context.repairProposal(current) else {
+            return IterationResult(state: current, move: nil, candidate: nil, candidateValidation: nil,
+                accepted: false, acceptanceProbability: 0, randomDraw: nil, delta: nil,
+                evaluationSeconds: ProcessInfo.processInfo.systemUptime - started, proposalAttempts: 1, changes: [])
         }
-        return IterationResult(state: current, move: nil, candidate: nil, candidateValidation: nil,
-            accepted: false, acceptanceProbability: 0, randomDraw: nil, delta: nil,
-            evaluationSeconds: 0, proposalAttempts: context.config.proposalAttempts, changes: [])
+        let delta = candidate.quality.merit(clues: context.clueCount) - current.quality.merit(clues: context.clueCount)
+        let probability = candidate.validation.valid || delta <= 0 ? 1 : exp(-delta / temperature)
+        let draw: Double? = probability < 1 ? context.rng.unit() : nil
+        let accepted = draw.map { $0 < probability } ?? true
+        return IterationResult(state: accepted ? candidate : current, move: kind,
+            candidate: candidate.scores, candidateValidation: candidate.validation,
+            accepted: accepted, acceptanceProbability: probability, randomDraw: draw, delta: delta,
+            evaluationSeconds: ProcessInfo.processInfo.systemUptime - started, proposalAttempts: 1, changes: [])
     }
 }
 
@@ -62,15 +48,18 @@ struct SolverResult {
     let statistics: SearchStatistics
     let elapsedSeconds: Double
     let logURL: URL
+    let repairs: RepairMetrics
 }
 
 // MARK: - Search lifecycle
 final class Main {
-    func Run(Config config: RunConfig, workerID: Int? = nil) async throws -> SolverResult {
+    func Run(Config config: RunConfig, workerID: Int? = nil, archive: EliteArchive? = nil) async throws -> SolverResult {
         try config.validate()
         let logger = try Logger(directory: config.logDirectory, console: config.consoleLogging, workerID: workerID)
         defer { try? logger.close() }
         let context = SearchContext(config: config)
+        context.deadline = ProcessInfo.processInfo.systemUptime + max(0, config.timeLimitSeconds - logger.elapsedSeconds)
+        context.repairTicket = workerID ?? 0
         let initializer = Initialization()
         let iteration = Iteration()
         var statistics = SearchStatistics()
@@ -81,21 +70,24 @@ final class Main {
             try logger.record(started)
             var current = initializer.start(context: context)
             var best = current.snapshot()
-            var temperature = config.initialTemperature
-            var epochBest = current.scores.total
+            var thermostat = AdaptiveTemperature(config: config)
+            var epochBest = current.quality
             var stagnation = 0
             var epochReheats = 0
             var lastProgressTime = logger.elapsedSeconds
+            var lastExchangeTime = -Double.infinity
+            var published: [Int]?
             var reason: StopReason? = current.validation.valid ? .solved : nil
 
             func milestone(_ kind: Logger.Kind, state: SearchState, message: String? = nil) throws {
                 var event = Logger.Event(kind: kind)
                 event.iteration = statistics.iterations
                 event.restart = statistics.restarts
-                event.temperature = temperature
+                event.temperature = thermostat.value
                 event.current = state.scores
                 event.best = best.scores
                 event.statistics = statistics
+                event.repairs = context.metrics
                 event.structuralIssueCount = best.validation.issues.count
                 event.clueMismatchCount = best.validation.mismatches.count
                 event.message = message
@@ -108,20 +100,60 @@ final class Main {
                 if logger.elapsedSeconds >= config.timeLimitSeconds { reason = .timeLimit; break }
                 if statistics.iterations >= config.maxIterations { reason = .iterationLimit; break }
 
-                let result = iteration.OneIteration(current: current, context: context, temperature: temperature)
+                // Exchange only immutable snapshots. Explorer workers still publish
+                // discoveries but receive no ordinary elite assignments.
+                if let archive, statistics.iterations % config.exchangeInterval == 0
+                    || logger.elapsedSeconds - lastExchangeTime >= config.exchangeTimeIntervalSeconds {
+                    let key = context.canonical(best.board)
+                    if published != key {
+                        await archive.publish(EliteCandidate(snapshot: BoardSnapshot(best), scores: best.scores,
+                                                             workerID: workerID ?? 1))
+                        published = key
+                    }
+                    let assignment = await archive.assignment(workerID: workerID ?? 1)
+                    context.repairTicket = assignment.ticket
+                    if let elite = assignment.candidate,
+                       elite.snapshot.validation.valid || (elite.snapshot.labels.flatMap { $0 } != context.canonical(current.board)
+                           && (elite.quality < best.quality || stagnation >= max(1, config.stagnationIterations / 4))) {
+                        current = context.evaluate(context.board(labels: elite.snapshot.labels.flatMap { $0 }))
+                        context.metrics.eliteImports += 1
+                        if current.quality < best.quality || current.validation.valid { best = current.snapshot() }
+                        // Re-anchor the local walk, but don't reset the stagnation
+                        // budget merely because an already-known elite was imported.
+                        try milestone(.eliteImported, state: current,
+                                      message: "From worker \(elite.workerID), repair ticket \(assignment.ticket)")
+                        if current.validation.valid { reason = .solved; break }
+                    }
+                    lastExchangeTime = logger.elapsedSeconds
+                }
+                // Periodically repair the saved best even if annealing wandered
+                // elsewhere. Its merge cursor resumes rather than starting over.
+                if stagnation > 0 && statistics.iterations % config.exchangeInterval == 0 {
+                    if let repaired = context.mergeRepair(best, until: min(context.deadline,
+                        ProcessInfo.processInfo.systemUptime + config.repairTimeLimitSeconds / 3)) {
+                        best = repaired.snapshot()
+                        current = repaired
+                        epochBest = repaired.quality
+                        stagnation = 0
+                        try milestone(.bestImproved, state: best, message: "Saved-best region merge")
+                        if repaired.validation.valid { reason = .solved; break }
+                    }
+                }
+
+                let result = iteration.OneIteration(current: current, context: context, temperature: thermostat.value)
                 statistics.record(result)
                 current = result.state
-                let improved = current.validation.valid || current.scores.total < best.scores.total
+                let improved = current.validation.valid || current.quality < best.quality
                 if improved {
                     best = current.snapshot()
                 }
                 if improved { try milestone(.bestImproved, state: best) }
 
                 if current.validation.valid { reason = .solved; break }
-                temperature = max(config.minimumTemperature, temperature * config.coolingRate)
+                thermostat.step(delta: result.delta)
                 stagnation += 1
-                if current.scores.total < epochBest - 1e-12 {
-                    epochBest = current.scores.total
+                if current.quality < epochBest {
+                    epochBest = current.quality
                     stagnation = 0
                 }
                 if statistics.iterations % config.progressInterval == 0
@@ -137,17 +169,17 @@ final class Main {
                     if epochReheats < config.reheatsPerRestart {
                         epochReheats += 1
                         statistics.reheats += 1
-                        temperature = config.initialTemperature
+                        thermostat.reheat()
                         stagnation = 0
                         try milestone(.reheated, state: current)
                     } else if statistics.restarts < config.maxRestarts {
                         statistics.restarts += 1
                         current = initializer.start(context: context)
-                        temperature = config.initialTemperature
-                        epochBest = current.scores.total
+                        thermostat.reheat()
+                        epochBest = current.quality
                         stagnation = 0
                         epochReheats = 0
-                        if current.validation.valid || current.scores.total < best.scores.total {
+                        if current.validation.valid || current.quality < best.quality {
                             best = current.snapshot()
                             try milestone(.bestImproved, state: best)
                         }
@@ -165,12 +197,17 @@ final class Main {
                 throw SolverError.savedSolutionFailedValidation
             }
             if report.valid { reason = .solved }
+            if let archive {
+                await archive.publish(EliteCandidate(snapshot: BoardSnapshot(best), scores: best.scores,
+                                                     workerID: workerID ?? 1))
+            }
             var finished = Logger.Event(kind: .finished)
             finished.iteration = statistics.iterations
             finished.restart = statistics.restarts
             finished.current = current.scores
             finished.best = best.scores
             finished.statistics = statistics
+            finished.repairs = context.metrics
             finished.stopReason = reason!
             finished.snapshot = BoardSnapshot(best)
             finished.structuralIssueCount = report.issues.count
@@ -180,7 +217,7 @@ final class Main {
             try logger.record(finished)
             try logger.close()
             return SolverResult(best: best, reason: reason!, statistics: statistics,
-                                elapsedSeconds: logger.elapsedSeconds, logURL: logger.fileURL)
+                                elapsedSeconds: logger.elapsedSeconds, logURL: logger.fileURL, repairs: context.metrics)
         } catch {
             var failure = Logger.Event(kind: .failed)
             failure.iteration = statistics.iterations
@@ -207,12 +244,15 @@ struct WorkerResult: Sendable {
     let reason: StopReason
     let statistics: SearchStatistics
     let logURL: URL
+    let repairs: RepairMetrics
 
     func isBetter(than other: WorkerResult) -> Bool {
         if snapshot.validation.valid != other.snapshot.validation.valid {
             return snapshot.validation.valid
         }
-        if scores.total != other.scores.total { return scores.total < other.scores.total }
+        let quality = SearchQuality(snapshot.validation, scores)
+        let otherQuality = SearchQuality(other.snapshot.validation, other.scores)
+        if quality != otherQuality { return quality < otherQuality }
         return workerID < other.workerID
     }
 }
@@ -227,11 +267,11 @@ enum ParallelSolver {
     // Explicit concurrent execution also works with Xcode's approachable
     // concurrency setting: this CPU work must not inherit the main actor.
     @concurrent
-    private static func runWorker(id: Int, config: RunConfig) async throws -> WorkerResult {
-        let result = try await Main().Run(Config: config, workerID: id)
+    private static func runWorker(id: Int, config: RunConfig, archive: EliteArchive) async throws -> WorkerResult {
+        let result = try await Main().Run(Config: config, workerID: id, archive: archive)
         return WorkerResult(workerID: id, seed: config.seed, snapshot: BoardSnapshot(result.best),
                             scores: result.best.scores, reason: result.reason,
-                            statistics: result.statistics, logURL: result.logURL)
+                            statistics: result.statistics, logURL: result.logURL, repairs: result.repairs)
     }
 
     static func run(config: RunConfig) async throws -> ParallelSolverResult {
@@ -246,6 +286,7 @@ enum ParallelSolver {
             started.message = "\(config.workerCount) workers; budgets apply per worker. Summary: \(logger.fileURL.path)"
             try logger.record(started)
 
+            let archive = EliteArchive(capacity: config.eliteCapacity)
             return try await withThrowingTaskGroup(of: WorkerResult.self) { group in
                 for index in 0..<config.workerCount {
                     var workerConfig = config
@@ -255,11 +296,12 @@ enum ParallelSolver {
                     workerConfig.seed = config.seed &+ (UInt64(index) &* 0x9E3779B97F4A7C15)
                     workerConfig.logDirectory = directory.appendingPathComponent("worker-\(index + 1)").path
                     let configuration = workerConfig
-                    group.addTask { try await runWorker(id: index + 1, config: configuration) }
+                    group.addTask { try await runWorker(id: index + 1, config: configuration, archive: archive) }
                 }
                 var workers: [WorkerResult] = []
                 var best: WorkerResult?
                 var statistics = SearchStatistics()
+                var repairs = RepairMetrics()
                 for try await worker in group {
                     workers.append(worker)
                     if best == nil || worker.isBetter(than: best!) { best = worker }
@@ -268,6 +310,7 @@ enum ParallelSolver {
                     statistics.noProposal += worker.statistics.noProposal
                     statistics.reheats += worker.statistics.reheats
                     statistics.restarts += worker.statistics.restarts
+                    repairs.add(worker.repairs)
                     for (move, counts) in worker.statistics.moves {
                         statistics.moves[move, default: MoveStatistics()].accepted += counts.accepted
                         statistics.moves[move, default: MoveStatistics()].proposed += counts.proposed
@@ -278,8 +321,11 @@ enum ParallelSolver {
                     event.best = best!.scores
                     event.current = worker.scores
                     event.statistics = worker.statistics
+                    event.repairs = worker.repairs
                     event.stopReason = worker.reason
                     event.candidateValid = worker.snapshot.validation.valid
+                    event.clueMismatchCount = best!.snapshot.validation.mismatches.count
+                    event.structuralIssueCount = best!.snapshot.validation.issues.count
                     event.message = "Worker \(worker.workerID), seed \(worker.seed): \(worker.reason.rawValue)"
                     try logger.record(event)
                     if worker.snapshot.validation.valid { group.cancelAll() }
@@ -292,8 +338,11 @@ enum ParallelSolver {
                 finished.workerLogPath = winner.logURL.path
                 finished.best = winner.scores
                 finished.statistics = statistics
+                finished.repairs = repairs
                 finished.snapshot = winner.snapshot
                 finished.candidateValid = winner.snapshot.validation.valid
+                finished.clueMismatchCount = winner.snapshot.validation.mismatches.count
+                finished.structuralIssueCount = winner.snapshot.validation.issues.count
                 finished.message = "Best: worker \(winner.workerID). \(workers.count) workers finished; \(statistics.iterations) total iterations."
                 try logger.record(finished)
                 try logger.close()
