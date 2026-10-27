@@ -78,7 +78,7 @@ struct DashboardTests {
             let base = "http://127.0.0.1:\(port)"
             let (html, page) = try await session.data(from: #require(URL(string: base + "/")))
             #expect((page as? HTTPURLResponse)?.statusCode == 200)
-            #expect(String(decoding: html, as: UTF8.self).contains("Coordinator processes"))
+            #expect(String(decoding: html, as: UTF8.self).contains("<title>JSP_Oct26</title>"))
             let (json, status) = try await session.data(from: #require(URL(string: base + "/api/status")))
             let snapshot = try JSONDecoder().decode(DashboardSnapshot.self, from: json)
             #expect(snapshot.jobs.isEmpty && snapshot.clients.isEmpty)

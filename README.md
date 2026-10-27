@@ -90,6 +90,8 @@ elapsed time, completed job totals, reassignments and backup age. Progress refle
 the latest client heartbeat/checkpoint, rather than continuous measurements of the
 remote operating system. Expired jobs remain visible as awaiting reassignment;
 recovered jobs show reconnecting until their client returns.
+The dashboard follows your system's light or dark appearance by default; its
+appearance control lets you choose either theme and remembers your selection.
 
 Configure `distributed.webUIEnabled`, `distributed.webUIAddress` and
 `distributed.webUIPort` (see `Config/server.example.json`). The WebUI port is
