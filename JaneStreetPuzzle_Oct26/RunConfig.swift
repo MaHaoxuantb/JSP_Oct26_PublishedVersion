@@ -173,6 +173,9 @@ struct ConfigurationError: Error, CustomStringConvertible {
 struct DistributedConfig: Codable, Sendable {
     var address = "127.0.0.1"
     var port = 8443
+    var webUIEnabled = true
+    var webUIAddress = "127.0.0.1"
+    var webUIPort = 8080
     var stateDirectory = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent(".local/state/janestreet-puzzle").path
     var certificatePath = ""
@@ -190,12 +193,15 @@ struct DistributedConfig: Codable, Sendable {
     var backupBytesPerSecond = 65_536
 
     init() {}
-    private enum CodingKeys: String, CodingKey { case address, port, stateDirectory, certificatePath, tokenPath, clientWorkers, maxClients, maxWorkersPerClient, heartbeatSeconds, checkpointSeconds, failureGraceSeconds, jobSeconds, calibrationSeconds, backupsEnabled, backupSeconds, backupBytesPerSecond }
+    private enum CodingKeys: String, CodingKey { case address, port, webUIEnabled, webUIAddress, webUIPort, stateDirectory, certificatePath, tokenPath, clientWorkers, maxClients, maxWorkersPerClient, heartbeatSeconds, checkpointSeconds, failureGraceSeconds, jobSeconds, calibrationSeconds, backupsEnabled, backupSeconds, backupBytesPerSecond }
     init(from decoder: Decoder) throws {
         self.init()
         let values = try decoder.container(keyedBy: CodingKeys.self)
         if values.contains(.address) { address = try values.decode(type(of: address), forKey: .address) }
         if values.contains(.port) { port = try values.decode(type(of: port), forKey: .port) }
+        if values.contains(.webUIEnabled) { webUIEnabled = try values.decode(type(of: webUIEnabled), forKey: .webUIEnabled) }
+        if values.contains(.webUIAddress) { webUIAddress = try values.decode(type(of: webUIAddress), forKey: .webUIAddress) }
+        if values.contains(.webUIPort) { webUIPort = try values.decode(type(of: webUIPort), forKey: .webUIPort) }
         if values.contains(.stateDirectory) { stateDirectory = try values.decode(type(of: stateDirectory), forKey: .stateDirectory) }
         if values.contains(.certificatePath) { certificatePath = try values.decode(type(of: certificatePath), forKey: .certificatePath) }
         if values.contains(.tokenPath) { tokenPath = try values.decode(type(of: tokenPath), forKey: .tokenPath) }
@@ -214,6 +220,9 @@ struct DistributedConfig: Codable, Sendable {
 
     var workers: Int { clientWorkers ?? min(maxWorkersPerClient, max(1, ProcessInfo.processInfo.activeProcessorCount - 1)) }
     func validate() throws {
+        guard !webUIEnabled || ((1...65535).contains(webUIPort) && webUIPort != port && !webUIAddress.isEmpty) else {
+            throw ConfigurationError(message: "WebUI needs a numeric bind address and a port from 1–65535 different from the coordinator port.")
+        }
         guard (1...65535).contains(port), !stateDirectory.isEmpty,
               maxClients > 0, maxClients <= 1000, maxWorkersPerClient > 0, maxWorkersPerClient <= 128,
               workers > 0, workers <= maxWorkersPerClient,

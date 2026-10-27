@@ -17,6 +17,7 @@ let package = Package(
         .executableTarget(name: "PuzzleSolver", dependencies: [
             "CSQLite", .product(name: "NIOCore", package: "swift-nio"),
             .product(name: "NIOPosix", package: "swift-nio"),
+            .product(name: "NIOHTTP1", package: "swift-nio"),
             .product(name: "NIOSSL", package: "swift-nio-ssl"),
             .product(name: "Crypto", package: "swift-crypto"),
             .product(name: "X509", package: "swift-certificates"),

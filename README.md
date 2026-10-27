@@ -24,7 +24,10 @@ swift test -c release
 ```
 
 The initial supported platforms are macOS 13+ and Ubuntu 24.04, with CI checks for
-both. Xcode's existing target also includes the required Swift packages. Use
+both. Package tests use the built-in Swift Testing framework, available with
+Swift 6.1+ toolchains, including Apple's Command Line Tools; XCTest is not required.
+The worker concurrency annotation is conditional for Swift 6.2+, retaining support
+for Swift 6.1. Xcode's existing target also includes the required Swift packages. Use
 Release for actual computation. The sample configurations use `/tmp` for a local
 demonstration; choose persistent, private state directories for real runs, outside
 this repository, iCloud, network filesystems and other synchronization services.
@@ -77,6 +80,29 @@ capped at the configured slot limit. Excess clients retry; joining does not crea
 The coordinator emits JSON status (active/completed jobs, reassignments, connected
 clients, solution status and backup age) every 15 seconds. Actual solve time remains heuristic. Additional machines can add coordination
 cost, and no universal speedup or solve-time guarantee is claimed.
+
+### Process WebUI
+
+Server mode also serves a read-only process dashboard at
+`http://127.0.0.1:8080/`. It refreshes every three seconds with connected client IDs,
+worker slots, assignment generations, objectives, reported iteration budgets and
+elapsed time, completed job totals, reassignments and backup age. Progress reflects
+the latest client heartbeat/checkpoint, rather than continuous measurements of the
+remote operating system. Expired jobs remain visible as awaiting reassignment;
+recovered jobs show reconnecting until their client returns.
+
+Configure `distributed.webUIEnabled`, `distributed.webUIAddress` and
+`distributed.webUIPort` (see `Config/server.example.json`). The WebUI port is
+separate from `distributed.port`, which remains the TLS compute-client port.
+Set `webUIEnabled` to `false` to disable it. If the WebUI cannot bind its configured
+address/port, the coordinator logs the error and continues serving compute clients.
+The startup log prints the WebUI URL. The page and `/api/status` expose only
+monitoring data, without tokens, certificates or configuration paths.
+
+The WebUI uses HTTP without authentication and binds to loopback by default.
+For remote viewing, forward its configured port over SSH, or explicitly bind it
+to an interface on a trusted network. Client mode and standalone search do not
+start a WebUI.
 
 ### Recovery
 

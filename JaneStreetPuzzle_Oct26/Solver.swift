@@ -301,7 +301,9 @@ struct ParallelSolverResult: Sendable {
 enum ParallelSolver {
     // Explicit concurrent execution also works with Xcode's approachable
     // concurrency setting: this CPU work must not inherit the main actor.
+    #if compiler(>=6.2)
     @concurrent
+    #endif
     private static func runWorker(id: Int, config: RunConfig, archive: EliteArchive, initialLabels: [Int]?) async throws -> WorkerResult {
         let result = try await Main().Run(Config: config, workerID: id, archive: archive, initialLabels: initialLabels)
         return WorkerResult(workerID: id, seed: config.seed, snapshot: BoardSnapshot(result.best),

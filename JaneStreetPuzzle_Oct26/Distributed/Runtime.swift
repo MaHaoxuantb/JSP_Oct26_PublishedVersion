@@ -48,8 +48,19 @@ func runServer(config: RunConfig, newRun: Bool) async throws {
     let identity = try ServerIdentity(directory: directory)
     let group = MultiThreadedEventLoopGroup(numberOfThreads: 2)
     let shutdown = ShutdownSignal()
+    var workerListener: (any Channel)?
+    var dashboardListener: (any Channel)?
     do {
         let listener = try await startListener(settings: config.distributed, identity: identity, coordinator: coordinator, group: group)
+        workerListener = listener
+        do {
+            dashboardListener = try await startDashboard(settings: config.distributed, coordinator: coordinator, group: group)
+            if dashboardListener != nil {
+                let host = config.distributed.webUIAddress.contains(":")
+                    ? "[\(config.distributed.webUIAddress.replacingOccurrences(of: "%", with: "%25"))]" : config.distributed.webUIAddress
+                distributedLog("Process WebUI: http://\(host):\(config.distributed.webUIPort)/")
+            }
+        } catch { distributedLog("Process WebUI unavailable: \(error). Coordinator continues without it.") }
         distributedLog("Coordinator listening on \(String(describing: listener.localAddress)). Run: \(coordinator.runID)")
         distributedLog("Copy public certificate: \(directory.appendingPathComponent("server-certificate.pem").path)")
         distributedLog("Certificate SHA-256: \(identity.fingerprint)")
@@ -72,8 +83,13 @@ func runServer(config: RunConfig, newRun: Bool) async throws {
             try await Task.sleep(for: .seconds(1))
         }
         try await listener.close().get()
+        try await dashboardListener?.close().get()
         try await group.shutdownGracefully()
-    } catch { try? await group.shutdownGracefully(); throw error }
+    } catch {
+        if let workerListener, workerListener.isActive { try? await workerListener.close().get() }
+        if let dashboardListener, dashboardListener.isActive { try? await dashboardListener.close().get() }
+        try? await group.shutdownGracefully(); throw error
+    }
 }
 
 func runClient(config: RunConfig) async throws {

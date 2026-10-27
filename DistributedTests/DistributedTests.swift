@@ -1,4 +1,4 @@
-import XCTest
+import Testing
 import Foundation
 import Crypto
 import NIOCore
@@ -6,7 +6,8 @@ import NIOPosix
 import NIOEmbedded
 @testable import PuzzleSolver
 
-final class DistributedTests: XCTestCase, @unchecked Sendable {
+@Suite(.serialized)
+struct DistributedTests {
     func configuration() throws -> RunConfig {
         var config = RunConfig.example
         config.distributed.stateDirectory = FileManager.default.temporaryDirectory.appendingPathComponent("puzzle-test-\(UUID())").path
@@ -27,147 +28,161 @@ final class DistributedTests: XCTestCase, @unchecked Sendable {
         let labels = Array(0..<25)
         return DistributedProgress(current: labels, best: labels, iterations: iterations, seconds: 1, finished: finished, solved: false)
     }
+    @Test
     func testOldAndPartialConfigurationsDecode() throws {
         let config = try JSONDecoder().decode(RunConfig.self, from: Data("{\"workerCount\":3,\"distributed\":{\"port\":1234}}".utf8))
-        XCTAssertEqual(config.workerCount, 3)
-        XCTAssertEqual(config.distributed.port, 1234)
-        XCTAssertEqual(config.distributed.failureGraceSeconds, 180)
-        XCTAssertEqual(config.maxMergeRegions, 4)
+        #expect((config.workerCount) == (3))
+        #expect((config.distributed.port) == (1234))
+        #expect((config.distributed.failureGraceSeconds) == (180))
+        #expect((config.maxMergeRegions) == (4))
     }
+    @Test
     func testReassignmentPreservesWorkAndRejectsStaleOwner() async throws {
         let config = try configuration()
         let server = try Coordinator(config: config, token: String(repeating: "t", count: 32), newRun: true, now: 0)
         var first = request()
         let assigned = try await server.handle(first, now: 0)
-        let original = try XCTUnwrap(assigned.jobs.first)
+        let original = try #require(assigned.jobs.first)
         first.kind = "sync"; first.runID = assigned.runID
         first.reports = [JobReport(job: original, progress: progress(2))]
         _ = try await server.handle(first, now: 1)
         let another = try await server.handle(request(), now: 3)
-        XCTAssertNotEqual(another.jobs.first?.id, original.id, "A transient outage must not transfer ownership")
+        #expect((another.jobs.first?.id) != (original.id), "A transient outage must not transfer ownership")
         let recovered = try await server.handle(request(), now: 5)
-        let resumed = try XCTUnwrap(recovered.jobs.first)
-        XCTAssertEqual(resumed.id, original.id)
-        XCTAssertEqual(resumed.generation, original.generation + 1)
-        XCTAssertEqual(resumed.completed, 2)
-        XCTAssertEqual(resumed.progress?.current, progress(2).current)
+        let resumed = try #require(recovered.jobs.first)
+        #expect((resumed.id) == (original.id))
+        #expect((resumed.generation) == (original.generation + 1))
+        #expect((resumed.completed) == (2))
+        #expect((resumed.progress?.current) == (progress(2).current))
         first.rates = []
         first.reports = [JobReport(job: original, progress: progress(original.budget, finished: true))]
         let stale = try await server.handle(first, now: 6)
-        XCTAssertTrue(stale.retired.contains(original.id))
+        #expect(stale.retired.contains(original.id))
         let store = try DurableStore(path: config.distributed.stateDirectory + "/server.sqlite")
-        let state = try XCTUnwrap(store.read(CoordinatorState.self))
-        XCTAssertEqual(state.jobs.first(where: { $0.id == original.id })?.owner, resumed.owner)
-        XCTAssertEqual(state.completedJobs, 0)
+        let state = try #require(try store.read(CoordinatorState.self))
+        #expect((state.jobs.first(where: { $0.id == original.id })?.owner) == (resumed.owner))
+        #expect((state.completedJobs) == (0))
     }
+    @Test
     func testCompletionIsDurableAndIdempotent() async throws {
         let config = try configuration()
         let token = String(repeating: "t", count: 32)
         let server = try Coordinator(config: config, token: token, newRun: true, now: 0)
         var message = request()
         let assigned = try await server.handle(message, now: 0)
-        let job = try XCTUnwrap(assigned.jobs.first)
+        let job = try #require(assigned.jobs.first)
         message.kind = "sync"; message.runID = assigned.runID; message.rates = []
         message.reports = [JobReport(job: job, progress: progress(job.budget, finished: true))]
         _ = try await server.handle(message, now: 1)
         _ = try await server.handle(message, now: 2)
         let restarted = try Coordinator(config: config, token: token, newRun: false, now: 0)
         let response = try await restarted.handle(message, now: 1)
-        XCTAssertTrue(response.retired.contains(job.id))
+        #expect(response.retired.contains(job.id))
         let state = try DurableStore(path: config.distributed.stateDirectory + "/server.sqlite").read(CoordinatorState.self)
-        XCTAssertEqual(state?.completedJobs, 1)
-        XCTAssertTrue(state?.jobs.isEmpty == true)
+        #expect((state?.completedJobs) == (1))
+        #expect(state?.jobs.isEmpty == true)
     }
+    @Test
     func testCheckpointAtBudgetBoundaryNeedsNoFinalMessage() async throws {
         let config = try configuration()
         let server = try Coordinator(config: config, token: String(repeating: "t", count: 32), newRun: true, now: 0)
         var message = request()
         let assigned = try await server.handle(message, now: 0)
-        let job = try XCTUnwrap(assigned.jobs.first)
+        let job = try #require(assigned.jobs.first)
         message.runID = assigned.runID; message.kind = "sync"; message.rates = []
         message.reports = [JobReport(job: job, progress: progress(job.budget, finished: false))]
         let response = try await server.handle(message, now: 1)
-        XCTAssertTrue(response.retired.contains(job.id))
+        #expect(response.retired.contains(job.id))
         let state = try DurableStore(path: config.distributed.stateDirectory + "/server.sqlite").read(CoordinatorState.self)
-        XCTAssertEqual(state?.completedJobs, 1)
+        #expect((state?.completedJobs) == (1))
     }
 
+    @Test
     func testCleanReleaseIsImmediate() async throws {
         let config = try configuration()
         let server = try Coordinator(config: config, token: String(repeating: "t", count: 32), newRun: true, now: 0)
         var message = request()
         let assigned = try await server.handle(message, now: 0)
-        let original = try XCTUnwrap(assigned.jobs.first)
+        let original = try #require(assigned.jobs.first)
         message.kind = "goodbye"; message.runID = assigned.runID; message.rates = []
         _ = try await server.handle(message, now: 0.1)
         let next = try await server.handle(request(), now: 0.2)
-        XCTAssertEqual(next.jobs.first?.id, original.id)
-        XCTAssertEqual(next.jobs.first?.generation, 2)
+        #expect((next.jobs.first?.id) == (original.id))
+        #expect((next.jobs.first?.generation) == (2))
     }
+    @Test
     func testFailureDoesNotPartiallyCommit() async throws {
         let config = try configuration()
         let server = try Coordinator(config: config, token: String(repeating: "t", count: 32), newRun: true, now: 0)
         var message = request()
         let assigned = try await server.handle(message, now: 0)
-        let job = try XCTUnwrap(assigned.jobs.first)
+        let job = try #require(assigned.jobs.first)
         message.runID = assigned.runID
         var invalid = progress(2); invalid.current = [-1]
         message.reports = [JobReport(job: job, progress: progress(1)), JobReport(job: job, progress: invalid)]
-        do { _ = try await server.handle(message, now: 1); XCTFail("Invalid request accepted") } catch {}
+        do { _ = try await server.handle(message, now: 1); Issue.record("Invalid request accepted") } catch {}
         let state = try DurableStore(path: config.distributed.stateDirectory + "/server.sqlite").read(CoordinatorState.self)
-        XCTAssertNil(state?.jobs.first?.progress)
+        #expect((state?.jobs.first?.progress) == nil)
     }
+    @Test
     func testServerRestartGraceAndDifferentCoreSpeeds() async throws {
         let config = try configuration()
         let token = String(repeating: "t", count: 32)
         let server = try Coordinator(config: config, token: token, newRun: true, now: 0)
         let slow = try await server.handle(request(rate: 0.01), now: 0)
         let fast = try await server.handle(request(rate: 100), now: 0)
-        XCTAssertEqual(slow.jobs.first?.budget, 1)
-        XCTAssertEqual(fast.jobs.first?.budget, 200)
+        #expect((slow.jobs.first?.budget) == (1))
+        #expect((fast.jobs.first?.budget) == (200))
         let restarted = try Coordinator(config: config, token: token, newRun: false, now: 1000)
         let grace = try await restarted.handle(request(), now: 1001)
-        XCTAssertFalse([slow.jobs.first?.id, fast.jobs.first?.id].contains(grace.jobs.first?.id))
+        let originalIDs = [slow.jobs.first?.id, fast.jobs.first?.id]
+        #expect(originalIDs.contains(grace.jobs.first?.id) == false)
         let recovery = try await restarted.handle(request(), now: 1004)
-        XCTAssertEqual(recovery.jobs.first?.id, slow.jobs.first?.id)
+        #expect((recovery.jobs.first?.id) == (slow.jobs.first?.id))
     }
+    @Test
     func testBackupAuthenticatedEncryptionAndDuplicateFinalChunk() throws {
         let config = try configuration()
         let key = SymmetricKey(size: .bits256)
         let original = CoordinatorState(config: config)
         let data = try BackupService.encrypt(original, key: key)
         let bytes = key.withUnsafeBytes { Data($0) }
-        XCTAssertEqual(try BackupService.decrypt(data, key: bytes).runID, original.runID)
+        #expect((try BackupService.decrypt(data, key: bytes).runID) == (original.runID))
         var corrupt = data; corrupt[corrupt.startIndex] ^= 1
-        XCTAssertThrowsError(try BackupService.decrypt(corrupt, key: bytes))
+        #expect(throws: (any Error).self) { try BackupService.decrypt(corrupt, key: bytes) }
         var receiver = ReplicaReceiver(directory: URL(fileURLWithPath: config.distributed.stateDirectory))
         let chunk = ReplicaChunk(id: UUID(), index: 0, count: 1, digest: digest(data), bytes: data)
         try receiver.accept(chunk)
         try receiver.accept(chunk)
     }
+    @Test
     func testStateDirectoryExclusion() throws {
         let config = try configuration()
         let url = URL(fileURLWithPath: config.distributed.stateDirectory)
         let first = try StateLock(directory: url)
-        XCTAssertThrowsError(try StateLock(directory: url))
+        #expect(throws: (any Error).self) { try StateLock(directory: url) }
         withExtendedLifetime(first) {}
     }
+    @Test
     func testFrameBoundsAndPartialFrame() throws {
         var request = WireMessage(kind: "hello")
         request.error = String(repeating: "a", count: WireMessage.maxFrame)
-        XCTAssertThrowsError(try encodedFrame(request, allocator: ByteBufferAllocator()))
+        #expect(throws: (any Error).self) { try encodedFrame(request, allocator: ByteBufferAllocator()) }
     }
 
+    @Test
     func testExpiredPinAndScopedIPv6() throws {
         let config = try configuration()
         let directory = URL(fileURLWithPath: config.distributed.stateDirectory)
         _ = try ServerIdentity(directory: directory, now: Date().addingTimeInterval(-3600), lifetime: 60)
-        XCTAssertThrowsError(try PinnedIdentity(path: directory.appendingPathComponent("server-certificate.pem").path))
-        XCTAssertNotNil(try numericAddress("fe80::1%1", port: 8443))
-        XCTAssertThrowsError(try numericAddress("127.0.0.1%1", port: 8443))
-        XCTAssertThrowsError(try numericAddress("example.com", port: 8443))
+        #expect(throws: (any Error).self) { try PinnedIdentity(path: directory.appendingPathComponent("server-certificate.pem").path) }
+        let scoped = try numericAddress("fe80::1%1", port: 8443)
+        #expect(scoped.port == 8443)
+        #expect(throws: (any Error).self) { try numericAddress("127.0.0.1%1", port: 8443) }
+        #expect(throws: (any Error).self) { try numericAddress("example.com", port: 8443) }
     }
 
+    @Test
     func testPartialAndOversizedFrames() throws {
         let channel = EmbeddedChannel(handler: ByteToMessageHandler(FrameDecoder()))
         defer { _ = try? channel.finish() }
@@ -175,14 +190,15 @@ final class DistributedTests: XCTestCase, @unchecked Sendable {
         var frame = try encodedFrame(original, allocator: channel.allocator)
         let first = frame.readSlice(length: 3)!
         try channel.writeInbound(first)
-        XCTAssertNil(try channel.readInbound(as: WireMessage.self))
+        #expect((try channel.readInbound(as: WireMessage.self)) == nil)
         try channel.writeInbound(frame)
-        XCTAssertEqual(try channel.readInbound(as: WireMessage.self)?.clientID, original.clientID)
+        #expect((try channel.readInbound(as: WireMessage.self)?.clientID) == (original.clientID))
         var oversized = channel.allocator.buffer(capacity: 4)
         oversized.writeInteger(UInt32(WireMessage.maxFrame + 1))
-        XCTAssertThrowsError(try channel.writeInbound(oversized))
+        #expect(throws: (any Error).self) { try channel.writeInbound(oversized) }
     }
 
+    @Test
     func testClientWorkerCompletesAndServerValidates() async throws {
         var config = try configuration()
         config.rowNum = 1; config.colNum = 1
@@ -195,7 +211,7 @@ final class DistributedTests: XCTestCase, @unchecked Sendable {
         let engine = try ClientEngine(settings: local)
         var message = request(client: await engine.identity())
         let assigned = try await server.handle(message, now: 0)
-        try await engine.configure(config, runID: try XCTUnwrap(assigned.runID))
+        try await engine.configure(config, runID: try #require(assigned.runID))
         await engine.setRates(message.rates)
         try await engine.apply(assigned)
         var reports: [JobReport] = []
@@ -204,30 +220,31 @@ final class DistributedTests: XCTestCase, @unchecked Sendable {
             if reports.first?.progress.finished == true { break }
             try await Task.sleep(for: .milliseconds(10))
         }
-        XCTAssertTrue(reports.first?.progress.solved == true)
+        #expect(reports.first?.progress.solved == true)
         message.kind = "sync"; message.runID = assigned.runID; message.reports = reports
         let verified = try await server.handle(message, now: 1)
-        XCTAssertTrue(verified.solved)
+        #expect(verified.solved)
         try await engine.apply(verified)
         let stopped = await engine.isStopped()
-        XCTAssertTrue(stopped)
+        #expect(stopped)
         let recovered = try ClientEngine(settings: local)
         let recoveredID = await recovered.identity()
         let originalID = await engine.identity()
-        XCTAssertEqual(recoveredID, originalID)
+        #expect((recoveredID) == (originalID))
         let recoveredReports = try await recovered.reports()
-        XCTAssertEqual(recoveredReports.first?.job.id, reports.first?.job.id)
+        #expect((recoveredReports.first?.job.id) == (reports.first?.job.id))
     }
 
+    @Test
     func testRestoreReconcilesJobsIssuedAfterBackup() async throws {
         let config = try configuration()
         let token = String(repeating: "t", count: 32)
         let server = try Coordinator(config: config, token: token, newRun: true, now: 0)
         _ = try await server.handle(request(), now: 0)
-        let snapshot = try XCTUnwrap(DurableStore(path: config.distributed.stateDirectory + "/server.sqlite").read(CoordinatorState.self))
+        let snapshot = try #require(try DurableStore(path: config.distributed.stateDirectory + "/server.sqlite").read(CoordinatorState.self))
         var survivor = request()
         let later = try await server.handle(survivor, now: 0)
-        let missing = try XCTUnwrap(later.jobs.first)
+        let missing = try #require(later.jobs.first)
         let key = SymmetricKey(size: .bits256)
         let folder = URL(fileURLWithPath: config.distributed.stateDirectory)
         let backupURL = folder.appendingPathComponent("backup.encrypted")
@@ -240,12 +257,13 @@ final class DistributedTests: XCTestCase, @unchecked Sendable {
         survivor.runID = later.runID; survivor.kind = "sync"; survivor.rates = []
         survivor.reports = [JobReport(job: missing, progress: progress(1))]
         let response = try await replacement.handle(survivor, now: 1)
-        XCTAssertFalse(response.retired.contains(missing.id))
-        let state = try XCTUnwrap(DurableStore(path: restored.distributed.stateDirectory + "/server.sqlite").read(CoordinatorState.self))
-        XCTAssertTrue(state.jobs.contains { $0.id == missing.id })
-        XCTAssertEqual(try String(contentsOf: URL(fileURLWithPath: restored.distributed.stateDirectory + "/join-token"), encoding: .utf8), token)
+        #expect(!(response.retired.contains(missing.id)))
+        let state = try #require(try DurableStore(path: restored.distributed.stateDirectory + "/server.sqlite").read(CoordinatorState.self))
+        #expect(state.jobs.contains { $0.id == missing.id })
+        #expect((try String(contentsOf: URL(fileURLWithPath: restored.distributed.stateDirectory + "/join-token"), encoding: .utf8)) == (token))
     }
 
+    @Test
     func testTwentyMachineFleetHasBoundedTransfersAndIndependentBudgets() async throws {
         let config = try configuration()
         let server = try Coordinator(config: config, token: String(repeating: "t", count: 32), newRun: true, now: 0)
@@ -258,25 +276,26 @@ final class DistributedTests: XCTestCase, @unchecked Sendable {
                 WorkerRate(slot: $0.offset, iterationsPerSecond: $0.element, repairSeconds: 0.15)
             }
             let response = try await server.handle(message, now: 0)
-            XCTAssertEqual(response.jobs.map(\.budget), [1, 2, 20, 200])
-            XCTAssertLessThan(try encodedFrame(response, allocator: ByteBufferAllocator()).readableBytes, 16_384)
+            #expect((response.jobs.map(\.budget)) == ([1, 2, 20, 200]))
+            #expect((try encodedFrame(response, allocator: ByteBufferAllocator()).readableBytes) < (16_384))
             message.runID = response.runID; message.kind = "sync"
             messages.append(message); assignments.append(response)
         }
-        do { _ = try await server.handle(request(), now: 0); XCTFail("Capacity admission failed") } catch {}
+        do { _ = try await server.handle(request(), now: 0); Issue.record("Capacity admission failed") } catch {}
         for turn in 1...10 {
             for i in messages.indices {
                 // An absent or high-latency client never forms a synchronization barrier.
                 if i == 19 { continue }
                 messages[i].reports = assignments[i].jobs.map { JobReport(job: $0, progress: progress(0)) }
                 let response = try await server.handle(messages[i], now: Double(turn) / 10)
-                XCTAssertEqual(response.jobs.map(\.id), assignments[i].jobs.map(\.id))
-                XCTAssertLessThan(try encodedFrame(messages[i], allocator: ByteBufferAllocator()).readableBytes, 16_384)
+                #expect((response.jobs.map(\.id)) == (assignments[i].jobs.map(\.id)))
+                #expect((try encodedFrame(messages[i], allocator: ByteBufferAllocator()).readableBytes) < (16_384))
             }
         }
         print("20-machine coordination fixture: \(ProcessInfo.processInfo.systemUptime - started)s; frames <16 KiB (under 17ms serialization at 1 MB/s, excluding latency)")
     }
 
+    @Test
     func testTLSIPv4AndIPv6AndCertificateRotation() async throws {
         for ip in ["127.0.0.1", "::1"] {
             var config = try configuration()
@@ -288,19 +307,19 @@ final class DistributedTests: XCTestCase, @unchecked Sendable {
             let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
             var binding = config.distributed; binding.port = 0
             let listener = try await startListener(settings: binding, identity: identity, coordinator: coordinator, group: group)
-            config.distributed.port = try XCTUnwrap(listener.localAddress?.port)
+            config.distributed.port = try #require(listener.localAddress?.port)
             config.distributed.certificatePath = directory.appendingPathComponent("server-certificate.pem").path
             let connection = try await ClientConnection.connect(settings: config.distributed, group: group)
             let response = try await connection.request(request())
-            XCTAssertNotNil(response.runID)
+            #expect((response.runID) != nil)
             var wrongToken = request(); wrongToken.token = "invalid"
-            do { _ = try await connection.request(wrongToken); XCTFail("Wrong token accepted") } catch {}
+            do { _ = try await connection.request(wrongToken); Issue.record("Wrong token accepted") } catch {}
             await connection.close()
             _ = try ServerIdentity(directory: directory)
             let secondPin = try PinnedIdentity(path: config.distributed.certificatePath)
-            XCTAssertNotEqual(firstPin.der, secondPin.der)
+            #expect((firstPin.der) != (secondPin.der))
             let wrong = try await ClientConnection.connect(settings: config.distributed, group: group)
-            do { _ = try await wrong.request(request()); XCTFail("Wrong certificate accepted") } catch {}
+            do { _ = try await wrong.request(request()); Issue.record("Wrong certificate accepted") } catch {}
             await wrong.close()
             try await listener.close().get()
             try await group.shutdownGracefully()

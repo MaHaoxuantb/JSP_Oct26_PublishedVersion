@@ -35,6 +35,35 @@ final class Coordinator: @unchecked Sendable {
 
     var runID: UUID { state.runID } // Read only during startup before accepting connections.
 
+    /// A compact, read-only view, captured on the same queue as assignment commits.
+    /// Never serialize CoordinatorState: it contains the join token and private paths.
+    func dashboard(now: Double = ProcessInfo.processInfo.systemUptime) async -> DashboardSnapshot {
+        await withCheckedContinuation { continuation in
+            queue.async {
+                let jobs = self.state.jobs.sorted { $0.ordinal < $1.ordinal }.map { job in
+                    DashboardJob(id: job.id, clientID: job.owner, slot: job.slot,
+                        generation: job.generation, objective: job.objective.rawValue, explorer: job.explorer,
+                        status: self.state.solved ? "stopped" :
+                            (now - job.lastSeen >= self.settings.failureGraceSeconds ? "awaiting reassignment" :
+                                (self.clients[job.owner] == nil ? "reconnecting" : "assigned")),
+                        completed: job.completed + (job.progress?.iterations ?? 0), budget: job.budget,
+                        reportedSeconds: job.progress?.seconds ?? 0)
+                }
+                let ids = Set(self.clients.keys).union(self.state.jobs.map(\.owner))
+                let clients = ids.sorted { $0.uuidString < $1.uuidString }.map { id in
+                    let age = self.clients[id].map { max(0, now - $0) }
+                    return DashboardClient(id: id, connected: age.map { $0 < self.settings.failureGraceSeconds } ?? false,
+                        lastSeenSeconds: age, assignedJobs: jobs.filter { $0.clientID == id }.count)
+                }
+                continuation.resume(returning: DashboardSnapshot(runID: self.state.runID,
+                    solved: self.state.solved, completedJobs: self.state.completedJobs,
+                    reassignments: self.state.reassignments,
+                    backupAgeSeconds: self.backup?.lastComplete.map { max(0, now - $0) },
+                    clients: clients, jobs: jobs))
+            }
+        }
+    }
+
     func status(now: Double = ProcessInfo.processInfo.systemUptime) async -> CoordinatorStatus {
         await withCheckedContinuation { continuation in
             queue.async {

@@ -2,6 +2,9 @@
   "distributed": {
     "address": "127.0.0.1",
     "port": 8443,
+    "webUIEnabled": true,
+    "webUIAddress": "127.0.0.1",
+    "webUIPort": 8080,
     "stateDirectory": "/tmp/janestreet-server",
     "backupsEnabled": false
   }

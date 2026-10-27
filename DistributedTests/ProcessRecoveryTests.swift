@@ -1,4 +1,4 @@
-import XCTest
+import Testing
 import Foundation
 import NIOCore
 import NIOPosix
@@ -9,7 +9,8 @@ import Glibc
 import Darwin
 #endif
 
-final class ProcessRecoveryTests: XCTestCase, @unchecked Sendable {
+@Suite(.serialized)
+struct ProcessRecoveryTests {
     func waitFor(_ description: String, seconds: Double = 20, _ condition: () throws -> Bool) async throws {
         let until = ProcessInfo.processInfo.systemUptime + seconds
         while ProcessInfo.processInfo.systemUptime < until {
@@ -18,18 +19,33 @@ final class ProcessRecoveryTests: XCTestCase, @unchecked Sendable {
         }
         throw DistributedError.message("Timed out waiting for \(description)")
     }
+    @Test
     func testHardClientLossServerRestartAndCleanRelease() async throws {
-        let bundle = Bundle(for: Self.self).bundleURL
-        let candidates = [bundle.deletingLastPathComponent().appendingPathComponent("janestreet-puzzle"),
-            URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent(".build/release/janestreet-puzzle")]
-        guard let executable = candidates.first(where: { FileManager.default.isExecutableFile(atPath: $0.path) }) else {
-            throw XCTSkip("Build the executable alongside the test bundle to run process recovery checks.")
+        // Swift Testing has no XCTest bundle/class. Find the built product next
+        // to the runner or under the package's standard SwiftPM build directories.
+        let current = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+        let sourceRoot = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
+        var candidates = [URL]()
+        for root in [current, sourceRoot] {
+            candidates.append(root.appendingPathComponent(".build/release/janestreet-puzzle"))
+            candidates.append(root.appendingPathComponent(".build/out/Products/Release/janestreet-puzzle"))
+            candidates.append(root.appendingPathComponent(".build/debug/janestreet-puzzle"))
+            candidates.append(root.appendingPathComponent(".build/out/Products/Debug/janestreet-puzzle"))
         }
+        for argument in CommandLine.arguments where argument.hasPrefix("/") {
+            var folder = URL(fileURLWithPath: argument).deletingLastPathComponent()
+            for _ in 0..<6 {
+                candidates.append(folder.appendingPathComponent("janestreet-puzzle"))
+                folder.deleteLastPathComponent()
+            }
+        }
+        let executable = try #require(candidates.first(where: { FileManager.default.isExecutableFile(atPath: $0.path) }),
+            "Build janestreet-puzzle before running process recovery tests.")
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent("puzzle-process-\(UUID())")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
         let probe = try await ServerBootstrap(group: group).bind(host: "127.0.0.1", port: 0).get()
-        let port = try XCTUnwrap(probe.localAddress?.port)
+        let port = try #require(probe.localAddress?.port)
         try await probe.close().get(); try await group.shutdownGracefully()
         var config = RunConfig.example
         config.rowNum = 1; config.colNum = 1
@@ -81,8 +97,8 @@ final class ProcessRecoveryTests: XCTestCase, @unchecked Sendable {
         }
         let firstClient = try launch("--client", clientConfiguration("client-a"))
         try await waitFor("first durable assignment") { try serverState()?.jobs.isEmpty == false }
-        let firstState = try XCTUnwrap(serverState())
-        let originalJob = try XCTUnwrap(firstState.jobs.first)
+        let firstState = try #require(try serverState())
+        let originalJob = try #require(firstState.jobs.first)
         _ = kill(firstClient.processIdentifier, SIGKILL)
         try await waitFor("hard client exit") { !firstClient.isRunning }
         try await Task.sleep(for: .seconds(4))
@@ -102,14 +118,14 @@ final class ProcessRecoveryTests: XCTestCase, @unchecked Sendable {
             // renewed assignment from this client proves authenticated recovery.
             try serverState()?.jobs.contains { $0.owner != originalJob.owner && $0.lastSeen > reconnectAfter } == true
         }
-        XCTAssertTrue(secondClient.isRunning)
-        XCTAssertEqual(try serverState()?.runID, firstState.runID)
+        #expect(secondClient.isRunning)
+        #expect((try serverState()?.runID) == (firstState.runID))
         secondClient.terminate()
         try await waitFor("clean client exit", seconds: 30) { !secondClient.isRunning }
-        XCTAssertEqual(secondClient.terminationStatus, 0)
-        XCTAssertTrue(try serverState()?.jobs.allSatisfy { $0.lastSeen < -1e50 } == true)
+        #expect((secondClient.terminationStatus) == (0))
+        #expect(try serverState()?.jobs.allSatisfy { $0.lastSeen < -1e50 } == true)
         restarted.terminate()
         try await waitFor("clean server exit") { !restarted.isRunning }
-        XCTAssertEqual(restarted.terminationStatus, 0)
+        #expect((restarted.terminationStatus) == (0))
     }
 }
