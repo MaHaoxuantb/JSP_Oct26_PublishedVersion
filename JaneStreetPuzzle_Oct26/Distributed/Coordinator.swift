@@ -27,7 +27,9 @@ final class Coordinator: @unchecked Sendable {
         state.joinToken = token
         // Old monotonic timestamps are meaningless after a machine reboot.
         for i in state.jobs.indices where state.jobs[i].lastSeen != -1e100 { state.jobs[i].lastSeen = now }
-        scorer = SearchContext(config: state.config)
+        var scoringConfig = state.config
+        scoringConfig.pathEvaluation = .cpu
+        scorer = SearchContext(config: scoringConfig)
         backup = settings.backupsEnabled ? try BackupService(directory: URL(fileURLWithPath: settings.stateDirectory), settings: settings) : nil
         for labels in state.elites { _ = try consider(labels) }
         try store.write(state)

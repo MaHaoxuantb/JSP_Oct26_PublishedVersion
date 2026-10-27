@@ -27,6 +27,15 @@ struct RegionGeometry {
     let capitol: Int?
 }
 
+private struct PreparedEvaluation {
+    let labels: [Int]
+    let groups: [[Int]]
+    let sizes: [Int]
+    let invalid: [Double]
+    let issues: [String]
+    let capitols: [GridCell]
+}
+
 /// Worker-local, position-aware cache. The final validator intentionally does
 /// not use this cache or this implementation.
 final class RegionCache {
@@ -168,11 +177,71 @@ extension SearchContext {
     func evaluate(labels input: [Int]) -> SearchState {
         let started = ProcessInfo.processInfo.systemUptime
         defer { metrics.evaluationSeconds += ProcessInfo.processInfo.systemUptime - started }
+        precondition(input.count == grid.count)
         let labels = normalized(input)
         if let cached = evaluations[labels] {
             metrics.evaluationCacheHits += 1
             return cached.snapshot()
         }
+        let value = prepareEvaluation(labels: labels)
+        let distanceStart = ProcessInfo.processInfo.systemUptime
+        let paths = pathEvaluator.evaluate([PathInput(sizes: value.sizes,
+            capitols: value.capitols.map { $0.row * grid.cols + $0.col })]) { input in
+            let result = shortestPaths(sizes: input.sizes, capitols: input.capitols, heap: grid.count >= 64)
+            return PathResult(distances: result.0, parents: result.1)
+        }
+        metrics.distanceSeconds += ProcessInfo.processInfo.systemUptime - distanceStart
+        let state = finishEvaluation(value, path: paths[0])
+        evaluations[labels] = state.snapshot()
+        return state
+    }
+
+    /// Geometry and Double scoring stay on the CPU. Uncached partitions share
+    /// one integer-path GPU dispatch, in batches bounded to 32 boards.
+    func evaluateBatch(labels inputs: [[Int]]) -> [SearchState] {
+        if inputs.count == 1 { return [evaluate(labels: inputs[0])] }
+        let started = ProcessInfo.processInfo.systemUptime
+        defer { metrics.evaluationSeconds += ProcessInfo.processInfo.systemUptime - started }
+        var output: [SearchState] = []
+        for offset in stride(from: 0, to: inputs.count, by: 32) {
+            let labels = inputs[offset..<min(offset + 32, inputs.count)].map { input in
+                precondition(input.count == grid.count)
+                return normalized(input)
+            }
+            var prepared: [PreparedEvaluation] = []
+            var seen = Set<[Int]>()
+            var states: [[Int]: SearchState] = [:]
+            for partition in labels {
+                if let cached = evaluations[partition] {
+                    states[partition] = cached.snapshot()
+                    metrics.evaluationCacheHits += 1
+                } else if !seen.insert(partition).inserted {
+                    metrics.evaluationCacheHits += 1
+                } else { prepared.append(prepareEvaluation(labels: partition)) }
+            }
+            let pathInputs = prepared.map { value in
+                PathInput(sizes: value.sizes, capitols: value.capitols.map { $0.row * grid.cols + $0.col })
+            }
+            let distanceStart = ProcessInfo.processInfo.systemUptime
+            let paths = pathEvaluator.evaluate(pathInputs) { input in
+                let result = shortestPaths(sizes: input.sizes, capitols: input.capitols, heap: grid.count >= 64)
+                return PathResult(distances: result.0, parents: result.1)
+            }
+            metrics.distanceSeconds += ProcessInfo.processInfo.systemUptime - distanceStart
+            for (value, path) in zip(prepared, paths) {
+                let state = finishEvaluation(value, path: path)
+                evaluations[value.labels] = state.snapshot()
+                states[value.labels] = state
+            }
+            // At most 32 entries were added to a 2048-entry cache, but an early
+            // cached label could have been its next eviction victim. Keep each
+            // requested state locally while inserting this batch.
+            output += labels.map { states[$0]!.snapshot() }
+        }
+        return output
+    }
+
+    private func prepareEvaluation(labels: [Int]) -> PreparedEvaluation {
         let groups = groups(labels)
         var sizes = Array(repeating: 0, count: grid.count)
         var invalid = Array(repeating: 0.0, count: grid.count)
@@ -188,10 +257,13 @@ extension SearchContext {
             if let cell = info.capitol { capitols.append(GridCell(row: cell / grid.cols, col: cell % grid.cols)) }
         }
         metrics.geometrySeconds += ProcessInfo.processInfo.systemUptime - geometryStart
-        let distanceStart = ProcessInfo.processInfo.systemUptime
-        let (distance, parent) = shortestPaths(sizes: sizes,
-            capitols: capitols.map { $0.row * grid.cols + $0.col }, heap: grid.count >= 64)
-        metrics.distanceSeconds += ProcessInfo.processInfo.systemUptime - distanceStart
+        return PreparedEvaluation(labels: labels, groups: groups, sizes: sizes, invalid: invalid,
+                                  issues: issues, capitols: capitols)
+    }
+
+    private func finishEvaluation(_ value: PreparedEvaluation, path: PathResult) -> SearchState {
+        let labels = value.labels, groups = value.groups, invalid = value.invalid
+        let issues = value.issues, capitols = value.capitols, distance = path.distances
         var errors = Array(repeating: 0.0, count: grid.count)
         var mismatches: [ClueMismatch] = []
         for cell in constraints.clues.indices where constraints.clues[cell] >= 0 {
@@ -233,9 +305,7 @@ extension SearchContext {
         var report = ValidationReport(valid: false, issues: issues, capitols: capitols, mismatches: mismatches, answer: nil)
         if issues.isEmpty && mismatches.isEmpty { report = validator.validate(makeBoard(), target: config.Target) }
         metrics.evaluations += 1
-        let state = SearchState(labels: labels, scores: scores, validation: report, parents: parent, makeBoard: makeBoard)
-        evaluations[labels] = state.snapshot()
-        return state
+        return SearchState(labels: labels, scores: scores, validation: report, parents: path.parents, makeBoard: makeBoard)
     }
 
     func normalized(_ values: [Int]) -> [Int] {

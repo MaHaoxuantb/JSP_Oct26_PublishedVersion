@@ -86,6 +86,14 @@ extension SearchContext {
         }
         var best: SearchState?
         var checked = 0
+        var pending: [[Int]] = []
+        func flush() {
+            for candidate in evaluateBatch(labels: pending) {
+                if candidate.validation.valid { best = candidate; break }
+                if exactRanking ? candidate.quality < (best ?? source).quality : prefers(candidate, over: best ?? source) { best = candidate }
+            }
+            pending.removeAll(keepingCapacity: true)
+        }
         while cursor.next < cursor.queue.count && checked < config.mergeCandidateLimit && !expired(until) {
             let cluster = cursor.queue[cursor.next]
             cursor.next += 1
@@ -113,10 +121,11 @@ extension SearchContext {
             guard affected.filter({ constraints.clues[$0] == 1 }).allSatisfy({ cell in
                 grid.neighbors(cell).contains { sizes[merged[$0]] == 1 }
             }) else { continue }
-            let candidate = evaluate(labels: merged)
-            if exactRanking ? candidate.quality < (best ?? source).quality : prefers(candidate, over: best ?? source) { best = candidate }
-            if candidate.validation.valid { return candidate }
+            pending.append(merged)
+            if pending.count >= pathEvaluator.batchSize { flush() }
+            if best?.validation.valid == true { return best }
         }
+        flush()
         if cursor.next < cursor.queue.count || cursor.truncated { metrics.budgetStops += 1 }
         return best
     }
@@ -357,6 +366,14 @@ extension SearchContext {
         let nextLabel = (base.max() ?? -1) + 1
         var nodes = 0, solutions = 0
         var best: SearchState?
+        var pending: [[Int]] = []
+        func flush() {
+            for state in evaluateBatch(labels: pending) {
+                if state.validation.valid { best = state; break }
+                if best == nil || prefers(state, over: best!) { best = state }
+            }
+            pending.removeAll(keepingCapacity: true)
+        }
         func onesPossible() -> Bool {
             relevantOnes.allSatisfy { cell in
                 grid.neighbors(cell).contains { occupied.contains($0) ? sizes[$0] == 1 : canBeSingleton[$0] }
@@ -412,8 +429,8 @@ extension SearchContext {
             if remaining == 0 {
                 solutions += 1
                 guard firstOnly || !samePartition(labels, base) else { return }
-                let state = evaluate(labels: labels)
-                if best == nil || prefers(state, over: best!) { best = state }
+                pending.append(labels)
+                if firstOnly || pending.count >= pathEvaluator.batchSize { flush() }
                 return
             }
             var options: [Int]?
@@ -441,6 +458,7 @@ extension SearchContext {
             }
         }
         visit(patch.count, 0)
+        flush()
         metrics.coverNodes += nodes; metrics.coversChecked += solutions
         if nodes >= config.exactCoverNodeLimit || solutions >= config.exactCoverSolutionLimit || expired(until) {
             metrics.budgetStops += 1
@@ -523,6 +541,14 @@ extension SearchContext {
         let labels = source.labels, parts = groups(labels)
         var checked = 0
         var best: SearchState?
+        var pending: [[Int]] = []
+        func flush() {
+            for state in evaluateBatch(labels: pending) {
+                if state.validation.valid { best = state; break }
+                if best == nil || prefers(state, over: best!) { best = state }
+            }
+            pending.removeAll(keepingCapacity: true)
+        }
         func consider(_ donor: Int, _ moved: [Int], _ recipient: Int?) {
             guard checked < config.boundaryCandidateLimit && !expired(until),
                   !moved.isEmpty && moved.count < parts[donor].count else { return }
@@ -534,8 +560,8 @@ extension SearchContext {
             var candidate = labels
             let newLabel = recipient ?? parts.count
             for cell in moved { candidate[cell] = newLabel }
-            let state = evaluate(labels: candidate)
-            if best == nil || prefers(state, over: best!) { best = state }
+            pending.append(candidate)
+            if pending.count >= pathEvaluator.batchSize { flush() }
         }
         for donor in shuffled(Array(parts.indices)) {
             if checked >= config.boundaryCandidateLimit || expired(until) || best?.validation.valid == true { break }
@@ -577,6 +603,7 @@ extension SearchContext {
                 consider(donor, cut, nil)
             }
         }
+        flush()
         return best
     }
 }

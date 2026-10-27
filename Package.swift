@@ -13,8 +13,12 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-asn1.git", from: "1.3.1")
     ],
     targets: [
+        // Loads CUDA at runtime; CPU builds need no CUDA SDK.
+        .target(name: "CUDAPaths", path: "Sources/CUDAPaths",
+                linkerSettings: [.linkedLibrary("dl", .when(platforms: [.linux]))]),
         .systemLibrary(name: "CSQLite", pkgConfig: "sqlite3", providers: [.apt(["libsqlite3-dev"]), .brew(["sqlite3"])]),
         .executableTarget(name: "PuzzleSolver", dependencies: [
+            .target(name: "CUDAPaths", condition: .when(platforms: [.linux])),
             "CSQLite", .product(name: "NIOCore", package: "swift-nio"),
             .product(name: "NIOPosix", package: "swift-nio"),
             .product(name: "NIOHTTP1", package: "swift-nio"),

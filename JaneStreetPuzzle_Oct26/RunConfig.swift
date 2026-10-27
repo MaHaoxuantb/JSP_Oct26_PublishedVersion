@@ -3,6 +3,7 @@ import Foundation
 struct RunConfig: Codable, Sendable {
     var distributed = DistributedConfig()
     var workerCount = 10
+    var pathEvaluation: PathEvaluationMode = .automatic
     // Each iteration is now a bounded repair job, not a single edge proposal.
     var maxMergeRegions = 4
     var mergeCandidateLimit = 1_000
@@ -54,11 +55,13 @@ struct RunConfig: Codable, Sendable {
 
     init() {}
     private enum CodingKeys: String, CodingKey {
+        case pathEvaluation
         case distributed, workerCount, maxMergeRegions, mergeCandidateLimit, repairTimeLimitSeconds, maxPatchCells, largePatchCells, largeRepairInterval, boundaryCandidateLimit, useRouteBounds, checkpointIntervalSeconds, searchObjective, catalogCandidateLimit, catalogMasksPerTransform, exactCoverNodeLimit, exactCoverSolutionLimit, eliteCapacity, exchangeInterval, exchangeTimeIntervalSeconds, rowNum, colNum, Target, seed, factors, maxIterations, timeLimitSeconds, initialTemperature, minimumTemperature, coolingRate, stagnationIterations, reheatsPerRestart, maxRestarts, uniformSelectionProbability, progressInterval, progressTimeIntervalSeconds, yieldInterval, logDirectory, consoleLogging
     }
     init(from decoder: Decoder) throws {
         self.init()
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        if values.contains(.pathEvaluation) { pathEvaluation = try values.decode(PathEvaluationMode.self, forKey: .pathEvaluation) }
         if values.contains(.distributed) { distributed = try values.decode(type(of: distributed), forKey: .distributed) }
         if values.contains(.workerCount) { workerCount = try values.decode(type(of: workerCount), forKey: .workerCount) }
         if values.contains(.maxMergeRegions) { maxMergeRegions = try values.decode(type(of: maxMergeRegions), forKey: .maxMergeRegions) }

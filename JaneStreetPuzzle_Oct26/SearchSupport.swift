@@ -158,13 +158,20 @@ struct SearchState {
 }
 
 final class SearchContext {
-    var config: RunConfig
+    var config: RunConfig {
+        didSet {
+            if oldValue.pathEvaluation != config.pathEvaluation {
+                pathEvaluator = PathEvaluator(grid: grid, mode: config.pathEvaluation)
+            }
+        }
+    }
     let validator = ExactValidator()
     var rng: SearchRandom
     let grid: Grid
     let regions: RegionCache
     let constraints: ClueConstraints
     let clueCount: Int
+    lazy var pathEvaluator = PathEvaluator(grid: grid, mode: config.pathEvaluation)
     var metrics = RepairMetrics()
     let mergeCursors = BoundedCache<[Int], MergeCursor>(capacity: 32)
     let catalogs = BoundedCache<[Int], [[Int]]>(capacity: 64)

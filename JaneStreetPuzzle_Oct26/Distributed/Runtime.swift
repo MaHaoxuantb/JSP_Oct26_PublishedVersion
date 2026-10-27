@@ -101,7 +101,7 @@ func runClient(config: RunConfig) async throws {
     let stateLock = try StateLock(directory: directory)
     defer { withExtendedLifetime(stateLock) {} }
     let token = try readToken(settings: settings, server: false)
-    let engine = try ClientEngine(settings: settings)
+    let engine = try ClientEngine(settings: settings, pathEvaluation: config.pathEvaluation)
     let clientID = await engine.identity()
     let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
     let shutdown = ShutdownSignal()
@@ -135,7 +135,9 @@ func runClient(config: RunConfig) async throws {
                     try await engine.configure(puzzle, runID: run)
                     if !calibrated {
                         distributedLog("Calibrating configured worker slots…")
-                        await engine.setRates(await calibrate(config: puzzle, settings: settings))
+                        var local = puzzle
+                        local.pathEvaluation = config.pathEvaluation
+                        await engine.setRates(await calibrate(config: local, settings: settings))
                         calibrated = true
                     }
                     if !recovered { try await engine.recoverLocal(); recovered = true }

@@ -35,6 +35,7 @@ struct RunningSlot {
 
 actor ClientEngine {
     private let settings: DistributedConfig
+    private let pathEvaluation: PathEvaluationMode
     private let directory: URL
     private let store: DurableStore
     private var disk: ClientDiskState
@@ -46,11 +47,13 @@ actor ClientEngine {
     private var stopped = false
     private var supplemental: [[Int]] = []
 
-    init(settings: DistributedConfig) throws {
+    init(settings: DistributedConfig, pathEvaluation: PathEvaluationMode = .automatic) throws {
         self.settings = settings
+        self.pathEvaluation = pathEvaluation
         directory = URL(fileURLWithPath: settings.stateDirectory)
         store = try DurableStore(path: directory.appendingPathComponent("client.sqlite").path)
         disk = try store.read(ClientDiskState.self) ?? ClientDiskState()
+        disk.config?.pathEvaluation = pathEvaluation
         try store.write(disk)
     }
     func identity() -> UUID { disk.clientID }
@@ -68,6 +71,7 @@ actor ClientEngine {
         disk.runID = runID
         var local = config
         local.distributed = settings
+        local.pathEvaluation = pathEvaluation
         disk.config = local
         try store.write(disk)
     }

@@ -209,6 +209,64 @@ Old logs are supported even if their configuration lacks the new repair settings
 
 ## Search and performance
 
+### GPU path evaluation
+
+`pathEvaluation` selects `automatic` (default), `cpu`, or `gpu` in the JSON
+configuration. To request GPU paths explicitly:
+
+```sh
+.build/release/janestreet-puzzle --run full --config Config/gpu.example.json
+```
+
+Merge, boundary and completed exact-cover candidates are scored in batches of up
+to 32 boards. Only shortest-path distances move to the GPU. Region geometry,
+clue comparisons, normalized errors, annealing probabilities and final independent
+validation remain on the CPU. GPU paths use Int32 throughout: for at most 121
+cells, sizes are at most 121 and a shortest simple path costs at most 14,520.
+The infinity sentinel is 536,870,911; adding one edge cannot overflow.
+
+Each returned distance map must pass a CPU shortest-path certificate: sources
+have distance zero, every finite non-source has a strictly descending tight
+predecessor, and every edge satisfies the distance inequality. Parents use the
+same distance/index tie ordering as CPU Dijkstra. Invalid results or device errors
+disable GPU evaluation for that worker and recompute the batch on the CPU. A
+proposed solution still requires `ExactValidator`, independently of that check.
+
+Automatic mode uses CPU paths for single boards, small boards and batches with
+fewer than eight uncached candidates. For the first eligible batch it warms up the
+GPU, compares exact results and measures GPU evaluation plus certification against
+CPU Dijkstra. If the GPU is slower it uses CPU paths thereafter. Explicit `gpu`
+mode skips that speed decision, but retains certification and failure fallback.
+Device selection/fallback is printed with a `[paths]` prefix. GPU batching delays
+incumbent updates within a repair, so bounded search trajectories can change even
+when every distance and score agrees. Batches are flushed when enumeration ends,
+including at a deadline; this adds at most one pending batch of evaluation work.
+
+macOS uses a runtime-compiled Metal kernel with one SIMD group per board. Linux
+SwiftPM builds include a small C bridge that dynamically loads `libcuda.so.1` and
+NVRTC (`libnvrtc.so`, `.13`, `.12`, or `.11.2`). Linux GPU execution requires an
+NVIDIA GPU with compute capability 7.5 or newer and compatible driver/NVRTC
+libraries on the system loader path (see NVIDIA's [NVRTC documentation](https://docs.nvidia.com/cuda/nvrtc/)). No CUDA headers, CUDA link-time libraries,
+MLX dependency, or newer Swift toolchain are required to build the CPU solver.
+Machines without a supported GPU fall back to CPU. The direct `swiftc` Linux
+build omits the CUDA bridge and uses CPU paths; use SwiftPM for Linux GPU support.
+Distributed clients select this policy locally with their own `pathEvaluation`
+setting, including during recovery and calibration.
+
+The Metal and CUDA kernels use double-buffered integer Bellman-Ford relaxation,
+stopping when no cell changes or after V-1 rounds. GPU acceleration is optional:
+on the development Mac, the fixed 32-board fixture remained slower than CPU
+Dijkstra after parallelization. No end-to-end search speedup is claimed. Real
+Metal execution is covered by the differential tests; CUDA hardware execution
+must be verified on an NVIDIA Linux host before relying on its performance.
+
+`swift test -c release` includes GPU/CPU differential tests, certificate rejection,
+device failure fallback, batch scoring, cache isolation and old-config decoding.
+Set `JSP_REQUIRE_GPU=1` when testing on a GPU host to make unavailable hardware a
+test failure instead of a skip. CI also exercises the CPU-only Linux fallback.
+
+### CPU search and shared heuristics
+
 - Search candidates retain canonical integer labels. UUID-backed `Board` objects
   and display energy matrices are materialized only for reporting, snapshots or
   independent validation. A bounded per-worker cache reuses exact partition scores;
@@ -386,7 +444,8 @@ swiftc -module-cache-path /tmp/janestreet-swift-module-cache \
   JaneStreetPuzzle_Oct26/RunConfig.swift JaneStreetPuzzle_Oct26/Runners.swift \
   JaneStreetPuzzle_Oct26/Logger.swift JaneStreetPuzzle_Oct26/SearchSupport.swift \
   JaneStreetPuzzle_Oct26/Validation.swift JaneStreetPuzzle_Oct26/Solver.swift \
-  JaneStreetPuzzle_Oct26/ExactSearch.swift JaneStreetPuzzle_Oct26/RegionRepairs.swift \
+  JaneStreetPuzzle_Oct26/ExactSearch.swift JaneStreetPuzzle_Oct26/PathEvaluation.swift \
+  JaneStreetPuzzle_Oct26/RegionRepairs.swift \
   JaneStreetPuzzle_Oct26/SharedSearch.swift JaneStreetPuzzle_Oct26/SavedRunRepair.swift \
   Tests/SolverTests.swift -o /tmp/janestreet-solver-tests
 ```
