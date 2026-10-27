@@ -4,6 +4,14 @@ struct EliteCandidate: Sendable {
     let snapshot: BoardSnapshot
     let scores: Energy.Scores
     let workerID: Int
+    let boundaries: [UInt64]
+    init(snapshot: BoardSnapshot, scores: Energy.Scores, workerID: Int) {
+        self.snapshot = snapshot; self.scores = scores; self.workerID = workerID
+        let edges = snapshot.verticalRelationships.flatMap { $0 } + snapshot.horizontalRelationships.flatMap { $0 }
+        var bits = Array(repeating: UInt64(0), count: (edges.count + 63) / 64)
+        for i in edges.indices where edges[i] == 1 { bits[i >> 6] |= UInt64(1) << (i & 63) }
+        boundaries = bits
+    }
     var quality: SearchQuality { SearchQuality(snapshot.validation, scores) }
 }
 
@@ -30,10 +38,30 @@ actor EliteArchive {
             if $0.quality != $1.quality { return $0.quality < $1.quality }
             return $0.snapshot.labels.flatMap { $0 }.lexicographicallyPrecedes($1.snapshot.labels.flatMap { $0 })
         }
-        if entries.count > capacity { entries.removeLast(entries.count - capacity) }
+        if entries.count > capacity {
+            // Retain the exact-match leader, the residual leader and topologically
+            // diverse alternatives. Boundary distance ignores arbitrary label IDs.
+            var selected = [entries.removeFirst()]
+            if capacity > 1, let index = entries.indices.min(by: { entries[$0].scores.realAIM < entries[$1].scores.realAIM }) {
+                selected.append(entries.remove(at: index))
+            }
+            while selected.count < capacity && !entries.isEmpty {
+                let index = entries.indices.max { a, b in
+                    let da = selected.map { Self.distance(entries[a], $0) }.min() ?? 0
+                    let db = selected.map { Self.distance(entries[b], $0) }.min() ?? 0
+                    return da == db ? a > b : da < db
+                }!
+                selected.append(entries.remove(at: index))
+            }
+            entries = selected.sorted { $0.quality < $1.quality }
+        }
     }
 
-    func assignment(workerID: Int) -> EliteAssignment {
+    private static func distance(_ a: EliteCandidate, _ b: EliteCandidate) -> Int {
+        zip(a.boundaries, b.boundaries).reduce(0) { $0 + ($1.0 ^ $1.1).nonzeroBitCount }
+    }
+
+    func assignment(workerID: Int, objective: SearchObjective = .matches) -> EliteAssignment {
         ticket &+= 1
         if let solved = entries.first(where: { $0.snapshot.validation.valid }) {
             return EliteAssignment(candidate: solved, ticket: ticket)
@@ -41,7 +69,10 @@ actor EliteArchive {
         // Every fourth worker remains an independent explorer. The others mix
         // the best board with other members of the small elite archive.
         guard workerID % 4 != 0, !entries.isEmpty else { return EliteAssignment(candidate: nil, ticket: ticket) }
-        let index = ticket % 4 == 0 ? ticket % entries.count : 0
+        let leader = objective == .matches ? 0 : entries.indices.min {
+            entries[$0].scores.realAIM < entries[$1].scores.realAIM
+        }!
+        let index = ticket % 2 == 0 ? ticket % entries.count : leader
         return EliteAssignment(candidate: entries[index], ticket: ticket)
     }
 }

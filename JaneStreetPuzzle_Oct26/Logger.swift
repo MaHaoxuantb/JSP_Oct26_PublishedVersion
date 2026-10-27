@@ -61,7 +61,7 @@ enum StopReason: String, Codable, Sendable {
 }
 
 /// Progress and milestones are streamed to JSON Lines. Full snapshots are only
-/// added for final best results. In-memory history
+/// added for final best results; atomic checkpoint files retain periodic bests. In-memory history
 /// is bounded; disk failures propagate and stop the run rather than losing logs.
 final class Logger {
     // Only console writes share a lock; evaluation and worker files are independent.
@@ -69,7 +69,7 @@ final class Logger {
     enum Kind: String, Codable {
         case started, initialized, iteration, bestImproved, progress, reheated, restarted, finished, failed
         case parallelStarted, workerFinished, parallelFinished
-        case eliteImported
+        case eliteImported, checkpoint
     }
     struct Event: Codable {
         let kind: Kind
@@ -109,6 +109,8 @@ final class Logger {
 
     let runID = UUID()
     let fileURL: URL
+    let checkpointURL: URL
+    private var lastSyncTime = 0.0
     private let handle: FileHandle
     private let encoder: JSONEncoder
     private let startTime = ProcessInfo.processInfo.systemUptime
@@ -121,6 +123,7 @@ final class Logger {
         let folder = URL(fileURLWithPath: directory, isDirectory: true)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         fileURL = folder.appendingPathComponent("run-\(runID.uuidString).jsonl")
+        checkpointURL = folder.appendingPathComponent("checkpoint-\(runID.uuidString).json")
         guard FileManager.default.createFile(atPath: fileURL.path, contents: nil) else {
             throw CocoaError(.fileWriteUnknown)
         }
@@ -145,14 +148,16 @@ final class Logger {
         recentEntries.append(entry)
         if recentEntries.count > 256 { recentEntries.removeFirst(recentEntries.count - 256) }
         if event.kind != .iteration {
-            try handle.synchronize()
+            if elapsedSeconds - lastSyncTime >= 2 || [.started, .finished, .parallelFinished, .failed, .checkpoint].contains(event.kind) {
+                try handle.synchronize(); lastSyncTime = elapsedSeconds
+            }
             if console {
                 let score = event.best.map { String(format: "%.8f", $0.total) } ?? "-"
                 let source = workerID.map { "worker-\($0)" } ?? "coordinator"
                 let current = event.current.map { String(format: "%.8f", $0.total) } ?? "-"
                 let temperature = event.temperature.map { String(format: "%.5g", $0) } ?? "-"
                 let clues = event.clueMismatchCount.map(String.init) ?? "-"
-                let repair = event.repairs.map { " evals=\($0.evaluations) merges=\($0.mergesChecked) covers=\($0.coversChecked) budgetStops=\($0.budgetStops)" } ?? ""
+                let repair = event.repairs.map { " evals=\($0.evaluations) merges=\($0.mergesChecked) covers=\($0.coversChecked) budgetStops=\($0.budgetStops) cacheHits=\($0.evaluationCacheHits) pruned=\($0.constraintRejects + $0.routePrunes)" } ?? ""
                 let line = "[\(source)][\(event.kind.rawValue)] iteration=\(event.iteration) restart=\(event.restart) current=\(current) best=\(score) T=\(temperature) bestUnmatchedClues=\(clues) elapsed=\(String(format: "%.1f", elapsedSeconds))s\(repair) \(event.message ?? "")\n"
                 try Self.consoleLock.withLock {
                     // Direct writes stay visible when stdout is redirected or piped.
@@ -160,6 +165,15 @@ final class Logger {
                 }
             }
         }
+    }
+
+    /// One atomic, replaceable best-board checkpoint; proposals never go to disk.
+    func checkpoint(config: RunConfig, state: SearchState, iteration: Int) throws {
+        var event = Event(kind: .checkpoint)
+        event.configuration = config; event.snapshot = BoardSnapshot(state)
+        event.best = state.scores; event.iteration = iteration; event.workerID = workerID
+        let entry = Entry(runID: runID, timestamp: Date(), elapsedSeconds: elapsedSeconds, event: event)
+        try encoder.encode(entry).write(to: checkpointURL, options: .atomic)
     }
 
     func close() throws {

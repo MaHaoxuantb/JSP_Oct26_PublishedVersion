@@ -24,17 +24,25 @@ func printResult(snapshot: BoardSnapshot, scores: Energy.Scores) {
 // Compilation is inert. Every action requires an explicit launch argument.
 let arguments = Array(CommandLine.arguments.dropFirst())
 do {
-    if arguments == ["--run"] {
-        let result = try await ParallelSolver.run(config: RunConfig())
+    if arguments == ["--run"] || arguments == ["--run", "example"] || arguments == ["--run", "full"] {
+        let config = arguments == ["--run", "full"] ? RunConfig.fullPuzzle : RunConfig.example
+        let result = try await ParallelSolver.run(config: config)
         print("Finished \(result.workers.count) workers. Summary log: \(result.logURL.path)")
         print("Best worker: \(result.best.workerID), seed: \(result.best.seed), stopped: \(result.best.reason.rawValue). Log: \(result.best.logURL.path)")
+        printResult(snapshot: result.best.snapshot, scores: result.best.scores)
+    } else if arguments.count == 2 && arguments[0] == "--resume-log" {
+        var (config, snapshot) = try SavedRunRepair.load(path: arguments[1])
+        config.workerCount = RunConfig().workerCount
+        config.logDirectory = RunConfig().logDirectory
+        let result = try await ParallelSolver.run(config: config, initialLabels: snapshot.labels.flatMap { $0 })
+        print("Resumed search finished. Summary log: \(result.logURL.path)")
         printResult(snapshot: result.best.snapshot, scores: result.best.scores)
     } else if arguments.count == 2 && arguments[0] == "--repair-log" {
         let result = try SavedRunRepair.run(path: arguments[1])
         print("Repair stopped: \(result.reason.rawValue). Log: \(result.logURL.path)")
         printResult(snapshot: BoardSnapshot(result.best), scores: result.best.scores)
     } else {
-        print("Solver is idle. Pass --run for a fresh search, or --repair-log <JSONL path> for bounded saved-board merge repair.")
+        print("Solver is idle. Pass --run [example|full] for the 5×5 example or 11×11 puzzle (default: example), --resume-log <checkpoint or JSONL> to continue a saved board, or --repair-log <JSONL path> for bounded merge repair.")
     }
 } catch {
     try? FileHandle.standardError.write(contentsOf: Data("Solver failed: \(error)\n".utf8))

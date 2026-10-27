@@ -31,7 +31,7 @@ final class Iteration {
                 accepted: false, acceptanceProbability: 0, randomDraw: nil, delta: nil,
                 evaluationSeconds: ProcessInfo.processInfo.systemUptime - started, proposalAttempts: 1, changes: [])
         }
-        let delta = candidate.quality.merit(clues: context.clueCount) - current.quality.merit(clues: context.clueCount)
+        let delta = context.merit(candidate) - context.merit(current)
         let probability = candidate.validation.valid || delta <= 0 ? 1 : exp(-delta / temperature)
         let draw: Double? = probability < 1 ? context.rng.unit() : nil
         let accepted = draw.map { $0 < probability } ?? true
@@ -53,8 +53,11 @@ struct SolverResult {
 
 // MARK: - Search lifecycle
 final class Main {
-    func Run(Config config: RunConfig, workerID: Int? = nil, archive: EliteArchive? = nil) async throws -> SolverResult {
+    func Run(Config config: RunConfig, workerID: Int? = nil, archive: EliteArchive? = nil, initialLabels: [Int]? = nil) async throws -> SolverResult {
         try config.validate()
+        if let initialLabels, initialLabels.count != config.rowNum * config.colNum || initialLabels.contains(where: { $0 < 0 }) {
+            throw ConfigurationError(message: "Resume labels do not match the configured board.")
+        }
         let logger = try Logger(directory: config.logDirectory, console: config.consoleLogging, workerID: workerID)
         defer { try? logger.close() }
         let context = SearchContext(config: config)
@@ -66,16 +69,18 @@ final class Main {
         do {
             var started = Logger.Event(kind: .started)
             started.configuration = config
-            started.message = "Log: \(logger.fileURL.path)"
+            started.message = "Objective: \(config.searchObjective.rawValue). Log: \(logger.fileURL.path)"
             try logger.record(started)
-            var current = initializer.start(context: context)
+            var current = initialLabels.map { context.evaluate(labels: $0) } ?? initializer.start(context: context)
             var best = current.snapshot()
             var thermostat = AdaptiveTemperature(config: config)
-            var epochBest = current.quality
+            var epochBest = context.merit(current)
+            var localElite = current.snapshot()
             var stagnation = 0
             var epochReheats = 0
             var lastProgressTime = logger.elapsedSeconds
             var lastExchangeTime = -Double.infinity
+            var lastCheckpointTime = logger.elapsedSeconds
             var published: [Int]?
             var reason: StopReason? = current.validation.valid ? .solved : nil
 
@@ -94,6 +99,7 @@ final class Main {
                 try logger.record(event)
             }
             try milestone(.initialized, state: current)
+            try logger.checkpoint(config: config, state: best, iteration: statistics.iterations)
             while reason == nil {
                 if statistics.iterations % config.yieldInterval == 0 { await Task.yield() }
                 if Task.isCancelled { reason = .cancelled; break }
@@ -104,18 +110,19 @@ final class Main {
                 // discoveries but receive no ordinary elite assignments.
                 if let archive, statistics.iterations % config.exchangeInterval == 0
                     || logger.elapsedSeconds - lastExchangeTime >= config.exchangeTimeIntervalSeconds {
-                    let key = context.canonical(best.board)
+                    let key = localElite.labels
                     if published != key {
-                        await archive.publish(EliteCandidate(snapshot: BoardSnapshot(best), scores: best.scores,
+                        await archive.publish(EliteCandidate(snapshot: BoardSnapshot(localElite), scores: localElite.scores,
                                                              workerID: workerID ?? 1))
                         published = key
                     }
-                    let assignment = await archive.assignment(workerID: workerID ?? 1)
+                    let assignment = await archive.assignment(workerID: workerID ?? 1, objective: config.searchObjective)
                     context.repairTicket = assignment.ticket
                     if let elite = assignment.candidate,
-                       elite.snapshot.validation.valid || (elite.snapshot.labels.flatMap { $0 } != context.canonical(current.board)
+                       elite.snapshot.validation.valid || (elite.snapshot.labels.flatMap { $0 } != current.labels
                            && (elite.quality < best.quality || stagnation >= max(1, config.stagnationIterations / 4))) {
-                        current = context.evaluate(context.board(labels: elite.snapshot.labels.flatMap { $0 }))
+                        current = context.evaluate(labels: elite.snapshot.labels.flatMap { $0 })
+                        if context.prefers(current, over: localElite) { localElite = current.snapshot() }
                         context.metrics.eliteImports += 1
                         if current.quality < best.quality || current.validation.valid { best = current.snapshot() }
                         // Re-anchor the local walk, but don't reset the stagnation
@@ -130,10 +137,10 @@ final class Main {
                 // elsewhere. Its merge cursor resumes rather than starting over.
                 if stagnation > 0 && statistics.iterations % config.exchangeInterval == 0 {
                     if let repaired = context.mergeRepair(best, until: min(context.deadline,
-                        ProcessInfo.processInfo.systemUptime + config.repairTimeLimitSeconds / 3)) {
+                        ProcessInfo.processInfo.systemUptime + config.repairTimeLimitSeconds / 3), exactRanking: true) {
                         best = repaired.snapshot()
                         current = repaired
-                        epochBest = repaired.quality
+                        epochBest = context.merit(repaired)
                         stagnation = 0
                         try milestone(.bestImproved, state: best, message: "Saved-best region merge")
                         if repaired.validation.valid { reason = .solved; break }
@@ -149,11 +156,12 @@ final class Main {
                 }
                 if improved { try milestone(.bestImproved, state: best) }
 
+                if context.prefers(current, over: localElite) { localElite = current.snapshot() }
                 if current.validation.valid { reason = .solved; break }
                 thermostat.step(delta: result.delta)
                 stagnation += 1
-                if current.quality < epochBest {
-                    epochBest = current.quality
+                if context.merit(current) < epochBest {
+                    epochBest = context.merit(current)
                     stagnation = 0
                 }
                 if statistics.iterations % config.progressInterval == 0
@@ -161,11 +169,21 @@ final class Main {
                     try milestone(.progress, state: current)
                     lastProgressTime = logger.elapsedSeconds
                 }
+                if logger.elapsedSeconds - lastCheckpointTime >= config.checkpointIntervalSeconds {
+                    try logger.checkpoint(config: config, state: best, iteration: statistics.iterations)
+                    try milestone(.checkpoint, state: current, message: "Best saved: \(logger.checkpointURL.path)")
+                    lastCheckpointTime = logger.elapsedSeconds
+                }
                 // Avoid initialization/reheating work after a budget was reached.
                 if Task.isCancelled { reason = .cancelled; break }
                 if logger.elapsedSeconds >= config.timeLimitSeconds { reason = .timeLimit; break }
                 if statistics.iterations >= config.maxIterations { reason = .iterationLimit; break }
                 if stagnation >= config.stagnationIterations {
+                    if config.searchObjective == .persistent {
+                        context.adaptClueWeights(current)
+                        localElite = current.snapshot()
+                        epochBest = context.merit(current)
+                    }
                     if epochReheats < config.reheatsPerRestart {
                         epochReheats += 1
                         statistics.reheats += 1
@@ -176,7 +194,7 @@ final class Main {
                         statistics.restarts += 1
                         current = initializer.start(context: context)
                         thermostat.reheat()
-                        epochBest = current.quality
+                        epochBest = context.merit(current)
                         stagnation = 0
                         epochReheats = 0
                         if current.validation.valid || current.quality < best.quality {
@@ -215,6 +233,7 @@ final class Main {
             finished.message = report.answer.map { "Verified answer: \($0.sumOfSquares)" }
                 ?? "Best candidate retained; \(report.issues.count) structural issues, \(report.mismatches.count) unmatched clues."
             try logger.record(finished)
+            try logger.checkpoint(config: config, state: best, iteration: statistics.iterations)
             try logger.close()
             return SolverResult(best: best, reason: reason!, statistics: statistics,
                                 elapsedSeconds: logger.elapsedSeconds, logURL: logger.fileURL, repairs: context.metrics)
@@ -267,14 +286,14 @@ enum ParallelSolver {
     // Explicit concurrent execution also works with Xcode's approachable
     // concurrency setting: this CPU work must not inherit the main actor.
     @concurrent
-    private static func runWorker(id: Int, config: RunConfig, archive: EliteArchive) async throws -> WorkerResult {
-        let result = try await Main().Run(Config: config, workerID: id, archive: archive)
+    private static func runWorker(id: Int, config: RunConfig, archive: EliteArchive, initialLabels: [Int]?) async throws -> WorkerResult {
+        let result = try await Main().Run(Config: config, workerID: id, archive: archive, initialLabels: initialLabels)
         return WorkerResult(workerID: id, seed: config.seed, snapshot: BoardSnapshot(result.best),
                             scores: result.best.scores, reason: result.reason,
                             statistics: result.statistics, logURL: result.logURL, repairs: result.repairs)
     }
 
-    static func run(config: RunConfig) async throws -> ParallelSolverResult {
+    static func run(config: RunConfig, initialLabels: [Int]? = nil) async throws -> ParallelSolverResult {
         try config.validate()
         let directory = URL(fileURLWithPath: config.logDirectory, isDirectory: true)
             .appendingPathComponent("parallel-\(UUID().uuidString)", isDirectory: true)
@@ -291,12 +310,13 @@ enum ParallelSolver {
                 for index in 0..<config.workerCount {
                     var workerConfig = config
                     workerConfig.workerCount = 1
+                    workerConfig.searchObjective = SearchObjective.allCases[index % SearchObjective.allCases.count]
                     // Odd-stride wrapping arithmetic gives distinct reproducible
                     // seeds, with worker 1 preserving the original seed.
                     workerConfig.seed = config.seed &+ (UInt64(index) &* 0x9E3779B97F4A7C15)
                     workerConfig.logDirectory = directory.appendingPathComponent("worker-\(index + 1)").path
                     let configuration = workerConfig
-                    group.addTask { try await runWorker(id: index + 1, config: configuration, archive: archive) }
+                    group.addTask { try await runWorker(id: index + 1, config: configuration, archive: archive, initialLabels: initialLabels) }
                 }
                 var workers: [WorkerResult] = []
                 var best: WorkerResult?

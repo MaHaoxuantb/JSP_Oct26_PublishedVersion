@@ -7,6 +7,13 @@ struct RunConfig: Codable, Sendable {
     var mergeCandidateLimit = 1_000
     var repairTimeLimitSeconds: Double = 0.15
     var maxPatchCells = 32
+    var largePatchCells = 128
+    var largeRepairInterval = 12
+    var boundaryCandidateLimit = 96
+    var useRouteBounds = true
+    var checkpointIntervalSeconds: Double = 60
+    // Runtime worker objective; exact validation and final ranking stay common.
+    var searchObjective: SearchObjective = .matches
     var catalogCandidateLimit = 12_000
     var catalogMasksPerTransform = 256
     var exactCoverNodeLimit = 5_000
@@ -14,22 +21,14 @@ struct RunConfig: Codable, Sendable {
     var eliteCapacity = 8
     var exchangeInterval = 20
     var exchangeTimeIntervalSeconds: Double = 1
-    var rowNum = 11
-    var colNum = 11
-    // Transcribed row by row from the supplied puzzle. -1 denotes a blank;
-    // zero is a clue and must not be replaced by -1.
+    var rowNum = 5
+    var colNum = 5
     var Target = OriginalCondition(Status: [
-        [-1,  8,  4, -1, -1, 11, -1, -1, -1,  5, -1],
-        [-1, -1, -1, -1, -1, -1, -1, 11, -1, -1, -1],
-        [-1, -1,  7, -1, -1,  1, -1, -1, -1, -1, 14],
-        [28, -1, -1, 51, -1, -1,  1, -1,  6, -1, -1],
-        [-1, 22, -1, -1, -1, -1, -1, -1,  4, -1,  1],
-        [-1, -1, -1, 15, -1, 10, -1,  0, -1, -1, -1],
-        [11, -1, 11, -1, -1, -1, -1, -1, -1,  9, -1],
-        [-1, -1, 17, -1, 14, -1, -1, 10, -1, -1, 13],
-        [30, -1, -1, -1, -1,  6, -1, -1, 45, -1, -1],
-        [-1, -1, -1, 10, -1, -1, -1, -1, -1, -1, -1],
-        [-1, 26, -1, -1, -1,  0, -1, -1, 77, 61, -1]
+        [12, -1, -1, -1, 17],
+        [8, -1, 6, 3, -1],
+        [-1, -1, -1, -1, -1],
+        [-1, 7, 6, -1, 10],
+        [25, -1, -1, -1, 0]
     ])
     var seed: UInt64 = 20261026
     var factors = Energy.Factors(realAIM: 2, symmetry: 1, discreteness: 0.25)
@@ -52,18 +51,25 @@ struct RunConfig: Codable, Sendable {
         .appendingPathComponent("logs", isDirectory: true).path
     var consoleLogging = true
 
-    /// Keep the illustrated example independent of the default puzzle so
-    /// regression checks and the example benchmark retain their original input.
-    static var example: RunConfig {
+    static var example: RunConfig { RunConfig() }
+
+    /// Preserve the transcribed 11×11 puzzle without making it the default run.
+    static var fullPuzzle: RunConfig {
         var config = RunConfig()
-        config.rowNum = 5
-        config.colNum = 5
+        config.rowNum = 11
+        config.colNum = 11
         config.Target = OriginalCondition(Status: [
-            [12, -1, -1, -1, 17],
-            [8, -1, 6, 3, -1],
-            [-1, -1, -1, -1, -1],
-            [-1, 7, 6, -1, 10],
-            [25, -1, -1, -1, 0]
+            [-1,  8,  4, -1, -1, 11, -1, -1, -1,  5, -1],
+            [-1, -1, -1, -1, -1, -1, -1, 11, -1, -1, -1],
+            [-1, -1,  7, -1, -1,  1, -1, -1, -1, -1, 14],
+            [28, -1, -1, 51, -1, -1,  1, -1,  6, -1, -1],
+            [-1, 22, -1, -1, -1, -1, -1, -1,  4, -1,  1],
+            [-1, -1, -1, 15, -1, 10, -1,  0, -1, -1, -1],
+            [11, -1, 11, -1, -1, -1, -1, -1, -1,  9, -1],
+            [-1, -1, 17, -1, 14, -1, -1, 10, -1, -1, 13],
+            [30, -1, -1, -1, -1,  6, -1, -1, 45, -1, -1],
+            [-1, -1, -1, 10, -1, -1, -1, -1, -1, -1, -1],
+            [-1, 26, -1, -1, -1,  0, -1, -1, 77, 61, -1]
         ])
         return config
     }
@@ -75,9 +81,12 @@ struct RunConfig: Codable, Sendable {
         try require(workerCount > 0, "Worker count must be positive.")
         try require((2...4).contains(maxMergeRegions) && mergeCandidateLimit > 0,
                     "Merge repairs must cover two to four regions with a positive budget.")
-        try require((1...63).contains(maxPatchCells) && catalogCandidateLimit > 0
+        try require(maxPatchCells > 0 && largePatchCells >= maxPatchCells && catalogCandidateLimit > 0
                     && catalogMasksPerTransform > 0 && exactCoverNodeLimit > 0 && exactCoverSolutionLimit > 0,
-                    "Invalid region-catalog or exact-cover limits; patches support up to 63 cells.")
+                    "Invalid region-catalog or exact-cover limits.")
+        try require(largeRepairInterval > 0 && boundaryCandidateLimit > 0
+                    && checkpointIntervalSeconds.isFinite && checkpointIntervalSeconds > 0,
+                    "Invalid large-repair or checkpoint limits.")
         try require(repairTimeLimitSeconds.isFinite && repairTimeLimitSeconds > 0,
                     "Repair time limit must be positive and finite.")
         try require(eliteCapacity > 0 && exchangeInterval > 0

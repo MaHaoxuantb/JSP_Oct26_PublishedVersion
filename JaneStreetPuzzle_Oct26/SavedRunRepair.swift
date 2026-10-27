@@ -30,7 +30,18 @@ enum SavedRunRepair {
         guard let configuration, let snapshot else {
             throw ConfigurationError(message: "The log must contain a puzzle configuration and a board snapshot.")
         }
+        // Full modern configuration is retained when available; old logs use
+        // compatible defaults for fields that did not exist at the time.
+        struct FullRecord: Decodable {
+            struct Event: Decodable { let configuration: RunConfig? }
+            let event: Event
+        }
         var config = RunConfig()
+        for line in try Data(contentsOf: URL(fileURLWithPath: path)).split(separator: 0x0a) {
+            if let record = try? decoder.decode(FullRecord.self, from: Data(line)), let saved = record.event.configuration {
+                config = saved
+            }
+        }
         config.rowNum = configuration.rowNum
         config.colNum = configuration.colNum
         config.Target = configuration.Target
@@ -59,9 +70,9 @@ enum SavedRunRepair {
         started.configuration = config
         started.message = "Bounded merge repair of saved log: \(path)"
         try logger.record(started)
-        let original = context.evaluate(context.board(labels: snapshot.labels.flatMap { $0 }))
+        let original = context.evaluate(labels: snapshot.labels.flatMap { $0 })
         var best = original, statistics = SearchStatistics()
-        let key = context.canonical(original.board)
+        let key = original.labels
         while !best.validation.valid && !context.expired(context.deadline) {
             statistics.iterations += 1
             if let candidate = context.mergeRepair(original, until: context.deadline), candidate.quality < best.quality {

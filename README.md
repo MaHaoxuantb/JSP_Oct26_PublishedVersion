@@ -16,12 +16,36 @@ swiftc -O -swift-version 6 -strict-concurrency=complete \
   "$PWD"/JaneStreetPuzzle_Oct26/*.swift -o /tmp/janestreet-puzzle
 ```
 
-Launch explicitly with `/tmp/janestreet-puzzle --run`. The default is the supplied
-11×11 puzzle with 33 clues, seed 20261026, ten workers, 1,000 seconds per worker,
-500,000 repair jobs per worker and twenty restarts. The 5×5 example remains
-available as `RunConfig.example` for regression tests and the example benchmark.
-Xcode's Run action uses the Release configuration;
-compilation never launches a search.
+Choose the puzzle at launch:
+
+```sh
+/tmp/janestreet-puzzle --run          # 5×5 example
+/tmp/janestreet-puzzle --run example  # same example, explicitly
+/tmp/janestreet-puzzle --run full     # full 11×11 puzzle, 33 clues
+```
+
+Both use seed 20261026 and ten workers. The configurations are available in code
+as `RunConfig.example` and `RunConfig.fullPuzzle`; no source edit is needed to
+switch puzzles. In Xcode, add `full` after `--run` in the scheme's launch arguments
+to select the full puzzle.
+
+The existing user-selected limits are retained: 100,000,000 repair jobs,
+1,000,000 seconds and 20,000 restarts per worker. These are stopping budgets,
+not estimated solution times. For a three-day budget set `timeLimitSeconds` to
+259,200; any other stopping limit can still end the run sooner. Xcode's Run action
+uses Release. Compilation never launches a search.
+
+To resume from a best-board checkpoint or a completed worker JSONL:
+
+```sh
+/tmp/janestreet-puzzle --resume-log "/absolute/path/to/checkpoint-UUID.json"
+```
+
+This loads the saved puzzle and partition and starts a new ten-worker search
+with fresh budgets/RNG streams. It does not restore the exact annealing, cache,
+worker or random-generator state. Modern saved settings are preserved; old logs
+use compatible defaults for missing fields. Output goes into a new project log
+folder; the source file is unchanged.
 
 To repair an existing JSONL log without starting another annealing run:
 
@@ -35,80 +59,95 @@ writes a separate result under `<project>/logs/repairs/`. Original logs are
 untouched. Failure of this bounded repair does not prove that no solution exists.
 Old logs are supported even if their configuration lacks the new repair settings.
 
-## Search
+## Search and performance
 
-- `ExactSearch.swift` caches region connectivity, symmetries and capitols. Each
-  evaluated partition needs one multi-source Dijkstra calculation for all clues.
-  Relationships are canonical 0/1 values; there are no confidence-hardening moves.
-  Blank cells still receive the global mean clue error. Display energy uses the
-  configured three factors with symmetry and discreteness zero on legal states.
-- Search quality is lexicographic: structural issues, wrong-clue count, then mean
-  normalized exact distance error. The annealing merit has the same ordering.
-  Consequently a new best can have a higher display energy but fewer wrong clues.
-- Initialization uses a bounded exact-cover search with a cheap symmetric palette
-  (rectangles and bent triominoes). If that search is exhausted, singleton states
-  provide a structurally legal fallback; they need not satisfy the clues.
-- `RegionRepairs.swift` tries connected unions of two, three and four states in a
-  single move. Invalid intermediate pairwise mergers are unnecessary. Enumeration
-  resumes from a cached cursor keyed by the partition, independent of UUIDs.
-- Patch repair selects whole adjacent states, emphasizing cells along erroneous
-  shortest routes. Symmetric candidates are generated as unions of transformation
-  orbits within bounding boxes. A most-constrained-cell exact-cover search fills
-  the patch; travel costs are then evaluated on the entire board.
-- Zero clues force their actual capitol. Positive clues cannot themselves be
-  capitols. A one clue requires an adjacent singleton state; partial covers are
-  pruned as soon as that becomes impossible. Symmetric states without capitols
-  remain legal.
-- Partial shape catalogs are cached and periodically augmented. Each job has a
-  0.15-second deadline, 1,000 merge checks, 12,000 catalog masks, 5,000 cover nodes
-  and 48 complete covers by default. Patches contain at most 32 cells (configurable
-  up to 63). Counts and deadline stops are logged. These limits make the search
-  heuristic, not an exhaustive solver or an impossibility proof. Larger states
-  can be built by mergers even when they exceed the patch limit.
-- Cooling adapts to the last 64 positive merit changes. Its floor retains about
-  2% acceptance for the median increase; reheating targets about 30%. A hundred
-  jobs without exact-quality improvement trigger a reheat, then a restart after
-  the next stagnation period. Only real changes in clue satisfaction/distance
-  count as improvements.
+- Search candidates retain canonical integer labels. UUID-backed `Board` objects
+  and display energy matrices are materialized only for reporting, snapshots or
+  independent validation. A bounded per-worker cache reuses exact partition scores;
+  saved boards and materialized copies remain isolated.
+- Region geometry caches both positioned shapes and translation-normalized shapes.
+  Bounded FIFO eviction preserves other entries instead of clearing the whole
+  cache. Grid neighbor lists are precomputed.
+- Exact distances use multi-source heap Dijkstra on boards of at least 64 cells;
+  smaller boards retain the simple array scan. Both implementations are tested
+  against each other and the independent validator. No approximate distance is
+  used to declare a solution.
+- Clue propagation rejects impossible shapes before scoring. Adjacent clues `a,b`
+  force both containing states to have size at least `abs(a-b)`. A state's internal
+  path to its own capitol cannot cost less than a contained clue. Zero/positive
+  capitol constraints and the adjacent-singleton requirement for one clues remain.
+  These are necessary conditions, not a replacement for full validation.
+- Initialization combines rectangles, bent triominoes and connected symmetry-orbit
+  growth around zero clues. The rectangle size allowance reflects inferred minimum
+  areas. Forced corner capitols can receive nonrectangular states. Valid palette
+  shapes are reused between restarts and in overlapping patch catalogs, with
+  periodic growth samples for diversity. A bounded failure still falls back to
+  singleton states; this fallback need not satisfy clues.
+- Connected two-to-four-state merge enumeration retains its resumable cursors.
+  Most repairs use up to 32 cells. Every twelfth proposal allows a larger patch of
+  up to 128 cells and up to eight adjacent states. This is a search allowance, not
+  an exhaustive enumeration guarantee.
+- Orbit transfers, single-cell transfers and straight-cut splits can change states
+  larger than either patch allowance. Both resulting shapes must pass geometry
+  and clue deductions. These moves may be accepted uphill by annealing.
+- Exact cover uses arbitrary-width bitsets for overlap checks (two words cover the
+  entire 11×11 board). It chooses the cell with fewest available shapes, stops
+  scanning a candidate list once it cannot beat the incumbent count, and respects
+  node/cover/time budgets. Large shape sampling does not shift a machine word by
+  the number of patch cells.
+- On larger boards, fixed routes through assigned states supply lower bounds on
+  mismatch/error. These are periodically compared with the best complete cover
+  to prune branches that cannot improve it. An imperfect fixed exterior does not
+  forbid all repair. `useRouteBounds` can disable this optimization for comparisons.
+- Workers rotate between exact-match, residual-error and persistently-wrong-clue
+  objectives. Final ranking remains structural issues, wrong-clue count, then mean
+  normalized error. Success always requires independent exact validation. The elite
+  archive keeps the exact-match and residual leaders plus partitions with different
+  boundaries. Workers 4 and 8 remain independent explorers.
+- Cooling retains its measured acceptance floor and reheating policy. The search
+  remains heuristic: shape catalogs, merges, cover searches and repair attempts
+  are bounded. More speed or more time does not guarantee an 11×11 solution.
 
-`SharedSearch.swift` owns an actor containing up to eight immutable elite
-snapshots. Workers publish useful candidates and receive distinct repair tickets
-so they explore different patches. Workers 4 and 8 keep exploring independently
-but still publish discoveries and receive verified solutions. Other workers mix
-the best candidate with other archive members. Exchange happens every twenty
-jobs or about one second. A verified solution cancels siblings cooperatively;
-all workers save their final results and close their logs before returning.
+The default per-job deadline remains 0.15 seconds, with 1,000 merge checks,
+12,000 sampled catalog masks, 5,000 cover nodes and 48 completed covers. Catalog
+sampling, geometry restrictions, cache hits and different worker objectives can
+change the search trajectory. Per-worker seeds are reproducible with fixed work
+budgets, but wall-clock cutoffs and concurrent archive arrivals affect full runs.
 
-Boards, random generators, geometry/catalog caches and file handles are private
-to each worker. The OS schedules workers across cores; they are not pinned to
-specific physical cores. Per-worker seeds are reproducible, but time cutoffs and
-shared archive arrival order can change the overall parallel result.
+## Logs, checkpoints and verification
 
-## Logs and verification
+Logs stay in `<project>/logs/parallel-<UUID>/`, with a coordinator JSONL and one
+subdirectory per worker. Console progress continues roughly every two seconds,
+plus milestones. File writes are immediate; expensive synchronization is batched
+at roughly two seconds and forced for completion, failure and checkpoint events.
 
-Logs live under `<project>/logs/parallel-<UUID>/`, with a coordinator JSONL and
-one subdirectory per worker. The default path comes from the source location;
-CLI builds should pass absolute source paths as above. `logDirectory` can be
-overridden. Worker console lines report current/best energy, wrong clues,
-temperature, exact evaluations, merge checks, completed covers and budget stops.
-Updates are time-limited to roughly two seconds, plus immediate milestones.
+Full proposed/failed boards are not logged. Each worker writes an atomic
+`checkpoint-<UUID>.json` after initialization, every 60 seconds and at completion,
+replacing that file with its best board. JSONL retains compact milestones and the
+final snapshot. The final console result still includes the region-size matrix,
+row sums, puzzle score, energy and explicit validation status.
 
-Logs contain configuration, compact progress and aggregate statistics. Only each
-worker's final best and the overall best include full board matrices; individual
-failed proposals are not saved. The final console output includes the region-size
-matrix, row sums, puzzle score, energy, and explicit validation status.
+Repair metrics now include cache hits, constraint rejections, route prunes,
+boundary checks and elapsed seconds in evaluation, distances, geometry, catalog,
+merge, boundary and cover work. **Timings are inclusive:** distance/geometry are
+inside evaluation, and evaluation can be inside cover/merge/boundary. Do not sum
+all fields as if they were disjoint CPU times. Summed worker durations can exceed
+wall time because workers run concurrently.
 
-A fixed-fixture regression suite checks the saved failed board, all 511 nonempty
-3×3 subsets against the independent validator, exact patch covers, clue deductions,
-budgets, caches, adaptive cooling and shared snapshots. It does not launch a
-fresh puzzle search. `SolverTests.swift` separately exercises initialization,
-search lifecycle, cancellation and parallel logs. `SearchBenchmark.swift` is an
-explicit opt-in benchmark for repeated fresh 5×5 trials; compilation is inert.
-The `--lifecycle-only` argument to the solver test executable restricts it to tiny
-fixed 1×1 lifecycle and ten-worker fixtures. These and the repair diagnostics
-have passed. The actual saved failed run was repaired to 8045 with 17 connected
-union checks and five candidate evaluations. Fresh-search benchmark runs remain
-pending; this repair result is not a measured fresh-search solve rate.
+Bounded checks cover the saved 8045 repair, all 511 nonempty 3×3 shape masks,
+deductions on 129 independently validated legal partitions, randomized heap/scan
+comparisons, 11×11 independent distance checks, cache and snapshot isolation,
+bitsets beyond 64 cells, a valid split of a 70-cell state, route-bound comparisons,
+checkpoint reload/resume, deterministic proposals and ten-worker lifecycle logs.
+`Tests/OptimizationTests.swift` also times fixed shortest-path inputs; it does not
+launch a full fresh puzzle search.
+
+A local optimized fixed-data comparison against the preceding implementation
+measured 512 first-time 11×11 candidate evaluations at 0.065s versus 0.027s, and
+20 revisits of that pool at 0.905s versus 0.047s. Checksums agreed to floating-point
+rounding. These are component measurements on a synthetic partition pool, **not
+an end-to-end solve-time claim**. Full fresh-search benchmarking remains a separate
+opt-in action in `Tests/SearchBenchmark.swift`.
 
 The following continuous APIs are retained for experimentation:
 
@@ -212,7 +251,7 @@ ready to run checks.
 
 Compile the fixed-fixture diagnostics or opt-in benchmark using the same source
 list (excluding `main.swift`), replacing `Tests/SolverTests.swift` with
-`Tests/RepairTests.swift` or `Tests/SearchBenchmark.swift` respectively. Use `-O`
+`Tests/RepairTests.swift`, `Tests/OptimizationTests.swift` or `Tests/SearchBenchmark.swift` respectively. Use `-O`
 for timing measurements. The benchmark executable remains idle unless passed
 `--run [trials] [seconds-per-trial]`; defaults are five trials of twenty seconds,
 each using ten workers. It writes solve rate inputs, elapsed times, wrong-clue

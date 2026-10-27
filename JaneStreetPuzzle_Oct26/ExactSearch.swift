@@ -31,18 +31,28 @@ struct RegionGeometry {
 /// not use this cache or this implementation.
 final class RegionCache {
     let grid: Grid
-    private var cache: [[Int]: RegionGeometry] = [:]
+    private let cache = BoundedCache<[Int], RegionGeometry>(capacity: 32_768)
+    private let shapes = BoundedCache<[Int], RegionGeometry>(capacity: 8_192)
     init(grid: Grid) { self.grid = grid }
 
     func geometry(_ cells: [Int]) -> RegionGeometry {
         let cells = cells.sorted()
         if let value = cache[cells] { return value }
         guard !cells.isEmpty else { return RegionGeometry(connected: false, symmetric: false, capitol: nil) }
-        let connected = grid.connected(cells)
         let top = cells.map { $0 / grid.cols }.min()!
         let bottom = cells.map { $0 / grid.cols }.max()!
         let left = cells.map { $0 % grid.cols }.min()!
         let right = cells.map { $0 % grid.cols }.max()!
+        let width = right - left + 1
+        let local = cells.map { ($0 / grid.cols - top) * width + ($0 % grid.cols - left) }
+        let shapeKey = [width, bottom - top + 1] + local
+        if let shape = shapes[shapeKey] {
+            let value = RegionGeometry(connected: shape.connected, symmetric: shape.symmetric,
+                capitol: shape.capitol.map { (top + $0 / width) * grid.cols + left + $0 % width })
+            cache[cells] = value
+            return value
+        }
+        let connected = grid.connected(cells)
         let occupied = Set(cells)
         var fixed: [Set<Int>] = []
         for transform in 0..<7 {
@@ -58,7 +68,8 @@ final class RegionCache {
         }
         let value = RegionGeometry(connected: connected, symmetric: !fixed.isEmpty,
                                    capitol: connected ? capitol : nil)
-        if cache.count >= 32_768 { cache.removeAll(keepingCapacity: true) }
+        shapes[shapeKey] = RegionGeometry(connected: value.connected, symmetric: value.symmetric,
+            capitol: value.capitol.map { ($0 / grid.cols - top) * width + $0 % grid.cols - left })
         cache[cells] = value
         return value
     }
@@ -84,13 +95,42 @@ final class RegionCache {
 struct ClueConstraints {
     let grid: Grid
     let clues: [Int]
+    let minimumSizes: [Int]
+    init(grid: Grid, clues: [Int]) {
+        self.grid = grid; self.clues = clues
+        var sizes = Array(repeating: 1, count: grid.count)
+        for cell in clues.indices where clues[cell] >= 0 {
+            for neighbor in grid.neighbors(cell) where clues[neighbor] >= 0 {
+                sizes[cell] = max(sizes[cell], abs(clues[cell] - clues[neighbor]))
+            }
+        }
+        minimumSizes = sizes
+    }
     /// A zero must be the region's actual capitol; a positive clue cannot be one.
     func permits(_ cells: [Int], geometry: RegionGeometry) -> Bool {
         guard geometry.connected && geometry.symmetric else { return false }
+        guard cells.allSatisfy({ cells.count >= minimumSizes[$0] }) else { return false }
         for cell in cells where clues[cell] == 0 {
             if geometry.capitol != cell { return false }
         }
-        if let capitol = geometry.capitol, clues[capitol] > 0 { return false }
+        if let capitol = geometry.capitol {
+            if clues[capitol] > 0 { return false }
+            // An internal route to this capitol is an upper bound on the global
+            // shortest route. Reject only when that upper bound is too short.
+            if cells.contains(where: { clues[$0] > 0 }) {
+                let occupied = Set(cells)
+                var distances = [capitol: 0], queue = [capitol], next = 0
+                while next < queue.count {
+                    let cell = queue[next]; next += 1
+                    let steps = distances[cell]!
+                    let bound = steps.multipliedReportingOverflow(by: cells.count)
+                    if !bound.overflow && clues[cell] > bound.partialValue { return false }
+                    for neighbor in grid.neighbors(cell) where occupied.contains(neighbor) && distances[neighbor] == nil {
+                        distances[neighbor] = steps + 1; queue.append(neighbor)
+                    }
+                }
+            }
+        }
         return true
     }
 }
@@ -122,14 +162,22 @@ extension SearchContext {
         return board
     }
 
-    /// One exact multi-source Dijkstra per partition, with cached region geometry.
-    /// The continuous energy functions are intentionally not used here.
-    func evaluate(_ board: Board) -> SearchState {
-        let labels = canonical(board)
+    /// Cached scoring uses integer labels; display Boards are built lazily.
+    func evaluate(_ board: Board) -> SearchState { evaluate(labels: canonical(board)) }
+
+    func evaluate(labels input: [Int]) -> SearchState {
+        let started = ProcessInfo.processInfo.systemUptime
+        defer { metrics.evaluationSeconds += ProcessInfo.processInfo.systemUptime - started }
+        let labels = normalized(input)
+        if let cached = evaluations[labels] {
+            metrics.evaluationCacheHits += 1
+            return cached.snapshot()
+        }
         let groups = groups(labels)
         var sizes = Array(repeating: 0, count: grid.count)
         var invalid = Array(repeating: 0.0, count: grid.count)
         var issues: [String] = [], capitols: [GridCell] = []
+        let geometryStart = ProcessInfo.processInfo.systemUptime
         for (index, cells) in groups.enumerated() {
             let info = regions.geometry(cells)
             for cell in cells { sizes[cell] = cells.count }
@@ -139,25 +187,11 @@ extension SearchContext {
             }
             if let cell = info.capitol { capitols.append(GridCell(row: cell / grid.cols, col: cell % grid.cols)) }
         }
-        var distance = Array(repeating: Int.max, count: grid.count)
-        var parent = Array<Int?>(repeating: nil, count: grid.count)
-        var visited = Array(repeating: false, count: grid.count)
-        for capitol in capitols { distance[capitol.row * grid.cols + capitol.col] = 0 }
-        for _ in 0..<grid.count {
-            var next: Int?
-            for cell in distance.indices where !visited[cell] && distance[cell] != Int.max {
-                if next == nil || distance[cell] < distance[next!] { next = cell }
-            }
-            guard let cell = next else { break }
-            visited[cell] = true
-            for neighbor in grid.neighbors(cell) {
-                let sum = distance[cell].addingReportingOverflow(min(sizes[cell], sizes[neighbor]))
-                if !sum.overflow && sum.partialValue < distance[neighbor] {
-                    distance[neighbor] = sum.partialValue
-                    parent[neighbor] = cell
-                }
-            }
-        }
+        metrics.geometrySeconds += ProcessInfo.processInfo.systemUptime - geometryStart
+        let distanceStart = ProcessInfo.processInfo.systemUptime
+        let (distance, parent) = shortestPaths(sizes: sizes,
+            capitols: capitols.map { $0.row * grid.cols + $0.col }, heap: grid.count >= 64)
+        metrics.distanceSeconds += ProcessInfo.processInfo.systemUptime - distanceStart
         var errors = Array(repeating: 0.0, count: grid.count)
         var mismatches: [ClueMismatch] = []
         for cell in constraints.clues.indices where constraints.clues[cell] >= 0 {
@@ -175,20 +209,108 @@ extension SearchContext {
         let scale = max(factors.realAIM, factors.symmetry, factors.discreteness)
         let sum = factors.realAIM / scale + factors.symmetry / scale + factors.discreteness / scale
         let aimWeight = (factors.realAIM / scale) / sum, symWeight = (factors.symmetry / scale) / sum
-        let combined = zip(errors, invalid).map { aimWeight * $0 + symWeight * $1 }
+        // Scalar search scores; the full display matrix is deferred.
         let scores = Energy.Scores(realAIM: mean, symmetry: invalid.reduce(0, +) / Double(grid.count),
-                                   discreteness: 0, total: combined.reduce(0, +) / Double(grid.count))
-        encodePartition(board)
-        board.Relationships.Capitals = Array(repeating: Array(repeating: false, count: grid.cols), count: grid.rows)
-        for p in capitols { board.Relationships.Capitals[p.row][p.col] = true }
-        board.Relationships.BlocksContained.ids = groups.map { board.Relationships.ColorBlocks[$0[0] / grid.cols][$0[0] % grid.cols] }
-        board.Relationships.BlocksContained.blockCounts = groups.map(\.count)
-        board.Energy = (0..<grid.rows).map { Array(combined[($0 * grid.cols)..<(($0 + 1) * grid.cols)]) }
-        var report = ValidationReport(valid: false, issues: issues, capitols: capitols, mismatches: mismatches, answer: nil)
-        if issues.isEmpty && mismatches.isEmpty {
-            report = validator.validate(board, target: config.Target)
+                                   discreteness: 0, total: aimWeight * mean + symWeight * invalid.reduce(0, +) / Double(grid.count))
+        let rows = grid.rows, cols = grid.cols
+        let displayErrors = errors, displayInvalid = invalid
+        let displayCapitols = capitols
+        let makeBoard = {
+            let board = Board(rowNum: rows, colNum: cols)
+            let ids = groups.map { _ in UUID() }
+            for cell in labels.indices {
+                let r = cell / cols, c = cell % cols
+                board.Relationships.ColorBlocks[r][c] = ids[labels[cell]]
+                board.Energy[r][c] = aimWeight * displayErrors[cell] + symWeight * displayInvalid[cell]
+                if c + 1 < cols { board.Relationships.VerticalRelationships[r][c] = labels[cell] == labels[cell + 1] ? 1 : 0 }
+                if r + 1 < rows { board.Relationships.HorizontalRelationships[r][c] = labels[cell] == labels[cell + cols] ? 1 : 0 }
+            }
+            for p in displayCapitols { board.Relationships.Capitals[p.row][p.col] = true }
+            board.Relationships.BlocksContained.ids = ids
+            board.Relationships.BlocksContained.blockCounts = groups.map(\.count)
+            return board
         }
+        var report = ValidationReport(valid: false, issues: issues, capitols: capitols, mismatches: mismatches, answer: nil)
+        if issues.isEmpty && mismatches.isEmpty { report = validator.validate(makeBoard(), target: config.Target) }
         metrics.evaluations += 1
-        return SearchState(board: board, scores: scores, validation: report, parents: parent)
+        let state = SearchState(labels: labels, scores: scores, validation: report, parents: parent, makeBoard: makeBoard)
+        evaluations[labels] = state.snapshot()
+        return state
+    }
+
+    func normalized(_ values: [Int]) -> [Int] {
+        var ids: [Int: Int] = [:]
+        return values.map { v in
+            if ids[v] == nil { ids[v] = ids.count }; return ids[v]!
+        }
+    }
+
+    /// Both implementations are retained for differential tests and small-grid timing.
+    func shortestPaths(sizes: [Int], capitols: [Int], heap: Bool) -> ([Int], [Int?]) {
+        var distance = Array(repeating: Int.max, count: grid.count)
+        var parents = Array<Int?>(repeating: nil, count: grid.count)
+        for cell in capitols { distance[cell] = 0 }
+        if heap {
+            var queue = DistanceHeap()
+            for cell in capitols { queue.push(cost: 0, cell: cell) }
+            while let item = queue.pop() {
+                if item.cost != distance[item.cell] { continue }
+                for neighbor in grid.neighbors(item.cell) {
+                    let sum = item.cost.addingReportingOverflow(min(sizes[item.cell], sizes[neighbor]))
+                    if !sum.overflow && sum.partialValue < distance[neighbor] {
+                        distance[neighbor] = sum.partialValue; parents[neighbor] = item.cell
+                        queue.push(cost: sum.partialValue, cell: neighbor)
+                    }
+                }
+            }
+        } else {
+            var visited = Array(repeating: false, count: grid.count)
+            for _ in 0..<grid.count {
+                var next: Int?
+                for cell in distance.indices where !visited[cell] && distance[cell] != Int.max {
+                    if next == nil || distance[cell] < distance[next!] { next = cell }
+                }
+                guard let cell = next else { break }
+                visited[cell] = true
+                for neighbor in grid.neighbors(cell) {
+                    let sum = distance[cell].addingReportingOverflow(min(sizes[cell], sizes[neighbor]))
+                    if !sum.overflow && sum.partialValue < distance[neighbor] {
+                        distance[neighbor] = sum.partialValue; parents[neighbor] = cell
+                    }
+                }
+            }
+        }
+        return (distance, parents)
+    }
+}
+
+private struct DistanceHeap {
+    struct Item {
+        let cost: Int
+        let cell: Int
+        func before(_ other: Item) -> Bool { cost == other.cost ? cell < other.cell : cost < other.cost }
+    }
+    var items: [Item] = []
+    mutating func push(cost: Int, cell: Int) {
+        items.append(Item(cost: cost, cell: cell))
+        var i = items.count - 1
+        while i > 0 {
+            let parent = (i - 1) / 2
+            if !items[i].before(items[parent]) { break }
+            items.swapAt(i, parent); i = parent
+        }
+    }
+    mutating func pop() -> Item? {
+        guard !items.isEmpty else { return nil }
+        if items.count == 1 { return items.removeLast() }
+        let first = items[0]; items[0] = items.removeLast()
+        var i = 0
+        while 2 * i + 1 < items.count {
+            var child = 2 * i + 1
+            if child + 1 < items.count && items[child + 1].before(items[child]) { child += 1 }
+            if !items[child].before(items[i]) { break }
+            items.swapAt(child, i); i = child
+        }
+        return first
     }
 }
