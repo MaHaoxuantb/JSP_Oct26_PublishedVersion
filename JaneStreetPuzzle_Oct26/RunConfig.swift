@@ -33,14 +33,14 @@ struct RunConfig: Codable, Sendable {
     ])
     var seed: UInt64 = 20261026
     var factors = Energy.Factors(realAIM: 2, symmetry: 1, discreteness: 0.25)
-    var maxIterations = 500_000
-    var timeLimitSeconds: Double = 1_000
+    var maxIterations = 100_000_000
+    var timeLimitSeconds: Double = 1_000_000
     var initialTemperature: Double = 0.03
     var minimumTemperature: Double = 0.0001
     var coolingRate: Double = 0.997
     var stagnationIterations = 100
     var reheatsPerRestart = 1
-    var maxRestarts = 20
+    var maxRestarts = 20_000
     var uniformSelectionProbability: Double = 0.2
     var progressInterval = 10
     var progressTimeIntervalSeconds: Double = 2
