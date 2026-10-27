@@ -53,14 +53,18 @@ struct SolverResult {
 
 // MARK: - Search lifecycle
 final class Main {
-    func Run(Config config: RunConfig, workerID: Int? = nil, archive: EliteArchive? = nil, initialLabels: [Int]? = nil) async throws -> SolverResult {
+    func Run(Config config: RunConfig, workerID: Int? = nil, archive: EliteArchive? = nil, initialLabels: [Int]? = nil, reusableContext: SearchContext? = nil,
+             observe: (@Sendable (DistributedProgress) -> Void)? = nil) async throws -> SolverResult {
         try config.validate()
         if let initialLabels, initialLabels.count != config.rowNum * config.colNum || initialLabels.contains(where: { $0 < 0 }) {
             throw ConfigurationError(message: "Resume labels do not match the configured board.")
         }
         let logger = try Logger(directory: config.logDirectory, console: config.consoleLogging, workerID: workerID)
         defer { try? logger.close() }
-        let context = SearchContext(config: config)
+        let context = reusableContext ?? SearchContext(config: config)
+        context.config = config
+        context.rng = SearchRandom(seed: config.seed)
+        context.metrics = RepairMetrics()
         context.deadline = ProcessInfo.processInfo.systemUptime + max(0, config.timeLimitSeconds - logger.elapsedSeconds)
         context.repairTicket = workerID ?? 0
         let initializer = Initialization()
@@ -81,6 +85,7 @@ final class Main {
             var lastProgressTime = logger.elapsedSeconds
             var lastExchangeTime = -Double.infinity
             var lastCheckpointTime = logger.elapsedSeconds
+            var lastObservation = -Double.infinity
             var published: [Int]?
             var reason: StopReason? = current.validation.valid ? .solved : nil
 
@@ -98,6 +103,11 @@ final class Main {
                 event.message = message
                 try logger.record(event)
             }
+            func observation(finished: Bool = false) {
+                observe?(DistributedProgress(current: current.labels, best: best.labels, iterations: statistics.iterations,
+                    seconds: logger.elapsedSeconds, finished: finished, solved: best.validation.valid))
+            }
+            observation()
             try milestone(.initialized, state: current)
             try logger.checkpoint(config: config, state: best, iteration: statistics.iterations)
             while reason == nil {
@@ -151,6 +161,11 @@ final class Main {
                 statistics.record(result)
                 current = result.state
                 let improved = current.validation.valid || current.quality < best.quality
+                if observe != nil && (current.validation.valid || logger.elapsedSeconds - lastObservation >= config.distributed.checkpointSeconds) {
+                    // Capture a newer best before notifying the durable/network bridge.
+                    if current.quality < best.quality || current.validation.valid { best = current.snapshot() }
+                    observation(); lastObservation = logger.elapsedSeconds
+                }
                 if improved {
                     best = current.snapshot()
                 }
@@ -219,6 +234,7 @@ final class Main {
                 await archive.publish(EliteCandidate(snapshot: BoardSnapshot(best), scores: best.scores,
                                                      workerID: workerID ?? 1))
             }
+            observation(finished: true)
             var finished = Logger.Event(kind: .finished)
             finished.iteration = statistics.iterations
             finished.restart = statistics.restarts

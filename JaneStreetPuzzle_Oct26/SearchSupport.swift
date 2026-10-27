@@ -158,7 +158,7 @@ struct SearchState {
 }
 
 final class SearchContext {
-    let config: RunConfig
+    var config: RunConfig
     let validator = ExactValidator()
     var rng: SearchRandom
     let grid: Grid

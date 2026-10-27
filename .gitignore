@@ -8,3 +8,12 @@ xcuserdata/
 # Swift build files
 .build/
 DerivedData/
+
+# Distributed state and local dependency mirrors
+.swiftpm/configuration/
+*.sqlite
+*.sqlite-journal
+*.encrypted
+recovery.key
+join-token
+server-certificate.pem

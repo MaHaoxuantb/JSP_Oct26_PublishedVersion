@@ -1,6 +1,7 @@
 import Foundation
 
 struct RunConfig: Codable, Sendable {
+    var distributed = DistributedConfig()
     var workerCount = 10
     // Each iteration is now a bounded repair job, not a single edge proposal.
     var maxMergeRegions = 4
@@ -50,6 +51,53 @@ struct RunConfig: Codable, Sendable {
         .deletingLastPathComponent().deletingLastPathComponent()
         .appendingPathComponent("logs", isDirectory: true).path
     var consoleLogging = true
+
+    init() {}
+    private enum CodingKeys: String, CodingKey {
+        case distributed, workerCount, maxMergeRegions, mergeCandidateLimit, repairTimeLimitSeconds, maxPatchCells, largePatchCells, largeRepairInterval, boundaryCandidateLimit, useRouteBounds, checkpointIntervalSeconds, searchObjective, catalogCandidateLimit, catalogMasksPerTransform, exactCoverNodeLimit, exactCoverSolutionLimit, eliteCapacity, exchangeInterval, exchangeTimeIntervalSeconds, rowNum, colNum, Target, seed, factors, maxIterations, timeLimitSeconds, initialTemperature, minimumTemperature, coolingRate, stagnationIterations, reheatsPerRestart, maxRestarts, uniformSelectionProbability, progressInterval, progressTimeIntervalSeconds, yieldInterval, logDirectory, consoleLogging
+    }
+    init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        if values.contains(.distributed) { distributed = try values.decode(type(of: distributed), forKey: .distributed) }
+        if values.contains(.workerCount) { workerCount = try values.decode(type(of: workerCount), forKey: .workerCount) }
+        if values.contains(.maxMergeRegions) { maxMergeRegions = try values.decode(type(of: maxMergeRegions), forKey: .maxMergeRegions) }
+        if values.contains(.mergeCandidateLimit) { mergeCandidateLimit = try values.decode(type(of: mergeCandidateLimit), forKey: .mergeCandidateLimit) }
+        if values.contains(.repairTimeLimitSeconds) { repairTimeLimitSeconds = try values.decode(type(of: repairTimeLimitSeconds), forKey: .repairTimeLimitSeconds) }
+        if values.contains(.maxPatchCells) { maxPatchCells = try values.decode(type(of: maxPatchCells), forKey: .maxPatchCells) }
+        if values.contains(.largePatchCells) { largePatchCells = try values.decode(type(of: largePatchCells), forKey: .largePatchCells) }
+        if values.contains(.largeRepairInterval) { largeRepairInterval = try values.decode(type(of: largeRepairInterval), forKey: .largeRepairInterval) }
+        if values.contains(.boundaryCandidateLimit) { boundaryCandidateLimit = try values.decode(type(of: boundaryCandidateLimit), forKey: .boundaryCandidateLimit) }
+        if values.contains(.useRouteBounds) { useRouteBounds = try values.decode(type(of: useRouteBounds), forKey: .useRouteBounds) }
+        if values.contains(.checkpointIntervalSeconds) { checkpointIntervalSeconds = try values.decode(type(of: checkpointIntervalSeconds), forKey: .checkpointIntervalSeconds) }
+        if values.contains(.searchObjective) { searchObjective = try values.decode(type(of: searchObjective), forKey: .searchObjective) }
+        if values.contains(.catalogCandidateLimit) { catalogCandidateLimit = try values.decode(type(of: catalogCandidateLimit), forKey: .catalogCandidateLimit) }
+        if values.contains(.catalogMasksPerTransform) { catalogMasksPerTransform = try values.decode(type(of: catalogMasksPerTransform), forKey: .catalogMasksPerTransform) }
+        if values.contains(.exactCoverNodeLimit) { exactCoverNodeLimit = try values.decode(type(of: exactCoverNodeLimit), forKey: .exactCoverNodeLimit) }
+        if values.contains(.exactCoverSolutionLimit) { exactCoverSolutionLimit = try values.decode(type(of: exactCoverSolutionLimit), forKey: .exactCoverSolutionLimit) }
+        if values.contains(.eliteCapacity) { eliteCapacity = try values.decode(type(of: eliteCapacity), forKey: .eliteCapacity) }
+        if values.contains(.exchangeInterval) { exchangeInterval = try values.decode(type(of: exchangeInterval), forKey: .exchangeInterval) }
+        if values.contains(.exchangeTimeIntervalSeconds) { exchangeTimeIntervalSeconds = try values.decode(type(of: exchangeTimeIntervalSeconds), forKey: .exchangeTimeIntervalSeconds) }
+        if values.contains(.rowNum) { rowNum = try values.decode(type(of: rowNum), forKey: .rowNum) }
+        if values.contains(.colNum) { colNum = try values.decode(type(of: colNum), forKey: .colNum) }
+        if values.contains(.Target) { Target = try values.decode(type(of: Target), forKey: .Target) }
+        if values.contains(.seed) { seed = try values.decode(type(of: seed), forKey: .seed) }
+        if values.contains(.factors) { factors = try values.decode(type(of: factors), forKey: .factors) }
+        if values.contains(.maxIterations) { maxIterations = try values.decode(type(of: maxIterations), forKey: .maxIterations) }
+        if values.contains(.timeLimitSeconds) { timeLimitSeconds = try values.decode(type(of: timeLimitSeconds), forKey: .timeLimitSeconds) }
+        if values.contains(.initialTemperature) { initialTemperature = try values.decode(type(of: initialTemperature), forKey: .initialTemperature) }
+        if values.contains(.minimumTemperature) { minimumTemperature = try values.decode(type(of: minimumTemperature), forKey: .minimumTemperature) }
+        if values.contains(.coolingRate) { coolingRate = try values.decode(type(of: coolingRate), forKey: .coolingRate) }
+        if values.contains(.stagnationIterations) { stagnationIterations = try values.decode(type(of: stagnationIterations), forKey: .stagnationIterations) }
+        if values.contains(.reheatsPerRestart) { reheatsPerRestart = try values.decode(type(of: reheatsPerRestart), forKey: .reheatsPerRestart) }
+        if values.contains(.maxRestarts) { maxRestarts = try values.decode(type(of: maxRestarts), forKey: .maxRestarts) }
+        if values.contains(.uniformSelectionProbability) { uniformSelectionProbability = try values.decode(type(of: uniformSelectionProbability), forKey: .uniformSelectionProbability) }
+        if values.contains(.progressInterval) { progressInterval = try values.decode(type(of: progressInterval), forKey: .progressInterval) }
+        if values.contains(.progressTimeIntervalSeconds) { progressTimeIntervalSeconds = try values.decode(type(of: progressTimeIntervalSeconds), forKey: .progressTimeIntervalSeconds) }
+        if values.contains(.yieldInterval) { yieldInterval = try values.decode(type(of: yieldInterval), forKey: .yieldInterval) }
+        if values.contains(.logDirectory) { logDirectory = try values.decode(type(of: logDirectory), forKey: .logDirectory) }
+        if values.contains(.consoleLogging) { consoleLogging = try values.decode(type(of: consoleLogging), forKey: .consoleLogging) }
+    }
 
     static var example: RunConfig { RunConfig() }
 
@@ -119,4 +167,69 @@ struct RunConfig: Codable, Sendable {
 struct ConfigurationError: Error, CustomStringConvertible {
     let message: String
     var description: String { message }
+}
+
+/// Network addresses are numeric literals, never URLs. Secrets live in separate files.
+struct DistributedConfig: Codable, Sendable {
+    var address = "127.0.0.1"
+    var port = 8443
+    var stateDirectory = FileManager.default.homeDirectoryForCurrentUser
+        .appendingPathComponent(".local/state/janestreet-puzzle").path
+    var certificatePath = ""
+    var tokenPath = ""
+    var clientWorkers: Int? = nil
+    var maxClients = 20
+    var maxWorkersPerClient = 128
+    var heartbeatSeconds = 15.0
+    var checkpointSeconds = 30.0
+    var failureGraceSeconds = 180.0
+    var jobSeconds = 120.0
+    var calibrationSeconds = 5.0
+    var backupsEnabled = false
+    var backupSeconds = 300.0
+    var backupBytesPerSecond = 65_536
+
+    init() {}
+    private enum CodingKeys: String, CodingKey { case address, port, stateDirectory, certificatePath, tokenPath, clientWorkers, maxClients, maxWorkersPerClient, heartbeatSeconds, checkpointSeconds, failureGraceSeconds, jobSeconds, calibrationSeconds, backupsEnabled, backupSeconds, backupBytesPerSecond }
+    init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        if values.contains(.address) { address = try values.decode(type(of: address), forKey: .address) }
+        if values.contains(.port) { port = try values.decode(type(of: port), forKey: .port) }
+        if values.contains(.stateDirectory) { stateDirectory = try values.decode(type(of: stateDirectory), forKey: .stateDirectory) }
+        if values.contains(.certificatePath) { certificatePath = try values.decode(type(of: certificatePath), forKey: .certificatePath) }
+        if values.contains(.tokenPath) { tokenPath = try values.decode(type(of: tokenPath), forKey: .tokenPath) }
+        if values.contains(.clientWorkers) { clientWorkers = try values.decode(type(of: clientWorkers), forKey: .clientWorkers) }
+        if values.contains(.maxClients) { maxClients = try values.decode(type(of: maxClients), forKey: .maxClients) }
+        if values.contains(.maxWorkersPerClient) { maxWorkersPerClient = try values.decode(type(of: maxWorkersPerClient), forKey: .maxWorkersPerClient) }
+        if values.contains(.heartbeatSeconds) { heartbeatSeconds = try values.decode(type(of: heartbeatSeconds), forKey: .heartbeatSeconds) }
+        if values.contains(.checkpointSeconds) { checkpointSeconds = try values.decode(type(of: checkpointSeconds), forKey: .checkpointSeconds) }
+        if values.contains(.failureGraceSeconds) { failureGraceSeconds = try values.decode(type(of: failureGraceSeconds), forKey: .failureGraceSeconds) }
+        if values.contains(.jobSeconds) { jobSeconds = try values.decode(type(of: jobSeconds), forKey: .jobSeconds) }
+        if values.contains(.calibrationSeconds) { calibrationSeconds = try values.decode(type(of: calibrationSeconds), forKey: .calibrationSeconds) }
+        if values.contains(.backupsEnabled) { backupsEnabled = try values.decode(type(of: backupsEnabled), forKey: .backupsEnabled) }
+        if values.contains(.backupSeconds) { backupSeconds = try values.decode(type(of: backupSeconds), forKey: .backupSeconds) }
+        if values.contains(.backupBytesPerSecond) { backupBytesPerSecond = try values.decode(type(of: backupBytesPerSecond), forKey: .backupBytesPerSecond) }
+    }
+
+    var workers: Int { clientWorkers ?? min(maxWorkersPerClient, max(1, ProcessInfo.processInfo.activeProcessorCount - 1)) }
+    func validate() throws {
+        guard (1...65535).contains(port), !stateDirectory.isEmpty,
+              maxClients > 0, maxClients <= 1000, maxWorkersPerClient > 0, maxWorkersPerClient <= 128,
+              workers > 0, workers <= maxWorkersPerClient,
+              [heartbeatSeconds, checkpointSeconds, failureGraceSeconds, jobSeconds, calibrationSeconds, backupSeconds]
+                .allSatisfy({ $0.isFinite && $0 > 0 }),
+              failureGraceSeconds >= heartbeatSeconds * 3, backupBytesPerSecond > 0 else {
+            throw ConfigurationError(message: "Invalid distributed settings or client worker count.")
+        }
+    }
+}
+
+struct DistributedProgress: Codable, Sendable {
+    var current: [Int]
+    var best: [Int]
+    var iterations: Int
+    var seconds: Double
+    var finished: Bool
+    var solved: Bool
 }

@@ -6,6 +6,126 @@ continuous `Energy` API remains available for separate experiments; it no longer
 drives the main search. Final solutions still require the independent integer
 validator in `Validation.swift`.
 
+## Distributed server and client
+
+The same executable supports standalone search, a coordinator, or a compute client.
+The coordinator never runs initialization, annealing or repair. It scores and
+independently validates submitted boards. Standalone commands below remain
+available without any server, certificate or token, including the direct `swiftc`
+build with no package dependencies.
+
+Build the network-enabled executable with Swift 6.1 or newer:
+
+```sh
+# Linux prerequisite: sudo apt-get install libsqlite3-dev
+swift build -c release
+swift test -c release
+.build/release/janestreet-puzzle --server full --config Config/server.example.json
+```
+
+The initial supported platforms are macOS 13+ and Ubuntu 24.04, with CI checks for
+both. Xcode's existing target also includes the required Swift packages. Use
+Release for actual computation. The sample configurations use `/tmp` for a local
+demonstration; choose persistent, private state directories for real runs, outside
+this repository, iCloud, network filesystems and other synchronization services.
+Only one process may use a state directory at once. Configuration JSON overlays
+`RunConfig` defaults; omitted fields retain their defaults. Distributed mode uses
+the full puzzle unless `example` is specified; standalone mode retains its
+original example default. IP addresses are numeric literals, with separate ports;
+IPv6 interface scopes such as `fe80::1%en0` are supported. The default is IPv4
+loopback port 8443; set the server bind address and each client's destination IP
+explicitly for remote use.
+
+On first server startup it creates a `join-token`. On **every** server startup it
+creates a fresh private key and exports `server-certificate.pem`. Copy the public
+certificate and join-token to each client over a trusted channel (for example,
+your authenticated SSH connection or a local copy). Never download and trust a
+certificate from an unauthenticated endpoint. The private TLS key stays in memory.
+The server prints the public certificate location and its fingerprint, not the
+token. For the sample client, copy those files into `/tmp/janestreet-client`, then:
+
+```sh
+.build/release/janestreet-puzzle --client --config Config/client.example.json
+```
+
+TLS 1.3 encrypts the connection. The exact copied certificate pins server identity;
+public CA or DNS trust cannot substitute for it. A missing, changed or expired
+certificate fails closed, before credentials are sent. After restarting the
+server, copy its new public certificate to the same configured client path;
+clients reload that file while reconnecting. Keep the join-token private and
+consistent across server restarts. These controls are intended for trusted invited
+devices, not a public volunteer computing service.
+
+Clients default to logical CPU count minus one, at least one worker. Override
+`distributed.clientWorkers` for shared-use machines. A five-second calibration at
+the selected concurrency reports each slot's rate; real work updates the estimate.
+Assignments target two minutes of work, with faster slots requesting more work
+independently. Caches remain local and reusable. Roughly one quarter of assignments
+explore independently; the rest share a diverse elite archive. Fixed operation
+budgets define repair effort, with calibrated wall-clock safety limits (0.15–5s).
+Network and storage waits run outside worker execution. Completed slots can do
+supplemental local exploration while waiting for an assignment or reconnection.
+
+Connections use bounded frames and one outstanding request per machine. Compact
+canonical labels replace full snapshot/log transfers. Heartbeats default to 15s,
+checkpoint capture/upload to 30s, and hard-disconnect grace to 180s; all are
+configurable in `RunConfig.distributed`. Backup traffic has lower priority and a
+64 KiB/s aggregate cap. Capacity defaults to 20 connections and at most 128 slots per
+client. Distributed boards are limited to 121 cells, covering both bundled puzzles;
+standalone mode retains its existing dimension support. Automatic concurrency is
+capped at the configured slot limit. Excess clients retry; joining does not create a barrier for existing work.
+The coordinator emits JSON status (active/completed jobs, reassignments, connected
+clients, solution status and backup age) every 15 seconds. Actual solve time remains heuristic. Additional machines can add coordination
+cost, and no universal speedup or solve-time guarantee is claimed.
+
+### Recovery
+
+The server commits job ownership before dispatch, and progress/completion before
+acknowledgment, in a local SQLite database with FULL synchronous commits. Its last
+run resumes automatically. Use `--server full --new-run ...` only to deliberately
+replace that run. A puzzle mismatch is rejected. Server state includes unfinished
+jobs, assignment generations, elite boards and completion totals.
+
+Clients persist their identity, received assignments, current/best labels and
+pending reports. On recovery, work resumes from saved boards with fresh random
+streams; temperature, caches and repair cursors are rebuilt. This is not exact
+execution replay. Repeated work after failure is acceptable; no server-recorded
+unfinished job is discarded because a device disappears.
+
+Use Ctrl-C or SIGTERM for a clean quit. The client saves and attempts to release
+all assignments; the server makes released work immediately available. On a hard
+quit or network outage the server waits three minutes after the last heartbeat
+before handing work to another machine. Reconnecting clients recover ownership
+within that grace period. After reassignment, stale reports can contribute boards,
+but cannot overwrite the new owner's progress or count completion again. Following
+a server restart, recovered assignments receive a fresh reconnection grace period.
+A client keeps searching during coordinator outages and certificate replacement.
+Only previously uploaded checkpoints survive permanent loss of a client device.
+
+Set `distributed.backupsEnabled` to enable periodic off-server recovery. Save
+`recovery.key` **separately** from the server and replica clients; losing both the
+server and this key makes encrypted backups unusable. Every five minutes, when a
+previous transfer has reached a recipient, the server creates a consistent
+encrypted recovery snapshot and copies chunks to up to two connected clients.
+Transfer time can extend the interval; no search waits for replication. Each
+client keeps the two latest complete `backup-*.encrypted` files. Transfer and
+acknowledgment are idempotent, with ciphertext checksums and authenticated AES-GCM
+encryption. A local encrypted snapshot is also kept as
+`latest-backup.encrypted` and can be copied with:
+
+```sh
+.build/release/janestreet-puzzle --export-backup /safe/location/run.encrypted --config Config/server.example.json
+.build/release/janestreet-puzzle --restore-backup /safe/location/run.encrypted /safe/location/recovery.key --config replacement-server.json
+```
+
+Restoration requires a new state directory and never overwrites an existing
+database. It restores the join-token as well as search records. Start the restored
+server with the same puzzle and redistribute its new public certificate. Surviving
+clients reconcile durable assignments created after the backup. If the server
+storage and those clients are permanently lost together, records created since
+the last replicated backup may be lost. This periodic-backup recovery limit is
+intentional; replication does not block assignment dispatch.
+
 ## Build and launch
 
 Compile an optimized executable without running it:

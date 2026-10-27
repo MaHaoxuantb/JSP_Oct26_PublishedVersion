@@ -1,0 +1,10 @@
+{
+  "distributed": {
+    "address": "127.0.0.1",
+    "port": 8443,
+    "stateDirectory": "/tmp/janestreet-client",
+    "certificatePath": "/tmp/janestreet-client/server-certificate.pem",
+    "tokenPath": "/tmp/janestreet-client/join-token",
+    "clientWorkers": 1
+  }
+}
