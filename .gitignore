@@ -1,2 +1,10 @@
 .DS_Store
 logs/
+
+# Xcode user-specific files
+*.xcuserstate
+xcuserdata/
+
+# Swift build files
+.build/
+DerivedData/
