@@ -85,7 +85,7 @@ class ClientProgressProcessTests(unittest.TestCase):
 
             with (root / "server.log").open("wb") as server_log, (root / "client.log").open("wb") as client_log:
                 try:
-                    server = subprocess.Popen([str(EXECUTABLE), "--server", "--config", str(root / "server.json")],
+                    server = subprocess.Popen([str(EXECUTABLE), "--server", "--init-credentials", "--config", str(root / "server.json")],
                                               stdout=server_log, stderr=subprocess.STDOUT)
                     processes.append(server)
                     wait_for(lambda: (server_dir / "server-certificate.pem").exists())

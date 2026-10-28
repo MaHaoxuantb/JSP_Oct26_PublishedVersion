@@ -45,7 +45,10 @@ class WebUIManagementTests(unittest.TestCase):
             def launch(role):
                 handle = (root / f"{role}-{len(processes)}.log").open("wb")
                 handles.append(handle)
-                process = subprocess.Popen([str(EXECUTABLE), f"--{role}", "--config", str(root / f"{role}.json")], stdout=handle, stderr=subprocess.STDOUT)
+                arguments = [str(EXECUTABLE), f"--{role}", "--config", str(root / f"{role}.json")]
+                if role == "server" and not (server_dir / "server-private-key.pem").exists():
+                    arguments.append("--init-credentials")
+                process = subprocess.Popen(arguments, stdout=handle, stderr=subprocess.STDOUT)
                 processes.append(process)
                 return process
 

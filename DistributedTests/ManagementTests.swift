@@ -176,12 +176,15 @@ struct ManagementTests {
         try await engine.stop(); try await restarted.stop()
     }
 
-    @Test func localOriginRejectsLANAndCrossSiteRequests() {
-        #expect(DashboardHTTP.localOrigin(host: "localhost:9999", origin: "http://localhost:9999", peer: "127.0.0.1"))
-        #expect(!DashboardHTTP.localOrigin(host: "192.168.4.173:9999", origin: "http://192.168.4.173:9999", peer: "127.0.0.1"))
-        #expect(!DashboardHTTP.localOrigin(host: "localhost:9999", origin: "http://evil.example", peer: "127.0.0.1"))
-        #expect(!DashboardHTTP.localOrigin(host: "localhost:9999", origin: "http://localhost:9999", peer: "192.168.4.42"))
-        #expect(!DashboardHTTP.localOrigin(host: "localhost:9999", origin: nil, peer: "127.0.0.1"))
+    @Test func sameOriginAllowsRemoteAdministrationAndRejectsCrossSiteRequests() {
+        #expect(DashboardHTTP.sameOrigin(host: "localhost:9999", origin: "http://localhost:9999"))
+        #expect(DashboardHTTP.sameOrigin(host: "192.168.4.173:9999", origin: "http://192.168.4.173:9999"))
+        #expect(DashboardHTTP.sameOrigin(host: "puzzle.example", origin: "https://puzzle.example"))
+        #expect(!DashboardHTTP.sameOrigin(host: "localhost:9999", origin: "http://evil.example"))
+        #expect(!DashboardHTTP.sameOrigin(host: "localhost:9999", origin: nil))
+        #expect(!DashboardHTTP.sameOrigin(host: "localhost:9999@evil.example", origin: "http://localhost:9999@evil.example"))
+        #expect(!DashboardHTTP.sameOrigin(host: "localhost:9999/path", origin: "http://localhost:9999/path"))
+        #expect(!DashboardHTTP.sameOrigin(host: "localhost:99999", origin: "http://localhost:99999"))
     }
 
     @Test func httpAdministrationRequiresSeparateTokenAndOriginAndBoundsBodies() async throws {
@@ -199,12 +202,13 @@ struct ManagementTests {
             let base = "http://127.0.0.1:\(try #require(listener.localAddress?.port))"
             let admin = try dashboardAdminToken(directory: settings.stateDirectory)
             #expect(admin != token)
-            func post(_ supplied: String, origin: String?, body: Data) async throws -> Int? {
+            func post(_ supplied: String, origin: String?, host: String? = nil, body: Data) async throws -> Int? {
                 var request = URLRequest(url: URL(string: base + "/api/commands")!)
                 request.httpMethod = "POST"; request.httpBody = body
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.setValue("Bearer " + supplied, forHTTPHeaderField: "Authorization")
                 if let origin { request.setValue(origin, forHTTPHeaderField: "Origin") }
+                if let host { request.setValue(host, forHTTPHeaderField: "Host") }
                 let (_, response) = try await session.data(for: request)
                 return (response as? HTTPURLResponse)?.statusCode
             }
@@ -212,7 +216,7 @@ struct ManagementTests {
             #expect(try await post(token, origin: base, body: body) == 403)
             #expect(try await post(admin, origin: "http://evil.example", body: body) == 403)
             #expect(try await post(admin, origin: nil, body: body) == 403)
-            #expect(try await post(admin, origin: base, body: body) == 202)
+            #expect(try await post(admin, origin: "http://192.168.4.173:9999", host: "192.168.4.173:9999", body: body) == 202)
             #expect(try await post(admin, origin: base, body: body) == 202)
             #expect(try await post(admin, origin: base, body: Data("{}".utf8)) == 400)
             #expect(try await post(admin, origin: base, body: Data(repeating: 65, count: 5000)) == 413)

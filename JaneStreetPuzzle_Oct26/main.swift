@@ -23,6 +23,10 @@ func printResult(snapshot: BoardSnapshot, scores: Energy.Scores) {
 
 // Compilation is inert. Every action requires an explicit launch argument.
 var arguments = Array(CommandLine.arguments.dropFirst())
+if arguments == ["--version"] { print(SoftwareVersion.description); exit(0) }
+let initializeCredentials = arguments.contains("--init-credentials")
+let rotateCredentials = arguments.contains("--rotate-credentials")
+arguments.removeAll { ["--init-credentials", "--rotate-credentials"].contains($0) }
 var configPath: String?
 if let index = arguments.firstIndex(of: "--config"), index + 1 < arguments.count {
     configPath = arguments[index + 1]; arguments.removeSubrange(index...index + 1)
@@ -40,6 +44,8 @@ func loadConfiguration(base: RunConfig) throws -> RunConfig {
     func named(_ config: RunConfig) -> RunConfig {
         var config = config
         if let machineNameOverride { config.distributed.machineName = machineNameOverride }
+        if initializeCredentials { config.distributed.credentialMode = .initialize }
+        if rotateCredentials { config.distributed.credentialMode = .rotate }
         return config
     }
     guard let configPath else { return named(base) }
@@ -58,6 +64,9 @@ func loadConfiguration(base: RunConfig) throws -> RunConfig {
 }
 do {
     if let optionError { throw ConfigurationError(message: optionError) }
+    guard !(initializeCredentials && rotateCredentials), (!initializeCredentials && !rotateCredentials) || arguments.first == "--server" else {
+        throw ConfigurationError(message: "Use one credential option with --server: --init-credentials or --rotate-credentials.")
+    }
     _ = try validatedMachineName(machineNameOverride)
     #if canImport(NIOSSL)
     if arguments.first == "--server" || arguments.first == "--client" || arguments.first == "--restore-backup" || arguments.first == "--export-backup" {
@@ -93,7 +102,7 @@ do {
         print("Repair stopped: \(result.reason.rawValue). Log: \(result.logURL.path)")
         printResult(snapshot: BoardSnapshot(result.best), scores: result.best.scores)
     } else {
-        print("Distributed modes (Swift Package build): --server [example|full] [--new-run], --client, --restore-backup <file> <key>, --export-backup <file>. Settings: --config <JSON>, --machine-name <name> (default: system name).\nSolver is idle. Pass --run [example|full] for the 5×5 example or 11×11 puzzle (default: example), --resume-log <checkpoint or JSONL> to continue a saved board, or --repair-log <JSONL path> for bounded merge repair.")
+        print("Version: --version. Server credentials default to reuse; --init-credentials creates missing credentials, --rotate-credentials explicitly replaces them. Distributed modes (Swift Package build): --server [example|full] [--new-run], --client, --restore-backup <file> <key>, --export-backup <file>. Settings: --config <JSON>, --machine-name <name> (default: system name).\nSolver is idle. Pass --run [example|full] for the 5×5 example or 11×11 puzzle (default: example), --resume-log <checkpoint or JSONL> to continue a saved board, or --repair-log <JSONL path> for bounded merge repair.")
     }
 } catch {
     try? FileHandle.standardError.write(contentsOf: Data("Solver failed: \(error)\n".utf8))

@@ -184,6 +184,8 @@ func validatedMachineName(_ value: String?) throws -> String? {
     return name
 }
 
+enum CredentialMode: String, Codable, Sendable { case reuse, initialize, rotate }
+
 struct DistributedConfig: Codable, Sendable {
     var machineName: String? = nil
     var address = "127.0.0.1"
@@ -193,6 +195,9 @@ struct DistributedConfig: Codable, Sendable {
     var webUIPort = 8080
     var stateDirectory = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent(".local/state/janestreet-puzzle").path
+    var credentialMode: CredentialMode = .reuse
+    var privateKeyPath = ""
+    var minimumPeerVersion = SoftwareVersion.current
     var certificatePath = ""
     var tokenPath = ""
     var clientWorkers: Int? = nil
@@ -208,10 +213,13 @@ struct DistributedConfig: Codable, Sendable {
     var backupBytesPerSecond = 65_536
 
     init() {}
-    private enum CodingKeys: String, CodingKey { case machineName, address, port, webUIEnabled, webUIAddress, webUIPort, stateDirectory, certificatePath, tokenPath, clientWorkers, maxClients, maxWorkersPerClient, heartbeatSeconds, checkpointSeconds, failureGraceSeconds, jobSeconds, calibrationSeconds, backupsEnabled, backupSeconds, backupBytesPerSecond }
+    private enum CodingKeys: String, CodingKey { case credentialMode, privateKeyPath, minimumPeerVersion, machineName, address, port, webUIEnabled, webUIAddress, webUIPort, stateDirectory, certificatePath, tokenPath, clientWorkers, maxClients, maxWorkersPerClient, heartbeatSeconds, checkpointSeconds, failureGraceSeconds, jobSeconds, calibrationSeconds, backupsEnabled, backupSeconds, backupBytesPerSecond }
     init(from decoder: Decoder) throws {
         self.init()
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        credentialMode = try values.decodeIfPresent(CredentialMode.self, forKey: .credentialMode) ?? .reuse
+        privateKeyPath = try values.decodeIfPresent(String.self, forKey: .privateKeyPath) ?? ""
+        minimumPeerVersion = try values.decodeIfPresent(Int.self, forKey: .minimumPeerVersion) ?? SoftwareVersion.current
         machineName = try values.decodeIfPresent(String.self, forKey: .machineName)
         if values.contains(.address) { address = try values.decode(type(of: address), forKey: .address) }
         if values.contains(.port) { port = try values.decode(type(of: port), forKey: .port) }
@@ -245,6 +253,9 @@ struct DistributedConfig: Codable, Sendable {
     var workers: Int { clientWorkers ?? min(maxWorkersPerClient, max(1, ProcessInfo.processInfo.activeProcessorCount - 1)) }
     func validate() throws {
         _ = try validatedMachineName(machineName)
+        guard (0...SoftwareVersion.current).contains(minimumPeerVersion) else {
+            throw ConfigurationError(message: "minimumPeerVersion must be between 0 (legacy) and the current software version.")
+        }
         guard !webUIEnabled || ((1...65535).contains(webUIPort) && webUIPort != port && !webUIAddress.isEmpty) else {
             throw ConfigurationError(message: "WebUI needs a numeric bind address and a port from 1–65535 different from the coordinator port.")
         }

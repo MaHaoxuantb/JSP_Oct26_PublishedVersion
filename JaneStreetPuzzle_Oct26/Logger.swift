@@ -73,6 +73,7 @@ final class Logger {
     }
     struct Event: Codable {
         let kind: Kind
+        var softwareVersion: Int? = SoftwareVersion.current
         var iteration: Int = 0
         var restart: Int = 0
         var temperature: Double?
@@ -158,7 +159,7 @@ final class Logger {
                 let temperature = event.temperature.map { String(format: "%.5g", $0) } ?? "-"
                 let clues = event.clueMismatchCount.map(String.init) ?? "-"
                 let repair = event.repairs.map { " evals=\($0.evaluations) merges=\($0.mergesChecked) covers=\($0.coversChecked) budgetStops=\($0.budgetStops) cacheHits=\($0.evaluationCacheHits) pruned=\($0.constraintRejects + $0.routePrunes)" } ?? ""
-                let line = "[\(source)][\(event.kind.rawValue)] iteration=\(event.iteration) restart=\(event.restart) current=\(current) best=\(score) T=\(temperature) bestUnmatchedClues=\(clues) elapsed=\(String(format: "%.1f", elapsedSeconds))s\(repair) \(event.message ?? "")\n"
+                let line = "[\(source) v\(SoftwareVersion.current)][\(event.kind.rawValue)] iteration=\(event.iteration) restart=\(event.restart) current=\(current) best=\(score) T=\(temperature) bestUnmatchedClues=\(clues) elapsed=\(String(format: "%.1f", elapsedSeconds))s\(repair) \(event.message ?? "")\n"
                 try Self.consoleLock.withLock {
                     // Direct writes stay visible when stdout is redirected or piped.
                     try FileHandle.standardOutput.write(contentsOf: Data(line.utf8))

@@ -128,6 +128,7 @@ struct ClientConnection: Sendable {
     let channel: any Channel
     let messages: ClientMessages
     let machineName: String
+    var minimumPeerVersion = SoftwareVersion.current
     static func connect(settings: DistributedConfig, group: MultiThreadedEventLoopGroup) async throws -> Self {
         do { return try await open(settings: settings, group: group) }
         catch { throw CoordinatorCommunicationError(description: String(describing: error)) }
@@ -147,7 +148,7 @@ struct ClientConnection: Sendable {
                 }
                 catch { return channel.eventLoop.makeFailedFuture(error) }
             }.connect(to: address).get()
-        return Self(channel: channel, messages: messages, machineName: settings.resolvedMachineName)
+        return Self(channel: channel, messages: messages, machineName: settings.resolvedMachineName, minimumPeerVersion: settings.minimumPeerVersion)
     }
     func request(_ message: WireMessage) async throws -> WireMessage {
         do {
@@ -164,6 +165,9 @@ struct ClientConnection: Sendable {
                 // require a correction, not endless replays of the same request.
                 let retryable = detail.hasPrefix("Coordinator is at client capacity") || detail.hasPrefix("State database")
                 throw CoordinatorCommunicationError(description: "Coordinator reported: \(detail)", retryable: retryable)
+            }
+            guard SoftwareVersion.accepts(response.softwareVersion, minimum: minimumPeerVersion) else {
+                throw CoordinatorCommunicationError(description: "Coordinator software version rejected: \(response.softwareVersion.map(String.init) ?? "unversioned"); client v\(SoftwareVersion.current), accepted \(minimumPeerVersion)...\(SoftwareVersion.current).", retryable: false)
             }
             return response
         } catch let error as CoordinatorCommunicationError { throw error }

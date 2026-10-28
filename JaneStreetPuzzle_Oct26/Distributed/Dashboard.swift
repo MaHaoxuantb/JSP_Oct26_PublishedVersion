@@ -28,6 +28,8 @@ struct DashboardJob: Codable, Sendable {
 }
 
 struct DashboardSnapshot: Codable, Sendable {
+    var softwareVersion = SoftwareVersion.current
+    var minimumPeerVersion = SoftwareVersion.current
     let runID: UUID
     let coordinatorName: String?
     let solved: Bool
@@ -88,19 +90,20 @@ final class DashboardHTTP: ChannelInboundHandler, @unchecked Sendable {
     private var responding = false
     init(coordinator: Coordinator, adminToken: String) { self.coordinator = coordinator; self.adminToken = adminToken }
 
-    /// Management is local/SSH-tunnel only. Reject DNS rebinding, cross-origin
-    /// requests, and direct LAN administration over this plaintext listener.
-    static func localOrigin(host: String?, origin: String?, peer: String?) -> Bool {
-        guard let host, let origin, let peer,
-              peer == "127.0.0.1" || peer == "::1" || peer == "::ffff:127.0.0.1",
-              let url = URLComponents(string: "http://" + host), url.user == nil, url.password == nil,
-              url.path.isEmpty, url.query == nil, url.fragment == nil,
-              ["localhost", "127.0.0.1", "[::1]", "::1"].contains(url.host?.lowercased() ?? ""),
-              origin == "http://" + host else { return false }
-        return true
+    /// Remote browsers may administer with the separate bearer token. Keep the
+    /// browser's Origin tied to this authority; never enable wildcard CORS.
+    static func sameOrigin(host: String?, origin: String?) -> Bool {
+        guard let host, let origin, !host.isEmpty,
+              !host.contains(where: { $0.isWhitespace || $0 == "\\" }),
+              let url = URLComponents(string: "http://" + host),
+              let hostname = url.host, !hostname.isEmpty,
+              url.user == nil, url.password == nil, url.path.isEmpty,
+              url.query == nil, url.fragment == nil,
+              url.port.map({ (1...65535).contains($0) }) ?? true else { return false }
+        return origin == "http://" + host || origin == "https://" + host
     }
     private func authorized(_ head: HTTPRequestHead, channel: any Channel) -> Bool {
-        guard Self.localOrigin(host: head.headers.first(name: "Host"), origin: head.headers.first(name: "Origin"), peer: channel.remoteAddress?.ipAddress),
+        guard Self.sameOrigin(host: head.headers.first(name: "Host"), origin: head.headers.first(name: "Origin")),
               head.headers["Host"].count == 1, head.headers["Origin"].count == 1,
               head.headers["Authorization"].count == 1,
               head.headers.first(name: "Content-Type")?.lowercased() == "application/json",
@@ -126,7 +129,7 @@ final class DashboardHTTP: ChannelInboundHandler, @unchecked Sendable {
             let channel = context.channel
             if head.method == .POST && ["/api/commands", "/api/admin/check"].contains(head.uri) {
                 guard authorized(head, channel: channel) else {
-                    respond(on: channel, status: .forbidden, type: "text/plain", body: Data("Administration requires a loopback/SSH-tunnel URL, matching Origin, and the web admin token.".utf8)); return
+                    respond(on: channel, status: .forbidden, type: "text/plain", body: Data("Administration requires a matching Origin and the separate web admin token.".utf8)); return
                 }
                 if head.uri == "/api/admin/check" {
                     respond(on: channel, status: .ok, type: "application/json", body: Data("{\"authorized\":true}".utf8)); return
@@ -235,6 +238,7 @@ input,select{font:inherit;background:var(--surface);color:var(--text);border:1px
 .board{display:grid;width:min(100%,440px);aspect-ratio:1;margin:18px 0;border:2px solid var(--text)}.board-cell{color:#202024;display:grid;place-items:center;position:relative;border:1px solid #0002;font-weight:600;min-width:0;font-size:clamp(10px,2vw,16px)}.board-cell.wrong{outline:3px solid #c33;outline-offset:-4px}.capital{position:absolute;right:3px;top:0;font-size:10px}.region-id{position:absolute;left:2px;bottom:0;font-size:8px;font-weight:400}
 .chart{width:100%;height:130px;color:var(--accent);display:block}.chart text{fill:var(--muted);font-size:11px}.details-list{max-height:190px;overflow:auto;padding-left:20px}.admin-bar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:14px 0}.admin-bar input{width:260px}.admin-message{color:var(--muted);font-size:12px}.controls{min-width:285px}.controls input{width:55px}.notice{color:var(--amber)}.events{max-height:280px;overflow:auto}.events p{margin:0;padding:8px 0;border-bottom:1px solid var(--line);font-size:12px}.mini{font-size:12px;color:var(--muted)}.quality-charts{display:grid;gap:12px}.history-table{max-height:220px;overflow:auto}.history-table td,.history-table th{padding:8px;font-size:12px}
 @media(max-width:850px){.detail-grid{grid-template-columns:1fr}.detail{padding:20px}}
+.context-menu{position:fixed;z-index:1000;min-width:200px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);overflow:auto;padding:6px;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 30px #0003}.context-menu[hidden]{display:none}.context-menu button{display:block;width:100%;border:0;background:transparent;text-align:left;color:var(--text);padding:8px 12px;border-radius:5px;cursor:pointer}.context-menu button:hover,.context-menu button:focus-visible{background:var(--soft)}.context-menu button:disabled{color:var(--muted);cursor:default}.context-menu .menu-heading{font-size:12px;color:var(--muted);padding:4px 12px}tr[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 </style></head><body>
 <nav class="topbar" aria-label="Dashboard toolbar"><div class="topbar-inner">
 <div class="brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 17.5h7m-3.5-3.5v7"/></svg></span><span>JSP_Oct26</span><span class="brand-divider"></span><span class="brand-context">October 2026 / Coordinator</span></div>
@@ -252,15 +256,15 @@ input,select{font:inherit;background:var(--surface);color:var(--text);border:1px
 <div class="card"><span class="metric-label">Reassignments<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 8h15l-4-4m5 12H5l4 4"/></svg></span><strong id="reassignments">—</strong><span class="metric-note">Jobs handed to another worker</span></div></section>
 <section class="panel detail" aria-label="Search overview"><h2>Search overview</h2><div class="quality"><div><strong id="acceptedWork">0</strong><span>Accepted iterations since metrics began</span></div><div><strong id="fleetRate">0</strong><span>Estimated iterations / second</span></div><div><strong id="lastImproved">—</strong><span>Since last best improvement</span></div></div><p class="mini" id="metricsSince"></p><p class="mini">Candidate quality is not a completion percentage. This search has no reliable solution ETA.</p></section>
 <div class="detail-grid"><section class="panel detail" aria-label="Candidate explorer"><h2>Best candidates</h2><select id="candidateSelect" aria-label="Choose candidate"></select><div class="quality"><div><strong id="issues">—</strong><span>Structural issues</span></div><div><strong id="wrong">—</strong><span>Incorrect clues</span></div><div><strong id="error">—</strong><span>Normalized clue error</span></div></div><p id="candidateMeta">Waiting for a reported board.</p><div id="board" class="board" role="img" aria-label="Candidate board"></div><p class="mini">★ Capital · red outline: incorrect clue · small number: region ID. Hover a cell for details.</p><p id="answer"></p><ul id="violations" class="details-list"></ul><button class="action" id="downloadCandidate" disabled>Download candidate JSON</button></section>
-<section class="panel detail" aria-label="Search charts"><h2>Search history</h2><p>Best candidate: incorrect clues (structural issues take priority)</p><svg id="qualityChart" class="chart" viewBox="0 0 500 130" role="img" aria-label="Incorrect clue history"></svg><p>Fleet throughput: estimated iterations / second</p><svg id="rateChart" class="chart" viewBox="0 0 500 130" role="img" aria-label="Throughput history"></svg><div class="history-table"><table><thead><tr><th>Improved at</th><th>Issues</th><th>Wrong clues</th><th>Error</th></tr></thead><tbody id="improvementRows"></tbody></table></div></section></div>
-<section class="panel detail" aria-label="Administration"><h2>Client management</h2><p>Use localhost or an SSH tunnel for administration. Enter the coordinator's separate web-admin-token; it stays in this page's memory.</p><div class="admin-bar"><input id="adminToken" type="password" autocomplete="off" aria-label="Web admin token" placeholder="Web admin token"><button class="action" id="unlock">Unlock controls</button><button class="action" id="lock">Lock</button><span id="adminStatus" role="status" class="admin-message">Monitoring only</span></div><p class="mini">Checkpoint &amp; quit saves and stops. Drain &amp; quit finishes assigned jobs. Pause releases assignments and keeps the client available for Resume. Worker count cannot exceed the client's configured capacity. Delivery follows heartbeats; offline commands remain pending. These controls affect the puzzle process.</p></section>
+<section class="panel detail" aria-label="Search charts"><h2>Search history</h2><p>Best candidate: incorrect clues (structural issues take priority)</p><svg id="qualityChart" class="chart" viewBox="0 0 500 130" role="img" aria-label="Incorrect clue history"></svg><p>Lowest total optimization energy (0–1)</p><svg id="energyChart" class="chart" viewBox="0 0 500 130" role="img" aria-label="Lowest total energy history"></svg><p>Lowest clue residual energy (0–1)</p><svg id="residualChart" class="chart" viewBox="0 0 500 130" role="img" aria-label="Lowest clue residual energy history"></svg><p class="mini">Independent minima across reported candidates; the two energy curves can represent different boards. Points show reports, not every local search move. Hover points for values.</p><p>Accepted iterations</p><svg id="workChart" class="chart" viewBox="0 0 500 130" role="img" aria-label="Accepted work history"></svg><p>Reporting worker slots</p><svg id="workersChart" class="chart" viewBox="0 0 500 130" role="img" aria-label="Active worker history"></svg><p>Fleet throughput: estimated iterations / second</p><svg id="rateChart" class="chart" viewBox="0 0 500 130" role="img" aria-label="Throughput history"></svg><div class="history-table"><table><thead><tr><th>Improved at</th><th>Issues</th><th>Wrong clues</th><th>Error</th></tr></thead><tbody id="improvementRows"></tbody></table></div></section></div>
+<section class="panel detail" aria-label="Administration"><h2>Client management</h2><p>Administration is available from other devices. Enter the coordinator's separate web-admin-token; it stays in this page's memory.</p><div class="admin-bar"><input id="adminToken" type="password" autocomplete="off" aria-label="Web admin token" placeholder="Web admin token"><button class="action" id="unlock">Unlock controls</button><button class="action" id="lock">Lock</button><span id="adminStatus" role="status" class="admin-message">Monitoring only</span></div><p class="mini">Checkpoint &amp; quit saves and stops. Drain &amp; quit finishes assigned jobs. Pause releases assignments and keeps the client available for Resume. Worker count cannot exceed the client's configured capacity. Right-click a machine for its actions (keyboard: Shift+F10). Delivery follows heartbeats; offline commands remain pending. These controls affect the puzzle process.</p></section>
 <section class="panel" aria-labelledby="clientHeading"><div class="panel-heading"><div><h2 id="clientHeading">Compute clients</h2><p>Machines connected to your coordinator.</p></div><span class="count" id="clientCount">— clients</span></div>
 <div class="table-wrap"><table><thead><tr><th scope="col">Machine</th><th scope="col">Connection</th><th scope="col">Last heartbeat</th><th scope="col">Jobs / telemetry</th><th scope="col">Controls</th></tr></thead><tbody id="clientRows"><tr><td colspan="4" class="empty">Waiting for status…</td></tr></tbody></table></div></section>
 <section class="panel" aria-labelledby="jobHeading"><div class="panel-heading"><div><h2 id="jobHeading">Worker assignments</h2><p>Latest reported progress. Worker slots start at zero.</p></div><span class="count" id="jobCount">— jobs</span></div>
 <div class="table-wrap"><table><thead><tr><th scope="col">Client / slot</th><th scope="col">Job</th><th scope="col">State</th><th scope="col">Objective</th><th scope="col">Progress</th><th scope="col">Reported time</th></tr></thead><tbody id="jobRows"><tr><td colspan="6" class="empty">Waiting for status…</td></tr></tbody></table></div></section>
 <div class="detail-grid"><section class="panel detail"><h2>Command history</h2><div id="commandHistory" class="events"></div></section><section class="panel detail"><h2>Recent events</h2><div id="eventHistory" class="events"></div></section></div>
 <footer><span>© 2026 ThomasB, LinecoFlow Research</span><p><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/><path d="m8 12 3 3 5-6"/></svg><span id="backup">Backup status pending.</span></p><div class="run-meta"><span id="coordinator">Coordinator</span><span>Run</span><span id="run">Connecting…</span></div></footer><noscript><p>Enable JavaScript to view live process status.</p></noscript>
-</main><script>
+</main><div id="contextMenu" class="context-menu" role="menu" aria-label="Context actions" hidden></div><script>
 const $=id=>document.getElementById(id), number=n=>n.toLocaleString(), short=id=>id.slice(0,8);
 document.querySelectorAll('[data-theme-option]').forEach(button=>button.addEventListener('click',()=>{
  themePreference=button.dataset.themeOption;
@@ -281,9 +285,9 @@ function empty(body,columns,title,detail){
 }
 function badge(row,text,state=''){const el=cell(row,'');const label=document.createElement('span');label.className='badge '+state;label.textContent=text;el.append(label);}
 function render(s){
- latest=s; renderSearch(s);
+ if(latest?.runID!==s.runID)closeMenu();latest=s; renderSearch(s);
  $('run').textContent=short(s.runID);$('run').title=s.runID;
- $('coordinator').textContent=s.coordinatorName||'Coordinator';
+ $('coordinator').textContent=(s.coordinatorName||'Coordinator')+' · v'+s.softwareVersion; $('coordinator').title='Accepted software versions: '+s.minimumPeerVersion+'–'+s.softwareVersion+' (0 = unversioned)';
  $('clientCount').textContent=number(s.clients.length)+' '+(s.clients.length===1?'client':'clients');
  $('jobCount').textContent=number(s.jobs.length)+' '+(s.jobs.length===1?'job':'jobs');
  $('clients').textContent=number(s.clients.filter(c=>c.connected).length);
@@ -291,12 +295,13 @@ function render(s){
  $('completed').textContent=number(s.completedJobs);$('reassignments').textContent=number(s.reassignments);
  $('connection').className='status';$('connection').textContent=s.solved?'Solution validated':(s.clients.some(c=>c.connected)?'Search in progress':'Waiting for clients');
  $('updated').textContent='Updated '+new Date().toLocaleTimeString();
- const clients=$('clientRows');const editing=clients.contains(document.activeElement)&&document.activeElement.tagName==='INPUT';if(!editing)clients.replaceChildren();
+ const clients=$('clientRows'),active=document.activeElement,focusedClient=clients.contains(active)?active.closest('tr')?.dataset.clientId:null,focusedButton=active.tagName==='BUTTON'?active.textContent:null;const editing=(clients.contains(active)&&active.tagName==='INPUT')||(!menu.hidden&&menuSource&&clients.contains(menuSource));if(!editing)clients.replaceChildren();
  const machineNames=new Map(s.clients.map(c=>[c.id,c.machineName||short(c.id)]));
- if(!editing)for(const c of s.clients){const row=document.createElement('tr');const id=cell(row,machineNames.get(c.id));id.title=c.id;const mode=c.info?.telemetry?.mode||'unknown';badge(row,(c.connected?'Reporting':'Offline')+' · '+mode,c.connected?'active':'');const freshness=cell(row,age(c.lastSeenSeconds));const checkpoint=c.info?.telemetry?.checkpointAt;if(checkpoint){const line=document.createElement('div');line.className='mini';line.textContent='Checkpoint '+age(Math.max(0,s.capturedAt-checkpoint));freshness.append(line);}const info=cell(row,number(c.assignedJobs)+' jobs · '+(c.connected?(c.info?.rate||0).toFixed(1):'0')+' iter/s');for(const w of c.info?.telemetry?.workers||[]){const line=document.createElement('div');line.className='mini';line.textContent='Slot '+w.slot+': '+w.state+' · '+w.backend;line.title=(w.reason||'')+(w.progressAt?' · Sample '+age(Math.max(0,s.capturedAt-w.progressAt)):'');info.append(line);}if(c.info?.telemetry?.lastError){const line=document.createElement('div');line.className='mini notice';line.textContent='Last error: '+c.info.telemetry.lastError;info.append(line);}const controls=cell(row,'');controls.className='controls';renderControls(controls,c);clients.append(row);}
+ if(!editing)for(const c of s.clients){const row=document.createElement('tr');row.dataset.clientId=c.id;const id=cell(row,machineNames.get(c.id));id.title=c.id;const version=document.createElement('div');version.className='mini';version.textContent=c.info?.softwareVersion==null?'Version unknown':'v'+c.info.softwareVersion;id.append(version);attachMenu(row,()=>clientMenu(c));const mode=c.info?.telemetry?.mode||'unknown';badge(row,(c.connected?'Reporting':'Offline')+' · '+mode,c.connected?'active':'');const freshness=cell(row,age(c.lastSeenSeconds));const checkpoint=c.info?.telemetry?.checkpointAt;if(checkpoint){const line=document.createElement('div');line.className='mini';line.textContent='Checkpoint '+age(Math.max(0,s.capturedAt-checkpoint));freshness.append(line);}const info=cell(row,number(c.assignedJobs)+' jobs · '+(c.connected?(c.info?.rate||0).toFixed(1):'0')+' iter/s');for(const w of c.info?.telemetry?.workers||[]){const line=document.createElement('div');line.className='mini';line.textContent='Slot '+w.slot+': '+w.state+' · '+w.backend;line.title=(w.reason||'')+(w.progressAt?' · Sample '+age(Math.max(0,s.capturedAt-w.progressAt)):'');info.append(line);}if(c.info?.telemetry?.lastError){const line=document.createElement('div');line.className='mini notice';line.textContent='Last error: '+c.info.telemetry.lastError;info.append(line);}const controls=cell(row,'');controls.className='controls';renderControls(controls,c);clients.append(row);}
  if(!editing&&!s.clients.length)empty(clients,5,'Ready when you are','Connect a compute client to start processing.');
+ if(!editing&&focusedClient){const row=[...clients.children].find(r=>r.dataset.clientId===focusedClient),target=focusedButton?[...row?.querySelectorAll('button')||[]].find(b=>b.textContent===focusedButton):row;target?.focus({preventScroll:true});}
  const jobs=$('jobRows');jobs.replaceChildren();
- for(const j of s.jobs){const row=document.createElement('tr');const client=cell(row,(machineNames.get(j.clientID)||short(j.clientID))+' / '+j.slot);client.title=j.clientID;const id=cell(row,short(j.id)+' · g'+j.generation);id.title=j.id;id.className='identifier';
+ for(const j of s.jobs){const row=document.createElement('tr');const client=cell(row,(machineNames.get(j.clientID)||short(j.clientID))+' / '+j.slot);client.title=j.clientID;const id=cell(row,short(j.id)+' · g'+j.generation);id.title=j.id;id.className='identifier';attachMenu(row,()=>[{label:'Copy job ID',run:()=>copyText(j.id)},{label:'Copy job details',run:()=>copyText(JSON.stringify(j,null,2))}]);
  badge(row,j.status,j.status==='assigned'?'active':j.status==='stopped'?'':'waiting');cell(row,j.objective+(j.explorer?' · explorer':''));const p=cell(row,'');const bar=document.createElement('progress');bar.max=j.budget;bar.value=j.completed;bar.setAttribute('aria-label','Job '+short(j.id)+' progress');p.append(bar,document.createTextNode(number(j.completed)+' / '+number(j.budget)));cell(row,j.reportedSeconds.toFixed(1)+'s');jobs.append(row);}
  if(!s.jobs.length)empty(jobs,6,s.solved?'Solution found':'No work assigned yet',s.solved?'The coordinator has independently validated the solution.':'Worker assignments will appear here as clients join.');
  $('backup').textContent=s.backupAgeSeconds==null?'No completed backup in this server session.':'Last completed backup '+age(s.backupAgeSeconds)+'.';
@@ -311,15 +316,34 @@ function renderControls(el,c){
  const input=document.createElement('input');input.type='number';input.min=1;input.max=c.info.telemetry.capacity;input.value=c.directive?.workerLimit||c.info.telemetry.capacity;input.setAttribute('aria-label','Worker count for '+nameFor(c.id));input.disabled=!adminToken;
  const button=document.createElement('button');button.type='button';button.className='action';button.textContent='Set workers';button.disabled=!adminToken;button.onclick=()=>sendCommand(c,'workers',Number(input.value));el.append(input,button);
 }
+const menu=$('contextMenu');let menuSource=null;
+function closeMenu(restore=false){menu.hidden=true;menu.replaceChildren();if(restore&&menuSource?.isConnected)menuSource.focus();menuSource=null;}
+function attachMenu(el,items){
+ el.tabIndex=0;
+ const open=(x,y)=>{closeMenu();menuSource=el;for(const item of items()){const b=document.createElement('button');b.type='button';b.role='menuitem';b.textContent=item.label;b.disabled=!!item.disabled;b.onclick=async()=>{closeMenu(true);try{await item.run();}catch(e){$('adminStatus').textContent=e.message;}};menu.append(b);}menu.hidden=false;menu.style.left='0px';menu.style.top='0px';menu.style.left=Math.max(8,Math.min(x,innerWidth-menu.offsetWidth-8))+'px';menu.style.top=Math.max(8,Math.min(y,innerHeight-menu.offsetHeight-8))+'px';menu.querySelector('button:not(:disabled)')?.focus();};
+ el.oncontextmenu=e=>{if(e.target.closest('input'))return;e.preventDefault();open(e.clientX,e.clientY);};
+ el.onkeydown=e=>{if(e.key==='ContextMenu'||(e.shiftKey&&e.key==='F10')){e.preventDefault();const r=el.getBoundingClientRect();open(r.left+16,r.top+16);}};
+}
+menu.addEventListener('keydown',e=>{const buttons=[...menu.querySelectorAll('button:not(:disabled)')],i=buttons.indexOf(document.activeElement);if(e.key==='Escape'){e.preventDefault();closeMenu(true);}if(['ArrowDown','ArrowUp','Home','End'].includes(e.key)){e.preventDefault();buttons[e.key==='Home'?0:e.key==='End'?buttons.length-1:(i+(e.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length]?.focus();}if(e.key==='Tab')closeMenu();});
+document.addEventListener('pointerdown',e=>{if(!menu.hidden&&!menu.contains(e.target))closeMenu();});window.addEventListener('resize',()=>closeMenu());window.addEventListener('scroll',()=>closeMenu(),true);
+async function copyText(value){if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(value);$('adminStatus').textContent='Copied';}else{prompt('Copy this value',value);}}
+function clientMenu(c){
+ c=latest?.clients.find(client=>client.id===c.id)||c;
+ const items=[{label:'Copy machine ID',run:()=>copyText(c.id)},{label:'Copy version and status',run:()=>copyText(JSON.stringify(c,null,2))}];
+ if(c.info?.telemetry?.controlVersion===1){for(const [action,label] of [['pause','Pause'],['resume','Resume'],['checkpoint','Save checkpoint'],['quit','Checkpoint & quit'],['drain','Drain & quit']])items.push({label,disabled:!adminToken,run:()=>sendCommand(c,action)});items.push({label:'Set worker count…',disabled:!adminToken,run:()=>{const value=prompt('Worker count (1–'+c.info.telemetry.capacity+')',c.directive?.workerLimit||c.info.telemetry.capacity);if(value!==null)return sendCommand(c,'workers',Number(value));}});}
+ return items;
+}
+attachMenu($('board'),()=>[{label:'Download candidate JSON',disabled:!candidate(),run:()=>$('downloadCandidate').click()}]);
 async function adminPost(path,body){
  const response=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},body:JSON.stringify(body),signal:AbortSignal.timeout(10000)});
  if(!response.ok){if(response.status===403){adminToken='';if(latest)render(latest);}throw Error(await response.text());}return response.json();
 }
 $('unlock').onclick=async()=>{adminToken=$('adminToken').value;$('adminToken').value='';try{await adminPost('/api/admin/check',{});$('adminStatus').textContent='Controls unlocked';if(latest)render(latest);}catch(e){adminToken='';$('adminStatus').textContent=e.message;}};
-$('lock').onclick=()=>{adminToken='';$('adminToken').value='';$('adminStatus').textContent='Monitoring only';if(latest)render(latest);};
+$('lock').onclick=()=>{closeMenu();adminToken='';$('adminToken').value='';$('adminStatus').textContent='Monitoring only';if(latest)render(latest);};
 let sending=false;
 async function sendCommand(c,action,workers){
- if(sending)return;
+ if(sending||!adminToken)return;
+ c=latest?.clients.find(client=>client.id===c.id);if(!c)return;
  if(['quit','drain'].includes(action)&&!confirm((action==='quit'?'Save checkpoints and quit ':'Finish assigned jobs and quit ')+nameFor(c.id)+'? The client must be launched again to reconnect.'))return;
  if(action==='workers'&&(!Number.isInteger(workers)||workers<1||workers>c.info.telemetry.capacity)){$('adminStatus').textContent='Worker count exceeds configured capacity';return;}
  sending=true;
@@ -331,11 +355,13 @@ async function sendCommand(c,action,workers){
 function chart(id,points,value){
  const svg=$(id),ns='http://www.w3.org/2000/svg';svg.replaceChildren();
  const text=(x,y,t)=>{const e=document.createElementNS(ns,'text');e.setAttribute('x',x);e.setAttribute('y',y);e.textContent=t;svg.append(e);};
- if(!points.length){text(12,65,'Waiting for measurements');return;}
- const max=Math.max(1,...points.map(value)),start=points[0].at,end=Math.max(start+1,points.at(-1).at),coords=points.map(p=>[45+440*(p.at-start)/(end-start),100-85*value(p)/max]);
- const line=document.createElementNS(ns,'polyline');line.setAttribute('points',coords.map(p=>p.join(',')).join(' '));line.setAttribute('fill','none');line.setAttribute('stroke','currentColor');line.setAttribute('stroke-width','2');svg.append(line);
- for(const [x,y] of coords){const dot=document.createElementNS(ns,'circle');dot.setAttribute('cx',x);dot.setAttribute('cy',y);dot.setAttribute('r','2');dot.setAttribute('fill','currentColor');svg.append(dot);}
- text(0,18,max.toFixed(1));text(25,104,'0');text(45,124,new Date(start*1000).toLocaleTimeString());text(370,124,new Date(end*1000).toLocaleTimeString());
+ points=points.filter(p=>Number.isFinite(p.at)&&Number.isFinite(value(p)));if(!points.length){text(12,65,'Waiting for measurements');return;}
+ const format=v=>Number.isInteger(v)?number(v):v.toPrecision(5);
+ const max=Math.max(1,...points.map(value)),start=points[0].at,end=Math.max(start+1,points.at(-1).at,latest?.capturedAt||0),coords=points.map(p=>[45+440*(p.at-start)/(end-start),100-85*value(p)/max]);
+ const axis=document.createElementNS(ns,'path');axis.setAttribute('d','M45 15V100H485');axis.setAttribute('stroke','var(--line)');axis.setAttribute('fill','none');svg.append(axis);
+ const line=document.createElementNS(ns,'polyline');line.setAttribute('points',[...coords,[485,coords.at(-1)[1]]].map(p=>p.join(',')).join(' '));line.setAttribute('fill','none');line.setAttribute('stroke','currentColor');line.setAttribute('stroke-width','2');svg.append(line);
+ for(const [i,[x,y]] of coords.entries()){const dot=document.createElementNS(ns,'circle');dot.setAttribute('cx',x);dot.setAttribute('cy',y);dot.setAttribute('r','3');dot.setAttribute('fill','currentColor');const title=document.createElementNS(ns,'title');title.textContent=when(points[i].at)+' · '+format(value(points[i]));dot.append(title);svg.append(dot);}
+ text(0,18,format(max));text(25,104,'0');text(45,124,new Date(start*1000).toLocaleTimeString());text(370,124,new Date(end*1000).toLocaleTimeString());
 }
 function candidate(){return latest?.candidates.find(c=>c.id===selectedCandidate)||latest?.candidates[0];}
 $('candidateSelect').onchange=()=>{const value=$('candidateSelect').value;selectedCandidate=value===latest?.candidates[0]?.id?'':value;renderCandidate();};
@@ -356,7 +382,7 @@ function renderSearch(s){
  const lastCommand=s.commands.find(c=>c.request.id===lastCommandID);if(lastCommand){const online=s.clients.find(c=>c.id===lastCommand.request.clientID)?.connected;$('adminStatus').textContent=nameFor(lastCommand.request.clientID)+': '+lastCommand.request.action+' '+lastCommand.status+(lastCommand.status==='queued'&&!online?' — pending, machine offline':'');}
  $('acceptedWork').textContent=number(s.insights.acceptedIterations);$('fleetRate').textContent=s.clients.filter(c=>c.connected).reduce((a,c)=>a+(c.info?.rate||0),0).toFixed(1);const last=s.insights.improvements.at(-1);$('lastImproved').textContent=last?Math.max(0,Math.floor(s.capturedAt-last.at))+'s':'—';$('metricsSince').textContent='Metrics recorded since '+when(s.insights.since)+'. Rates use reported iterations and work time; measurements arrive with heartbeats/checkpoints.';
  const select=$('candidateSelect');select.replaceChildren();s.candidates.forEach((c,i)=>{const o=document.createElement('option');o.value=c.id;o.textContent=(i===0?'Best overall':'Alternative '+i)+' · '+c.issues+' issues · '+c.wrong+' wrong';select.append(o);});if(selectedCandidate&&!s.candidates.some(c=>c.id===selectedCandidate))selectedCandidate='';select.value=selectedCandidate||s.candidates[0]?.id||'';renderCandidate();
- chart('qualityChart',s.insights.improvements,p=>p.wrong);chart('rateChart',s.insights.throughput,p=>p.rate);
+ chart('qualityChart',s.insights.improvements,p=>p.wrong);chart('rateChart',s.insights.throughput,p=>p.rate);chart('energyChart',s.insights.energy||[],p=>p.total);chart('residualChart',s.insights.energy||[],p=>p.residual);chart('workChart',s.insights.throughput.filter(p=>p.iterations!=null),p=>p.iterations);chart('workersChart',s.insights.throughput.filter(p=>p.activeWorkers!=null),p=>p.activeWorkers);
  const rows=$('improvementRows');rows.replaceChildren();for(const p of s.insights.improvements.slice(-30).reverse()){const row=document.createElement('tr');cell(row,when(p.at));cell(row,p.issues);cell(row,p.wrong);cell(row,p.error.toFixed(6));rows.append(row);}
  const commands=$('commandHistory');commands.replaceChildren();for(const command of s.commands.slice(-40).reverse()){const p=document.createElement('p');const c=s.clients.find(c=>c.id===command.request.clientID);p.textContent=when(command.createdAt)+' · '+nameFor(command.request.clientID)+' · '+command.request.action+(command.request.workers?' '+command.request.workers:'')+' · '+command.status+(command.status==='queued'&&!c?.connected?' (pending — offline)':'');commands.append(p);}if(!s.commands.length)commands.textContent='No commands issued.';
  const events=$('eventHistory');events.replaceChildren();for(const e of s.insights.events.slice(-60).reverse()){const p=document.createElement('p');p.textContent=when(e.at)+' · '+(e.clientID?nameFor(e.clientID)+' · ':'')+e.message;events.append(p);}if(!s.insights.events.length)events.textContent='No events recorded.';

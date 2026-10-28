@@ -48,6 +48,7 @@ struct FleetClient: Codable, Sendable {
     var lastReportAt: Double
     var rate: Double
     var slotRates: [String: Double]? = nil
+    var softwareVersion: Int? = nil
 }
 struct CandidateDiscovery: Codable, Sendable {
     var at: Double
@@ -62,9 +63,16 @@ struct QualityPoint: Codable, Sendable {
     var error: Double
     var candidateID: String
 }
+struct EnergyPoint: Codable, Sendable {
+    var at: Double
+    var total: Double
+    var residual: Double
+}
 struct ThroughputPoint: Codable, Sendable {
     var at: Double
     var rate: Double
+    var iterations: UInt64? = nil
+    var activeWorkers: Int? = nil
 }
 struct DashboardEvent: Codable, Sendable {
     var at: Double
@@ -76,6 +84,7 @@ struct SearchInsights: Codable, Sendable {
     var acceptedIterations: UInt64 = 0
     var discoveries: [String: CandidateDiscovery] = [:]
     var improvements: [QualityPoint] = []
+    var energy: [EnergyPoint]? = nil
     var throughput: [ThroughputPoint] = []
     var events: [DashboardEvent] = []
 }

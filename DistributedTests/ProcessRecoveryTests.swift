@@ -29,18 +29,18 @@ struct ProcessRecoveryTests {
         if let executable = ProcessInfo.processInfo.environment["PUZZLE_TEST_EXECUTABLE"] {
             candidates.append(URL(fileURLWithPath: executable))
         }
-        for root in [current, sourceRoot] {
-            candidates.append(root.appendingPathComponent(".build/release/janestreet-puzzle"))
-            candidates.append(root.appendingPathComponent(".build/out/Products/Release/janestreet-puzzle"))
-            candidates.append(root.appendingPathComponent(".build/debug/janestreet-puzzle"))
-            candidates.append(root.appendingPathComponent(".build/out/Products/Debug/janestreet-puzzle"))
-        }
         for argument in CommandLine.arguments where argument.hasPrefix("/") {
             var folder = URL(fileURLWithPath: argument).deletingLastPathComponent()
             for _ in 0..<6 {
                 candidates.append(folder.appendingPathComponent("janestreet-puzzle"))
                 folder.deleteLastPathComponent()
             }
+        }
+        for root in [current, sourceRoot] {
+            candidates.append(root.appendingPathComponent(".build/release/janestreet-puzzle"))
+            candidates.append(root.appendingPathComponent(".build/out/Products/Release/janestreet-puzzle"))
+            candidates.append(root.appendingPathComponent(".build/debug/janestreet-puzzle"))
+            candidates.append(root.appendingPathComponent(".build/out/Products/Debug/janestreet-puzzle"))
         }
         let executable = try #require(candidates.first(where: { FileManager.default.isExecutableFile(atPath: $0.path) }),
             "Build janestreet-puzzle before running process recovery tests.")
@@ -69,6 +69,7 @@ struct ProcessRecoveryTests {
             let process = Process()
             process.executableURL = executable
             process.arguments = [role, "full", "--config", path.path]
+            if role == "--server" && processes.isEmpty { process.arguments!.append("--init-credentials") }
             let output = directory.appendingPathComponent("process-\(processes.count).log")
             _ = FileManager.default.createFile(atPath: output.path, contents: nil)
             let handle = try FileHandle(forWritingTo: output)
@@ -113,9 +114,12 @@ struct ProcessRecoveryTests {
         _ = kill(server.processIdentifier, SIGKILL)
         try await waitFor("hard server exit") { !server.isRunning }
         let restarted = try launch("--server", serverConfig)
-        try await waitFor("rotated server identity") { try Data(contentsOf: certificate) != originalCertificate }
+        try await waitFor("restarted server") {
+            try String(contentsOf: directory.appendingPathComponent("process-3.log"), encoding: .utf8).contains("coordinator listening")
+        }
+        #expect(try Data(contentsOf: certificate) == originalCertificate)
         let reconnectAfter = ProcessInfo.processInfo.systemUptime
-        try Data(contentsOf: certificate).write(to: directory.appendingPathComponent("client-b/certificate.pem"), options: .atomic)
+        // The existing client pin remains valid without copying a new certificate.
         try await waitFor("authenticated client reconnection", seconds: 30) {
             // The recovered job may legitimately finish before this poll. Any
             // renewed assignment from this client proves authenticated recovery.

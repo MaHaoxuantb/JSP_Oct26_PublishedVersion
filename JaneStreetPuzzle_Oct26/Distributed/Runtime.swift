@@ -24,14 +24,10 @@ final class ShutdownSignal: @unchecked Sendable {
     deinit { for source in sources { source.cancel() } }
 }
 
-func readToken(settings: DistributedConfig, server: Bool) throws -> String {
+func readToken(settings: DistributedConfig) throws -> String {
     let path = settings.tokenPath.isEmpty
         ? URL(fileURLWithPath: settings.stateDirectory).appendingPathComponent("join-token")
         : URL(fileURLWithPath: settings.tokenPath)
-    if server && !FileManager.default.fileExists(atPath: path.path) {
-        let bytes = SymmetricKey(size: .bits256).withUnsafeBytes { Data($0) }
-        try writePrivate(Data(bytes.base64EncodedString().utf8), to: path)
-    }
     let token = try String(contentsOf: path, encoding: .utf8).trimmingCharacters(in: .whitespacesAndNewlines)
     guard token.utf8.count >= 32 && token.utf8.count <= 1024 else { throw DistributedError.message("Join token must contain 32–1024 UTF-8 bytes.") }
     return token
@@ -43,9 +39,8 @@ func runServer(config: RunConfig, newRun: Bool) async throws {
     let directory = URL(fileURLWithPath: config.distributed.stateDirectory)
     let stateLock = try StateLock(directory: directory)
     defer { withExtendedLifetime(stateLock) {} }
-    let token = try readToken(settings: config.distributed, server: true)
+    let (identity, token) = try serverCredentials(settings: config.distributed)
     let coordinator = try Coordinator(config: config, token: token, newRun: newRun)
-    let identity = try ServerIdentity(directory: directory)
     let group = MultiThreadedEventLoopGroup(numberOfThreads: 2)
     let shutdown = ShutdownSignal()
     var workerListener: (any Channel)?
@@ -59,11 +54,11 @@ func runServer(config: RunConfig, newRun: Bool) async throws {
                 let host = config.distributed.webUIAddress.contains(":")
                     ? "[\(config.distributed.webUIAddress.replacingOccurrences(of: "%", with: "%25"))]" : config.distributed.webUIAddress
                 distributedLog("Process WebUI: http://\(host):\(config.distributed.webUIPort)/")
-                distributedLog("Web admin token file (local/SSH access): \(directory.appendingPathComponent("web-admin-token").path)")
+                distributedLog("Web admin token file (remote administration uses this separate token): \(directory.appendingPathComponent("web-admin-token").path)")
             }
         } catch { distributedLog("Process WebUI unavailable: \(error). Coordinator continues without it.") }
-        distributedLog("Coordinator listening on \(String(describing: listener.localAddress)). Machine: \(config.distributed.resolvedMachineName). Run: \(coordinator.runID)")
-        distributedLog("Copy public certificate: \(directory.appendingPathComponent("server-certificate.pem").path)")
+        distributedLog("\(SoftwareVersion.description) coordinator listening on \(String(describing: listener.localAddress)). Machine: \(config.distributed.resolvedMachineName). Run: \(coordinator.runID)")
+        distributedLog("Copy public certificate: \(config.distributed.serverCertificateURL.path)")
         distributedLog("Certificate SHA-256: \(identity.fingerprint)")
         distributedLog("Join token file: \(config.distributed.tokenPath.isEmpty ? directory.appendingPathComponent("join-token").path : config.distributed.tokenPath)")
         if config.distributed.backupsEnabled { distributedLog("Save recovery.key separately; encrypted off-server backup is enabled.") }
@@ -101,7 +96,7 @@ func runClient(config: RunConfig) async throws {
     let directory = URL(fileURLWithPath: settings.stateDirectory)
     let stateLock = try StateLock(directory: directory)
     defer { withExtendedLifetime(stateLock) {} }
-    let token = try readToken(settings: settings, server: false)
+    let token = try readToken(settings: settings)
     let engine = try ClientEngine(settings: settings, pathEvaluation: config.pathEvaluation)
     let clientID = await engine.identity()
     let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
@@ -126,7 +121,7 @@ func runClient(config: RunConfig) async throws {
         }
     }
     defer { maintenance.cancel() }
-    distributedLog("Client \(clientID) (\(settings.resolvedMachineName)): \(settings.workers) worker slots, coordinator \(settings.address) port \(settings.port)")
+    distributedLog("\(SoftwareVersion.description) client \(clientID) (\(settings.resolvedMachineName)): \(settings.workers) worker slots, coordinator \(settings.address) port \(settings.port)")
     do {
         while !shutdown.requested {
             try await engine.checkMaintenance()
@@ -249,5 +244,5 @@ func restoreBackup(config: RunConfig, backupPath: String, keyPath: String) throw
     for i in state.jobs.indices { state.jobs[i].lastSeen = 0 }
     let store = try DurableStore(path: directory.appendingPathComponent("server.sqlite").path)
     try store.write(state)
-    distributedLog("Restored run \(state.runID). Start --server with the same puzzle and distribute its newly generated certificate.")
+    distributedLog("Restored run \(state.runID). Start --server --init-credentials with the same puzzle to create a TLS identity (or restore the saved certificate and private key), then distribute the public certificate. The restored join token is preserved.")
 }

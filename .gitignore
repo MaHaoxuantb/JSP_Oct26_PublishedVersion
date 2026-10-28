@@ -20,3 +20,6 @@ web-admin-token*
 server-certificate*.pem
 Config/client.json
 __pycache__/
+
+# Persistent TLS private identities
+server-private-key*.pem

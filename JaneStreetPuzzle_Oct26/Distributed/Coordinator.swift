@@ -34,7 +34,10 @@ final class Coordinator: @unchecked Sendable {
         backup = settings.backupsEnabled ? try BackupService(directory: URL(fileURLWithPath: settings.stateDirectory), settings: settings) : nil
         let savedInsights = state.insights
         for labels in state.elites { _ = try consider(labels) }
-        if let savedInsights { state.insights = savedInsights }
+        if var savedInsights {
+            if savedInsights.energy == nil { savedInsights.energy = state.insights?.energy }
+            state.insights = savedInsights
+        }
         if state.insights == nil { state.insights = SearchInsights() }
         try store.write(state)
     }
@@ -64,7 +67,7 @@ final class Coordinator: @unchecked Sendable {
                         lastSeenSeconds: age, assignedJobs: jobs.filter { $0.clientID == id && $0.status == "assigned" }.count,
                         info: self.state.fleet?[id.uuidString], directive: self.state.directives?[id.uuidString])
                 }
-                continuation.resume(returning: DashboardSnapshot(runID: self.state.runID, coordinatorName: self.settings.resolvedMachineName,
+                continuation.resume(returning: DashboardSnapshot(minimumPeerVersion: self.settings.minimumPeerVersion, runID: self.state.runID, coordinatorName: self.settings.resolvedMachineName,
                     solved: self.state.solved, completedJobs: self.state.completedJobs,
                     reassignments: self.state.reassignments,
                     backupAgeSeconds: self.backup?.lastComplete.map { max(0, now - $0) },
@@ -178,6 +181,14 @@ final class Coordinator: @unchecked Sendable {
         candidateViews[id] = DashboardCandidate(id: id, labels: labels, validation: exact,
             issues: quality.issues, wrong: quality.wrong, error: quality.error,
             discovery: state.insights!.discoveries[id])
+        let previousEnergy = state.insights!.energy?.last
+        let total = min(previousEnergy?.total ?? .infinity, candidate.scores.total)
+        let residual = min(previousEnergy?.residual ?? .infinity, candidate.scores.realAIM)
+        if previousEnergy == nil || total < previousEnergy!.total || residual < previousEnergy!.residual {
+            var history = state.insights!.energy ?? []
+            history.append(EnergyPoint(at: discovery.at, total: total, residual: residual))
+            state.insights!.energy = Array(history.suffix(512))
+        }
         if archive.first.map({ quality < $0.quality }) ?? true {
             state.insights!.improvements.append(QualityPoint(at: discovery.at, issues: quality.issues,
                 wrong: quality.wrong, error: quality.error, candidateID: id))
@@ -224,6 +235,9 @@ final class Coordinator: @unchecked Sendable {
               ["hello", "sync", "goodbye"].contains(request.kind) else {
             throw DistributedError.message("Authentication or protocol version rejected.")
         }
+        guard SoftwareVersion.accepts(request.softwareVersion, minimum: settings.minimumPeerVersion) else {
+            throw DistributedError.message("Software version rejected: worker \(request.softwareVersion.map(String.init) ?? "unversioned"), coordinator \(SoftwareVersion.current), accepted \(settings.minimumPeerVersion)...\(SoftwareVersion.current). Update the worker or explicitly configure minimumPeerVersion.")
+        }
         let machineName = try validatedMachineName(request.machineName)
         clients = clients.filter { now - $0.value < settings.failureGraceSeconds }
         guard clients[client] != nil || clients.count < settings.maxClients else {
@@ -259,7 +273,7 @@ final class Coordinator: @unchecked Sendable {
                    state.commands?.contains(where: { $0.request.id == directive.id && ["stopping", "released"].contains($0.status) }) == true {
                     state.directives?.removeValue(forKey: key)
                 }
-                event("Client process connected", client: client)
+                event("Client process connected (v\(request.softwareVersion.map(String.init) ?? "unversioned"))", client: client)
             }
         }
         var fleet = state.fleet ?? [:]
@@ -273,7 +287,7 @@ final class Coordinator: @unchecked Sendable {
         }
         if let error = request.telemetry?.lastError, error != oldInfo?.telemetry?.lastError { event(error, client: client) }
         fleet[key] = FleetClient(telemetry: request.telemetry ?? (request.kind == "hello" ? nil : oldInfo?.telemetry), lastReportAt: wall,
-            rate: 0, slotRates: oldInfo?.slotRates)
+            rate: 0, slotRates: oldInfo?.slotRates, softwareVersion: request.softwareVersion)
         state.fleet = fleet
         clients[client] = now
         if let machineName {
@@ -420,8 +434,14 @@ final class Coordinator: @unchecked Sendable {
         let knownClients = Set(clients.keys.map(\.uuidString)).union(state.jobs.map { $0.owner.uuidString }).union((state.fleet ?? [:]).keys)
         if state.insights == nil { state.insights = SearchInsights() }
         if wall - (state.insights!.throughput.last?.at ?? 0) >= 5 {
-            let rate = (state.fleet ?? [:]).values.filter { wall - $0.lastReportAt < settings.failureGraceSeconds }.reduce(0) { $0 + $1.rate }
-            state.insights!.throughput.append(ThroughputPoint(at: wall, rate: rate))
+            let activeIDs = Set(clients.filter { now - $0.value < settings.failureGraceSeconds }.keys.map(\.uuidString))
+            let activeFleet = (state.fleet ?? [:]).filter { activeIDs.contains($0.key) }.map(\.value)
+            let rate = activeFleet.reduce(0) { $0 + $1.rate }
+            let activeWorkers = activeFleet.reduce(0) {
+                $0 + ($1.telemetry?.workers.filter { ["searching", "supplemental"].contains($0.state) }.count ?? 0)
+            }
+            state.insights!.throughput.append(ThroughputPoint(at: wall, rate: rate,
+                iterations: state.insights!.acceptedIterations, activeWorkers: activeWorkers))
             state.insights!.throughput = Array(state.insights!.throughput.suffix(360))
         }
         state.clientNames = state.clientNames?.filter { knownClients.contains($0.key) }
@@ -430,6 +450,7 @@ final class Coordinator: @unchecked Sendable {
             do { response.replica = try backup.next(state: state, client: client, acknowledgment: request.replicaAck, indexAck: request.replicaIndexAck, now: now) }
             catch { distributedLog("Backup failed (work remains durably committed): \(error)") }
         }
+        if request.kind == "hello" { distributedLog("Worker \(machineName ?? client.uuidString) connected: v\(request.softwareVersion.map(String.init) ?? "unversioned")") }
         return response
     }
 

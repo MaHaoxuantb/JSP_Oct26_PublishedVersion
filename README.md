@@ -6,6 +6,32 @@ continuous `Energy` API remains available for separate experiments; it no longer
 drives the main search. Final solutions still require the independent integer
 validator in `Validation.swift`.
 
+## Software versions
+
+`SoftwareVersion.current` in `JaneStreetPuzzle_Oct26/SoftwareVersion.swift` is the
+monotonically increasing release number (currently 1). `--version`, startup logs,
+standalone worker logs, and dashboard machine rows expose it. The dashboard also
+shows the coordinator version and its accepted range. `AGENTS.md` requires a version
+bump for core worker/coordinator changes. This number is separate from the wire
+protocol version.
+
+By default `distributed.minimumPeerVersion` equals the current version: older,
+unversioned, and future workers are rejected before reports or assignments change.
+Workers also reject incompatible coordinators without endless reconnect retries.
+For a controlled mixed-version transition, explicitly lower `minimumPeerVersion`;
+0 allows unversioned legacy peers using the same wire protocol. A version is an
+operational compatibility declaration, not cryptographic proof of binary contents.
+Rejected clients retain their checkpoints; server assignments remain available for
+normal recovery/reassignment. Updating a process does not reset the run.
+
+The dashboard includes incorrect-clue, total-energy, clue-residual, accepted-work,
+reporting-slot, and throughput curves. Energy curves keep independent best values
+across reported candidates, including improvements that do not beat the best board's
+clue count; the two minima can come from different boards. They are not a completion
+percentage. Histories survive coordinator restarts, are bounded (512 energy points,
+256 best-board improvements, 360 fleet samples), and begin when this feature starts
+recording; older runs cannot reconstruct unreported historical measurements.
+
 ## Distributed server and client
 
 The same executable supports standalone search, a coordinator, or a compute client.
@@ -20,7 +46,7 @@ Build the network-enabled executable with Swift 6.1 or newer:
 # Linux prerequisite: sudo apt-get install libsqlite3-dev
 swift build -c release
 swift test -c release
-.build/release/janestreet-puzzle --server full --config Config/server.example.json
+.build/release/janestreet-puzzle --server full --config Config/server.example.json --init-credentials
 ```
 
 The initial supported platforms are macOS 13+ and Ubuntu 24.04, with CI checks for
@@ -41,13 +67,31 @@ IPv6 interface scopes such as `fe80::1%en0` are supported. The default is IPv4
 loopback port 8443; set the server bind address and each client's destination IP
 explicitly for remote use.
 
-On first server startup it creates a `join-token`. On **every** server startup it
-creates a fresh private key and exports `server-certificate.pem`. Copy the public
-certificate and join-token to each client over a trusted channel (for example,
-your authenticated SSH connection or a local copy). Never download and trust a
-certificate from an unauthenticated endpoint. The private TLS key stays in memory.
-The server prints the public certificate location and its fingerprint, not the
-token. For the sample client, copy those files into `/tmp/janestreet-client`, then:
+Default coordinator startup **reuses** the configured certificate, private key, and
+join token. It never silently replaces missing, expired, or mismatched credentials.
+For first setup, use `--init-credentials` once (as above); subsequent starts omit it.
+Initialization only creates missing credentials and refuses an incomplete TLS pair.
+`--rotate-credentials` explicitly replaces the TLS identity **and join token**; copy
+both new public certificate and token to every worker afterward. The equivalent
+`distributed.credentialMode` values are `reuse` (default), `initialize`, and `rotate`.
+Keep `reuse` in normal launch configurations rather than persisting a rotation mode.
+
+The default files inside the state directory are `server-certificate.pem`,
+`server-private-key.pem`, and `join-token`. Override these with
+`distributed.certificatePath`, `privateKeyPath`, and `tokenPath`. Parent directories
+must already exist. Private files are written with mode 0600. Credential loading
+validates the certificate dates and key match before opening the run database;
+failed writes attempt to restore the preceding files. A power loss during explicit
+rotation may leave a mismatched pair, which fails closed and needs repair or another
+explicit rotation. Keep a private backup of the identity and token.
+
+**Migration from older builds:** they discarded their private key, so an existing
+public certificate alone cannot be reused. One explicit `--rotate-credentials` is
+needed, followed by distributing the new public certificate and join token. Normal
+restarts after that preserve pins and tokens. Never copy the private key to workers.
+Copy public certificates and join tokens over authenticated SSH or another trusted
+channel. The server prints paths and the public fingerprint, never secret contents.
+For the sample client, copy those files into `/tmp/janestreet-client`, then:
 
 ```sh
 .build/release/janestreet-puzzle --client --config Config/client.example.json
@@ -78,8 +122,8 @@ If the directory was renamed, pass `--source-directory /actual/state/path`.
 After identifying a worker's actual conflict copy (for example, through its open
 files and saved client ID), select it explicitly with `--client-database 'client 2.sqlite'`;
 the destination will use the canonical `client.sqlite` name and preserve its ID.
-Copy updated server certificates to the **new** configured certificate path after
-server restarts. Never synchronize, rename or replace an open SQLite database,
+Copy the public certificate to the **new** configured client certificate path
+when migrating state directories. Normal restarts no longer change certificates. Never synchronize, rename or replace an open SQLite database,
 or move its parent directory. Stop first, then update the configured absolute path
 before restarting; moving a project does not update paths stored in JSON.
 
@@ -104,9 +148,10 @@ temporary network, coordinator-storage and capacity failures still retry.
 
 TLS 1.3 encrypts the connection. The exact copied certificate pins server identity;
 public CA or DNS trust cannot substitute for it. A missing, changed or expired
-certificate fails closed, before credentials are sent. After restarting the
-server, copy its new public certificate to the same configured client path;
-clients reload that file while reconnecting. Keep the join-token private and
+certificate fails closed, before credentials are sent. After explicit credential
+rotation, copy the new public certificate and join token to their configured client
+paths; clients reload the certificate while reconnecting (restart clients to load a
+changed join token). Normal server restarts require no copying. Keep the join-token private and
 consistent across server restarts. These controls are intended for trusted invited
 devices, not a public volunteer computing service.
 
@@ -169,20 +214,28 @@ The dashboard supports system, light and dark appearance.
 
 Configure `distributed.webUIEnabled`, `distributed.webUIAddress` and
 `distributed.webUIPort` (see `Config/server.example.json`). This HTTP port is separate
-from the TLS worker port. The default bind is loopback. A LAN bind enables read-only
-monitoring over HTTP; **management requires a loopback URL over local access or an SSH
-tunnel**, a matching browser Origin, and a separate admin token. It never uses the
+from the TLS worker port. The default bind is loopback. Binding a LAN address enables
+monitoring and administration from other devices. Management requires a matching
+browser Origin and the separate admin bearer token. It never uses the
 worker join token. The server creates a private `web-admin-token` file in its state
 directory on first dashboard startup; read it locally or over trusted SSH and paste it
 into "Unlock controls". The page keeps it in memory until locked, refreshed or closed.
 Do not distribute this token with client configuration.
 
-For a Mini with WebUI port 9999, forward a local port, then visit
+The dashboard listener uses HTTP; use a trusted network, HTTPS reverse proxy, or
+an SSH tunnel to protect the admin token in transit. HTTPS same-origin administration
+is supported behind a reverse proxy; wildcard cross-origin access remains disabled.
+For a Mini with WebUI port 9999, optionally forward a local port, then visit
 `http://127.0.0.1:9999/`:
 
 ```sh
 ssh -N -L 127.0.0.1:9999:127.0.0.1:9999 thomasb@192.168.4.173
 ```
+
+Right-click a machine row (or focus it and press Shift+F10) for management actions,
+worker count, and copying its ID/status/version. Assignment rows offer copying job
+details; the candidate board offers JSON download. Locked controls stay disabled;
+quit/drain still require confirmation. Escape and clicking outside close menus.
 
 Management actions target client UUIDs, with names for display:
 
@@ -255,7 +308,9 @@ encryption. A local encrypted snapshot is also kept as
 
 Restoration requires a new state directory and never overwrites an existing
 database. It restores the join-token as well as search records. Start the restored
-server with the same puzzle and redistribute its new public certificate. Surviving
+server with the same puzzle and `--init-credentials` to create a TLS identity while
+preserving the restored join token, then distribute its public certificate. If
+you restored the original certificate and private key separately, omit that option. Surviving
 clients reconcile durable assignments created after the backup. If the server
 storage and those clients are permanently lost together, records created since
 the last replicated backup may be lost. This periodic-backup recovery limit is

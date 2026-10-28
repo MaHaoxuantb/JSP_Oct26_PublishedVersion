@@ -174,7 +174,7 @@ struct DistributedTests {
     func testExpiredPinAndScopedIPv6() throws {
         let config = try configuration()
         let directory = URL(fileURLWithPath: config.distributed.stateDirectory)
-        _ = try ServerIdentity(directory: directory, now: Date().addingTimeInterval(-3600), lifetime: 60)
+        _ = try ServerIdentity(generatingIn: directory, now: Date().addingTimeInterval(-3600), lifetime: 60)
         #expect(throws: (any Error).self) { try PinnedIdentity(path: directory.appendingPathComponent("server-certificate.pem").path) }
         let scoped = try numericAddress("fe80::1%1", port: 8443)
         #expect(scoped.port == 8443)
@@ -301,7 +301,7 @@ struct DistributedTests {
             var config = try configuration()
             config.distributed.address = ip
             let directory = URL(fileURLWithPath: config.distributed.stateDirectory)
-            let identity = try ServerIdentity(directory: directory)
+            let identity = try ServerIdentity(generatingIn: directory)
             let firstPin = try PinnedIdentity(path: directory.appendingPathComponent("server-certificate.pem").path)
             let coordinator = try Coordinator(config: config, token: String(repeating: "t", count: 32), newRun: true)
             let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
@@ -321,7 +321,7 @@ struct DistributedTests {
                 #expect(!error.retryable)
             }
             await connection.close()
-            _ = try ServerIdentity(directory: directory)
+            _ = try ServerIdentity(generatingIn: directory)
             let secondPin = try PinnedIdentity(path: config.distributed.certificatePath)
             #expect((firstPin.der) != (secondPin.der))
             let wrong = try await ClientConnection.connect(settings: config.distributed, group: group)

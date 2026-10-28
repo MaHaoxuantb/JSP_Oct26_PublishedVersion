@@ -41,6 +41,7 @@ struct WireMessage: Codable, Sendable {
     static let version = 1
     static let maxFrame = 1_048_576
     var version = Self.version
+    var softwareVersion: Int? = SoftwareVersion.current
     var kind: String
     var clientID: UUID?
     var machineName: String?
