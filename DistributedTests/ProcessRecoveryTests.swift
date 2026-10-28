@@ -26,6 +26,9 @@ struct ProcessRecoveryTests {
         let current = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
         let sourceRoot = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
         var candidates = [URL]()
+        if let executable = ProcessInfo.processInfo.environment["PUZZLE_TEST_EXECUTABLE"] {
+            candidates.append(URL(fileURLWithPath: executable))
+        }
         for root in [current, sourceRoot] {
             candidates.append(root.appendingPathComponent(".build/release/janestreet-puzzle"))
             candidates.append(root.appendingPathComponent(".build/out/Products/Release/janestreet-puzzle"))

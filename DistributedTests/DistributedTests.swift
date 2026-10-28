@@ -313,7 +313,13 @@ struct DistributedTests {
             let response = try await connection.request(request())
             #expect((response.runID) != nil)
             var wrongToken = request(); wrongToken.token = "invalid"
-            do { _ = try await connection.request(wrongToken); Issue.record("Wrong token accepted") } catch {}
+            do {
+                _ = try await connection.request(wrongToken)
+                Issue.record("Wrong token accepted")
+            } catch let error as CoordinatorCommunicationError {
+                #expect(error.description.hasPrefix("Coordinator reported:"))
+                #expect(!error.retryable)
+            }
             await connection.close()
             _ = try ServerIdentity(directory: directory)
             let secondPin = try PinnedIdentity(path: config.distributed.certificatePath)

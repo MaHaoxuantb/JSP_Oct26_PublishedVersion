@@ -117,10 +117,22 @@ final class ClientMessages: ChannelInboundHandler, @unchecked Sendable {
     func errorCaught(context: ChannelHandlerContext, error: Error) { fail(error); context.close(promise: nil) }
 }
 
+/// Only connection/RPC failures may enter the client's offline retry loop.
+/// Local checkpoint, replica, configuration and worker errors must reach shutdown.
+struct CoordinatorCommunicationError: Error, CustomStringConvertible {
+    let description: String
+    var retryable = true
+}
+
 struct ClientConnection: Sendable {
     let channel: any Channel
     let messages: ClientMessages
+    let machineName: String
     static func connect(settings: DistributedConfig, group: MultiThreadedEventLoopGroup) async throws -> Self {
+        do { return try await open(settings: settings, group: group) }
+        catch { throw CoordinatorCommunicationError(description: String(describing: error)) }
+    }
+    private static func open(settings: DistributedConfig, group: MultiThreadedEventLoopGroup) async throws -> Self {
         // SocketAddress parses numeric literals (including IPv6 scope identifiers),
         // without DNS resolution. Host and port are never concatenated as a URL.
         let address = try numericAddress(settings.address, port: settings.port)
@@ -135,14 +147,27 @@ struct ClientConnection: Sendable {
                 }
                 catch { return channel.eventLoop.makeFailedFuture(error) }
             }.connect(to: address).get()
-        return Self(channel: channel, messages: messages)
+        return Self(channel: channel, messages: messages, machineName: settings.resolvedMachineName)
     }
     func request(_ message: WireMessage) async throws -> WireMessage {
-        let response = try await messages.request(message, on: channel)
-        guard response.version == WireMessage.version, response.kind != "error" else {
-            throw DistributedError.message(response.error ?? "Protocol mismatch.")
-        }
-        return response
+        do {
+            var message = message
+            message.machineName = machineName
+            let response = try await messages.request(message, on: channel)
+            guard response.version == WireMessage.version else {
+                throw CoordinatorCommunicationError(description: "Coordinator protocol mismatch.", retryable: false)
+            }
+            guard response.kind != "error" else {
+                let detail = response.error ?? "unspecified error"
+                // Capacity and coordinator storage failures can recover while
+                // local computation continues. Rejected reports/authentication
+                // require a correction, not endless replays of the same request.
+                let retryable = detail.hasPrefix("Coordinator is at client capacity") || detail.hasPrefix("State database")
+                throw CoordinatorCommunicationError(description: "Coordinator reported: \(detail)", retryable: retryable)
+            }
+            return response
+        } catch let error as CoordinatorCommunicationError { throw error }
+        catch { throw CoordinatorCommunicationError(description: String(describing: error)) }
     }
     func close() async { try? await channel.close().get() }
 }

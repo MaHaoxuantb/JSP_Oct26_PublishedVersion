@@ -6,6 +6,9 @@ let package = Package(
     platforms: [.macOS(.v13)],
     products: [.executable(name: "janestreet-puzzle", targets: ["PuzzleSolver"])],
     dependencies: [
+        // NIO's unconstrained transitive update selected Collections 1.7.5,
+        // which requires Swift 6.4. Keep builds usable on our Swift 6.1 hosts.
+        .package(url: "https://github.com/apple/swift-collections.git", exact: "1.6.0"),
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.81.0"),
         .package(url: "https://github.com/apple/swift-nio-ssl.git", from: "2.30.0"),
         .package(url: "https://github.com/apple/swift-crypto.git", from: "3.12.0"),

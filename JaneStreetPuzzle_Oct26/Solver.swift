@@ -54,6 +54,7 @@ struct SolverResult {
 // MARK: - Search lifecycle
 final class Main {
     func Run(Config config: RunConfig, workerID: Int? = nil, archive: EliteArchive? = nil, initialLabels: [Int]? = nil, reusableContext: SearchContext? = nil,
+             observationRequested: (@Sendable () -> Bool)? = nil,
              observe: (@Sendable (DistributedProgress) -> Void)? = nil) async throws -> SolverResult {
         try config.validate()
         if let initialLabels, initialLabels.count != config.rowNum * config.colNum || initialLabels.contains(where: { $0 < 0 }) {
@@ -161,7 +162,7 @@ final class Main {
                 statistics.record(result)
                 current = result.state
                 let improved = current.validation.valid || current.quality < best.quality
-                if observe != nil && (current.validation.valid || logger.elapsedSeconds - lastObservation >= config.distributed.checkpointSeconds) {
+                if observe != nil && (current.validation.valid || observationRequested?() == true || logger.elapsedSeconds - lastObservation >= config.distributed.checkpointSeconds) {
                     // Capture a newer best before notifying the durable/network bridge.
                     if current.quality < best.quality || current.validation.valid { best = current.snapshot() }
                     observation(); lastObservation = logger.elapsedSeconds

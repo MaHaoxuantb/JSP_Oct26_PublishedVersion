@@ -29,6 +29,17 @@ struct PathDeviceError: Error, CustomStringConvertible {
     let description: String
 }
 
+/// Contexts are recreated for calibration, network updates and worker jobs.
+/// Keep policy worker-local, but print each identical notice once per process.
+final class PathAnnouncements: @unchecked Sendable {
+    static let shared = PathAnnouncements()
+    private let lock = NSLock()
+    private var reasons: Set<String> = []
+    func claim(_ reason: String) -> Bool {
+        lock.withLock { reasons.insert(reason).inserted }
+    }
+}
+
 /// Worker-local policy. Device access is serialized by the shared backend.
 /// Only distances run on the GPU; floating-point scoring stays on the CPU.
 final class PathEvaluator {
@@ -48,6 +59,14 @@ final class PathEvaluator {
          useSystemBackend: Bool = true) {
         self.grid = grid; self.mode = mode
         suppliedBackend = backend; self.useSystemBackend = useSystemBackend
+    }
+
+    var reportedBackend: String {
+        if !disabled && gpuBatches > 0 { return (suppliedBackend ?? (useSystemBackend ? SystemPathDevice.backend : nil))?.name ?? "CPU" }
+        return "CPU"
+    }
+    var reportedReason: String? {
+        fallbackReason ?? (mode == .cpu ? "CPU configured" : (gpuBatches == 0 ? "GPU batch threshold not reached" : nil))
     }
 
     var batchSize: Int {
@@ -110,7 +129,8 @@ final class PathEvaluator {
     }
 
     private func announce(_ reason: String) {
-        // One message per evaluator, never per board. Also visible with console logging off.
+        guard PathAnnouncements.shared.claim(reason) else { return }
+        // Also visible with console logging off.
         try? FileHandle.standardError.write(contentsOf: Data("[paths] \(reason)\n".utf8))
     }
 

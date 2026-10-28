@@ -4,19 +4,45 @@ import NIOPosix
 struct LocalRecord: Codable, Sendable {
     var job: SearchJob
     var progress: DistributedProgress?
+
+    /// Older clients could restart a completed generation and count extra work.
+    /// Retain its boards, but credit at most the generation's assigned effort.
+    @discardableResult mutating func enforceBudget() -> Bool {
+        guard var progress else { return false }
+        let remaining = max(0, job.budget - job.completed)
+        let exceeded = progress.iterations > remaining
+        if progress.iterations >= remaining {
+            progress.iterations = remaining
+            progress.finished = true
+        }
+        self.progress = progress
+        return exceeded
+    }
 }
 struct ClientDiskState: Codable, Sendable {
     var clientID = UUID()
     var runID: UUID?
     var config: RunConfig?
     var records: [LocalRecord] = []
+    var control: ClientDirective? = nil
+    var controlAppliedID: UUID? = nil
 }
 
 final class ProgressBridge: @unchecked Sendable {
     private let lock = NSLock()
     private var value: DistributedProgress?
     private var failure: String?
-    func update(_ progress: DistributedProgress) { lock.withLock { value = progress } }
+    private var path: (String, String?) = ("CPU", nil)
+    func updatePath(_ evaluator: PathEvaluator) { lock.withLock { path = (evaluator.reportedBackend, evaluator.reportedReason) } }
+    func pathStatus() -> (String, String?) { lock.withLock { path } }
+    private var observationPending = false
+    private var observedAt: Double?
+    func requestObservation() { lock.withLock { if value?.finished != true { observationPending = true } } }
+    func needsObservation() -> Bool { lock.withLock { observationPending } }
+    func progressTimestamp() -> Double? { lock.withLock { observedAt } }
+    func update(_ progress: DistributedProgress) { lock.withLock {
+        value = progress; observationPending = false; observedAt = Date().timeIntervalSince1970
+    } }
     func failed(_ error: Error) { lock.withLock { failure = String(describing: error) } }
     func read() -> (DistributedProgress?, String?) { lock.withLock { (value, failure) } }
 }
@@ -31,6 +57,9 @@ struct RunningSlot {
     let bridge: ProgressBridge
     let task: Task<Void, Never>
     let supplemental: Bool
+    func matches(_ job: SearchJob) -> Bool {
+        !supplemental && record.job.id == job.id && record.job.generation == job.generation
+    }
 }
 
 actor ClientEngine {
@@ -46,6 +75,13 @@ actor ClientEngine {
     private var lastSave = -Double.infinity
     private var stopped = false
     private var supplemental: [[Int]] = []
+    private var maintenanceFailure: (any Error)?
+    private var changingAssignments = false
+    private let sessionID = UUID()
+    private var checkpointAt: Double?
+    private var lastError: String?
+    private var mode: ClientMode { disk.control?.mode ?? .running }
+    private var workerLimit: Int { min(settings.workers, disk.control?.workerLimit ?? settings.workers) }
 
     init(settings: DistributedConfig, pathEvaluation: PathEvaluationMode = .automatic) throws {
         self.settings = settings
@@ -54,15 +90,67 @@ actor ClientEngine {
         store = try DurableStore(path: directory.appendingPathComponent("client.sqlite").path)
         disk = try store.read(ClientDiskState.self) ?? ClientDiskState()
         disk.config?.pathEvaluation = pathEvaluation
+        // An explicit process launch starts a new session after a previous quit.
+        // The coordinator redelivers any quit that was never acknowledged.
+        let savedMode = disk.control?.mode
+        let noSavedRecords = disk.records.isEmpty
+        if savedMode == .quitting || (savedMode == .draining && noSavedRecords) { disk.control = nil }
+        var repaired = 0
+        for i in disk.records.indices where disk.records[i].enforceBudget() { repaired += 1 }
         try store.write(disk)
+        if repaired > 0 {
+            distributedLog("Recovered \(repaired) over-budget checkpoints from an older client; candidate boards retained.")
+        }
     }
     func identity() -> UUID { disk.clientID }
     func savedConfig() -> RunConfig? { disk.config }
     func currentRun() -> UUID? { disk.runID }
-    func currentRates() -> [WorkerRate] { rates }
+    func currentRates() -> [WorkerRate] {
+        guard mode == .running || mode == .draining else { return [] }
+        return rates.filter { $0.slot < workerLimit }
+    }
+    func allRates() -> [WorkerRate] { rates }
+    func noteCommunicationError(_ error: String) { lastError = String(error.prefix(512)) }
+    func telemetry() -> ClientTelemetry {
+        ClientTelemetry(sessionID: sessionID, controlVersion: 1, capacity: settings.workers, mode: mode,
+            capturedAt: Date().timeIntervalSince1970, checkpointAt: checkpointAt,
+            workers: slots.sorted { $0.key < $1.key }.map { slot, running in
+                let progress = running.bridge.read().0
+                let path = running.bridge.pathStatus()
+                return WorkerTelemetry(slot: slot, state: progress?.finished == true ? "finished" : (running.supplemental ? "supplemental" : "searching"),
+                    backend: path.0, reason: path.1, progressAt: running.bridge.progressTimestamp())
+            }, lastError: lastError)
+    }
+    func controlAck(released: Bool = false) -> ControlAck? {
+        guard let control = disk.control, disk.controlAppliedID == control.id else { return nil }
+        let status: String
+        if released { status = "released" }
+        else { switch control.mode {
+        case .paused: status = "paused"
+        case .quitting: status = "stopping"
+        case .draining: status = shouldQuit() ? "stopping" : "draining"
+        case .running: status = control.checkpoint ? "checkpointed" : "running"
+        } }
+        return ControlAck(id: control.id, status: status)
+    }
+    func shouldQuit() -> Bool { mode == .quitting || (mode == .draining && disk.records.isEmpty) }
+    func envelope(kind: String, token: String, includeReports: Bool = true) throws -> WireMessage {
+        var message = WireMessage(kind: kind, clientID: disk.clientID, token: token)
+        message.runID = disk.runID; message.telemetry = telemetry()
+        message.controlAck = controlAck(released: kind == "goodbye" && (mode == .quitting || mode == .draining))
+        if kind != "goodbye" { message.rates = currentRates() }
+        if includeReports { message.reports = try reports(); message.elites = supplemental }
+        return message
+    }
     func setRates(_ values: [WorkerRate]) { rates = values }
+    func recordMaintenanceFailure(_ error: any Error) { maintenanceFailure = error }
+    func checkMaintenance() throws {
+        if let maintenanceFailure { throw maintenanceFailure }
+    }
 
     func configure(_ config: RunConfig, runID: UUID) async throws {
+        changingAssignments = true
+        defer { changingAssignments = false }
         if disk.runID != runID {
             await cancelAll()
             disk.records = []; caches = [:]; supplemental = []
@@ -77,13 +165,13 @@ actor ClientEngine {
     }
 
     func recoverLocal() throws {
-        guard disk.config != nil else { return }
+        guard disk.config != nil, !stopped, mode == .running || mode == .draining else { return }
         for i in disk.records.indices {
             if var progress = disk.records[i].progress,
                progress.iterations >= disk.records[i].job.budget - disk.records[i].job.completed {
                 progress.finished = true
                 disk.records[i].progress = progress
-            } else if disk.records[i].progress?.finished != true {
+            } else if disk.records[i].progress?.finished != true, slots[disk.records[i].job.slot] == nil {
                 start(disk.records[i], resumed: true)
             }
         }
@@ -91,17 +179,19 @@ actor ClientEngine {
     }
 
     private func start(_ record: LocalRecord, resumed: Bool = false, offline: Bool = false) {
-        guard var config = disk.config else { return }
+        guard var config = disk.config, mode == .running || mode == .draining, record.job.slot < workerLimit else { return }
+        let offset = record.progress?.iterations ?? 0
+        let remaining = record.job.budget - record.job.completed - offset
+        guard remaining > 0, record.progress?.finished != true else { return }
         let slot = record.job.slot
         let bridge = ProgressBridge()
         if let progress = record.progress { bridge.update(progress) }
         let cache = caches[slot] ?? WorkerCache(); caches[slot] = cache
-        let offset = record.progress?.iterations ?? 0
         let previousBest = record.progress?.best
         let previousSeconds = record.progress?.seconds ?? 0
         let archive = record.job.explorer ? nil : self.archive
         config.workerCount = 1
-        config.maxIterations = max(1, record.job.budget - record.job.completed - offset)
+        config.maxIterations = remaining
         config.timeLimitSeconds = max(60, settings.jobSeconds * 10)
         config.distributed = settings
         config.searchObjective = record.job.objective
@@ -115,13 +205,14 @@ actor ClientEngine {
         let task = Task.detached(priority: .low) {
             do {
                 if cache.context == nil { cache.context = SearchContext(config: taskConfig) }
+                bridge.updatePath(cache.context!.pathEvaluator)
                 // Only the best labels are preserved across continuation starts;
                 // score them in the same worker-local context, never on the network loop.
                 let old = previousBest.map { labels in
                     (labels: labels, quality: cache.context!.evaluate(labels: labels).quality)
                 }
                 _ = try await Main().Run(Config: taskConfig, workerID: (slot + 1) * 4 + 1, archive: archive,
-                    initialLabels: initial, reusableContext: cache.context) { update in
+                    initialLabels: initial, reusableContext: cache.context, observationRequested: { bridge.needsObservation() }) { update in
                         var cumulative = update
                         cumulative.iterations += offset
                         cumulative.seconds += previousSeconds
@@ -132,6 +223,7 @@ actor ClientEngine {
                             if old.quality < candidate.quality { cumulative.best = old.labels }
                         }
                         bridge.update(cumulative)
+                        bridge.updatePath(cache.context!.pathEvaluator)
                     }
             } catch { bridge.failed(error) }
         }
@@ -142,7 +234,7 @@ actor ClientEngine {
         var reports: [JobReport] = []
         for record in disk.records {
             let live = slots[record.job.slot]
-            let value = live?.supplemental == false ? live?.bridge.read() : nil
+            let value = live?.matches(record.job) == true ? live?.bridge.read() : nil
             if let failure = value?.1 { throw DistributedError.message("Worker failed: \(failure)") }
             if let progress = value?.0 ?? record.progress {
                 if progress.iterations > 0 && progress.seconds > 0,
@@ -153,7 +245,7 @@ actor ClientEngine {
                 var manifest = record.job
                 manifest.progress = nil // Do not retransmit an older full checkpoint twice.
                 reports.append(JobReport(job: manifest, progress: progress,
-                    release: progress.finished && progress.iterations < record.job.budget - record.job.completed && !progress.solved))
+                    release: mode == .paused || mode == .quitting || record.job.slot >= workerLimit || (progress.finished && progress.iterations < record.job.budget - record.job.completed && !progress.solved)))
             }
         }
         return reports
@@ -162,15 +254,53 @@ actor ClientEngine {
     func save(force: Bool = false, now: Double = ProcessInfo.processInfo.systemUptime) throws {
         guard force || now - lastSave >= settings.checkpointSeconds else { return }
         for i in disk.records.indices {
-            if let slot = slots[disk.records[i].job.slot], !slot.supplemental, let progress = slot.bridge.read().0 {
+            if let slot = slots[disk.records[i].job.slot], slot.matches(disk.records[i].job), let progress = slot.bridge.read().0 {
                 disk.records[i].progress = progress
             }
         }
         try store.write(disk)
         lastSave = now
+        checkpointAt = Date().timeIntervalSince1970
     }
 
-    func apply(_ response: WireMessage) async throws {
+    func apply(_ response: WireMessage, reconciling: Bool = false) async throws {
+        changingAssignments = true
+        defer { changingAssignments = false }
+        if reconciling { await cancelAll() }
+        if let control = response.control, control.id != disk.control?.id || control.id != disk.controlAppliedID {
+            // Persist intent before awaiting cooperative cancellation. Maintenance
+            // cannot launch supplemental work while assignments are changing.
+            disk.control = control
+            try store.write(disk)
+            if control.mode == .paused || control.mode == .quitting {
+                await cancelAll()
+            } else {
+                let extras = slots.filter { $0.key >= workerLimit || (control.mode == .draining && $0.value.supplemental) }
+                for (_, extra) in extras { extra.task.cancel() }
+                for (slot, extra) in extras {
+                    await extra.task.value
+                    if let progress = extra.bridge.read().0 {
+                        if !extra.supplemental, let i = disk.records.firstIndex(where: { extra.matches($0.job) }) {
+                            disk.records[i].progress = progress
+                        }
+                        supplemental.append(progress.best)
+                    }
+                    slots.removeValue(forKey: slot)
+                }
+            }
+            if control.checkpoint {
+                let bridges = slots.values.filter { $0.bridge.read().0?.finished != true }.map(\.bridge)
+                for bridge in bridges { bridge.requestObservation() }
+                while bridges.contains(where: { $0.needsObservation() }) {
+                    for bridge in bridges {
+                        if let failure = bridge.read().1 { throw DistributedError.message("Worker failed while checkpointing: \(failure)") }
+                    }
+                    try await Task.sleep(for: .milliseconds(10))
+                }
+            }
+            disk.controlAppliedID = control.id
+            try save(force: true)
+        }
         if response.solved {
             await cancelAll(); try save(force: true); stopped = true; return
         }
@@ -189,15 +319,27 @@ actor ClientEngine {
             disk.records.removeAll { $0.job.id == retired }
         }
         for job in response.jobs {
-            if let current = slots[job.slot], !current.supplemental,
-               current.record.job.id == job.id && current.record.job.generation == job.generation,
-               current.bridge.read().0?.finished != true { continue }
-            if let old = slots.removeValue(forKey: job.slot) {
-                old.task.cancel(); await old.task.value
-            }
+            // A finished worker is still awaiting its durable coordinator ACK.
+            // Echoing that generation must never restart it or reset its counter.
+            if let current = slots[job.slot], current.matches(job) { continue }
             let saved = disk.records.first { $0.job.id == job.id && $0.job.generation == job.generation }
             var record = saved ?? LocalRecord(job: job, progress: job.progress)
             record.job = job
+            if let acknowledged = job.progress,
+               acknowledged.iterations > (record.progress?.iterations ?? -1) {
+                if let best = record.progress?.best { supplemental.append(best) }
+                record.progress = acknowledged
+            }
+            record.enforceBudget()
+            if record.progress?.finished == true {
+                disk.records.removeAll { $0.job.slot == job.slot || $0.job.id == job.id }
+                disk.records.append(record)
+                try store.write(disk)
+                continue
+            }
+            if let old = slots.removeValue(forKey: job.slot) {
+                old.task.cancel(); await old.task.value
+            }
             // A finished partial attempt gets a new server generation; a complete
             // attempt is only retired by the server after its durable commit.
             disk.records.removeAll { $0.job.slot == job.slot || $0.job.id == job.id }
@@ -205,18 +347,21 @@ actor ClientEngine {
             try store.write(disk) // Receipt is durable before launching computation.
             start(record, resumed: saved != nil)
         }
+        supplemental = Array(supplemental.suffix(disk.config?.eliteCapacity ?? 8))
         try save(force: true)
     }
 
     func offlineWork() async throws {
-        guard !stopped, !rates.isEmpty, let config = disk.config else { return }
+        guard !stopped, !changingAssignments, mode == .running, !rates.isEmpty, let config = disk.config else { return }
         try save()
-        for slot in 0..<settings.workers {
+        for slot in 0..<workerLimit {
             if let current = slots[slot] {
                 let (progress, failure) = current.bridge.read()
                 if let failure { throw DistributedError.message(failure) }
                 guard progress?.finished == true else { continue }
                 await current.task.value
+                guard !changingAssignments, !stopped, mode == .running else { return }
+                guard slots[slot]?.bridge === current.bridge else { continue }
                 if let progress { supplemental.append(progress.best); supplemental = Array(supplemental.suffix(config.eliteCapacity)) }
                 if !current.supplemental { try save(force: true) }
             } else if disk.records.contains(where: { $0.job.slot == slot && $0.progress?.finished != true }) { continue }
@@ -229,16 +374,20 @@ actor ClientEngine {
     }
     func supplementalBoards() -> [[Int]] { supplemental }
     func isStopped() -> Bool { stopped }
-    func stop() async throws { await cancelAll(); try save(force: true) }
+    func stop() async throws { stopped = true; await cancelAll(); try save(force: true) }
     private func cancelAll() async {
         for slot in slots.values { slot.task.cancel() }
         for slot in slots.values { await slot.task.value }
         // Preserve updates before removing their bridges.
         for i in disk.records.indices {
-            if let slot = slots[disk.records[i].job.slot], !slot.supplemental, let progress = slot.bridge.read().0 {
+            if let slot = slots[disk.records[i].job.slot], slot.matches(disk.records[i].job), let progress = slot.bridge.read().0 {
                 disk.records[i].progress = progress
             }
         }
+        for slot in slots.values where slot.supplemental {
+            if let best = slot.bridge.read().0?.best { supplemental.append(best) }
+        }
+        supplemental = Array(supplemental.suffix(disk.config?.eliteCapacity ?? 8))
         slots = [:]
     }
 }

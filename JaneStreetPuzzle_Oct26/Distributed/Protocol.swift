@@ -43,6 +43,7 @@ struct WireMessage: Codable, Sendable {
     var version = Self.version
     var kind: String
     var clientID: UUID?
+    var machineName: String?
     var token: String?
     var runID: UUID?
     var config: RunConfig?
@@ -56,6 +57,10 @@ struct WireMessage: Codable, Sendable {
     var replica: ReplicaChunk?
     var replicaAck: UUID?
     var replicaIndexAck: Int?
+    var reconciling: Bool?
+    var telemetry: ClientTelemetry?
+    var control: ClientDirective?
+    var controlAck: ControlAck?
 }
 
 struct CoordinatorStatus: Codable, Sendable {
@@ -77,11 +82,17 @@ struct CoordinatorState: Codable, Sendable {
     var recoveryFloor: UInt64?
     var reconciled: [UUID] = []
     var jobs: [SearchJob] = []
+    // Optional for compatibility with existing coordinator databases and backups.
+    var clientNames: [String: String]? = nil
     var elites: [[Int]] = []
     var solved = false
     var winner: [Int]?
     var completedJobs: UInt64 = 0
     var reassignments: UInt64 = 0
+    var directives: [String: ClientDirective]? = nil
+    var commands: [ManagementCommand]? = nil
+    var fleet: [String: FleetClient]? = nil
+    var insights: SearchInsights? = nil
 }
 
 enum DistributedError: Error, CustomStringConvertible {

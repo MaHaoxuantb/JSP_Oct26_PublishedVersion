@@ -173,7 +173,19 @@ struct ConfigurationError: Error, CustomStringConvertible {
 }
 
 /// Network addresses are numeric literals, never URLs. Secrets live in separate files.
+func validatedMachineName(_ value: String?) throws -> String? {
+    guard let value else { return nil }
+    let name = value.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !name.isEmpty else { return nil }
+    guard name.count <= 128, name.utf8.count <= 1024,
+          value.unicodeScalars.allSatisfy({ !CharacterSet.controlCharacters.contains($0) }) else {
+        throw ConfigurationError(message: "Machine name must be at most 128 characters (1024 UTF-8 bytes) and contain no control characters.")
+    }
+    return name
+}
+
 struct DistributedConfig: Codable, Sendable {
+    var machineName: String? = nil
     var address = "127.0.0.1"
     var port = 8443
     var webUIEnabled = true
@@ -196,10 +208,11 @@ struct DistributedConfig: Codable, Sendable {
     var backupBytesPerSecond = 65_536
 
     init() {}
-    private enum CodingKeys: String, CodingKey { case address, port, webUIEnabled, webUIAddress, webUIPort, stateDirectory, certificatePath, tokenPath, clientWorkers, maxClients, maxWorkersPerClient, heartbeatSeconds, checkpointSeconds, failureGraceSeconds, jobSeconds, calibrationSeconds, backupsEnabled, backupSeconds, backupBytesPerSecond }
+    private enum CodingKeys: String, CodingKey { case machineName, address, port, webUIEnabled, webUIAddress, webUIPort, stateDirectory, certificatePath, tokenPath, clientWorkers, maxClients, maxWorkersPerClient, heartbeatSeconds, checkpointSeconds, failureGraceSeconds, jobSeconds, calibrationSeconds, backupsEnabled, backupSeconds, backupBytesPerSecond }
     init(from decoder: Decoder) throws {
         self.init()
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        machineName = try values.decodeIfPresent(String.self, forKey: .machineName)
         if values.contains(.address) { address = try values.decode(type(of: address), forKey: .address) }
         if values.contains(.port) { port = try values.decode(type(of: port), forKey: .port) }
         if values.contains(.webUIEnabled) { webUIEnabled = try values.decode(type(of: webUIEnabled), forKey: .webUIEnabled) }
@@ -221,8 +234,17 @@ struct DistributedConfig: Codable, Sendable {
         if values.contains(.backupBytesPerSecond) { backupBytesPerSecond = try values.decode(type(of: backupBytesPerSecond), forKey: .backupBytesPerSecond) }
     }
 
+    static var systemMachineName: String {
+        #if os(macOS)
+        if let name = try? validatedMachineName(Host.current().localizedName) { return name }
+        #endif
+        if let name = try? validatedMachineName(ProcessInfo.processInfo.hostName) { return name }
+        return "Unnamed machine"
+    }
+    var resolvedMachineName: String { (try? validatedMachineName(machineName)) ?? Self.systemMachineName }
     var workers: Int { clientWorkers ?? min(maxWorkersPerClient, max(1, ProcessInfo.processInfo.activeProcessorCount - 1)) }
     func validate() throws {
+        _ = try validatedMachineName(machineName)
         guard !webUIEnabled || ((1...65535).contains(webUIPort) && webUIPort != port && !webUIAddress.isEmpty) else {
             throw ConfigurationError(message: "WebUI needs a numeric bind address and a port from 1–65535 different from the coordinator port.")
         }

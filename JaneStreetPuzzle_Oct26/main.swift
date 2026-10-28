@@ -27,9 +27,22 @@ var configPath: String?
 if let index = arguments.firstIndex(of: "--config"), index + 1 < arguments.count {
     configPath = arguments[index + 1]; arguments.removeSubrange(index...index + 1)
 }
+var machineNameOverride: String?
+var optionError: String?
+if let index = arguments.firstIndex(of: "--machine-name") {
+    if index + 1 < arguments.count, !arguments[index + 1].hasPrefix("--") {
+        machineNameOverride = arguments[index + 1]
+        arguments.removeSubrange(index...index + 1)
+    } else { optionError = "Pass a name after --machine-name." }
+}
 @MainActor
 func loadConfiguration(base: RunConfig) throws -> RunConfig {
-    guard let configPath else { return base }
+    func named(_ config: RunConfig) -> RunConfig {
+        var config = config
+        if let machineNameOverride { config.distributed.machineName = machineNameOverride }
+        return config
+    }
+    guard let configPath else { return named(base) }
     func merge(_ base: [String: Any], _ overlay: [String: Any]) -> [String: Any] {
         var result = base
         for (key, value) in overlay {
@@ -41,9 +54,11 @@ func loadConfiguration(base: RunConfig) throws -> RunConfig {
     let original = try JSONSerialization.jsonObject(with: JSONEncoder().encode(base)) as! [String: Any]
     let supplied = try JSONSerialization.jsonObject(with: Data(contentsOf: URL(fileURLWithPath: configPath)))
     guard let overlay = supplied as? [String: Any] else { throw ConfigurationError(message: "Configuration must be a JSON object.") }
-    return try JSONDecoder().decode(RunConfig.self, from: JSONSerialization.data(withJSONObject: merge(original, overlay)))
+    return named(try JSONDecoder().decode(RunConfig.self, from: JSONSerialization.data(withJSONObject: merge(original, overlay))))
 }
 do {
+    if let optionError { throw ConfigurationError(message: optionError) }
+    _ = try validatedMachineName(machineNameOverride)
     #if canImport(NIOSSL)
     if arguments.first == "--server" || arguments.first == "--client" || arguments.first == "--restore-backup" || arguments.first == "--export-backup" {
         let config = try loadConfiguration(base: arguments.contains("example") ? .example : .fullPuzzle)
@@ -78,7 +93,7 @@ do {
         print("Repair stopped: \(result.reason.rawValue). Log: \(result.logURL.path)")
         printResult(snapshot: BoardSnapshot(result.best), scores: result.best.scores)
     } else {
-        print("Distributed modes (Swift Package build): --server [example|full] [--new-run], --client, --restore-backup <file> <key>, --export-backup <file>. Settings: --config <JSON>.\nSolver is idle. Pass --run [example|full] for the 5×5 example or 11×11 puzzle (default: example), --resume-log <checkpoint or JSONL> to continue a saved board, or --repair-log <JSONL path> for bounded merge repair.")
+        print("Distributed modes (Swift Package build): --server [example|full] [--new-run], --client, --restore-backup <file> <key>, --export-backup <file>. Settings: --config <JSON>, --machine-name <name> (default: system name).\nSolver is idle. Pass --run [example|full] for the 5×5 example or 11×11 puzzle (default: example), --resume-log <checkpoint or JSONL> to continue a saved board, or --repair-log <JSONL path> for bounded merge repair.")
     }
 } catch {
     try? FileHandle.standardError.write(contentsOf: Data("Solver failed: \(error)\n".utf8))

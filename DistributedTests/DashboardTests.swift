@@ -41,6 +41,7 @@ struct DashboardTests {
         _ = try await server.handle(message, now: 1)
         let live = await server.dashboard(now: 2)
         #expect(live.clients.first?.connected == true)
+        #expect(live.clients.first?.info?.rate == 2, "Calibration capacity must not masquerade as measured throughput")
         #expect(live.jobs.first?.completed == 2 && live.jobs.first?.budget == job.budget)
         #expect(live.jobs.first?.status == "assigned")
         let expired = await server.dashboard(now: 5)

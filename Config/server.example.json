@@ -1,5 +1,6 @@
 {
   "distributed": {
+    "machineName": null,
     "address": "127.0.0.1",
     "port": 8443,
     "webUIEnabled": true,

@@ -27,7 +27,9 @@ The initial supported platforms are macOS 13+ and Ubuntu 24.04, with CI checks f
 both. Package tests use the built-in Swift Testing framework, available with
 Swift 6.1+ toolchains, including Apple's Command Line Tools; XCTest is not required.
 The worker concurrency annotation is conditional for Swift 6.2+, retaining support
-for Swift 6.1. Xcode's existing target also includes the required Swift packages. Use
+for Swift 6.1. Collections is pinned to 1.6.0 because the newer 1.7.5 dependency
+requires Swift 6.4; keep this compatibility constraint when updating packages.
+Xcode's existing target also includes the required Swift packages. Use
 Release for actual computation. The sample configurations use `/tmp` for a local
 demonstration; choose persistent, private state directories for real runs, outside
 this repository, iCloud, network filesystems and other synchronization services.
@@ -51,6 +53,55 @@ token. For the sample client, copy those files into `/tmp/janestreet-client`, th
 .build/release/janestreet-puzzle --client --config Config/client.example.json
 ```
 
+Known cloud-synced state paths (including symlinks into iCloud Drive and macOS
+CloudStorage) are rejected before opening a database or acquiring a process lock.
+Keep source code in iCloud if desired, but keep distributed state on a local disk.
+The path check cannot recognize every custom sync folder or network mount.
+
+If an existing config uses a synced directory, stop all processes using that state
+on every machine, then migrate on each host separately to a **new** local directory:
+
+```sh
+python3 Scripts/migrate_state.py --config Config/client.json \
+  --destination "$HOME/.local/state/janestreet-puzzle-client"
+.build/release/janestreet-puzzle --client --config Config/client.json
+```
+
+The tool holds the state lock, copies databases with SQLite's backup API, checks
+their integrity, copies worker logs and credentials, and updates the config last.
+It preserves the original files and saves the old config in the destination as
+`config.before-migration.json`. An existing destination is never overwritten.
+Partial failed copies are retained for inspection; choose a new destination for a
+retry. Sync conflict copies such as `client 2.sqlite` are left in the source for
+manual inspection, rather than merged or substituted for the configured database.
+If the directory was renamed, pass `--source-directory /actual/state/path`.
+After identifying a worker's actual conflict copy (for example, through its open
+files and saved client ID), select it explicitly with `--client-database 'client 2.sqlite'`;
+the destination will use the canonical `client.sqlite` name and preserve its ID.
+Copy updated server certificates to the **new** configured certificate path after
+server restarts. Never synchronize, rename or replace an open SQLite database,
+or move its parent directory. Stop first, then update the configured absolute path
+before restarting; moving a project does not update paths stored in JSON.
+
+Database errors include the path, operation and extended SQLite code. Code 1032
+(`SQLITE_READONLY_DBMOVED`) means the open database was moved or replaced; other
+read-only failures may involve file or parent-directory permissions. Local storage
+failures stop the client instead of being retried as coordinator outages. Errors
+returned by the remote server are marked `Coordinator reported:`; fix that server's
+state directory when the path belongs to it. Network outages still allow local
+work and checkpoints while local storage is healthy. Repeated identical GPU path
+selection/fallback notices are printed once per process; each worker still makes
+its own CPU/GPU performance decision.
+
+Finished assignments remain pending until the coordinator acknowledges them;
+an echoed assignment never starts another iteration. On reconnect the client
+fetches committed assignment progress before sending local reports, so a stale
+checkpoint cannot move the coordinator's counters backwards. Checkpoints from
+older clients that exceeded an assignment's budget are repaired on load while
+retaining their candidate boards. Do not delete `client.sqlite` to recover from
+that bug. Permanent report/authentication rejections stop with the reported error;
+temporary network, coordinator-storage and capacity failures still retry.
+
 TLS 1.3 encrypts the connection. The exact copied certificate pins server identity;
 public CA or DNS trust cannot substitute for it. A missing, changed or expired
 certificate fails closed, before credentials are sent. After restarting the
@@ -58,6 +109,15 @@ server, copy its new public certificate to the same configured client path;
 clients reload that file while reconnecting. Keep the join-token private and
 consistent across server restarts. These controls are intended for trusted invited
 devices, not a public volunteer computing service.
+
+Machines use their system computer name by default. Set `distributed.machineName`
+in each machine's config to override it, or pass `--machine-name "Workshop Mac"`
+when launching either role. The command-line name takes precedence; omitting the
+setting or using an empty name restores the system default. Names appear in logs,
+the dashboard's machine list and worker assignments. Client UUIDs remain the stable
+identity, so renaming a machine does not discard work. Names are limited to 128
+characters and 1024 UTF-8 bytes, without control characters. Older clients that do
+not send a name still work and appear by UUID until upgraded.
 
 Clients default to logical CPU count minus one, at least one worker. Override
 `distributed.clientWorkers` for shared-use machines. A five-second calibration at
@@ -83,28 +143,72 @@ cost, and no universal speedup or solve-time guarantee is claimed.
 
 ### Process WebUI
 
-Server mode also serves a read-only process dashboard at
-`http://127.0.0.1:8080/`. It refreshes every three seconds with connected client IDs,
-worker slots, assignment generations, objectives, reported iteration budgets and
-elapsed time, completed job totals, reassignments and backup age. Progress reflects
-the latest client heartbeat/checkpoint, rather than continuous measurements of the
-remote operating system. Expired jobs remain visible as awaiting reassignment;
-recovered jobs show reconnecting until their client returns.
-The dashboard follows your system's light or dark appearance by default; its
-appearance control lets you choose either theme and remembers your selection.
+Server mode serves a search dashboard at `http://127.0.0.1:8080/` by default.
+It refreshes every three seconds and shows:
+
+- The best independently checked candidate and a bounded archive of diverse alternatives,
+  colored region boards, capitals, incorrect clues, structural violations, and candidate JSON downloads.
+- Candidate ranking by structural issues, then incorrect clues, then normalized clue error.
+  Only an independently validated solution displays the final puzzle answer.
+- Persistent improvement history, discovery machine/slot/objective, estimated fleet throughput,
+  and accepted iteration totals recorded since this metrics version was installed.
+- Machine names and stable IDs, heartbeat and checkpoint freshness, worker activity,
+  CPU/Metal/CUDA path selection and fallback explanations, assignment budgets,
+  completed jobs, reassignments, and backup age.
+- Bounded event and management command histories that survive coordinator restarts.
+
+Charts reflect client reports, not continuous operating-system measurements. Estimates are
+not a solution completion percentage or ETA. Per-slot rates use coordinator-accepted iterations divided by reported worker time;
+calibration estimates are used for assignment sizing and are excluded from these charts;
+accepted work counts only new coordinator-committed iterations, excluding duplicate reports,
+stale owners and unreported supplemental work. Older completed work is not reconstructed.
+The dashboard supports system, light and dark appearance.
 
 Configure `distributed.webUIEnabled`, `distributed.webUIAddress` and
-`distributed.webUIPort` (see `Config/server.example.json`). The WebUI port is
-separate from `distributed.port`, which remains the TLS compute-client port.
-Set `webUIEnabled` to `false` to disable it. If the WebUI cannot bind its configured
-address/port, the coordinator logs the error and continues serving compute clients.
-The startup log prints the WebUI URL. The page and `/api/status` expose only
-monitoring data, without tokens, certificates or configuration paths.
+`distributed.webUIPort` (see `Config/server.example.json`). This HTTP port is separate
+from the TLS worker port. The default bind is loopback. A LAN bind enables read-only
+monitoring over HTTP; **management requires a loopback URL over local access or an SSH
+tunnel**, a matching browser Origin, and a separate admin token. It never uses the
+worker join token. The server creates a private `web-admin-token` file in its state
+directory on first dashboard startup; read it locally or over trusted SSH and paste it
+into "Unlock controls". The page keeps it in memory until locked, refreshed or closed.
+Do not distribute this token with client configuration.
 
-The WebUI uses HTTP without authentication and binds to loopback by default.
-For remote viewing, forward its configured port over SSH, or explicitly bind it
-to an interface on a trusted network. Client mode and standalone search do not
-start a WebUI.
+For a Mini with WebUI port 9999, forward a local port, then visit
+`http://127.0.0.1:9999/`:
+
+```sh
+ssh -N -L 127.0.0.1:9999:127.0.0.1:9999 thomasb@192.168.4.173
+```
+
+Management actions target client UUIDs, with names for display:
+
+- **Checkpoint & quit:** cancel cooperatively, save current/best boards, report final
+  progress and release assignments, then exit. This stops the puzzle process.
+- **Drain & quit:** finish assigned jobs, take no new assignments or supplemental work,
+  submit progress, then exit. Slow jobs can delay this action; checkpoint & quit can replace it.
+- **Pause / Resume:** save and release assignments while keeping the client available
+  for subsequent commands. Pause survives a client restart and suppresses offline work.
+- **Set workers:** adjust active slots from 1 to the client's configured capacity;
+  excess slots are checkpointed and released. Increasing the configured maximum still
+  requires editing client configuration and restarting it.
+- **Checkpoint:** force a durable client checkpoint without changing its desired mode.
+
+Commands are durable and idempotent, and carry the current run ID. Queued commands remain
+pending while clients are offline; delivery follows heartbeat/reconnection cadence.
+The UI shows client acknowledgments, not an assumption that a request succeeded.
+"Released" means the coordinator committed the final release, not OS-level proof of process
+exit. Clients without management support show unsupported controls. New commands replace
+previous desired state, and queued/draining predecessors show superseded. Graceful shutdown
+is cooperative; a long operation can delay cancellation. Starting a quit client again requires
+launching it locally or through a separate service; an acknowledged quit does not kill a
+new manually launched session. Unacknowledged quit requests are delivered on reconnect.
+
+Monitoring endpoints never expose tokens, certificates, or private configuration paths.
+Management requests use bounded JSON POST bodies and never execute shell commands. A dashboard
+bind failure is logged and leaves the coordinator serving compute clients. Client and standalone
+modes do not start a WebUI. History is bounded to 256 improvements, 360 throughput samples,
+128 events, 200 commands and 1024 known client records.
 
 ### Recovery
 

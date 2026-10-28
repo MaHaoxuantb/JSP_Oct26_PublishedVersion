@@ -14,4 +14,5 @@ jobs:
       - if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y libsqlite3-dev
       - run: swift test -c release
+      - run: python3 -m unittest discover -s Scripts -p 'test_*.py'
       - run: swift run -c release janestreet-puzzle

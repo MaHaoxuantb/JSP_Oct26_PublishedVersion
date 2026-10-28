@@ -1,13 +1,17 @@
 import Foundation
+import Crypto
 import NIOCore
 import NIOPosix
 import NIOHTTP1
 
 struct DashboardClient: Codable, Sendable {
     let id: UUID
+    let machineName: String?
     let connected: Bool
     let lastSeenSeconds: Double?
     let assignedJobs: Int
+    let info: FleetClient?
+    let directive: ClientDirective?
 }
 
 struct DashboardJob: Codable, Sendable {
@@ -25,19 +29,39 @@ struct DashboardJob: Codable, Sendable {
 
 struct DashboardSnapshot: Codable, Sendable {
     let runID: UUID
+    let coordinatorName: String?
     let solved: Bool
     let completedJobs: UInt64
     let reassignments: UInt64
     let backupAgeSeconds: Double?
     let clients: [DashboardClient]
     let jobs: [DashboardJob]
+    let capturedAt: Double
+    let rows: Int
+    let cols: Int
+    let clues: [[Int]]
+    let candidates: [DashboardCandidate]
+    let insights: SearchInsights
+    let commands: [ManagementCommand]
 }
 
-/// Separate HTTP listener: browser traffic never enters the authenticated worker protocol.
+/// Separate browser listener; the worker join token never authorizes management.
+func dashboardAdminToken(directory: String) throws -> String {
+    let path = URL(fileURLWithPath: directory).appendingPathComponent("web-admin-token")
+    if !FileManager.default.fileExists(atPath: path.path) {
+        let value = SymmetricKey(size: .bits256).withUnsafeBytes { Data($0).base64EncodedString() }
+        try writePrivate(Data(value.utf8), to: path)
+    }
+    let value = try String(contentsOf: path, encoding: .utf8).trimmingCharacters(in: .whitespacesAndNewlines)
+    guard value.utf8.count >= 32, value.utf8.count <= 1024 else { throw DistributedError.message("Invalid web-admin-token file.") }
+    return value
+}
+
 func startDashboard(settings: DistributedConfig, coordinator: Coordinator,
                     group: MultiThreadedEventLoopGroup) async throws -> (any Channel)? {
     guard settings.webUIEnabled else { return nil }
     let address = try numericAddress(settings.webUIAddress, port: settings.webUIPort)
+    let adminToken = try dashboardAdminToken(directory: settings.stateDirectory)
     let gate = ConnectionGate(limit: 32)
     return try await ServerBootstrap(group: group)
         .serverChannelOption(ChannelOptions.backlog, value: 32)
@@ -48,7 +72,7 @@ func startDashboard(settings: DistributedConfig, coordinator: Coordinator,
             do {
                 try channel.pipeline.syncOperations.configureHTTPServerPipeline(withPipeliningAssistance: false)
                 try channel.pipeline.syncOperations.addHandlers(
-                    IdleStateHandler(readTimeout: .seconds(10)), DashboardHTTP(coordinator: coordinator))
+                    IdleStateHandler(readTimeout: .seconds(10)), DashboardHTTP(coordinator: coordinator, adminToken: adminToken))
                 return channel.eventLoop.makeSucceededVoidFuture()
             } catch { return channel.eventLoop.makeFailedFuture(error) }
         }.bind(to: address).get()
@@ -58,54 +82,98 @@ final class DashboardHTTP: ChannelInboundHandler, @unchecked Sendable {
     typealias InboundIn = HTTPServerRequestPart
     typealias OutboundOut = HTTPServerResponsePart
     private let coordinator: Coordinator
+    private let adminToken: String
     private var head: HTTPRequestHead?
+    private var body = Data()
     private var responding = false
-    init(coordinator: Coordinator) { self.coordinator = coordinator }
+    init(coordinator: Coordinator, adminToken: String) { self.coordinator = coordinator; self.adminToken = adminToken }
 
+    /// Management is local/SSH-tunnel only. Reject DNS rebinding, cross-origin
+    /// requests, and direct LAN administration over this plaintext listener.
+    static func localOrigin(host: String?, origin: String?, peer: String?) -> Bool {
+        guard let host, let origin, let peer,
+              peer == "127.0.0.1" || peer == "::1" || peer == "::ffff:127.0.0.1",
+              let url = URLComponents(string: "http://" + host), url.user == nil, url.password == nil,
+              url.path.isEmpty, url.query == nil, url.fragment == nil,
+              ["localhost", "127.0.0.1", "[::1]", "::1"].contains(url.host?.lowercased() ?? ""),
+              origin == "http://" + host else { return false }
+        return true
+    }
+    private func authorized(_ head: HTTPRequestHead, channel: any Channel) -> Bool {
+        guard Self.localOrigin(host: head.headers.first(name: "Host"), origin: head.headers.first(name: "Origin"), peer: channel.remoteAddress?.ipAddress),
+              head.headers["Host"].count == 1, head.headers["Origin"].count == 1,
+              head.headers["Authorization"].count == 1,
+              head.headers.first(name: "Content-Type")?.lowercased() == "application/json",
+              let supplied = head.headers.first(name: "Authorization") else { return false }
+        let a = Array(supplied.utf8), b = Array(("Bearer " + adminToken).utf8)
+        guard a.count == b.count else { return false }
+        return zip(a, b).reduce(UInt8(0)) { $0 | ($1.0 ^ $1.1) } == 0
+    }
     func channelRead(context: ChannelHandlerContext, data: NIOAny) {
         guard !responding else { return }
         switch unwrapInboundIn(data) {
-        case .head(let request): head = request
-        case .body:
-            // Monitoring is GET-only and never accepts request bodies.
-            responding = true
-            respond(on: context.channel, status: .badRequest, type: "text/plain", body: Data("Request body is not supported.".utf8))
+        case .head(let request):
+            head = request
+        case .body(var bytes):
+            guard head?.method == .POST, body.count + bytes.readableBytes <= 4096 else {
+                responding = true
+                respond(on: context.channel, status: .payloadTooLarge, type: "text/plain", body: Data("Request body rejected.".utf8)); return
+            }
+            body.append(contentsOf: bytes.readBytes(length: bytes.readableBytes) ?? [])
         case .end:
             responding = true
             guard let head else { context.close(promise: nil); return }
             let channel = context.channel
+            if head.method == .POST && ["/api/commands", "/api/admin/check"].contains(head.uri) {
+                guard authorized(head, channel: channel) else {
+                    respond(on: channel, status: .forbidden, type: "text/plain", body: Data("Administration requires a loopback/SSH-tunnel URL, matching Origin, and the web admin token.".utf8)); return
+                }
+                if head.uri == "/api/admin/check" {
+                    respond(on: channel, status: .ok, type: "application/json", body: Data("{\"authorized\":true}".utf8)); return
+                }
+                let request: ManagementRequest
+                do { request = try JSONDecoder().decode(ManagementRequest.self, from: body) }
+                catch { respond(on: channel, status: .badRequest, type: "text/plain", body: Data("Invalid command.".utf8)); return }
+                Task {
+                    do {
+                        let command = try await coordinator.manage(request)
+                        let encoded = try JSONEncoder().encode(command)
+                        channel.eventLoop.execute { self.respond(on: channel, status: .accepted, type: "application/json", body: encoded) }
+                    } catch {
+                        let encoded = Data(String(describing: error).utf8)
+                        channel.eventLoop.execute { self.respond(on: channel, status: .conflict, type: "text/plain", body: encoded) }
+                    }
+                }
+                return
+            }
             guard head.method == .GET else {
-                respond(on: channel, status: .methodNotAllowed, type: "text/plain", body: Data("Use GET.".utf8)); return
+                respond(on: channel, status: .methodNotAllowed, type: "text/plain", body: Data("Use GET for monitoring.".utf8)); return
             }
             switch head.uri {
-            case "/":
-                respond(on: channel, status: .ok, type: "text/html; charset=utf-8", body: Data(dashboardHTML.utf8))
+            case "/": respond(on: channel, status: .ok, type: "text/html; charset=utf-8", body: Data(dashboardHTML.utf8))
             case "/api/status":
                 Task {
                     let snapshot = await coordinator.dashboard()
                     do {
-                        let data = try JSONEncoder().encode(snapshot)
-                        channel.eventLoop.execute { self.respond(on: channel, status: .ok, type: "application/json", body: data) }
+                        let encoded = try JSONEncoder().encode(snapshot)
+                        channel.eventLoop.execute { self.respond(on: channel, status: .ok, type: "application/json", body: encoded) }
                     } catch {
                         channel.eventLoop.execute { self.respond(on: channel, status: .internalServerError, type: "text/plain", body: Data("Status unavailable.".utf8)) }
                     }
                 }
-            default:
-                respond(on: channel, status: .notFound, type: "text/plain", body: Data("Not found.".utf8))
+            default: respond(on: channel, status: .notFound, type: "text/plain", body: Data("Not found.".utf8))
             }
         }
     }
-
     private func respond(on channel: any Channel, status: HTTPResponseStatus, type: String, body: Data) {
         var headers = HTTPHeaders([
             ("Content-Type", type), ("Content-Length", String(body.count)), ("Connection", "close"),
-            ("Cache-Control", "no-store"), ("X-Content-Type-Options", "nosniff"),
-            ("Content-Security-Policy", "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'")
+            ("Cache-Control", "no-store"), ("X-Content-Type-Options", "nosniff"), ("Referrer-Policy", "no-referrer"),
+            ("Content-Security-Policy", "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'")
         ])
         if status == .methodNotAllowed { headers.add(name: "Allow", value: "GET") }
         channel.write(HTTPServerResponsePart.head(HTTPResponseHead(version: .http1_1, status: status, headers: headers)), promise: nil)
-        var buffer = channel.allocator.buffer(capacity: body.count)
-        buffer.writeBytes(body)
+        var buffer = channel.allocator.buffer(capacity: body.count); buffer.writeBytes(body)
         channel.write(HTTPServerResponsePart.body(.byteBuffer(buffer)), promise: nil)
         channel.writeAndFlush(HTTPServerResponsePart.end(nil)).whenComplete { _ in channel.close(promise: nil) }
     }
@@ -160,6 +228,13 @@ td.empty{text-align:center;white-space:normal;padding:36px 24px 40px}tbody tr:ha
 footer{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;font-size:11px;color:var(--muted);padding:4px 2px}footer p{display:flex;align-items:center;gap:7px}footer svg{width:13px;height:13px}.run-meta{display:flex;align-items:center;gap:6px;min-width:0}#run{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px}
 @media(max-width:760px){.topbar-inner{padding:14px 20px}.brand-context,.brand-divider{display:none}main{padding:30px 20px 22px}.page-heading{align-items:flex-start;flex-direction:column;gap:18px}.live-block{text-align:left}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:20px}.card:nth-child(3){border-left:0;border-top:1px solid var(--line)}.card:nth-child(4){border-top:1px solid var(--line)}.panel-heading,th,td{padding-left:20px;padding-right:20px}h1{font-size:27px}footer{align-items:flex-start;flex-direction:column}}
 @media(max-width:400px){.theme-picker button{padding:6px 8px}.theme-picker button span{display:none}.metric-label{font-size:11px}.metric-label svg{display:none}.card strong{font-size:30px}}
+
+input,select{font:inherit;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:7px;max-width:100%}
+.action{background:var(--soft);border:1px solid var(--line);color:var(--text);border-radius:6px;padding:6px 9px;cursor:pointer;margin:2px}.action:disabled{opacity:.4;cursor:default}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.detail{padding:24px}.detail h2{margin-bottom:12px}.detail p{margin:8px 0}.quality{display:flex;flex-wrap:wrap;gap:12px;margin:15px 0}.quality strong{font-size:23px;display:block}.quality span{color:var(--muted);font-size:12px}
+.board{display:grid;width:min(100%,440px);aspect-ratio:1;margin:18px 0;border:2px solid var(--text)}.board-cell{color:#202024;display:grid;place-items:center;position:relative;border:1px solid #0002;font-weight:600;min-width:0;font-size:clamp(10px,2vw,16px)}.board-cell.wrong{outline:3px solid #c33;outline-offset:-4px}.capital{position:absolute;right:3px;top:0;font-size:10px}.region-id{position:absolute;left:2px;bottom:0;font-size:8px;font-weight:400}
+.chart{width:100%;height:130px;color:var(--accent);display:block}.chart text{fill:var(--muted);font-size:11px}.details-list{max-height:190px;overflow:auto;padding-left:20px}.admin-bar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:14px 0}.admin-bar input{width:260px}.admin-message{color:var(--muted);font-size:12px}.controls{min-width:285px}.controls input{width:55px}.notice{color:var(--amber)}.events{max-height:280px;overflow:auto}.events p{margin:0;padding:8px 0;border-bottom:1px solid var(--line);font-size:12px}.mini{font-size:12px;color:var(--muted)}.quality-charts{display:grid;gap:12px}.history-table{max-height:220px;overflow:auto}.history-table td,.history-table th{padding:8px;font-size:12px}
+@media(max-width:850px){.detail-grid{grid-template-columns:1fr}.detail{padding:20px}}
 </style></head><body>
 <nav class="topbar" aria-label="Dashboard toolbar"><div class="topbar-inner">
 <div class="brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 17.5h7m-3.5-3.5v7"/></svg></span><span>JSP_Oct26</span><span class="brand-divider"></span><span class="brand-context">October 2026 / Coordinator</span></div>
@@ -175,11 +250,16 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:cen
 <div class="card"><span class="metric-label">Assigned jobs<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg></span><strong id="jobs">—</strong><span class="metric-note">Across worker slots</span></div>
 <div class="card"><span class="metric-label">Completed jobs<svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></span><strong id="completed">—</strong><span class="metric-note">In the current run</span></div>
 <div class="card"><span class="metric-label">Reassignments<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 8h15l-4-4m5 12H5l4 4"/></svg></span><strong id="reassignments">—</strong><span class="metric-note">Jobs handed to another worker</span></div></section>
+<section class="panel detail" aria-label="Search overview"><h2>Search overview</h2><div class="quality"><div><strong id="acceptedWork">0</strong><span>Accepted iterations since metrics began</span></div><div><strong id="fleetRate">0</strong><span>Estimated iterations / second</span></div><div><strong id="lastImproved">—</strong><span>Since last best improvement</span></div></div><p class="mini" id="metricsSince"></p><p class="mini">Candidate quality is not a completion percentage. This search has no reliable solution ETA.</p></section>
+<div class="detail-grid"><section class="panel detail" aria-label="Candidate explorer"><h2>Best candidates</h2><select id="candidateSelect" aria-label="Choose candidate"></select><div class="quality"><div><strong id="issues">—</strong><span>Structural issues</span></div><div><strong id="wrong">—</strong><span>Incorrect clues</span></div><div><strong id="error">—</strong><span>Normalized clue error</span></div></div><p id="candidateMeta">Waiting for a reported board.</p><div id="board" class="board" role="img" aria-label="Candidate board"></div><p class="mini">★ Capital · red outline: incorrect clue · small number: region ID. Hover a cell for details.</p><p id="answer"></p><ul id="violations" class="details-list"></ul><button class="action" id="downloadCandidate" disabled>Download candidate JSON</button></section>
+<section class="panel detail" aria-label="Search charts"><h2>Search history</h2><p>Best candidate: incorrect clues (structural issues take priority)</p><svg id="qualityChart" class="chart" viewBox="0 0 500 130" role="img" aria-label="Incorrect clue history"></svg><p>Fleet throughput: estimated iterations / second</p><svg id="rateChart" class="chart" viewBox="0 0 500 130" role="img" aria-label="Throughput history"></svg><div class="history-table"><table><thead><tr><th>Improved at</th><th>Issues</th><th>Wrong clues</th><th>Error</th></tr></thead><tbody id="improvementRows"></tbody></table></div></section></div>
+<section class="panel detail" aria-label="Administration"><h2>Client management</h2><p>Use localhost or an SSH tunnel for administration. Enter the coordinator's separate web-admin-token; it stays in this page's memory.</p><div class="admin-bar"><input id="adminToken" type="password" autocomplete="off" aria-label="Web admin token" placeholder="Web admin token"><button class="action" id="unlock">Unlock controls</button><button class="action" id="lock">Lock</button><span id="adminStatus" role="status" class="admin-message">Monitoring only</span></div><p class="mini">Checkpoint &amp; quit saves and stops. Drain &amp; quit finishes assigned jobs. Pause releases assignments and keeps the client available for Resume. Worker count cannot exceed the client's configured capacity. Delivery follows heartbeats; offline commands remain pending. These controls affect the puzzle process.</p></section>
 <section class="panel" aria-labelledby="clientHeading"><div class="panel-heading"><div><h2 id="clientHeading">Compute clients</h2><p>Machines connected to your coordinator.</p></div><span class="count" id="clientCount">— clients</span></div>
-<div class="table-wrap"><table><thead><tr><th scope="col">Client ID</th><th scope="col">Connection</th><th scope="col">Last heartbeat</th><th scope="col">Jobs</th></tr></thead><tbody id="clientRows"><tr><td colspan="4" class="empty">Waiting for status…</td></tr></tbody></table></div></section>
+<div class="table-wrap"><table><thead><tr><th scope="col">Machine</th><th scope="col">Connection</th><th scope="col">Last heartbeat</th><th scope="col">Jobs / telemetry</th><th scope="col">Controls</th></tr></thead><tbody id="clientRows"><tr><td colspan="4" class="empty">Waiting for status…</td></tr></tbody></table></div></section>
 <section class="panel" aria-labelledby="jobHeading"><div class="panel-heading"><div><h2 id="jobHeading">Worker assignments</h2><p>Latest reported progress. Worker slots start at zero.</p></div><span class="count" id="jobCount">— jobs</span></div>
 <div class="table-wrap"><table><thead><tr><th scope="col">Client / slot</th><th scope="col">Job</th><th scope="col">State</th><th scope="col">Objective</th><th scope="col">Progress</th><th scope="col">Reported time</th></tr></thead><tbody id="jobRows"><tr><td colspan="6" class="empty">Waiting for status…</td></tr></tbody></table></div></section>
-<footer><span>© 2026 ThomasB, LinecoFlow LLC</span><p><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/><path d="m8 12 3 3 5-6"/></svg><span id="backup">Backup status pending.</span></p><div class="run-meta"><span>Run</span><span id="run">Connecting…</span></div></footer><noscript><p>Enable JavaScript to view live process status.</p></noscript>
+<div class="detail-grid"><section class="panel detail"><h2>Command history</h2><div id="commandHistory" class="events"></div></section><section class="panel detail"><h2>Recent events</h2><div id="eventHistory" class="events"></div></section></div>
+<footer><span>© 2026 ThomasB, LinecoFlow Research</span><p><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/><path d="m8 12 3 3 5-6"/></svg><span id="backup">Backup status pending.</span></p><div class="run-meta"><span id="coordinator">Coordinator</span><span>Run</span><span id="run">Connecting…</span></div></footer><noscript><p>Enable JavaScript to view live process status.</p></noscript>
 </main><script>
 const $=id=>document.getElementById(id), number=n=>n.toLocaleString(), short=id=>id.slice(0,8);
 document.querySelectorAll('[data-theme-option]').forEach(button=>button.addEventListener('click',()=>{
@@ -188,6 +268,7 @@ document.querySelectorAll('[data-theme-option]').forEach(button=>button.addEvent
  applyTheme();
 }));
 applyTheme();
+let latest=null, adminToken='', selectedCandidate='', lastCommandID='';
 const age=n=>n==null?'Not seen since restart':Math.floor(n)+'s ago';
 function cell(row,text,tag='td'){const el=document.createElement(tag);el.textContent=text;row.append(el);return el;}
 function empty(body,columns,title,detail){
@@ -200,7 +281,9 @@ function empty(body,columns,title,detail){
 }
 function badge(row,text,state=''){const el=cell(row,'');const label=document.createElement('span');label.className='badge '+state;label.textContent=text;el.append(label);}
 function render(s){
+ latest=s; renderSearch(s);
  $('run').textContent=short(s.runID);$('run').title=s.runID;
+ $('coordinator').textContent=s.coordinatorName||'Coordinator';
  $('clientCount').textContent=number(s.clients.length)+' '+(s.clients.length===1?'client':'clients');
  $('jobCount').textContent=number(s.jobs.length)+' '+(s.jobs.length===1?'job':'jobs');
  $('clients').textContent=number(s.clients.filter(c=>c.connected).length);
@@ -208,15 +291,77 @@ function render(s){
  $('completed').textContent=number(s.completedJobs);$('reassignments').textContent=number(s.reassignments);
  $('connection').className='status';$('connection').textContent=s.solved?'Solution validated':(s.clients.some(c=>c.connected)?'Search in progress':'Waiting for clients');
  $('updated').textContent='Updated '+new Date().toLocaleTimeString();
- const clients=$('clientRows');clients.replaceChildren();
- for(const c of s.clients){const row=document.createElement('tr');const id=cell(row,short(c.id));id.title=c.id;id.className='identifier';badge(row,c.connected?'Connected':'Offline',c.connected?'active':'');cell(row,age(c.lastSeenSeconds));cell(row,number(c.assignedJobs));clients.append(row);}
- if(!s.clients.length)empty(clients,4,'Ready when you are','Connect a compute client to start processing.');
+ const clients=$('clientRows');const editing=clients.contains(document.activeElement)&&document.activeElement.tagName==='INPUT';if(!editing)clients.replaceChildren();
+ const machineNames=new Map(s.clients.map(c=>[c.id,c.machineName||short(c.id)]));
+ if(!editing)for(const c of s.clients){const row=document.createElement('tr');const id=cell(row,machineNames.get(c.id));id.title=c.id;const mode=c.info?.telemetry?.mode||'unknown';badge(row,(c.connected?'Reporting':'Offline')+' · '+mode,c.connected?'active':'');const freshness=cell(row,age(c.lastSeenSeconds));const checkpoint=c.info?.telemetry?.checkpointAt;if(checkpoint){const line=document.createElement('div');line.className='mini';line.textContent='Checkpoint '+age(Math.max(0,s.capturedAt-checkpoint));freshness.append(line);}const info=cell(row,number(c.assignedJobs)+' jobs · '+(c.connected?(c.info?.rate||0).toFixed(1):'0')+' iter/s');for(const w of c.info?.telemetry?.workers||[]){const line=document.createElement('div');line.className='mini';line.textContent='Slot '+w.slot+': '+w.state+' · '+w.backend;line.title=(w.reason||'')+(w.progressAt?' · Sample '+age(Math.max(0,s.capturedAt-w.progressAt)):'');info.append(line);}if(c.info?.telemetry?.lastError){const line=document.createElement('div');line.className='mini notice';line.textContent='Last error: '+c.info.telemetry.lastError;info.append(line);}const controls=cell(row,'');controls.className='controls';renderControls(controls,c);clients.append(row);}
+ if(!editing&&!s.clients.length)empty(clients,5,'Ready when you are','Connect a compute client to start processing.');
  const jobs=$('jobRows');jobs.replaceChildren();
- for(const j of s.jobs){const row=document.createElement('tr');const client=cell(row,short(j.clientID)+' / '+j.slot);client.className='identifier';client.title=j.clientID;const id=cell(row,short(j.id)+' · g'+j.generation);id.title=j.id;id.className='identifier';
+ for(const j of s.jobs){const row=document.createElement('tr');const client=cell(row,(machineNames.get(j.clientID)||short(j.clientID))+' / '+j.slot);client.title=j.clientID;const id=cell(row,short(j.id)+' · g'+j.generation);id.title=j.id;id.className='identifier';
  badge(row,j.status,j.status==='assigned'?'active':j.status==='stopped'?'':'waiting');cell(row,j.objective+(j.explorer?' · explorer':''));const p=cell(row,'');const bar=document.createElement('progress');bar.max=j.budget;bar.value=j.completed;bar.setAttribute('aria-label','Job '+short(j.id)+' progress');p.append(bar,document.createTextNode(number(j.completed)+' / '+number(j.budget)));cell(row,j.reportedSeconds.toFixed(1)+'s');jobs.append(row);}
  if(!s.jobs.length)empty(jobs,6,s.solved?'Solution found':'No work assigned yet',s.solved?'The coordinator has independently validated the solution.':'Worker assignments will appear here as clients join.');
  $('backup').textContent=s.backupAgeSeconds==null?'No completed backup in this server session.':'Last completed backup '+age(s.backupAgeSeconds)+'.';
 }
+
+const when=t=>t?new Date(t*1000).toLocaleString():'Unknown';
+const nameFor=id=>latest?.clients.find(c=>c.id===id)?.machineName||id?.slice(0,8)||'Recovered archive';
+function renderControls(el,c){
+ if(c.info?.telemetry?.controlVersion!==1){el.textContent='Management unsupported';return;}
+ for(const [action,label] of [['pause','Pause'],['resume','Resume'],['checkpoint','Checkpoint'],['quit','Checkpoint & quit'],['drain','Drain & quit']]){
+ const button=document.createElement('button');button.type='button';button.className='action';button.textContent=label;button.disabled=!adminToken;button.onclick=()=>sendCommand(c,action);el.append(button);}
+ const input=document.createElement('input');input.type='number';input.min=1;input.max=c.info.telemetry.capacity;input.value=c.directive?.workerLimit||c.info.telemetry.capacity;input.setAttribute('aria-label','Worker count for '+nameFor(c.id));input.disabled=!adminToken;
+ const button=document.createElement('button');button.type='button';button.className='action';button.textContent='Set workers';button.disabled=!adminToken;button.onclick=()=>sendCommand(c,'workers',Number(input.value));el.append(input,button);
+}
+async function adminPost(path,body){
+ const response=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},body:JSON.stringify(body),signal:AbortSignal.timeout(10000)});
+ if(!response.ok){if(response.status===403){adminToken='';if(latest)render(latest);}throw Error(await response.text());}return response.json();
+}
+$('unlock').onclick=async()=>{adminToken=$('adminToken').value;$('adminToken').value='';try{await adminPost('/api/admin/check',{});$('adminStatus').textContent='Controls unlocked';if(latest)render(latest);}catch(e){adminToken='';$('adminStatus').textContent=e.message;}};
+$('lock').onclick=()=>{adminToken='';$('adminToken').value='';$('adminStatus').textContent='Monitoring only';if(latest)render(latest);};
+let sending=false;
+async function sendCommand(c,action,workers){
+ if(sending)return;
+ if(['quit','drain'].includes(action)&&!confirm((action==='quit'?'Save checkpoints and quit ':'Finish assigned jobs and quit ')+nameFor(c.id)+'? The client must be launched again to reconnect.'))return;
+ if(action==='workers'&&(!Number.isInteger(workers)||workers<1||workers>c.info.telemetry.capacity)){$('adminStatus').textContent='Worker count exceeds configured capacity';return;}
+ sending=true;
+ // Keep the same command ID on a network retry, avoiding a second operation.
+ const command={id:(crypto.randomUUID?crypto.randomUUID():'10000000-1000-4000-8000-100000000000'.replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16))),runID:latest.runID,clientID:c.id,action,workers};
+ try{let result;try{result=await adminPost('/api/commands',command);}catch(e){if(!adminToken)throw e;result=await adminPost('/api/commands',command);}lastCommandID=result.request.id;$('adminStatus').textContent=nameFor(c.id)+': '+action+' '+result.status+(c.connected?'':' — pending, machine offline');}
+ catch(e){$('adminStatus').textContent=e.message;}finally{sending=false;}
+}
+function chart(id,points,value){
+ const svg=$(id),ns='http://www.w3.org/2000/svg';svg.replaceChildren();
+ const text=(x,y,t)=>{const e=document.createElementNS(ns,'text');e.setAttribute('x',x);e.setAttribute('y',y);e.textContent=t;svg.append(e);};
+ if(!points.length){text(12,65,'Waiting for measurements');return;}
+ const max=Math.max(1,...points.map(value)),start=points[0].at,end=Math.max(start+1,points.at(-1).at),coords=points.map(p=>[45+440*(p.at-start)/(end-start),100-85*value(p)/max]);
+ const line=document.createElementNS(ns,'polyline');line.setAttribute('points',coords.map(p=>p.join(',')).join(' '));line.setAttribute('fill','none');line.setAttribute('stroke','currentColor');line.setAttribute('stroke-width','2');svg.append(line);
+ for(const [x,y] of coords){const dot=document.createElementNS(ns,'circle');dot.setAttribute('cx',x);dot.setAttribute('cy',y);dot.setAttribute('r','2');dot.setAttribute('fill','currentColor');svg.append(dot);}
+ text(0,18,max.toFixed(1));text(25,104,'0');text(45,124,new Date(start*1000).toLocaleTimeString());text(370,124,new Date(end*1000).toLocaleTimeString());
+}
+function candidate(){return latest?.candidates.find(c=>c.id===selectedCandidate)||latest?.candidates[0];}
+$('candidateSelect').onchange=()=>{const value=$('candidateSelect').value;selectedCandidate=value===latest?.candidates[0]?.id?'':value;renderCandidate();};
+function renderCandidate(){
+ const c=candidate(),board=$('board');board.replaceChildren();$('violations').replaceChildren();$('downloadCandidate').disabled=!c;
+ if(!c){$('issues').textContent=$('wrong').textContent=$('error').textContent='—';$('candidateMeta').textContent='Waiting for a reported board.';$('answer').textContent='';return;}
+ $('issues').textContent=c.issues;const total=latest.clues.flat().filter(v=>v>=0).length;$('wrong').textContent=c.wrong+' / '+total;$('error').textContent=c.error.toFixed(6);
+ const d=c.discovery;$('candidateMeta').textContent=d?nameFor(d.clientID)+(d.slot==null?'':' · slot '+d.slot)+(d.objective?' · '+d.objective:'')+' · '+when(d.at):'Recovered candidate';
+ board.style.gridTemplateColumns='repeat('+latest.cols+',1fr)';board.style.aspectRatio=latest.cols+'/'+latest.rows;
+ board.setAttribute('aria-label','Candidate board with '+c.issues+' structural issues and '+c.wrong+' incorrect clues');
+ const wrong=new Map(c.validation.mismatches.map(m=>[m.cell.row*latest.cols+m.cell.col,m]));const capitals=new Set(c.validation.capitols.map(p=>p.row*latest.cols+p.col));
+ c.labels.forEach((label,i)=>{const el=document.createElement('div'),row=Math.floor(i/latest.cols),col=i%latest.cols,clue=latest.clues[row][col];el.className='board-cell'+(wrong.has(i)?' wrong':'');el.style.background='hsl('+((label*137.508)%360)+' 55% 84%)';el.textContent=clue>=0?clue:'';el.title='Row '+(row+1)+', column '+(col+1)+', region '+label+(wrong.has(i)?'; expected '+clue+', actual '+(wrong.get(i).actual??'unreachable'):'');if(row===0||c.labels[i-latest.cols]!==label)el.style.borderTop='2px solid #333';if(col===0||c.labels[i-1]!==label)el.style.borderLeft='2px solid #333';if(capitals.has(i)){const star=document.createElement('span');star.className='capital';star.textContent='★';el.append(star);}const region=document.createElement('span');region.className='region-id';region.textContent=label;el.append(region);board.append(el);});
+ for(const issue of c.validation.issues){const li=document.createElement('li');li.textContent=issue;$('violations').append(li);}for(const m of c.validation.mismatches){const li=document.createElement('li');li.textContent='Clue ('+(m.cell.row+1)+', '+(m.cell.col+1)+'): expected '+m.expected+', actual '+(m.actual??'unreachable');$('violations').append(li);}
+ $('answer').textContent=c.validation.valid?'Independently verified solution · answer: '+c.validation.answer.sumOfSquares:'Candidate only — independent validation has not passed.';
+}
+$('downloadCandidate').onclick=()=>{const c=candidate();if(!c)return;const blob=new Blob([JSON.stringify({runID:latest.runID,rows:latest.rows,cols:latest.cols,clues:latest.clues,candidate:c},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='candidate-'+c.id.slice(0,8)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+function renderSearch(s){
+ const lastCommand=s.commands.find(c=>c.request.id===lastCommandID);if(lastCommand){const online=s.clients.find(c=>c.id===lastCommand.request.clientID)?.connected;$('adminStatus').textContent=nameFor(lastCommand.request.clientID)+': '+lastCommand.request.action+' '+lastCommand.status+(lastCommand.status==='queued'&&!online?' — pending, machine offline':'');}
+ $('acceptedWork').textContent=number(s.insights.acceptedIterations);$('fleetRate').textContent=s.clients.filter(c=>c.connected).reduce((a,c)=>a+(c.info?.rate||0),0).toFixed(1);const last=s.insights.improvements.at(-1);$('lastImproved').textContent=last?Math.max(0,Math.floor(s.capturedAt-last.at))+'s':'—';$('metricsSince').textContent='Metrics recorded since '+when(s.insights.since)+'. Rates use reported iterations and work time; measurements arrive with heartbeats/checkpoints.';
+ const select=$('candidateSelect');select.replaceChildren();s.candidates.forEach((c,i)=>{const o=document.createElement('option');o.value=c.id;o.textContent=(i===0?'Best overall':'Alternative '+i)+' · '+c.issues+' issues · '+c.wrong+' wrong';select.append(o);});if(selectedCandidate&&!s.candidates.some(c=>c.id===selectedCandidate))selectedCandidate='';select.value=selectedCandidate||s.candidates[0]?.id||'';renderCandidate();
+ chart('qualityChart',s.insights.improvements,p=>p.wrong);chart('rateChart',s.insights.throughput,p=>p.rate);
+ const rows=$('improvementRows');rows.replaceChildren();for(const p of s.insights.improvements.slice(-30).reverse()){const row=document.createElement('tr');cell(row,when(p.at));cell(row,p.issues);cell(row,p.wrong);cell(row,p.error.toFixed(6));rows.append(row);}
+ const commands=$('commandHistory');commands.replaceChildren();for(const command of s.commands.slice(-40).reverse()){const p=document.createElement('p');const c=s.clients.find(c=>c.id===command.request.clientID);p.textContent=when(command.createdAt)+' · '+nameFor(command.request.clientID)+' · '+command.request.action+(command.request.workers?' '+command.request.workers:'')+' · '+command.status+(command.status==='queued'&&!c?.connected?' (pending — offline)':'');commands.append(p);}if(!s.commands.length)commands.textContent='No commands issued.';
+ const events=$('eventHistory');events.replaceChildren();for(const e of s.insights.events.slice(-60).reverse()){const p=document.createElement('p');p.textContent=when(e.at)+' · '+(e.clientID?nameFor(e.clientID)+' · ':'')+e.message;events.append(p);}if(!s.insights.events.length)events.textContent='No events recorded.';
+}
+
 async function refresh(){try{const r=await fetch('/api/status',{cache:'no-store',signal:AbortSignal.timeout(8000)});if(!r.ok)throw Error('HTTP '+r.status);render(await r.json());}catch(e){$('connection').className='status stale';$('connection').textContent='Connection lost · retrying';$('updated').textContent='Displayed data may be out of date';}finally{setTimeout(refresh,3000);}}
 refresh();
 </script></body></html>

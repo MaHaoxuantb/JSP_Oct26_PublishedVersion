@@ -59,9 +59,10 @@ func runServer(config: RunConfig, newRun: Bool) async throws {
                 let host = config.distributed.webUIAddress.contains(":")
                     ? "[\(config.distributed.webUIAddress.replacingOccurrences(of: "%", with: "%25"))]" : config.distributed.webUIAddress
                 distributedLog("Process WebUI: http://\(host):\(config.distributed.webUIPort)/")
+                distributedLog("Web admin token file (local/SSH access): \(directory.appendingPathComponent("web-admin-token").path)")
             }
         } catch { distributedLog("Process WebUI unavailable: \(error). Coordinator continues without it.") }
-        distributedLog("Coordinator listening on \(String(describing: listener.localAddress)). Run: \(coordinator.runID)")
+        distributedLog("Coordinator listening on \(String(describing: listener.localAddress)). Machine: \(config.distributed.resolvedMachineName). Run: \(coordinator.runID)")
         distributedLog("Copy public certificate: \(directory.appendingPathComponent("server-certificate.pem").path)")
         distributedLog("Certificate SHA-256: \(identity.fingerprint)")
         distributedLog("Join token file: \(config.distributed.tokenPath.isEmpty ? directory.appendingPathComponent("join-token").path : config.distributed.tokenPath)")
@@ -113,22 +114,28 @@ func runClient(config: RunConfig) async throws {
     var replicaIndex: Int?
     var failures = 0
     let maintenance = Task {
-        while !Task.isCancelled {
-            try await engine.offlineWork()
-            try await Task.sleep(for: .seconds(1))
+        do {
+            while !Task.isCancelled {
+                try await engine.offlineWork()
+                try await Task.sleep(for: .seconds(1))
+            }
+        } catch is CancellationError {
+            // Normal shutdown.
+        } catch {
+            await engine.recordMaintenanceFailure(error)
         }
     }
     defer { maintenance.cancel() }
-    distributedLog("Client \(clientID): \(settings.workers) worker slots, coordinator \(settings.address) port \(settings.port)")
+    distributedLog("Client \(clientID) (\(settings.resolvedMachineName)): \(settings.workers) worker slots, coordinator \(settings.address) port \(settings.port)")
     do {
         while !shutdown.requested {
+            try await engine.checkMaintenance()
             if await engine.isStopped() { break }
             do {
                 if connection == nil {
                     let newConnection = try await ClientConnection.connect(settings: settings, group: group)
                     connection = newConnection
-                    var hello = WireMessage(kind: "hello", clientID: clientID, token: token)
-                    hello.runID = await engine.currentRun()
+                    let hello = try await engine.envelope(kind: "hello", token: token, includeReports: false)
                     let response = try await newConnection.request(hello)
                     guard let run = response.runID, let puzzle = response.config else { throw DistributedError.message("Missing coordinator puzzle configuration.") }
                     try puzzle.validate()
@@ -140,15 +147,22 @@ func runClient(config: RunConfig) async throws {
                         await engine.setRates(await calibrate(config: local, settings: settings))
                         calibrated = true
                     }
+                    // Reconcile against committed coordinator checkpoints before
+                    // sending local reports. A crash may leave local disk behind
+                    // an ACK, or an older client may have exceeded a job's budget.
+                    var resume = try await engine.envelope(kind: "sync", token: token, includeReports: false)
+                    resume.runID = run; resume.rates = await engine.allRates()
+                    resume.controlAck = nil; resume.reconciling = true
+                    let assignments = try await newConnection.request(resume)
+                    guard assignments.runID == run else {
+                        throw CoordinatorCommunicationError(description: "Coordinator run changed while reconnecting.")
+                    }
+                    try await engine.apply(assignments, reconciling: true)
                     if !recovered { try await engine.recoverLocal(); recovered = true }
                     failures = 0
-                    distributedLog("Connected to authenticated coordinator, run \(run)")
+                    distributedLog("Connected to authenticated coordinator, run \(run)\(response.machineName.map { " (\($0))" } ?? "")")
                 }
-                var request = WireMessage(kind: "sync", clientID: clientID, token: token)
-                request.runID = await engine.currentRun()
-                request.rates = await engine.currentRates()
-                request.reports = try await engine.reports()
-                request.elites = await engine.supplementalBoards()
+                var request = try await engine.envelope(kind: "sync", token: token)
                 request.replicaAck = replicaID; request.replicaIndexAck = replicaIndex
                 let response = try await connection!.request(request)
                 if response.kind == "reset", let puzzle = response.config, let run = response.runID {
@@ -161,19 +175,27 @@ func runClient(config: RunConfig) async throws {
                     }
                 }
                 try await engine.save()
+                if await engine.shouldQuit() { break }
                 // One-second local polling saves solutions promptly; network updates
                 // are otherwise bounded by heartbeat cadence.
                 let until = ProcessInfo.processInfo.systemUptime + (response.replica == nil ? settings.heartbeatSeconds : 1)
                 while ProcessInfo.processInfo.systemUptime < until && !shutdown.requested {
                     try await Task.sleep(for: .seconds(1))
+                    try await engine.checkMaintenance()
                     try await engine.save()
                     if try await engine.reports().contains(where: { $0.progress.finished || $0.progress.solved }) { break }
                 }
             } catch {
+                // A local storage failure must reach shutdown, never the network
+                // retry loop that promises checkpoints are still being saved.
+                guard let communication = error as? CoordinatorCommunicationError, communication.retryable else { throw error }
+                try await engine.checkMaintenance()
                 if let connection { await connection.close() }
                 connection = nil
                 failures += 1
-                distributedLog("Coordinator unavailable: \(error). Local work/checkpoints continue.")
+                let detail = String(describing: error)
+                await engine.noteCommunicationError(detail)
+                distributedLog("Coordinator unavailable: \(detail)\(detail.hasSuffix(".") ? "" : ".") Local work/checkpoints continue.")
                 if !recovered, let saved = await engine.savedConfig() {
                     if !calibrated { await engine.setRates(await calibrate(config: saved, settings: settings)); calibrated = true }
                     try await engine.recoverLocal(); recovered = true
@@ -187,18 +209,17 @@ func runClient(config: RunConfig) async throws {
             }
         }
         maintenance.cancel()
-        _ = try? await maintenance.value
+        await maintenance.value
         try await engine.stop()
         if let connection {
-            var goodbye = WireMessage(kind: "goodbye", clientID: clientID, token: token)
-            goodbye.runID = await engine.currentRun(); goodbye.reports = try await engine.reports()
+            let goodbye = try await engine.envelope(kind: "goodbye", token: token)
             _ = try? await connection.request(goodbye)
             await connection.close()
         }
         try await group.shutdownGracefully()
     } catch {
         maintenance.cancel()
-        _ = try? await maintenance.value
+        await maintenance.value
         try? await engine.stop()
         if let connection { await connection.close() }
         try? await group.shutdownGracefully()
