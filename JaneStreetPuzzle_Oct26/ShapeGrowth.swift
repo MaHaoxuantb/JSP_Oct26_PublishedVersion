@@ -11,10 +11,11 @@ final class CapitolGrowthCursor {
     var space: [Int: [Int]] = [:]
     var steps = 0
 
-    init(patch: [Int], context: SearchContext) {
+    init(patch: [Int], context: SearchContext, policy: ShapePolicy = .feasible) {
         allowed = Set(patch)
-        let forced = patch.filter { context.constraints.clues[$0] == 0 || context.constraints.forcedSingletons.contains($0) }
-        let other = patch.filter { context.constraints.clues[$0] < 0 && !forced.contains($0) }
+        let constraints = context.shapeConstraints(policy)
+        let forced = patch.filter { constraints.clues[$0] == 0 || constraints.forcedSingletons.contains($0) }
+        let other = patch.filter { constraints.clues[$0] < 0 && !forced.contains($0) }
         let anchors = context.shuffled(forced) + context.shuffled(other)
         jobs = anchors.flatMap { cap in context.shuffled(Array(0..<7)).map { (cap, $0) } }
     }
@@ -76,7 +77,8 @@ extension SearchContext {
     /// Compute a safe superset of all states grown about this anchor. Cells
     /// outside its connected symmetry component, or requiring more area than
     /// that component can provide, cannot participate in any completed state.
-    func capitolOrbitSpace(cap: Int, transform: Int, patch: Set<Int>) -> [Int: [Int]] {
+    func capitolOrbitSpace(cap: Int, transform: Int, patch: Set<Int>, policy: ShapePolicy = .feasible) -> [Int: [Int]] {
+        let constraints = shapeConstraints(policy)
         let r = cap / grid.cols, c = cap % grid.cols
         func mapped(_ cell: Int) -> Int? {
             let dr = cell / grid.cols - r, dc = cell % grid.cols - c
@@ -131,12 +133,14 @@ extension SearchContext {
 
     /// Connected orbit growth includes unnumbered capitols, with forced anchors
     /// first. Neither a capitol position nor a state size is taken from a solution.
-    func growCapitolShapes(patch: [Int], until: Double, budget: Int) -> [[Int]] {
+    func growCapitolShapes(patch: [Int], until: Double, budget: Int, policy: ShapePolicy = .feasible) -> [[Int]] {
         guard budget > 0, !patch.isEmpty, !expired(until) else { return [] }
+        let constraints = shapeConstraints(policy)
+        let capitolGrowth = policy == .feasible ? self.capitolGrowth : repairCapitolGrowth
         let patch = patch.sorted()
         let cursor: CapitolGrowthCursor
         if let cached = capitolGrowth[patch] { cursor = cached }
-        else { cursor = CapitolGrowthCursor(patch: patch, context: self); capitolGrowth[patch] = cursor }
+        else { cursor = CapitolGrowthCursor(patch: patch, context: self, policy: policy); capitolGrowth[patch] = cursor }
         guard !cursor.jobs.isEmpty else { return [] }
         var result = Set<[Int]>()
         for _ in 0..<budget {
@@ -144,14 +148,14 @@ extension SearchContext {
             let (cap, transform) = cursor.jobs[cursor.next % cursor.jobs.count]
             if cursor.grown.isEmpty {
                 cursor.grown = [cap]
-                cursor.space = capitolOrbitSpace(cap: cap, transform: transform, patch: cursor.allowed)
+                cursor.space = capitolOrbitSpace(cap: cap, transform: transform, patch: cursor.allowed, policy: policy)
                 visitedCapitolAnchors.insert(cap)
             }
             growthSteps += 1; cursor.steps += 1
             let cells = cursor.grown.sorted()
             // Failure here must not prune the walk: a later orbit can remove an
             // unwanted mirror or satisfy a minimum-area constraint.
-            if permits(cells) { result.insert(cells) }
+            if permits(cells, policy: policy) { result.insert(cells) }
             let frontier = Set(cells.flatMap { grid.neighbors($0) }).subtracting(cursor.grown)
             var choices: [[Int]] = []
             var seen = Set<Int>()
@@ -177,7 +181,8 @@ extension SearchContext {
         return result.sorted { $0.lexicographicallyPrecedes($1) }
     }
 
-    func prepareOrbits(_ cursor: RegionSamplingCursor) {
+    func prepareOrbits(_ cursor: RegionSamplingCursor, policy: ShapePolicy = .feasible) {
+        let constraints = shapeConstraints(policy)
         let (top, bottom, left, right) = cursor.currentBox
         if cursor.transforms.isEmpty { cursor.transforms = shuffled(Array(0..<7)) }
         let transform = cursor.transforms[cursor.transform]
@@ -204,15 +209,17 @@ extension SearchContext {
         }
     }
 
-    func sampleRegionShapes(patch: [Int], until: Double, budget: Int) -> [[Int]] {
+    func sampleRegionShapes(patch: [Int], until: Double, budget: Int, policy: ShapePolicy = .feasible) -> [[Int]] {
         guard budget > 0, !patch.isEmpty, !expired(until) else { return [] }
+        let constraints = shapeConstraints(policy)
+        let regionSampling = policy == .feasible ? self.regionSampling : repairRegionSampling
         let cursor: RegionSamplingCursor
         if let cached = regionSampling[patch] { cursor = cached }
         else { cursor = RegionSamplingCursor(patch: patch, context: self); regionSampling[patch] = cursor }
         guard !cursor.boxes.isEmpty else { return [] }
         var result = Set<[Int]>(), tested = 0, emptyJobs = 0
         while tested < budget && !expired(until) {
-            if cursor.orbits == nil { prepareOrbits(cursor) }
+            if cursor.orbits == nil { prepareOrbits(cursor, policy: policy) }
             let orbits = cursor.orbits!
             if orbits.isEmpty {
                 cursor.advance(); emptyJobs += 1
@@ -249,7 +256,7 @@ extension SearchContext {
                 chosen = Set(orbits.indices.filter { _ in rng.next() & 1 != 0 })
             }
             let cells = chosen.sorted().flatMap { orbits[$0] }.sorted()
-            if !cells.isEmpty && permits(cells) { result.insert(cells) }
+            if !cells.isEmpty && permits(cells, policy: policy) { result.insert(cells) }
             if result.count >= config.catalogCandidateLimit { break }
         }
         metrics.catalogMasks += tested

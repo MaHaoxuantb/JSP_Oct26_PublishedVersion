@@ -52,12 +52,14 @@ struct MergeScanKey: Hashable {
     let objective: String
     let weights: [Double]
     let maxRegions: Int
+    let strictFeasibility: Bool
 
-    init(labels: [Int], context: SearchContext, exactRanking: Bool) {
+    init(labels: [Int], context: SearchContext, exactRanking: Bool, strictFeasibility: Bool = false) {
         self.labels = labels
         objective = exactRanking ? "exact" : context.config.searchObjective.rawValue
         weights = !exactRanking && context.config.searchObjective == .persistent ? context.clueWeights : []
         maxRegions = context.config.maxMergeRegions
+        self.strictFeasibility = strictFeasibility
     }
 }
 
@@ -87,11 +89,13 @@ final class MergeCursor {
 extension SearchContext {
     /// Try connected unions of two through four regions without requiring any
     /// intermediate pairwise merge to be legal. Subsequent calls resume the scan.
-    func mergeRepair(_ source: SearchState, until: Double, exactRanking: Bool = false) -> SearchState? {
+    func mergeRepair(_ source: SearchState, until: Double, exactRanking: Bool = false,
+                     strictFeasibility: Bool = false) -> SearchState? {
         let started = ProcessInfo.processInfo.systemUptime
         defer { metrics.mergeSeconds += ProcessInfo.processInfo.systemUptime - started }
         let labels = source.labels
-        let key = MergeScanKey(labels: labels, context: self, exactRanking: exactRanking)
+        let key = MergeScanKey(labels: labels, context: self, exactRanking: exactRanking,
+                               strictFeasibility: strictFeasibility)
         let cursor: MergeCursor
         if let cached = mergeCursors[key] {
             cursor = cached
@@ -129,14 +133,16 @@ extension SearchContext {
             checked += 1
             metrics.mergesChecked += 1
             let cells = cluster.flatMap { cursor.groups[$0] }.sorted()
-            guard permits(cells) else { continue }
+            guard permits(cells, policy: strictFeasibility ? .feasible : .repair) else { continue }
             var merged = labels
             for cell in cells { merged[cell] = cluster[0] }
-            let sizes = Dictionary(grouping: merged, by: { $0 }).mapValues(\.count)
-            let affected = Set(cells + cells.flatMap { grid.neighbors($0) })
-            guard affected.filter({ constraints.clues[$0] == 1 }).allSatisfy({ cell in
-                grid.neighbors(cell).contains { sizes[merged[$0]] == 1 }
-            }) else { continue }
+            if strictFeasibility {
+                let sizes = Dictionary(grouping: merged, by: { $0 }).mapValues(\.count)
+                let affected = Set(cells + cells.flatMap { grid.neighbors($0) })
+                guard affected.filter({ constraints.clues[$0] == 1 }).allSatisfy({ cell in
+                    grid.neighbors(cell).contains { sizes[merged[$0]] == 1 }
+                }) else { continue }
+            }
             pending.append(merged)
             if pending.count >= pathEvaluator.batchSize { flush() }
             if best?.validation.valid == true { return best }
@@ -205,8 +211,10 @@ extension SearchContext {
 
     /// Generate symmetric candidates as unions of transformation orbits.
     /// Work and memory are bounded; a truncated catalog is explicitly heuristic.
-    func regionCatalog(patch: [Int], until: Double) -> [[Int]] {
+    func regionCatalog(patch: [Int], until: Double, policy: ShapePolicy = .feasible) -> [[Int]] {
         let patch = patch.sorted()
+        let catalogs = policy == .feasible ? self.catalogs : repairCatalogs
+        let catalogUses = policy == .feasible ? self.catalogUses : repairCatalogUses
         let started = ProcessInfo.processInfo.systemUptime
         defer { metrics.catalogSeconds += ProcessInfo.processInfo.systemUptime - started }
         catalogUses[patch] = (catalogUses[patch] ?? 0) + 1
@@ -219,7 +227,7 @@ extension SearchContext {
         func add(_ cells: [Int]) {
             let cells = cells.sorted()
             guard !cells.isEmpty && !result.contains(cells) else { return }
-            if permits(cells) { result.insert(cells) }
+            if permits(cells, policy: policy) { result.insert(cells) }
         }
         for cell in patch { add([cell]) }
         add(patch)
@@ -231,9 +239,9 @@ extension SearchContext {
         // Reserve work for connected growth before generic orbit masks. Both
         // generators retain their cursors across cache augmentations.
         let growthBudget = min(config.catalogMasksPerTransform, config.catalogCandidateLimit / 3)
-        for cells in growCapitolShapes(patch: patch, until: until, budget: growthBudget) { add(cells) }
+        for cells in growCapitolShapes(patch: patch, until: until, budget: growthBudget, policy: policy) { add(cells) }
         for cells in sampleRegionShapes(patch: patch, until: until,
-                                        budget: config.catalogCandidateLimit - growthBudget) { add(cells) }
+                                        budget: config.catalogCandidateLimit - growthBudget, policy: policy) { add(cells) }
         let catalog = refreshedCatalog(previous: previous, incoming: Array(result))
         // Reuse partial catalogs, augmenting them every eighth request. This
         // avoids both repeated generation costs and permanent time-cutoff bias.
@@ -252,7 +260,8 @@ extension SearchContext {
         guard !patch.isEmpty && !expired(until) else { return nil }
         let allowed = CellMask(count: grid.count, cells: patch)
         let candidates = shuffled(Array(Set(candidates.map { $0.sorted() })).sorted { $0.lexicographicallyPrecedes($1) }.filter {
-            !$0.isEmpty && $0.allSatisfy { allowed.contains($0) } && permits($0)
+            !$0.isEmpty && $0.allSatisfy { allowed.contains($0) }
+                && permits($0, policy: strictFeasibility ? .feasible : .repair)
         })
         let masks = candidates.map { CellMask(count: grid.count, cells: $0) }
         let capitals = candidates.map { regions.geometry($0).capitol }
@@ -266,9 +275,9 @@ extension SearchContext {
             if let cap = regions.geometry(cells).capitol { fixedCapitols.insert(cap) }
         }
         let canBeSingleton = byCell.map { $0.contains { candidates[$0].count == 1 } }
-        let relevantOnes = constraints.clues.indices.filter {
+        let relevantOnes = strictFeasibility ? constraints.clues.indices.filter {
             constraints.clues[$0] == 1 && (allowed.contains($0) || grid.neighbors($0).contains { allowed.contains($0) })
-        }
+        } : []
         var labels = base
         let nextLabel = (base.max() ?? -1) + 1
         var nodes = 0, solutions = 0
@@ -451,8 +460,12 @@ extension SearchContext {
         guard !patch.isEmpty else { return nil }
         let labels = source.labels, allowed = Set(patch)
         // Leave time for the cover search even when catalog generation is cut short.
+        // Alternate clue-guided discovery with a geometry-only lane. Every
+        // returned repair can retain imperfect existing states; clues still
+        // determine exact scoring and independent success validation.
+        let policy: ShapePolicy = proposalNumber % 2 == 0 ? .repair : .feasible
         var candidates = regionCatalog(patch: patch, until: min(until, ProcessInfo.processInfo.systemUptime
-                                                              + config.repairTimeLimitSeconds / 3))
+                                                              + config.repairTimeLimitSeconds / 3), policy: policy)
         candidates += groups(labels).filter { Set($0).isSubset(of: allowed) }
         candidates = Array(Set(candidates)).sorted { $0.lexicographicallyPrecedes($1) }
         guard let repaired = cover(patch: patch, base: labels, candidates: candidates, until: until) else { return nil }
@@ -484,7 +497,7 @@ extension SearchContext {
             let mask = CellMask(count: grid.count, cells: moved)
             let remaining = parts[donor].filter { !mask.contains($0) }
             let destination = (recipient.map { parts[$0] } ?? []) + moved
-            guard permits(remaining) && permits(destination) else { return }
+            guard permits(remaining, policy: .repair) && permits(destination, policy: .repair) else { return }
             var candidate = labels
             let newLabel = recipient ?? parts.count
             for cell in moved { candidate[cell] = newLabel }

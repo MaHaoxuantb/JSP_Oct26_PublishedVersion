@@ -1,0 +1,201 @@
+{
+  "working-tree": [
+    {
+      "error": 0.08026514978386635,
+      "issues": 0,
+      "kind": "static",
+      "rejectedRegions": [
+        {
+          "cells": [
+            23,
+            24,
+            25,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            45,
+            46,
+            47
+          ],
+          "id": 6,
+          "size": 12
+        },
+        {
+          "cells": [
+            31
+          ],
+          "id": 8,
+          "size": 1
+        },
+        {
+          "cells": [
+            43
+          ],
+          "id": 9,
+          "size": 1
+        },
+        {
+          "cells": [
+            53,
+            64,
+            75,
+            86
+          ],
+          "id": 13,
+          "size": 4
+        },
+        {
+          "cells": [
+            54,
+            65
+          ],
+          "id": 14,
+          "size": 2
+        },
+        {
+          "cells": [
+            63,
+            72,
+            74,
+            76,
+            83,
+            85,
+            87,
+            94,
+            95,
+            96,
+            97,
+            98,
+            105,
+            106,
+            107,
+            108,
+            109,
+            116,
+            117,
+            118,
+            119,
+            120
+          ],
+          "id": 17,
+          "size": 22
+        }
+      ],
+      "sizes": [
+        4,
+        5,
+        4,
+        7,
+        10,
+        2,
+        12,
+        1,
+        1,
+        1,
+        11,
+        3,
+        2,
+        4,
+        2,
+        4,
+        5,
+        22,
+        2,
+        4,
+        8,
+        4,
+        3
+      ],
+      "wrong": 7,
+      "source_sha256": "dd48190db83fade28c299a6aad8f1c3689d39cd0a4230ac4ae3b4a2831ce0d3a",
+      "fixture_sha256": "06a6c9919ed3a9bc69dc59a2017131a7d8039f0e92439b69225b0fd09f29a276"
+    },
+    {
+      "covers": 4125,
+      "error": 0.08026514978386635,
+      "evaluations": 10595,
+      "iterations": 300,
+      "kind": "run",
+      "noProposal": 44,
+      "reheats": 1,
+      "restarts": 1,
+      "seconds": 6.002995958318934,
+      "seed": 0,
+      "seeded": true,
+      "wrong": 7
+    },
+    {
+      "covers": 4011,
+      "error": 0.08026514978386635,
+      "evaluations": 21713,
+      "iterations": 311,
+      "kind": "run",
+      "noProposal": 42,
+      "reheats": 1,
+      "restarts": 1,
+      "seconds": 6.002086958324071,
+      "seed": 1,
+      "seeded": true,
+      "wrong": 7
+    },
+    {
+      "covers": 4557,
+      "error": 0.08026514978386635,
+      "evaluations": 21197,
+      "iterations": 308,
+      "kind": "run",
+      "noProposal": 44,
+      "reheats": 1,
+      "restarts": 1,
+      "seconds": 6.001795666641556,
+      "seed": 2,
+      "seeded": true,
+      "wrong": 7
+    },
+    {
+      "covers": 4541,
+      "error": 0.33428786925324133,
+      "evaluations": 23335,
+      "iterations": 324,
+      "kind": "run",
+      "noProposal": 56,
+      "reheats": 1,
+      "restarts": 0,
+      "seconds": 6.003754791687243,
+      "seed": 0,
+      "seeded": false,
+      "wrong": 15
+    },
+    {
+      "covers": 5088,
+      "error": 0.28674184634998173,
+      "evaluations": 23367,
+      "iterations": 326,
+      "kind": "run",
+      "noProposal": 64,
+      "reheats": 0,
+      "restarts": 0,
+      "seconds": 6.003349874983542,
+      "seed": 1,
+      "seeded": false,
+      "wrong": 14
+    },
+    {
+      "covers": 4130,
+      "error": 0.21555990654810842,
+      "evaluations": 23541,
+      "iterations": 298,
+      "kind": "run",
+      "noProposal": 24,
+      "reheats": 1,
+      "restarts": 0,
+      "seconds": 6.003480791696347,
+      "seed": 2,
+      "seeded": false,
+      "wrong": 17
+    }
+  ]
+}

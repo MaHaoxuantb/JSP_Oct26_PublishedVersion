@@ -157,6 +157,12 @@ struct SearchState {
     func snapshot() -> SearchState { SearchState(self, storage: storage.copy()) }
 }
 
+/// Clue deductions constrain completed solutions. Local search also needs
+/// connected symmetric states that temporarily disagree with those clues.
+enum ShapePolicy {
+    case feasible, repair
+}
+
 final class SearchContext {
     var config: RunConfig {
         didSet {
@@ -170,6 +176,7 @@ final class SearchContext {
     let grid: Grid
     let regions: RegionCache
     let constraints: ClueConstraints
+    let repairConstraints: ClueConstraints
     let clueCount: Int
     lazy var pathEvaluator = PathEvaluator(grid: grid, mode: config.pathEvaluation)
     var metrics = RepairMetrics()
@@ -180,6 +187,12 @@ final class SearchContext {
     // not full four-coordinate tuples or a search tree for every patch.
     let regionSampling = BoundedCache<[Int], RegionSamplingCursor>(capacity: 64)
     let capitolGrowth = BoundedCache<[Int], CapitolGrowthCursor>(capacity: 64)
+    // Keep relaxed discovery separate: neither a strict cached catalog nor a
+    // consumed strict cursor may suppress the broader repair lane (or vice versa).
+    let repairCatalogs = BoundedCache<[Int], [[Int]]>(capacity: 64)
+    let repairCatalogUses = BoundedCache<[Int], Int>(capacity: 64)
+    let repairRegionSampling = BoundedCache<[Int], RegionSamplingCursor>(capacity: 64)
+    let repairCapitolGrowth = BoundedCache<[Int], CapitolGrowthCursor>(capacity: 64)
     var growthSteps = 0
     var visitedCapitolAnchors = Set<Int>()
     var largeShapeAttempts = 0
@@ -211,6 +224,7 @@ final class SearchContext {
         grid = Grid(rows: config.rowNum, cols: config.colNum)
         regions = RegionCache(grid: grid)
         constraints = ClueConstraints(grid: grid, clues: config.Target.Status.flatMap { $0 })
+        repairConstraints = ClueConstraints(grid: grid, clues: Array(repeating: -1, count: grid.count))
         clueCount = constraints.clues.filter { $0 >= 0 }.count
         clueWeights = Array(repeating: 1, count: grid.count)
     }
@@ -336,8 +350,20 @@ extension SearchContext {
             clueWeights[i] = min(8, clueWeights[i] + 0.5)
         }
     }
-    func permits(_ cells: [Int]) -> Bool {
+    func shapeConstraints(_ policy: ShapePolicy) -> ClueConstraints {
+        policy == .feasible ? constraints : repairConstraints
+    }
+
+    func permits(_ cells: [Int], policy: ShapePolicy = .feasible) -> Bool {
         let key = cells.sorted()
+        if policy == .repair {
+            let start = ProcessInfo.processInfo.systemUptime
+            let geometry = regions.geometry(key)
+            let value = geometry.connected && geometry.symmetric
+            metrics.geometrySeconds += ProcessInfo.processInfo.systemUptime - start
+            if !value { metrics.constraintRejects += 1 }
+            return value
+        }
         if let cached = permitted[key] { return cached }
         let start = ProcessInfo.processInfo.systemUptime
         let value = constraints.permits(key, geometry: regions.geometry(key))

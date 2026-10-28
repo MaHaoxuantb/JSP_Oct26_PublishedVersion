@@ -82,7 +82,7 @@ struct RepairTests {
               "Positive clue allowed a capitol at itself")
         let one = SearchContext(config: config(rows: 2, cols: 3, clues: [[-1, 1, -1], [-1, -1, -1]]))
         let noSingleton = one.cover(patch: cells, base: cells,
-            candidates: [[0, 3], [1, 4], [2, 5]], until: until)
+            candidates: [[0, 3], [1, 4], [2, 5]], until: until, strictFeasibility: true)
         check(noSingleton == nil && one.metrics.coversChecked == 0,
               "One-clue singleton requirement did not prune before global evaluation")
 

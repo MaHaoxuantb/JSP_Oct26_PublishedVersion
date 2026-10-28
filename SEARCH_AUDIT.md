@@ -1,5 +1,13 @@
 # Search audit — 2026-10-28
 
+## Partial-repair follow-up
+
+The commit-history review reproduced stronger final-state deductions blocking
+intermediate repairs, and a remaining exterior one-clue pruning barrier. Both
+are corrected locally with separate strict/repair discovery, six new regressions,
+and an isolated comparison. **These latest changes have not been deployed.** See
+[corrections and validation](investigation/PARTIAL_REPAIR_FIXES.md).
+
 ## Follow-up integrity findings
 
 The later integrity audit found a cross-state pruning regression, an odd-only
