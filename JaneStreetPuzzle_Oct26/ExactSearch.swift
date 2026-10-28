@@ -101,24 +101,104 @@ final class RegionCache {
     }
 }
 
+struct AreaPairBound {
+    let first: Int
+    let second: Int
+    let minimum: Int
+}
+
 struct ClueConstraints {
     let grid: Grid
     let clues: [Int]
     let minimumSizes: [Int]
+    let forcedSingletons: Set<Int>
+    let singletonCandidates: Set<Int>
+    let distanceUpperBounds: [Int]
+    let pairBounds: [AreaPairBound]
     init(grid: Grid, clues: [Int]) {
         self.grid = grid; self.clues = clues
         var sizes = Array(repeating: 1, count: grid.count)
-        for cell in clues.indices where clues[cell] >= 0 {
-            for neighbor in grid.neighbors(cell) where clues[neighbor] >= 0 {
-                sizes[cell] = max(sizes[cell], abs(clues[cell] - clues[neighbor]))
+        let lower = clues.map { max(0, $0) }
+        var upper = clues.map { $0 >= 0 ? $0 : Int.max }
+        var forced = Set<Int>(), singles = Set<Int>()
+        // A known interval gap is a lower bound on |d(a)-d(b)|. Subtractions
+        // remain safe even for user-provided clues near Int.max.
+        func gap(_ a: Int, _ b: Int) -> Int {
+            max(0, lower[a] > upper[b] ? lower[a] - upper[b] : 0,
+                lower[b] > upper[a] ? lower[b] - upper[a] : 0)
+        }
+        var changed = true
+        while changed {
+            changed = false
+            let beforeSizes = sizes, beforeUpper = upper, beforeForced = forced
+            for cell in clues.indices {
+                for neighbor in grid.neighbors(cell) {
+                    sizes[cell] = max(sizes[cell], gap(cell, neighbor))
+                }
+                let adjacent = grid.neighbors(cell)
+                for a in adjacent {
+                    for b in adjacent where a < b {
+                        let delta = gap(a, b)
+                        sizes[cell] = max(sizes[cell], delta / 2 + delta % 2)
+                    }
+                }
             }
+            singles = Set(clues.indices.filter { cell in
+                lower[cell] == 0 && sizes[cell] == 1
+                    && grid.neighbors(cell).allSatisfy { lower[$0] <= 1 }
+            })
+            for cell in clues.indices where clues[cell] == 1 {
+                let candidates = grid.neighbors(cell).filter { singles.contains($0) }
+                // No candidates means the clues are inconsistent, not that an
+                // arbitrary neighboring singleton may be assumed.
+                if candidates.count == 1 { forced.insert(candidates[0]) }
+            }
+            for cell in forced {
+                upper[cell] = 0
+                for neighbor in grid.neighbors(cell) { upper[neighbor] = min(upper[neighbor], 1) }
+            }
+            changed = sizes != beforeSizes || upper != beforeUpper || forced != beforeForced
         }
         minimumSizes = sizes
+        forcedSingletons = forced
+        singletonCandidates = singles
+        distanceUpperBounds = upper
+
+        var bounds: [[Int]: Int] = [:]
+        func add(_ a: Int, _ b: Int, _ minimum: Int) {
+            guard a != b && minimum > 0 else { return }
+            let key = [min(a, b), max(a, b)]
+            bounds[key] = max(bounds[key] ?? 0, minimum)
+        }
+        for middle in clues.indices {
+            let adjacent = grid.neighbors(middle)
+            for a in adjacent {
+                for b in adjacent where a < b { add(a, b, gap(a, b)) }
+                for next in adjacent where next != a {
+                    for b in grid.neighbors(next) where b != middle && b != a {
+                        let delta = gap(a, b)
+                        // ceil(2*delta/3), without overflowing 2*delta.
+                        add(middle, next, 2 * (delta / 3) + (2 * (delta % 3) + 2) / 3)
+                    }
+                }
+            }
+        }
+        pairBounds = bounds.keys.sorted { $0.lexicographicallyPrecedes($1) }.map {
+            AreaPairBound(first: $0[0], second: $0[1], minimum: bounds[$0]!)
+        }
     }
     /// A zero must be the region's actual capitol; a positive clue cannot be one.
     func permits(_ cells: [Int], geometry: RegionGeometry) -> Bool {
         guard geometry.connected && geometry.symmetric else { return false }
         guard cells.allSatisfy({ cells.count >= minimumSizes[$0] }) else { return false }
+        if cells.count == 1 && !singletonCandidates.contains(cells[0]) { return false }
+        if cells.count > 1 && cells.contains(where: { forcedSingletons.contains($0) }) { return false }
+        if !pairBounds.isEmpty {
+            let occupied = Set(cells)
+            for bound in pairBounds where occupied.contains(bound.first) && occupied.contains(bound.second) {
+                if cells.count < bound.minimum / 2 + bound.minimum % 2 { return false }
+            }
+        }
         for cell in cells where clues[cell] == 0 {
             if geometry.capitol != cell { return false }
         }
@@ -181,6 +261,7 @@ extension SearchContext {
         let labels = normalized(input)
         if let cached = evaluations[labels] {
             metrics.evaluationCacheHits += 1
+            recordDiscovery(cached)
             return cached.snapshot()
         }
         let value = prepareEvaluation(labels: labels)
@@ -213,6 +294,7 @@ extension SearchContext {
             var states: [[Int]: SearchState] = [:]
             for partition in labels {
                 if let cached = evaluations[partition] {
+                    recordDiscovery(cached)
                     states[partition] = cached.snapshot()
                     metrics.evaluationCacheHits += 1
                 } else if !seen.insert(partition).inserted {
@@ -305,7 +387,9 @@ extension SearchContext {
         var report = ValidationReport(valid: false, issues: issues, capitols: capitols, mismatches: mismatches, answer: nil)
         if issues.isEmpty && mismatches.isEmpty { report = validator.validate(makeBoard(), target: config.Target) }
         metrics.evaluations += 1
-        return SearchState(labels: labels, scores: scores, validation: report, parents: path.parents, makeBoard: makeBoard)
+        let state = SearchState(labels: labels, scores: scores, validation: report, parents: path.parents, makeBoard: makeBoard)
+        recordDiscovery(state)
+        return state
     }
 
     func normalized(_ values: [Int]) -> [Int] {

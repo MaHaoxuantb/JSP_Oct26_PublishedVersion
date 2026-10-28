@@ -66,6 +66,7 @@ final class Main {
         context.config = config
         context.rng = SearchRandom(seed: config.seed)
         context.metrics = RepairMetrics()
+        context.resetDiscoveries()
         context.deadline = ProcessInfo.processInfo.systemUptime + max(0, config.timeLimitSeconds - logger.elapsedSeconds)
         context.repairTicket = workerID ?? 0
         let initializer = Initialization()
@@ -77,7 +78,7 @@ final class Main {
             started.message = "Objective: \(config.searchObjective.rawValue). Log: \(logger.fileURL.path)"
             try logger.record(started)
             var current = initialLabels.map { context.evaluate(labels: $0) } ?? initializer.start(context: context)
-            var best = current.snapshot()
+            var best = (context.bestEvaluated ?? current).snapshot()
             var thermostat = AdaptiveTemperature(config: config)
             var epochBest = context.merit(current)
             var localElite = current.snapshot()
@@ -88,7 +89,8 @@ final class Main {
             var lastCheckpointTime = logger.elapsedSeconds
             var lastObservation = -Double.infinity
             var published: [Int]?
-            var reason: StopReason? = current.validation.valid ? .solved : nil
+            var publishedBest: [Int]?
+            var reason: StopReason? = best.validation.valid ? .solved : nil
 
             func milestone(_ kind: Logger.Kind, state: SearchState, message: String? = nil) throws {
                 var event = Logger.Event(kind: kind)
@@ -127,6 +129,11 @@ final class Main {
                                                              workerID: workerID ?? 1))
                         published = key
                     }
+                    if publishedBest != best.labels {
+                        await archive.publish(EliteCandidate(snapshot: BoardSnapshot(best), scores: best.scores,
+                                                             workerID: workerID ?? 1))
+                        publishedBest = best.labels
+                    }
                     let assignment = await archive.assignment(workerID: workerID ?? 1, objective: config.searchObjective)
                     context.repairTicket = assignment.ticket
                     if let elite = assignment.candidate,
@@ -161,19 +168,16 @@ final class Main {
                 let result = iteration.OneIteration(current: current, context: context, temperature: thermostat.value)
                 statistics.record(result)
                 current = result.state
-                let improved = current.validation.valid || current.quality < best.quality
-                if observe != nil && (current.validation.valid || observationRequested?() == true || logger.elapsedSeconds - lastObservation >= config.distributed.checkpointSeconds) {
-                    // Capture a newer best before notifying the durable/network bridge.
-                    if current.quality < best.quality || current.validation.valid { best = current.snapshot() }
+                let discovered = context.bestEvaluated ?? current
+                let improved = discovered.quality < best.quality
+                if improved { best = discovered.snapshot() }
+                if observe != nil && (best.validation.valid || observationRequested?() == true || logger.elapsedSeconds - lastObservation >= config.distributed.checkpointSeconds) {
                     observation(); lastObservation = logger.elapsedSeconds
-                }
-                if improved {
-                    best = current.snapshot()
                 }
                 if improved { try milestone(.bestImproved, state: best) }
 
                 if context.prefers(current, over: localElite) { localElite = current.snapshot() }
-                if current.validation.valid { reason = .solved; break }
+                if best.validation.valid { reason = .solved; break }
                 thermostat.step(delta: result.delta)
                 stagnation += 1
                 if context.merit(current) < epochBest {
@@ -213,16 +217,20 @@ final class Main {
                         epochBest = context.merit(current)
                         stagnation = 0
                         epochReheats = 0
-                        if current.validation.valid || current.quality < best.quality {
-                            best = current.snapshot()
+                        let discovered = context.bestEvaluated ?? current
+                        if discovered.quality < best.quality {
+                            best = discovered.snapshot()
                             try milestone(.bestImproved, state: best)
                         }
                         try milestone(.restarted, state: current)
-                        if current.validation.valid { reason = .solved }
+                        if best.validation.valid { reason = .solved }
                     } else {
                         reason = .restartLimit
                     }
                 }
+            }
+            if let discovered = context.bestEvaluated, discovered.quality < best.quality {
+                best = discovered.snapshot()
             }
             // Recheck the saved result independently before reporting success.
             let report = context.validator.validate(best.board, target: config.Target)

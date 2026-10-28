@@ -72,10 +72,10 @@ enum SavedRunRepair {
         try logger.record(started)
         let original = context.evaluate(labels: snapshot.labels.flatMap { $0 })
         var best = original, statistics = SearchStatistics()
-        let key = original.labels
+        let key = MergeScanKey(labels: original.labels, context: context, exactRanking: true)
         while !best.validation.valid && !context.expired(context.deadline) {
             statistics.iterations += 1
-            if let candidate = context.mergeRepair(original, until: context.deadline), candidate.quality < best.quality {
+            if let candidate = context.mergeRepair(original, until: context.deadline, exactRanking: true), candidate.quality < best.quality {
                 best = candidate
             }
             if let cursor = context.mergeCursors[key], cursor.next >= cursor.queue.count { break }

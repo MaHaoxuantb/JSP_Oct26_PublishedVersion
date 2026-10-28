@@ -1,0 +1,88 @@
+Swift cached evaluator + ExactValidator: valid; 33 clues; 8 capitols; answer 408951
+All 121 Swift distances equal independently computed Python distances.
+Every solution region passes current permits/geometry constraints.
+Rectangle/triomino initial palette: 1434 candidates; missing solution states: B=7, C=10, E=7, F=37, H=12, I=11, J=5, N=10, O=4
+Exact cover supplied only the 16 verified shapes: solved in 17 nodes, 1 covers.
+Full-board regionCatalog, fresh contexts, default mask budgets, no wall-clock deadline:
+[
+  {
+    "candidates" : 3250,
+    "contains_all_verified_shapes" : false,
+    "contains_verified_37" : false,
+    "masks_tested" : 11744,
+    "seconds" : 0.2807017500163056,
+    "seed" : 0
+  },
+  {
+    "candidates" : 3276,
+    "contains_all_verified_shapes" : false,
+    "contains_verified_37" : false,
+    "masks_tested" : 11744,
+    "seconds" : 0.27544412499992177,
+    "seed" : 1
+  },
+  {
+    "candidates" : 3232,
+    "contains_all_verified_shapes" : false,
+    "contains_verified_37" : false,
+    "masks_tested" : 11744,
+    "seconds" : 0.2705956666613929,
+    "seed" : 2
+  },
+  {
+    "candidates" : 3279,
+    "contains_all_verified_shapes" : false,
+    "contains_verified_37" : false,
+    "masks_tested" : 11744,
+    "seconds" : 0.27552529168315232,
+    "seed" : 3
+  },
+  {
+    "candidates" : 3328,
+    "contains_all_verified_shapes" : false,
+    "contains_verified_37" : false,
+    "masks_tested" : 11744,
+    "seconds" : 0.27409604168497026,
+    "seed" : 4
+  },
+  {
+    "candidates" : 3274,
+    "contains_all_verified_shapes" : false,
+    "contains_verified_37" : false,
+    "masks_tested" : 11744,
+    "seconds" : 0.27293483336688951,
+    "seed" : 5
+  },
+  {
+    "candidates" : 3309,
+    "contains_all_verified_shapes" : false,
+    "contains_verified_37" : false,
+    "masks_tested" : 11744,
+    "seconds" : 0.27362558332970366,
+    "seed" : 6
+  },
+  {
+    "candidates" : 3271,
+    "contains_all_verified_shapes" : false,
+    "contains_verified_37" : false,
+    "masks_tested" : 11744,
+    "seconds" : 0.2974310833378695,
+    "seed" : 7
+  },
+  {
+    "candidates" : 3288,
+    "contains_all_verified_shapes" : false,
+    "contains_verified_37" : false,
+    "masks_tested" : 11744,
+    "seconds" : 0.28369787498377264,
+    "seed" : 8
+  },
+  {
+    "candidates" : 3271,
+    "contains_all_verified_shapes" : false,
+    "contains_verified_37" : false,
+    "masks_tested" : 11744,
+    "seconds" : 0.26731883332831785,
+    "seed" : 9
+  }
+]

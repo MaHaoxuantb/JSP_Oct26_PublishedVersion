@@ -122,6 +122,9 @@ not send a name still work and appear by UUID until upgraded.
 Clients default to logical CPU count minus one, at least one worker. Override
 `distributed.clientWorkers` for shared-use machines. A five-second calibration at
 the selected concurrency reports each slot's rate; real work updates the estimate.
+Timed calibration begins after initialization with a fresh deadline and counts
+only proposals, excluding empty attempts. Live iteration counters still count
+all attempted iterations, so the initial estimate is conservative.
 Assignments target two minutes of work, with faster slots requesting more work
 independently. Caches remain local and reusable. Roughly one quarter of assignments
 explore independently; the rest share a diverse elite archive. Fixed operation
@@ -382,21 +385,44 @@ test failure instead of a skip. CI also exercises the CPU-only Linux fallback.
   smaller boards retain the simple array scan. Both implementations are tested
   against each other and the independent validator. No approximate distance is
   used to declare a solution.
-- Clue propagation rejects impossible shapes before scoring. Adjacent clues `a,b`
-  force both containing states to have size at least `abs(a-b)`. A state's internal
-  path to its own capitol cannot cost less than a contained clue. Zero/positive
-  capitol constraints and the adjacent-singleton requirement for one clues remain.
-  These are necessary conditions, not a replacement for full validation.
+- Clue propagation rejects impossible shapes before scoring. Adjacent distance
+  intervals bound both containing areas. Two-step paths bound their middle area
+  and endpoint area sum; three-step paths bound their two middle areas' sum.
+  One clues force adjacent singleton candidates; unique candidates fix singleton
+  positions and propagate distance bounds to their neighbors. Pair-area bounds
+  also prune assigned branches in strict feasibility covers. Local repairs can
+  retain improvements while fixed exterior regions still need later repair.
+  A state's internal path to its own
+  capitol cannot cost less than a contained clue. These are necessary conditions,
+  not a replacement for full validation.
 - Initialization combines rectangles, bent triominoes and connected symmetry-orbit
-  growth around zero clues. The rectangle size allowance reflects inferred minimum
-  areas. Forced corner capitols can receive nonrectangular states. Valid palette
+  growth around printed zeroes and plausible unnumbered capitols. The rectangle
+  size allowance reflects inferred minimum areas. Valid palette
   shapes are reused between restarts and in overlapping patch catalogs, with
   periodic growth samples for diversity. A bounded failure still falls back to
   singleton states; this fallback need not satisfy clues.
 - Connected two-to-four-state merge enumeration retains its resumable cursors.
+  Cursors are separated by objective, exact-ranking mode, persistent clue weights,
+  and merge-size limit so changing ranking rules cannot suppress an improvement.
   Most repairs use up to 32 cells. Every twelfth proposal allows a larger patch of
-  up to 128 cells and up to eight adjacent states. This is a search allowance, not
-  an exhaustive enumeration guarantee.
+  up to 128 cells and up to eight adjacent states. On boards larger than the
+  ordinary patch allowance, alternate large turns reserve their full deadline
+  for general patches. The other turns spend at most half their deadline on a
+  bounded archive populated by anchored growth and generic even/capless shapes,
+  preserving the remaining time for fallback. Each proposed archived shape is
+  fixed while the intersected current states are rebuilt around it, up to the
+  large-patch cell limit. This is a search
+  allowance, not an exhaustive enumeration guarantee.
+- Capitol growth retains unfinished walks across calls. Rejected intermediate
+  shapes can keep growing: extra mirrors or insufficient current area need not
+  persist in the final state. Generic catalogs combine connected orbit growth
+  with small exhaustive masks, single orbits/complements, and a random lane for
+  capless states. Bounded patch cursors retain the bounding box, transform, and
+  mask position across augmentations. Their capacity matches the 64 active
+  catalog slots; compact box indexes bound the added memory. Full catalogs reserve
+  space for fresh candidates while preserving their previous cell coverage.
+  Coverage does not guarantee a compatible tiling. Caches can evict progress; restarts do not
+  constitute exhaustive enumeration.
 - Orbit transfers, single-cell transfers and straight-cut splits can change states
   larger than either patch allowance. Both resulting shapes must pass geometry
   and clue deductions. These moves may be accepted uphill by annealing.
@@ -419,10 +445,27 @@ test failure instead of a skip. CI also exercises the CPU-only Linux fallback.
   are bounded. More speed or more time does not guarantee an 11×11 solution.
 
 The default per-job deadline remains 0.15 seconds, with 1,000 merge checks,
-12,000 sampled catalog masks, 5,000 cover nodes and 48 completed covers. Catalog
+12,000 catalog work units (split between growth and masks), 5,000 cover nodes and
+48 completed covers. Catalog
 sampling, geometry restrictions, cache hits and different worker objectives can
 change the search trajectory. Per-worker seeds are reproducible with fixed work
 budgets, but wall-clock cutoffs and concurrent archive arrivals affect full runs.
+
+The package tests include the verified full-puzzle partition as an acceptance
+fixture: 33 matching clues, eight capitols and answer 408951. It is not supplied
+to production search. To measure shape discovery separately, without a solution
+fixture, run the opt-in bounded benchmark:
+
+```sh
+python3 Scripts/benchmark_shape_discovery.py --run 5 16
+```
+
+This compiles a temporary CPU-only executable, then gives each of five seeds 16
+batches of 128 capitol-growth steps and 256 orbit masks. It reports distinct
+shapes, irregular shapes larger than the ordinary patch limit, unnumbered capitol
+coverage, work counts and elapsed time. It does not start an annealing run or
+connect to any coordinator. These are discovery diagnostics, not a solve-time
+estimate or evidence of a fresh full-puzzle solve.
 
 ## Logs, checkpoints and verification
 
@@ -521,6 +564,19 @@ No clues or no eligible destinations give energy 1. `RealAIMTest` is a search
 heuristic and must be combined with `SymmetricalTest` when checking validity.
 
 Run the standalone checks from the repository root:
+
+```sh
+python3 Scripts/run_core_tests.py
+```
+
+This compiles and executes all six bounded core suites in one temporary CPU-only
+executable. CI runs it alongside `swift test -c release`, which includes the
+discovery, archive-coverage, merge-cache and calibration regression tests.
+Every evaluated candidate, including cached and batched evaluations, can update
+the saved best independently of the worker's objective or move acceptance.
+The independent integer validator still decides whether a solution is valid.
+
+To run individual energy suites instead:
 
 ```sh
 swiftc -module-cache-path /tmp/janestreet-swift-module-cache \

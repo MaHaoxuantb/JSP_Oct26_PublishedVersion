@@ -46,6 +46,21 @@ struct RepairMetrics: Codable, Sendable {
     }
 }
 
+/// A consumed scan is reusable only under the same ranking and enumeration rules.
+struct MergeScanKey: Hashable {
+    let labels: [Int]
+    let objective: String
+    let weights: [Double]
+    let maxRegions: Int
+
+    init(labels: [Int], context: SearchContext, exactRanking: Bool) {
+        self.labels = labels
+        objective = exactRanking ? "exact" : context.config.searchObjective.rawValue
+        weights = !exactRanking && context.config.searchObjective == .persistent ? context.clueWeights : []
+        maxRegions = context.config.maxMergeRegions
+    }
+}
+
 /// Resumable enumeration of connected subsets of a region adjacency graph.
 /// The topology key ignores UUIDs and relationship confidence.
 final class MergeCursor {
@@ -76,13 +91,14 @@ extension SearchContext {
         let started = ProcessInfo.processInfo.systemUptime
         defer { metrics.mergeSeconds += ProcessInfo.processInfo.systemUptime - started }
         let labels = source.labels
+        let key = MergeScanKey(labels: labels, context: self, exactRanking: exactRanking)
         let cursor: MergeCursor
-        if let cached = mergeCursors[labels] {
+        if let cached = mergeCursors[key] {
             cursor = cached
             metrics.mergeCacheHits += 1
         } else {
             cursor = MergeCursor(labels: labels, context: self)
-            mergeCursors[labels] = cursor
+            mergeCursors[key] = cursor
         }
         var best: SearchState?
         var checked = 0
@@ -166,13 +182,14 @@ extension SearchContext {
         initializationCount += 1
         if initialShapes.isEmpty { initialShapes.formUnion(initialCatalog(until: until)) }
         // Keep reusable valid shapes between restarts and periodically diversify
-        // the forced-capitol growth samples instead of rebuilding every palette.
+        // the capitol growth samples instead of rebuilding every palette.
         if initializationCount % 4 == 1 && initialShapes.count < config.catalogCandidateLimit {
             initialShapes.formUnion(capitolCatalog(until: min(until,
                 ProcessInfo.processInfo.systemUptime + config.repairTimeLimitSeconds)))
         }
         let catalog = initialShapes.sorted { $0.lexicographicallyPrecedes($1) }
-        if let state = cover(patch: labels, base: labels, candidates: catalog, until: until, firstOnly: true) {
+        if let state = cover(patch: labels, base: labels, candidates: catalog, until: until,
+                             firstOnly: true, strictFeasibility: true) {
             return state
         }
         // Always return a structurally legal board even if constraints are
@@ -180,61 +197,10 @@ extension SearchContext {
         return evaluate(labels: labels)
     }
 
-    /// Grow connected orbits around forced zero capitols. Unlike rectangles,
-    /// these can place a large state's sole fixed cell on a corner of the board.
+    /// Resumable growth includes forced and unnumbered capitol anchors.
     func capitolCatalog(until: Double) -> [[Int]] {
-        var result = Set<[Int]>()
-        let zeros = constraints.clues.indices.filter { constraints.clues[$0] == 0 }
-        for (index, cap) in shuffled(zeros).enumerated() {
-            let now = ProcessInfo.processInfo.systemUptime
-            let capUntil = min(until, now + max(0, until - now) / Double(zeros.count - index))
-            let r = cap / grid.cols, c = cap % grid.cols
-            for transform in shuffled(Array(0..<7)) {
-                if expired(capUntil) { break }
-                func mapped(_ cell: Int) -> Int? {
-                    let dr = cell / grid.cols - r, dc = cell % grid.cols - c
-                    let q: (Int, Int)
-                    switch transform {
-                    case 0: q = (dc, -dr)
-                    case 1: q = (-dr, -dc)
-                    case 2: q = (-dc, dr)
-                    case 3: q = (dr, -dc)
-                    case 4: q = (-dr, dc)
-                    case 5: q = (dc, dr)
-                    default: q = (-dc, -dr)
-                    }
-                    let row = r + q.0, col = c + q.1
-                    guard row >= 0 && row < grid.rows && col >= 0 && col < grid.cols else { return nil }
-                    return row * grid.cols + col
-                }
-                for _ in 0..<24 {
-                    if expired(capUntil) { break }
-                    var grown: Set<Int> = [cap]
-                    while grown.count <= grid.count && !expired(capUntil) {
-                        let cells = grown.sorted()
-                        if permits(cells) { result.insert(cells) }
-                        let frontier = Set(cells.flatMap { grid.neighbors($0) }).subtracting(grown).sorted()
-                        var added = false
-                        for seed in shuffled(frontier) {
-                            var orbit: Set<Int> = [], current = seed, valid = true
-                            repeat {
-                                if current != cap && constraints.clues[current] == 0 { valid = false; break }
-                                // Every nonidentity symmetry must fix just the capitol.
-                                if current != cap && mapped(current) == current { valid = false; break }
-                                orbit.insert(current)
-                                guard let next = mapped(current) else { valid = false; break }
-                                current = next
-                            } while current != seed && orbit.count < 4
-                            if valid && current == seed {
-                                grown.formUnion(orbit); added = true; break
-                            }
-                        }
-                        if !added { break }
-                    }
-                }
-            }
-        }
-        return result.sorted { $0.lexicographicallyPrecedes($1) }
+        growCapitolShapes(patch: Array(0..<grid.count), until: until,
+                          budget: config.catalogMasksPerTransform)
     }
 
     /// Generate symmetric candidates as unions of transformation orbits.
@@ -248,10 +214,11 @@ extension SearchContext {
             metrics.catalogCacheHits += 1
             return cached
         }
-        var result = Set(catalogs[patch] ?? [])
+        let previous = catalogs[patch] ?? []
+        var result = Set<[Int]>()
         func add(_ cells: [Int]) {
             let cells = cells.sorted()
-            guard !cells.isEmpty && result.count < config.catalogCandidateLimit && !result.contains(cells) else { return }
+            guard !cells.isEmpty && !result.contains(cells) else { return }
             if permits(cells) { result.insert(cells) }
         }
         for cell in patch { add([cell]) }
@@ -261,77 +228,17 @@ extension SearchContext {
             if expired(until) { break }
             add(shape)
         }
-        let index = Dictionary(uniqueKeysWithValues: patch.enumerated().map { ($0.element, $0.offset) })
-        let rows = Array(Set(patch.map { $0 / grid.cols })).sorted()
-        let cols = Array(Set(patch.map { $0 % grid.cols })).sorted()
-        var boxes: [(Int, Int, Int, Int)] = []
-        for top in rows {
-            if expired(until) { return result.sorted { $0.lexicographicallyPrecedes($1) } }
-            for bottom in rows where bottom >= top {
-                for left in cols {
-                    for right in cols where right >= left { boxes.append((top, bottom, left, right)) }
-                }
-            }
-        }
-        // Large bounding boxes first permit nonrectangular states spanning a
-        // whole patch, rather than generating only small shapes near one corner.
-        boxes = shuffled(boxes).sorted {
-            ($0.1 - $0.0 + 1) * ($0.3 - $0.2 + 1) > ($1.1 - $1.0 + 1) * ($1.3 - $1.2 + 1)
-        }
-        var tested = 0
-        outer: for (top, bottom, left, right) in boxes {
-            for transform in shuffled(Array(0..<7)) {
-                if expired(until) || tested >= config.catalogCandidateLimit { break outer }
-                var seen = Set<Int>(), orbits: [CellMask] = []
-                for cell in patch where !seen.contains(cell) && (top...bottom).contains(cell / grid.cols)
-                    && (left...right).contains(cell % grid.cols) {
-                    var orbit: [Int] = [], current = cell, valid = true
-                    repeat {
-                        guard index[current] != nil else { valid = false; break }
-                        orbit.append(current)
-                        seen.insert(current)
-                        guard let next = RegionCache.map(current, transform: transform, top: top, bottom: bottom,
-                                                         left: left, right: right, cols: grid.cols) else {
-                            valid = false; break
-                        }
-                        current = next
-                    } while current != cell && orbit.count < 4
-                    if valid && current == cell {
-                        orbits.append(CellMask(count: patch.count, cells: orbit.map { index[$0]! }))
-                    }
-                }
-                guard !orbits.isEmpty else { continue }
-                orbits = shuffled(orbits)
-                // Exhaust only small orbit sets. Large patches never shift by
-                // their cell count and can span arbitrarily many mask words.
-                let exhaustive = orbits.count < 20 && (1 << orbits.count) <= config.catalogMasksPerTransform
-                let limit = exhaustive ? (1 << orbits.count) : config.catalogMasksPerTransform
-                var sampled = Set<CellMask>()
-                for attempt in 0..<limit {
-                    if tested >= config.catalogCandidateLimit || (attempt % 16 == 0 && expired(until)) { break outer }
-                    tested += 1
-                    var mask = CellMask(count: patch.count)
-                    for bit in orbits.indices {
-                        let include: Bool
-                        if exhaustive { include = attempt & (1 << bit) != 0 }
-                        else if attempt < limit / 2 {
-                            // Single orbits and their complements introduce both
-                            // small states and near-complete large states.
-                            include = attempt % 2 == 0 ? bit == (attempt / 2) % orbits.count
-                                : bit != (attempt / 2) % orbits.count
-                        } else { include = rng.next() & 1 != 0 }
-                        if include { mask.formUnion(orbits[bit]) }
-                    }
-                    if sampled.insert(mask).inserted { add(mask.cells.map { patch[$0] }) }
-                }
-            }
-        }
-        metrics.catalogMasks += tested
-        if tested >= config.catalogCandidateLimit || expired(until) { metrics.budgetStops += 1 }
-        let catalog = result.sorted { $0.lexicographicallyPrecedes($1) }
+        // Reserve work for connected growth before generic orbit masks. Both
+        // generators retain their cursors across cache augmentations.
+        let growthBudget = min(config.catalogMasksPerTransform, config.catalogCandidateLimit / 3)
+        for cells in growCapitolShapes(patch: patch, until: until, budget: growthBudget) { add(cells) }
+        for cells in sampleRegionShapes(patch: patch, until: until,
+                                        budget: config.catalogCandidateLimit - growthBudget) { add(cells) }
+        let catalog = refreshedCatalog(previous: previous, incoming: Array(result))
         // Reuse partial catalogs, augmenting them every eighth request. This
         // avoids both repeated generation costs and permanent time-cutoff bias.
         catalogs[patch] = catalog
+        retainLargeShapes(catalog, until: until)
         return catalog
     }
 
@@ -339,7 +246,7 @@ extension SearchContext {
     /// Exactness refers to each returned cover, not exhaustive enumeration under
     /// these work limits. Clue costs are evaluated on the entire resulting board.
     func cover(patch: [Int], base: [Int], candidates: [[Int]], until: Double,
-               firstOnly: Bool = false) -> SearchState? {
+               firstOnly: Bool = false, strictFeasibility: Bool = false) -> SearchState? {
         let started = ProcessInfo.processInfo.systemUptime
         defer { metrics.coverSeconds += ProcessInfo.processInfo.systemUptime - started }
         guard !patch.isEmpty && !expired(until) else { return nil }
@@ -374,9 +281,20 @@ extension SearchContext {
             }
             pending.removeAll(keepingCapacity: true)
         }
+        // Final-board feasibility is different from improving a partial board.
+        // A fixed exterior may need a later repair; do not reject every local
+        // improvement merely because a pair bound is still violated there.
+        let relevantBounds = strictFeasibility ? constraints.pairBounds.filter {
+            allowed.contains($0.first) || allowed.contains($0.second)
+        } : []
         func onesPossible() -> Bool {
-            relevantOnes.allSatisfy { cell in
+            guard relevantOnes.allSatisfy({ cell in
                 grid.neighbors(cell).contains { occupied.contains($0) ? sizes[$0] == 1 : canBeSingleton[$0] }
+            }) else { return false }
+            return relevantBounds.allSatisfy { bound in
+                guard occupied.contains(bound.first) && occupied.contains(bound.second) else { return true }
+                // Avoid overflow for large custom clues.
+                return sizes[bound.first] >= bound.minimum - min(bound.minimum, sizes[bound.second])
             }
         }
         // Paths entirely through assigned states survive every completion of this
@@ -513,6 +431,16 @@ extension SearchContext {
         let now = ProcessInfo.processInfo.systemUptime
         let large = proposalNumber % config.largeRepairInterval == 0
         let until = min(deadline, now + config.repairTimeLimitSeconds)
+        if large {
+            // Every other large turn reserves its whole deadline for the general
+            // patch lane. Archive turns reserve half for a fallback if needed.
+            let archiveTurn = largeRepairTurn % 2 == 0
+            largeRepairTurn &+= 1
+            if archiveTurn, let state = largeShapeProposal(source,
+                until: now + max(0, until - now) / 2) {
+                return (state, .constrainedPatch)
+            }
+        }
         if !large, let merged = mergeRepair(source, until: min(until, now + config.repairTimeLimitSeconds / 3)) {
             return (merged, .regionMerge)
         }

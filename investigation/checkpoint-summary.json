@@ -1,0 +1,52 @@
+{
+  "checkpoint_files": 967,
+  "full_puzzle_checkpoints": 937,
+  "read_errors": 0,
+  "best_saved": [
+    {
+      "path": "logs/workers/slot-3/checkpoint-EFA932D5-3AE4-4115-8808-A9E411EFAC50.json",
+      "timestamp": "2026-10-27T11:57:03Z",
+      "wrong": 10,
+      "issues": 0,
+      "largest_state": 16,
+      "states": 30,
+      "iterations": 120
+    },
+    {
+      "path": "logs/workers/slot-3/checkpoint-4C93889C-8C53-4C16-BD2B-4B93155614DB.json",
+      "timestamp": "2026-10-27T11:57:20Z",
+      "wrong": 10,
+      "issues": 0,
+      "largest_state": 16,
+      "states": 30,
+      "iterations": 120
+    },
+    {
+      "path": "logs/workers/slot-3/checkpoint-A522AC11-B5D5-474D-B155-448F99D4C50F.json",
+      "timestamp": "2026-10-27T11:51:28Z",
+      "wrong": 10,
+      "issues": 0,
+      "largest_state": 14,
+      "states": 27,
+      "iterations": 120
+    },
+    {
+      "path": "logs/workers/slot-3/checkpoint-14599304-A57F-4E4A-867B-1EE4E6DE7463.json",
+      "timestamp": "2026-10-27T11:51:51Z",
+      "wrong": 10,
+      "issues": 0,
+      "largest_state": 14,
+      "states": 27,
+      "iterations": 120
+    },
+    {
+      "path": "logs/workers/slot-3/checkpoint-72375F00-6B38-42CB-97DB-6B8549C7A45E.json",
+      "timestamp": "2026-10-27T11:51:35Z",
+      "wrong": 10,
+      "issues": 0,
+      "largest_state": 14,
+      "states": 27,
+      "iterations": 120
+    }
+  ]
+}

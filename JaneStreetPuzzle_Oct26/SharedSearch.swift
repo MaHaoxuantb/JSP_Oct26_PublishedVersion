@@ -26,6 +26,8 @@ actor EliteArchive {
     private let capacity: Int
     private var entries: [EliteCandidate] = []
     private var ticket = 0
+    private var useLeader = true
+    private var diversityIndex = 0
     init(capacity: Int) { self.capacity = capacity }
 
     func publish(_ candidate: EliteCandidate) {
@@ -72,7 +74,14 @@ actor EliteArchive {
         let leader = objective == .matches ? 0 : entries.indices.min {
             entries[$0].scores.realAIM < entries[$1].scores.realAIM
         }!
-        let index = ticket % 2 == 0 ? ticket % entries.count : leader
+        let index: Int
+        if useLeader {
+            index = leader
+        } else {
+            index = diversityIndex % entries.count
+            diversityIndex = (index + 1) % entries.count
+        }
+        useLeader.toggle()
         return EliteAssignment(candidate: entries[index], ticket: ticket)
     }
 }

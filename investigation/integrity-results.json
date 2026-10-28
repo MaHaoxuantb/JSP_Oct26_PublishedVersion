@@ -1,0 +1,87 @@
+{
+  "catalog_saturation" : {
+    "additional_growth_steps" : 0,
+    "all_cells_have_a_candidate" : false,
+    "first" : [
+      [
+        1
+      ],
+      [
+        5
+      ]
+    ],
+    "generic_cursor_created" : true,
+    "last" : [
+      [
+        1
+      ],
+      [
+        5
+      ]
+    ],
+    "limit" : 2
+  },
+  "cross_state_pruning" : {
+    "found" : false,
+    "trials" : 3000
+  },
+  "geometry_and_bounds_4x4" : {
+    "deduction_fixtures" : 2258,
+    "failures" : [
+
+    ],
+    "geometry_masks" : 65535
+  },
+  "known_pruning_regression" : {
+    "repaired_wrong" : 1,
+    "source_wrong" : 5,
+    "still_imperfect" : true
+  },
+  "large_repair_portfolio" : {
+    "fixture" : "checkpoint-EFA932D5-3AE4-4115-8808-A9E411EFAC50.json",
+    "runs" : [
+      {
+        "archive_count" : 494,
+        "elapsed" : 0.20495808334089816,
+        "even_archive_states" : 43,
+        "large_rebuild_attempts" : 29,
+        "large_turns" : 16,
+        "legacy_path_control_cover_nodes" : 95,
+        "legacy_path_control_proposals" : 1,
+        "new_path_total_cover_nodes" : 63,
+        "nil_moves" : 16,
+        "old_large_patch_path_used" : 16,
+        "repair_seconds" : 0.02,
+        "returned_proposals" : 0
+      },
+      {
+        "archive_count" : 512,
+        "elapsed" : 1.2053340832935646,
+        "even_archive_states" : 35,
+        "large_rebuild_attempts" : 32,
+        "large_turns" : 16,
+        "legacy_path_control_cover_nodes" : 463,
+        "legacy_path_control_proposals" : 3,
+        "new_path_total_cover_nodes" : 888,
+        "nil_moves" : 14,
+        "old_large_patch_path_used" : 16,
+        "repair_seconds" : 0.14999999999999999,
+        "returned_proposals" : 2
+      }
+    ]
+  },
+  "parity_and_cursor_limits" : {
+    "cursor_evicted_after_other_patches" : false,
+    "distance_clue" : 1261,
+    "legal_36_cell_state_validated" : true,
+    "same_cursor_on_return" : true,
+    "samples_after_return" : 2
+  },
+  "soundness" : {
+    "clue_fixtures" : 3772,
+    "failures" : [
+
+    ],
+    "legal_partitions" : 974
+  }
+}

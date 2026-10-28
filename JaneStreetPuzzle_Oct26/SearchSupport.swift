@@ -173,9 +173,19 @@ final class SearchContext {
     let clueCount: Int
     lazy var pathEvaluator = PathEvaluator(grid: grid, mode: config.pathEvaluation)
     var metrics = RepairMetrics()
-    let mergeCursors = BoundedCache<[Int], MergeCursor>(capacity: 32)
+    let mergeCursors = BoundedCache<MergeScanKey, MergeCursor>(capacity: 32)
     let catalogs = BoundedCache<[Int], [[Int]]>(capacity: 64)
     let catalogUses = BoundedCache<[Int], Int>(capacity: 64)
+    // Match the active catalog capacity. Region cursors store compact box indexes,
+    // not full four-coordinate tuples or a search tree for every patch.
+    let regionSampling = BoundedCache<[Int], RegionSamplingCursor>(capacity: 64)
+    let capitolGrowth = BoundedCache<[Int], CapitolGrowthCursor>(capacity: 64)
+    var growthSteps = 0
+    var visitedCapitolAnchors = Set<Int>()
+    var largeShapeAttempts = 0
+    var largeShapeTicket = 0
+    var largeRepairTurn = 0
+    var largeShapes: [[Int]] = []
     let permitted = BoundedCache<[Int], Bool>(capacity: 32_768)
     let evaluations = BoundedCache<[Int], SearchState>(capacity: 2_048)
     var proposalNumber = 0
@@ -184,6 +194,16 @@ final class SearchContext {
     var clueWeights: [Double] = []
     var repairTicket = 0
     var deadline = Double.infinity
+    private(set) var bestEvaluated: SearchState?
+
+    func resetDiscoveries() { bestEvaluated = nil }
+
+    /// Retain discoveries independently of the objective used to choose a move.
+    func recordDiscovery(_ state: SearchState) {
+        if bestEvaluated == nil || state.quality < bestEvaluated!.quality {
+            bestEvaluated = state.snapshot()
+        }
+    }
 
     init(config: RunConfig) {
         self.config = config

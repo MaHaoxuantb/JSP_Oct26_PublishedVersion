@@ -1,5 +1,46 @@
 # Search audit — 2026-10-28
 
+## Follow-up integrity findings
+
+The later integrity audit found a cross-state pruning regression, an odd-only
+large-state archive, and frozen saturated catalogs. All three have now been
+corrected locally, with explicit regressions. Active sampling cursor capacity now
+matches catalog capacity too. See [the corrections and validation](investigation/INTEGRITY_FIXES.md)
+and [the historical audit](investigation/INTEGRITY_AUDIT.md).
+Deployment and worker restarts remain on hold.
+
+## Local correction status
+
+Follow-up search improvements have also been implemented locally: propagated
+singleton/short-path area bounds, growth around unnumbered capitols, connected
+orbit generation with retained cursors, and a dedicated large-shape repair lane.
+The full puzzle is now an acceptance fixture, separate from a bounded discovery
+benchmark. See [implementation and validation](investigation/IMPLEMENTATION.md).
+These changes have **not** been deployed or used to restart running workers.
+
+All four findings below have been corrected in the local working tree. Deployment
+is on hold at the user's request; running workers have not been restarted.
+
+- The evaluation context retains the best common-ranking discovery from individual,
+  cached, and batched evaluations. The solver saves, shares, and reports it independently
+  of the annealing walk. The original one-iteration reproduction now reports seven
+  wrong clues while its residual-objective current state still has eight.
+- Merge cursors are keyed by partition, ranking mode, persistent weights, and maximum
+  merge size. An unchanged scan still resumes; changed ranking rules receive a separate
+  bounded scan. Explicit saved-board repair uses the common ranking as well.
+- Eligible archive exchanges alternate leaders with a separate diversity cursor,
+  reaching every retained entry even when independent explorers request assignments.
+- Calibration starts a fresh measurement deadline after initialization and excludes
+  empty attempts from the initial work-rate estimate.
+
+Validation: **55 Swift tests in nine suites**, including eight new discovery regressions;
+**11 Python process tests**; and **all six standalone core suites** passed locally.
+`Scripts/run_core_tests.py` now runs the core suites in CI alongside the package tests.
+This fixes the reproduced correctness problems but does not establish a full-puzzle
+solve rate or a total-job estimate.
+
+## Original inspection findings (before correction)
+
 The current working-tree code has reproducible defects that can suppress intermediate discoveries, reduce exploration, and distort calibration. It cannot yet be cleared as a cause of the reported plateau. These reproductions establish code behavior; they do not establish which defects affected the particular running fleet or guarantee that fixing them will solve the full puzzle.
 
 This was an inspection. No production source or configuration was changed. Existing uncommitted changes were included in the review.

@@ -1,0 +1,57 @@
+[
+  {
+    "growthSteps" : 2048,
+    "irregularLargeShapes" : 1784,
+    "largestArea" : 117,
+    "masks" : 4096,
+    "seconds" : 0.2324577916879207,
+    "seed" : 0,
+    "shapes" : 2251,
+    "unknownCapitolsGenerated" : 26,
+    "unknownCapitolsVisited" : 15
+  },
+  {
+    "growthSteps" : 2048,
+    "irregularLargeShapes" : 1839,
+    "largestArea" : 117,
+    "masks" : 4096,
+    "seconds" : 0.2076329166884534,
+    "seed" : 1,
+    "shapes" : 2357,
+    "unknownCapitolsGenerated" : 26,
+    "unknownCapitolsVisited" : 16
+  },
+  {
+    "growthSteps" : 2048,
+    "irregularLargeShapes" : 1734,
+    "largestArea" : 117,
+    "masks" : 4096,
+    "seconds" : 0.20896383334184065,
+    "seed" : 2,
+    "shapes" : 2256,
+    "unknownCapitolsGenerated" : 26,
+    "unknownCapitolsVisited" : 15
+  },
+  {
+    "growthSteps" : 2048,
+    "irregularLargeShapes" : 1660,
+    "largestArea" : 117,
+    "masks" : 4096,
+    "seconds" : 0.20605325000360608,
+    "seed" : 3,
+    "shapes" : 2163,
+    "unknownCapitolsGenerated" : 28,
+    "unknownCapitolsVisited" : 15
+  },
+  {
+    "growthSteps" : 2048,
+    "irregularLargeShapes" : 1821,
+    "largestArea" : 117,
+    "masks" : 4096,
+    "seconds" : 0.2067457499797456,
+    "seed" : 4,
+    "shapes" : 2299,
+    "unknownCapitolsGenerated" : 27,
+    "unknownCapitolsVisited" : 20
+  }
+]

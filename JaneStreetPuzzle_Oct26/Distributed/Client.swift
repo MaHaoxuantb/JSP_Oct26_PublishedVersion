@@ -401,21 +401,32 @@ func calibrate(config: RunConfig, settings: DistributedConfig) async -> [WorkerR
                 let context = SearchContext(config: fixture)
                 context.deadline = ProcessInfo.processInfo.systemUptime + settings.calibrationSeconds
                 let board = Initialization().start(context: context)
-                var current = board
-                let start = ProcessInfo.processInfo.systemUptime
-                var count = 0
-                while ProcessInfo.processInfo.systemUptime - start < settings.calibrationSeconds && !Task.isCancelled {
-                    let result = Iteration().OneIteration(current: current, context: context, temperature: fixture.initialTemperature)
-                    current = result.state; count += 1
-                    if count % 8 == 0 { await Task.yield() }
-                }
-                let elapsed = max(0.001, ProcessInfo.processInfo.systemUptime - start)
-                return WorkerRate(slot: slot, iterationsPerSecond: max(0.01, Double(count) / elapsed),
-                    repairSeconds: min(5, max(0.15, elapsed / Double(max(1, count)) * 2)))
+                return await measureWorkerRate(context: context, initial: board, slot: slot,
+                                               seconds: settings.calibrationSeconds)
             }
         }
         var rates: [WorkerRate] = []
         for await rate in group { rates.append(rate) }
         return rates.sorted { $0.slot < $1.slot }
     }
+}
+
+/// Initialization has its own budget. Measure proposals against a fresh deadline
+/// and exclude empty attempts from the estimate used to size future assignments.
+func measureWorkerRate(context: SearchContext, initial: SearchState, slot: Int, seconds: Double) async -> WorkerRate {
+    var current = initial
+    let start = ProcessInfo.processInfo.systemUptime
+    context.deadline = start + seconds
+    var count = 0, attempts = 0
+    while !context.expired(context.deadline) {
+        let result = Iteration().OneIteration(current: current, context: context,
+                                              temperature: context.config.initialTemperature)
+        current = result.state
+        attempts += 1
+        if result.move != nil { count += 1 }
+        if attempts % 8 == 0 { await Task.yield() }
+    }
+    let elapsed = max(0.001, ProcessInfo.processInfo.systemUptime - start)
+    return WorkerRate(slot: slot, iterationsPerSecond: max(0.01, Double(count) / elapsed),
+                      repairSeconds: min(5, max(0.15, elapsed / Double(max(1, count)) * 2)))
 }
