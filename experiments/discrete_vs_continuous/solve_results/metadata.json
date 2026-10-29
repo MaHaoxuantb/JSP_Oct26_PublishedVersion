@@ -1,0 +1,38 @@
+{
+  "started_at_utc": "2026-10-29T02:52:07.419229+00:00",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "compiler": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\nTarget: arm64-apple-macosx27.0.0\n",
+  "source_sha256": {
+    "JaneStreetPuzzle_Oct26/CatalogRetention.swift": "7d1a2e6c754a95792bacd3556099b55816a8a5a12a0c4823fa6cb15d65b51413",
+    "JaneStreetPuzzle_Oct26/Energy.swift": "af45fcaf294acb4bdae729b91b86ef16db8c5a6adb869e8a8b8be62118c6e0d3",
+    "JaneStreetPuzzle_Oct26/ExactSearch.swift": "80ae03178df5960af1ce0245722903bc7cc59de37579f9ac51d243520c396a2d",
+    "JaneStreetPuzzle_Oct26/Logger.swift": "65630fb8ffc4255f455fd193270dbb95129d4a908a3b0a45c8d9c308714e5a39",
+    "JaneStreetPuzzle_Oct26/PathEvaluation.swift": "c84ae1b184270d66095514b285d1144bf22bdaff39134a8490917e7f8b321d56",
+    "JaneStreetPuzzle_Oct26/RegionRepairs.swift": "f9d6a17b01458934f541dd999023547b17f367178cb871201776b15f7d9b9bbc",
+    "JaneStreetPuzzle_Oct26/RunConfig.swift": "5c5b4099f817f78a9a87625da2bca65500eeaf9b2eb832b6acf1c66db90dad86",
+    "JaneStreetPuzzle_Oct26/Runners.swift": "8c6f3204ea8c44ce89a5edc9b7778b6305d402bb7cf157fab217e54df66d7de5",
+    "JaneStreetPuzzle_Oct26/SavedRunRepair.swift": "40882044b50b58242a449d0e4c4f3267fdcb0d5582dd62b0d1bfb7d8215d4671",
+    "JaneStreetPuzzle_Oct26/SearchSupport.swift": "3c65056dc0b7f38c7bef7fd5c6dd3210d0774e261338d110047019d9dc6a5c31",
+    "JaneStreetPuzzle_Oct26/ShapeGrowth.swift": "a9bb9b31bf05ad663ee63fee678f6aa7c8b88b0b2be729a8ea8a401def1b0ecb",
+    "JaneStreetPuzzle_Oct26/SharedSearch.swift": "6793a972f72ebadbeb53d5b0b6797ab6988e363a8bdbdd585312284fc638b244",
+    "JaneStreetPuzzle_Oct26/SoftwareVersion.swift": "82fcd256a33eb8a5359174dca566eef2bf557291da8521079d1e5f5c6c8c7003",
+    "JaneStreetPuzzle_Oct26/Solver.swift": "893788e6e59f03ba4c3055175ec66dfb29e4a7b183c63c63d8002a27ec9422c2",
+    "JaneStreetPuzzle_Oct26/Storage.swift": "1dcab208deabc197463e0cd0469e8ad19491831c5f7b97c95c9ee4c19ef8a357",
+    "JaneStreetPuzzle_Oct26/Validation.swift": "7a6516fb7ef949c61c8f51089e2a62595f99490eb6ddddbad2d6ec8aa5beb5bc",
+    "experiments/discrete_vs_continuous/Experiment.swift": "36cde8adc0afa624693efc0b23b0d52d0f1b245f4f83a4bcd897e4e4ef2f1961",
+    "experiments/discrete_vs_continuous/SolveTime.swift": "5a173daf437ec7505f4740a908deadfe9452a63ec62d89b093ec4e150cad1177"
+  },
+  "patches": {
+    "ExactSearch.swift": {
+      "rename": "        let scores = Energy.Scores(realAIM: mean, symmetry: invalid.reduce(0, +) / Double(grid.count),\n                                   discreteness: 0, total: aimWeight * mean + symWeight * invalid.reduce(0, +) / Double(grid.count))",
+      "insert_before": "        var report = ValidationReport(valid: false, issues: issues, capitols: capitols, mismatches: mismatches, answer: nil)",
+      "insertion": "        let scores = experimentContinuous\n            ? experimentEnergy.evaluate(Board: makeBoard(), Target: config.Target, Factors: config.factors).scores\n            : discreteScores\n"
+    },
+    "SearchSupport.swift": {
+      "old": "    let validator = ExactValidator()",
+      "new": "    let experimentContinuous = ProcessInfo.processInfo.environment[\"PUZZLE_EXPERIMENT_CONTINUOUS\"] == \"1\"\n    let experimentEnergy = Energy()\n    let validator = ExactValidator()"
+    }
+  },
+  "trials": 5,
+  "limit_seconds": 30
+}

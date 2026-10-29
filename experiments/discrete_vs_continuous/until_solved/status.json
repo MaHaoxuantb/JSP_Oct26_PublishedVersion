@@ -1,0 +1,31 @@
+{
+  "updated_at_utc": "2026-10-29T03:38:52.267072+00:00",
+  "time_cutoff": null,
+  "jobs": [
+    {
+      "job": "discrete5",
+      "pid": 25250,
+      "state": "solved",
+      "elapsedSeconds": 9.147988208336756
+    },
+    {
+      "job": "discrete7",
+      "pid": 25345,
+      "state": "stopped_by_user",
+      "elapsedSeconds": 331.43777454202063
+    },
+    {
+      "job": "continuous5",
+      "pid": 25347,
+      "state": "stopped_by_user",
+      "elapsedSeconds": 331.43734649999533
+    },
+    {
+      "job": "continuous7",
+      "pid": 25348,
+      "state": "stopped_by_user",
+      "elapsedSeconds": 331.4378282080288
+    }
+  ],
+  "stopped_by_user": true
+}

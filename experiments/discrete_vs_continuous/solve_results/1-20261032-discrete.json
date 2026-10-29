@@ -1,0 +1,11 @@
+{
+  "candidate" : "discrete",
+  "elapsedSeconds" : 30.010216500028037,
+  "issues" : 0,
+  "limitSeconds" : 30,
+  "puzzle" : "generated8_8101",
+  "seed" : 20261032,
+  "solved" : false,
+  "stopReason" : "timeLimit",
+  "wrongClues" : 10
+}

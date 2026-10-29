@@ -1,0 +1,38 @@
+[
+  {
+    "candidate": "discrete",
+    "elapsedSeconds": 30.008971583331004,
+    "issues": 0,
+    "limitSeconds": 30,
+    "puzzle": "generated7_7101_clues13",
+    "seed": 20261029,
+    "solved": false,
+    "stopReason": "timeLimit",
+    "wrongClues": 1,
+    "processWallSeconds": 30.07970754202688
+  },
+  {
+    "candidate": "discrete",
+    "elapsedSeconds": 30.00850154168438,
+    "issues": 0,
+    "limitSeconds": 30,
+    "puzzle": "generated7_7101_clues13",
+    "seed": 20261030,
+    "solved": false,
+    "stopReason": "timeLimit",
+    "wrongClues": 1,
+    "processWallSeconds": 30.04463445895817
+  },
+  {
+    "candidate": "discrete",
+    "elapsedSeconds": 30.008124208368827,
+    "issues": 0,
+    "limitSeconds": 30,
+    "puzzle": "generated7_7101_clues13",
+    "seed": 20261031,
+    "solved": false,
+    "stopReason": "timeLimit",
+    "wrongClues": 1,
+    "processWallSeconds": 30.04486695799278
+  }
+]

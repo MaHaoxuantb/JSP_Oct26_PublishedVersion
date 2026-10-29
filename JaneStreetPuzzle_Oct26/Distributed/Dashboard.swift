@@ -247,7 +247,7 @@ input,select{font:inherit;background:var(--surface);color:var(--text);border:1px
 <button type="button" data-theme-option="light" aria-label="Light theme" aria-pressed="false" title="Light appearance"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><span>Light</span></button>
 <button type="button" data-theme-option="dark" aria-label="Dark theme" aria-pressed="false" title="Dark appearance"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20.5 14A9 9 0 0 1 10 3.5 9 9 0 1 0 20.5 14Z"/></svg><span>Dark</span></button>
 </div></div></nav>
-<main><header class="page-heading"><div><h1>JSP_Oct26</h1><p class="subtitle">A live view of your clients and the work in progress.</p></div>
+<main><header class="page-heading"><div><h1>JSP_Oct26</h1><p class="subtitle">LIVE VIEW</p></div>
 <div class="live-block"><div id="connection" class="status" role="status" aria-live="polite">Connecting</div><p id="updated">Refreshes every 3 seconds</p></div></header>
 <section class="cards" aria-label="Run statistics">
 <div class="card"><span class="metric-label">Connected clients<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 21h8m-4-5v5"/></svg></span><strong id="clients">—</strong><span class="metric-note">Reporting to this run</span></div>

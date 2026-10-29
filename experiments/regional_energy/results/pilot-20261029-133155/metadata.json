@@ -1,0 +1,261 @@
+{
+  "started_at_jst": "2026-10-29T13:32:18.990343+09:00",
+  "seconds_per_trial": 300.0,
+  "seed": 20261029,
+  "conditions": [
+    {
+      "id": "5x5-discrete-uniform",
+      "fixture": "example5_clues7",
+      "board_size": 5,
+      "clue_count": 7,
+      "representation": "discrete",
+      "regional": false,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 0
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "5x5-discrete-regional",
+      "fixture": "example5_clues7",
+      "board_size": 5,
+      "clue_count": 7,
+      "representation": "discrete",
+      "regional": true,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 0
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "5x5-continuous-uniform",
+      "fixture": "example5_clues7",
+      "board_size": 5,
+      "clue_count": 7,
+      "representation": "continuous",
+      "regional": false,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 2
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "5x5-continuous-regional",
+      "fixture": "example5_clues7",
+      "board_size": 5,
+      "clue_count": 7,
+      "representation": "continuous",
+      "regional": true,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 2
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "7x7-discrete-uniform",
+      "fixture": "generated7_7101_clues13",
+      "board_size": 7,
+      "clue_count": 13,
+      "representation": "discrete",
+      "regional": false,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 0
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "7x7-discrete-regional",
+      "fixture": "generated7_7101_clues13",
+      "board_size": 7,
+      "clue_count": 13,
+      "representation": "discrete",
+      "regional": true,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 0
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "7x7-continuous-uniform",
+      "fixture": "generated7_7101_clues13",
+      "board_size": 7,
+      "clue_count": 13,
+      "representation": "continuous",
+      "regional": false,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 2
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "7x7-continuous-regional",
+      "fixture": "generated7_7101_clues13",
+      "board_size": 7,
+      "clue_count": 13,
+      "representation": "continuous",
+      "regional": true,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 2
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    }
+  ],
+  "concurrency_per_size_batch": 4,
+  "workers_per_trial": 1,
+  "source_sha256": {
+    "JaneStreetPuzzle_Oct26/CatalogRetention.swift": "7d1a2e6c754a95792bacd3556099b55816a8a5a12a0c4823fa6cb15d65b51413",
+    "JaneStreetPuzzle_Oct26/Energy.swift": "af45fcaf294acb4bdae729b91b86ef16db8c5a6adb869e8a8b8be62118c6e0d3",
+    "JaneStreetPuzzle_Oct26/ExactSearch.swift": "80ae03178df5960af1ce0245722903bc7cc59de37579f9ac51d243520c396a2d",
+    "JaneStreetPuzzle_Oct26/Logger.swift": "65630fb8ffc4255f455fd193270dbb95129d4a908a3b0a45c8d9c308714e5a39",
+    "JaneStreetPuzzle_Oct26/PathEvaluation.swift": "c84ae1b184270d66095514b285d1144bf22bdaff39134a8490917e7f8b321d56",
+    "JaneStreetPuzzle_Oct26/RegionRepairs.swift": "f9d6a17b01458934f541dd999023547b17f367178cb871201776b15f7d9b9bbc",
+    "JaneStreetPuzzle_Oct26/RunConfig.swift": "5c5b4099f817f78a9a87625da2bca65500eeaf9b2eb832b6acf1c66db90dad86",
+    "JaneStreetPuzzle_Oct26/Runners.swift": "8c6f3204ea8c44ce89a5edc9b7778b6305d402bb7cf157fab217e54df66d7de5",
+    "JaneStreetPuzzle_Oct26/SavedRunRepair.swift": "40882044b50b58242a449d0e4c4f3267fdcb0d5582dd62b0d1bfb7d8215d4671",
+    "JaneStreetPuzzle_Oct26/SearchSupport.swift": "3c65056dc0b7f38c7bef7fd5c6dd3210d0774e261338d110047019d9dc6a5c31",
+    "JaneStreetPuzzle_Oct26/ShapeGrowth.swift": "a9bb9b31bf05ad663ee63fee678f6aa7c8b88b0b2be729a8ea8a401def1b0ecb",
+    "JaneStreetPuzzle_Oct26/SharedSearch.swift": "6793a972f72ebadbeb53d5b0b6797ab6988e363a8bdbdd585312284fc638b244",
+    "JaneStreetPuzzle_Oct26/SoftwareVersion.swift": "82fcd256a33eb8a5359174dca566eef2bf557291da8521079d1e5f5c6c8c7003",
+    "JaneStreetPuzzle_Oct26/Solver.swift": "893788e6e59f03ba4c3055175ec66dfb29e4a7b183c63c63d8002a27ec9422c2",
+    "JaneStreetPuzzle_Oct26/Storage.swift": "1dcab208deabc197463e0cd0469e8ad19491831c5f7b97c95c9ee4c19ef8a357",
+    "JaneStreetPuzzle_Oct26/Validation.swift": "7a6516fb7ef949c61c8f51089e2a62595f99490eb6ddddbad2d6ec8aa5beb5bc",
+    "experiments/regional_energy/RegionalExperiment.swift": "87953f7a110db40d22341257b2987bd4964578b2dff7c7ca2fcd83260f956a8c"
+  },
+  "fixture_sha256": "3edd410d853560bbe256e7f06714ebf541aee672917101538b5af0bc089e5003",
+  "compiler": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\nTarget: arm64-apple-macosx27.0.0\n",
+  "build_flags": [
+    "-O",
+    "-D",
+    "PATHS_CPU_ONLY"
+  ],
+  "parent_pid": 34584,
+  "note": "Shared experimental mutation framework, not the full production repair solver. ON/OFF controls matched within representation."
+}

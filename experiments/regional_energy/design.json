@@ -1,0 +1,252 @@
+{
+  "status": "pilot_completed",
+  "condition_count": 8,
+  "fixture_source": "../discrete_vs_continuous/until_solved/fixtures.json",
+  "fixture_sha256": "3edd410d853560bbe256e7f06714ebf541aee672917101538b5af0bc089e5003",
+  "real_clue_density": {
+    "clues": 33,
+    "cells": 121
+  },
+  "cutoff_seconds": 300,
+  "workers_per_trial": 1,
+  "regional_policy": {
+    "uniform_exploration_fraction": 0.2,
+    "focus_floor": 0.05,
+    "n_min": 1,
+    "n_max": 16,
+    "flat_field_n": 8,
+    "clue_diffusion_radius": 2,
+    "max_changed_edge_fraction": 0.25
+  },
+  "continuous_endpoint_proposal_probability": 0.1,
+  "conditions": [
+    {
+      "id": "5x5-discrete-uniform",
+      "fixture": "example5_clues7",
+      "board_size": 5,
+      "clue_count": 7,
+      "representation": "discrete",
+      "regional": false,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 0
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "5x5-discrete-regional",
+      "fixture": "example5_clues7",
+      "board_size": 5,
+      "clue_count": 7,
+      "representation": "discrete",
+      "regional": true,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 0
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "5x5-continuous-uniform",
+      "fixture": "example5_clues7",
+      "board_size": 5,
+      "clue_count": 7,
+      "representation": "continuous",
+      "regional": false,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 2
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "5x5-continuous-regional",
+      "fixture": "example5_clues7",
+      "board_size": 5,
+      "clue_count": 7,
+      "representation": "continuous",
+      "regional": true,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 2
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "7x7-discrete-uniform",
+      "fixture": "generated7_7101_clues13",
+      "board_size": 7,
+      "clue_count": 13,
+      "representation": "discrete",
+      "regional": false,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 0
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "7x7-discrete-regional",
+      "fixture": "generated7_7101_clues13",
+      "board_size": 7,
+      "clue_count": 13,
+      "representation": "discrete",
+      "regional": true,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 0
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "7x7-continuous-uniform",
+      "fixture": "generated7_7101_clues13",
+      "board_size": 7,
+      "clue_count": 13,
+      "representation": "continuous",
+      "regional": false,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 2
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    },
+    {
+      "id": "7x7-continuous-regional",
+      "fixture": "generated7_7101_clues13",
+      "board_size": 7,
+      "clue_count": 13,
+      "representation": "continuous",
+      "regional": true,
+      "native_weights": {
+        "aim": 2,
+        "symmetry": 1,
+        "discreteness": 2
+      },
+      "uniform_n": 8,
+      "regional_n_range": [
+        1,
+        16
+      ],
+      "search_seeds_pilot": [
+        20261029
+      ],
+      "search_seeds_replication": [
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033
+      ]
+    }
+  ],
+  "pilot_concurrency_per_size_batch": 4,
+  "pilot_output": "results/pilot-20261029-133155",
+  "pilot_solved": 0,
+  "pilot_cutoffs": 8
+}

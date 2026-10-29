@@ -1,0 +1,41 @@
+[
+  {
+    "answer": 8045,
+    "candidate": "discrete",
+    "elapsedSeconds": 6.270706125011202,
+    "issues": 0,
+    "limitSeconds": 30,
+    "puzzle": "example5_clues7",
+    "seed": 20261029,
+    "solved": true,
+    "stopReason": "solved",
+    "wrongClues": 0,
+    "processWallSeconds": 6.334290249971673
+  },
+  {
+    "answer": 8045,
+    "candidate": "discrete",
+    "elapsedSeconds": 2.7663361666491255,
+    "issues": 0,
+    "limitSeconds": 30,
+    "puzzle": "example5_clues7",
+    "seed": 20261030,
+    "solved": true,
+    "stopReason": "solved",
+    "wrongClues": 0,
+    "processWallSeconds": 2.7999690410215408
+  },
+  {
+    "answer": 8045,
+    "candidate": "discrete",
+    "elapsedSeconds": 10.18246999999974,
+    "issues": 0,
+    "limitSeconds": 30,
+    "puzzle": "example5_clues7",
+    "seed": 20261031,
+    "solved": true,
+    "stopReason": "solved",
+    "wrongClues": 0,
+    "processWallSeconds": 10.21346454200102
+  }
+]

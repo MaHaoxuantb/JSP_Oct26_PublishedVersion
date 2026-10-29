@@ -1,0 +1,23 @@
+{
+  "revision": "e23adc5f27835f932c80b6674c02ba5211c8430a",
+  "source_sha256": {
+    "JaneStreetPuzzle_Oct26/Energy.swift": "af45fcaf294acb4bdae729b91b86ef16db8c5a6adb869e8a8b8be62118c6e0d3",
+    "JaneStreetPuzzle_Oct26/Logger.swift": "bdfed6419d747ac880646c878737bcefe7a54c563d1091142567186a8c39bbc8",
+    "JaneStreetPuzzle_Oct26/RunConfig.swift": "838ebe82ece2bad7a3bf73908b84e9464ef46dcf969fa2ffc9fa73dd2ed217bc",
+    "JaneStreetPuzzle_Oct26/Runners.swift": "8c6f3204ea8c44ce89a5edc9b7778b6305d402bb7cf157fab217e54df66d7de5",
+    "JaneStreetPuzzle_Oct26/SearchSupport.swift": "4e5879bdcc7da6cdc4034ddaa7802b4efea3e41ebba6b0e1831f4d714833e60f",
+    "JaneStreetPuzzle_Oct26/Solver.swift": "2d7e0a7ccdc7382805c09778edd45d3b33df8986f5939ff597f17484a6c1450d",
+    "JaneStreetPuzzle_Oct26/Storage.swift": "1dcab208deabc197463e0cd0469e8ad19491831c5f7b97c95c9ee4c19ef8a357",
+    "JaneStreetPuzzle_Oct26/Validation.swift": "7a6516fb7ef949c61c8f51089e2a62595f99490eb6ddddbad2d6ec8aa5beb5bc"
+  },
+  "trials": 3,
+  "limit_seconds": 30.0,
+  "fixture_sha256": "eb51fd0b4a0dbd4167352ad856dcc1392333db1d08c998a74d0d4adaa5589ee6",
+  "overrides": {
+    "workerCount": 1,
+    "consoleLogging": false,
+    "maxIterations": 100000000,
+    "maxRestarts": 20000
+  },
+  "validation": "independent Python integer geometry and Dijkstra"
+}

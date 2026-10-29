@@ -1,0 +1,12 @@
+{
+  "answer" : 8045,
+  "candidate" : "continuous_scoring",
+  "elapsedSeconds" : 1.2136489166878164,
+  "issues" : 0,
+  "limitSeconds" : 30,
+  "puzzle" : "example5",
+  "seed" : 20261029,
+  "solved" : true,
+  "stopReason" : "solved",
+  "wrongClues" : 0
+}

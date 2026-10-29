@@ -1,0 +1,14 @@
+[
+  {
+    "candidate": "discrete",
+    "elapsedSeconds": 30.009399916685652,
+    "issues": 0,
+    "limitSeconds": 30,
+    "puzzle": "generated7_7101",
+    "seed": 20261029,
+    "solved": false,
+    "stopReason": "timeLimit",
+    "wrongClues": 1,
+    "processWallSeconds": 30.07608374999836
+  }
+]

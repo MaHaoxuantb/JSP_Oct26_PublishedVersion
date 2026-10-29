@@ -1,0 +1,1360 @@
+{
+  "puzzles" : [
+    {
+      "clues" : [
+        [
+          12,
+          -1,
+          -1,
+          -1,
+          17
+        ],
+        [
+          8,
+          -1,
+          6,
+          3,
+          -1
+        ],
+        [
+          -1,
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        [
+          -1,
+          7,
+          6,
+          -1,
+          10
+        ],
+        [
+          25,
+          -1,
+          -1,
+          -1,
+          0
+        ]
+      ],
+      "n" : 5,
+      "name" : "example5",
+      "witness" : [
+        65,
+        66,
+        66,
+        67,
+        67,
+        65,
+        66,
+        66,
+        68,
+        67,
+        65,
+        65,
+        68,
+        68,
+        67,
+        67,
+        65,
+        65,
+        65,
+        67,
+        67,
+        67,
+        67,
+        67,
+        67
+      ]
+    },
+    {
+      "clues" : [
+        [
+          0,
+          -1,
+          4,
+          3,
+          -1,
+          9,
+          -1,
+          -1
+        ],
+        [
+          -1,
+          3,
+          -1,
+          0,
+          3,
+          6,
+          9,
+          12
+        ],
+        [
+          -1,
+          5,
+          -1,
+          3,
+          -1,
+          9,
+          12,
+          -1
+        ],
+        [
+          -1,
+          8,
+          14,
+          -1,
+          16,
+          19,
+          -1,
+          -1
+        ],
+        [
+          9,
+          1,
+          -1,
+          15,
+          25,
+          29,
+          36,
+          48
+        ],
+        [
+          -1,
+          -1,
+          1,
+          8,
+          15,
+          -1,
+          -1,
+          47
+        ],
+        [
+          -1,
+          1,
+          5,
+          12,
+          19,
+          -1,
+          -1,
+          -1
+        ],
+        [
+          -1,
+          -1,
+          -1,
+          16,
+          -1,
+          -1,
+          28,
+          -1
+        ]
+      ],
+      "makerSeed" : 8101,
+      "n" : 8,
+      "name" : "generated8_8101",
+      "witness" : [
+        0,
+        17,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        8,
+        17,
+        19,
+        19,
+        13,
+        13,
+        13,
+        30,
+        8,
+        17,
+        26,
+        19,
+        35,
+        35,
+        30,
+        30,
+        26,
+        26,
+        26,
+        35,
+        35,
+        35,
+        30,
+        30,
+        26,
+        26,
+        26,
+        35,
+        35,
+        35,
+        30,
+        30,
+        26,
+        41,
+        43,
+        43,
+        35,
+        35,
+        30,
+        30,
+        56,
+        56,
+        43,
+        43,
+        43,
+        61,
+        30,
+        30,
+        56,
+        56,
+        43,
+        43,
+        61,
+        61,
+        61,
+        30
+      ]
+    },
+    {
+      "clues" : [
+        [
+          0,
+          -1,
+          5,
+          9,
+          5,
+          -1,
+          12,
+          -1
+        ],
+        [
+          1,
+          -1,
+          9,
+          -1,
+          -1,
+          5,
+          7,
+          -1
+        ],
+        [
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          7,
+          -1,
+          27
+        ],
+        [
+          -1,
+          17,
+          9,
+          -1,
+          0,
+          -1,
+          11,
+          -1
+        ],
+        [
+          -1,
+          21,
+          13,
+          -1,
+          1,
+          -1,
+          -1,
+          23
+        ],
+        [
+          35,
+          -1,
+          21,
+          -1,
+          -1,
+          13,
+          -1,
+          -1
+        ],
+        [
+          -1,
+          -1,
+          27,
+          -1,
+          15,
+          19,
+          23,
+          27
+        ],
+        [
+          45,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1
+        ]
+      ],
+      "makerSeed" : 8102,
+      "n" : 8,
+      "name" : "generated8_8102",
+      "witness" : [
+        0,
+        1,
+        1,
+        4,
+        4,
+        4,
+        4,
+        4,
+        20,
+        1,
+        1,
+        20,
+        13,
+        13,
+        31,
+        31,
+        20,
+        20,
+        20,
+        20,
+        20,
+        31,
+        31,
+        31,
+        20,
+        40,
+        40,
+        20,
+        28,
+        31,
+        31,
+        31,
+        40,
+        40,
+        40,
+        46,
+        46,
+        46,
+        31,
+        31,
+        40,
+        40,
+        40,
+        61,
+        61,
+        46,
+        46,
+        46,
+        48,
+        48,
+        48,
+        61,
+        61,
+        61,
+        54,
+        54,
+        48,
+        48,
+        48,
+        61,
+        61,
+        61,
+        54,
+        54
+      ]
+    }
+  ],
+  "timings" : [
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 155.89987854019878,
+      "evaluations" : 256,
+      "puzzle" : "example5",
+      "repeatIndex" : 0,
+      "seconds" : 0.004827916680369526
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 779.4993927009946,
+      "evaluations" : 1280,
+      "puzzle" : "example5",
+      "repeatIndex" : 0,
+      "seconds" : 0.0018085416522808373
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 114.8914360521109,
+      "evaluations" : 256,
+      "puzzle" : "example5",
+      "repeatIndex" : 0,
+      "seconds" : 0.06293429166544229
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 574.457180260555,
+      "evaluations" : 1280,
+      "puzzle" : "example5",
+      "repeatIndex" : 0,
+      "seconds" : 0.2443569166935049
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 114.8914360521109,
+      "evaluations" : 256,
+      "puzzle" : "example5",
+      "repeatIndex" : 1,
+      "seconds" : 0.04990937496768311
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 574.457180260555,
+      "evaluations" : 1280,
+      "puzzle" : "example5",
+      "repeatIndex" : 1,
+      "seconds" : 0.24495200003730133
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 155.89987854019878,
+      "evaluations" : 256,
+      "puzzle" : "example5",
+      "repeatIndex" : 1,
+      "seconds" : 0.003757124999538064
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 779.4993927009946,
+      "evaluations" : 1280,
+      "puzzle" : "example5",
+      "repeatIndex" : 1,
+      "seconds" : 0.001444291672669351
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 155.89987854019878,
+      "evaluations" : 256,
+      "puzzle" : "example5",
+      "repeatIndex" : 2,
+      "seconds" : 0.0037038333248347044
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 779.4993927009946,
+      "evaluations" : 1280,
+      "puzzle" : "example5",
+      "repeatIndex" : 2,
+      "seconds" : 0.0014569583581760526
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 114.8914360521109,
+      "evaluations" : 256,
+      "puzzle" : "example5",
+      "repeatIndex" : 2,
+      "seconds" : 0.049805541697423905
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 574.457180260555,
+      "evaluations" : 1280,
+      "puzzle" : "example5",
+      "repeatIndex" : 2,
+      "seconds" : 0.24639616667991504
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 114.8914360521109,
+      "evaluations" : 256,
+      "puzzle" : "example5",
+      "repeatIndex" : 3,
+      "seconds" : 0.05014424998080358
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 574.457180260555,
+      "evaluations" : 1280,
+      "puzzle" : "example5",
+      "repeatIndex" : 3,
+      "seconds" : 0.2446405833470635
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 155.89987854019878,
+      "evaluations" : 256,
+      "puzzle" : "example5",
+      "repeatIndex" : 3,
+      "seconds" : 0.003776750003453344
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 779.4993927009946,
+      "evaluations" : 1280,
+      "puzzle" : "example5",
+      "repeatIndex" : 3,
+      "seconds" : 0.0014864582917653024
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 155.89987854019878,
+      "evaluations" : 256,
+      "puzzle" : "example5",
+      "repeatIndex" : 4,
+      "seconds" : 0.0037648750003427267
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 779.4993927009946,
+      "evaluations" : 1280,
+      "puzzle" : "example5",
+      "repeatIndex" : 4,
+      "seconds" : 0.0014512916677631438
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 114.8914360521109,
+      "evaluations" : 256,
+      "puzzle" : "example5",
+      "repeatIndex" : 4,
+      "seconds" : 0.04999141668668017
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 574.457180260555,
+      "evaluations" : 1280,
+      "puzzle" : "example5",
+      "repeatIndex" : 4,
+      "seconds" : 0.24533695832360536
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 171.17508632016703,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 0,
+      "seconds" : 0.008258458343334496
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 855.875431600834,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 0,
+      "seconds" : 0.002946333319414407
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 122.99729392437571,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 0,
+      "seconds" : 0.19571495836135
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 614.9864696218782,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 0,
+      "seconds" : 0.9421324166469276
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 122.99729392437571,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 1,
+      "seconds" : 0.18876950000412762
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 614.9864696218782,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 1,
+      "seconds" : 0.9622474583447911
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 171.17508632016703,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 1,
+      "seconds" : 0.008465666673146188
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 855.875431600834,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 1,
+      "seconds" : 0.003129458345938474
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 171.17508632016703,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 2,
+      "seconds" : 0.00816241663414985
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 855.875431600834,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 2,
+      "seconds" : 0.003261249978095293
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 122.99729392437571,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 2,
+      "seconds" : 0.19812804163666442
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 614.9864696218782,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 2,
+      "seconds" : 0.9595018333056942
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 122.99729392437571,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 3,
+      "seconds" : 0.19203383330022916
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 614.9864696218782,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 3,
+      "seconds" : 0.9514988749870099
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 171.17508632016703,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 3,
+      "seconds" : 0.008663250016979873
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 855.875431600834,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 3,
+      "seconds" : 0.0032455833279527724
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 171.17508632016703,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 4,
+      "seconds" : 0.00837829167721793
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 855.875431600834,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 4,
+      "seconds" : 0.003159208339639008
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 122.99729392437571,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 4,
+      "seconds" : 0.19693112501408905
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 614.9864696218782,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8101",
+      "repeatIndex" : 4,
+      "seconds" : 0.9647748750285245
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 170.6308740399706,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 0,
+      "seconds" : 0.008589416684117168
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 853.1543701998527,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 0,
+      "seconds" : 0.0032305416534654796
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 123.42054433513673,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 0,
+      "seconds" : 0.17860004166141152
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 617.102721675684,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 0,
+      "seconds" : 0.8379179166513495
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 123.42054433513673,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 1,
+      "seconds" : 0.176630666712299
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 617.102721675684,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 1,
+      "seconds" : 0.9302627082797699
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 170.6308740399706,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 1,
+      "seconds" : 0.00887941668042913
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 853.1543701998527,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 1,
+      "seconds" : 0.0034542499925009906
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 170.6308740399706,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 2,
+      "seconds" : 0.008785541635006666
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 853.1543701998527,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 2,
+      "seconds" : 0.0032990833278745413
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 123.42054433513673,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 2,
+      "seconds" : 0.16848074999870732
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 617.102721675684,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 2,
+      "seconds" : 0.8344831250142306
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 123.42054433513673,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 3,
+      "seconds" : 0.16969916666857898
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 617.102721675684,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 3,
+      "seconds" : 0.8298320000176318
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 170.6308740399706,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 3,
+      "seconds" : 0.008403250016272068
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 853.1543701998527,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 3,
+      "seconds" : 0.0031159166246652603
+    },
+    {
+      "candidate" : "discrete_cold",
+      "checksum" : 170.6308740399706,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 4,
+      "seconds" : 0.008246041659731418
+    },
+    {
+      "candidate" : "discrete_warm",
+      "checksum" : 853.1543701998527,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 4,
+      "seconds" : 0.0032036250340752304
+    },
+    {
+      "candidate" : "continuous_cold",
+      "checksum" : 123.42054433513673,
+      "evaluations" : 256,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 4,
+      "seconds" : 0.1718010416952893
+    },
+    {
+      "candidate" : "continuous_warm",
+      "checksum" : 617.102721675684,
+      "evaluations" : 1280,
+      "puzzle" : "generated8_8102",
+      "repeatIndex" : 4,
+      "seconds" : 0.8360550416982733
+    }
+  ],
+  "trials" : [
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 34939,
+      "puzzle" : "example5",
+      "seconds" : 3.0000897500431165,
+      "seed" : 20261029,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 5
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 10910,
+      "puzzle" : "example5",
+      "seconds" : 3.000106791674625,
+      "seed" : 20261029,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 5
+    },
+    {
+      "answer" : 8045,
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 3261,
+      "puzzle" : "example5",
+      "seconds" : 0.8320831666351296,
+      "seed" : 20261029,
+      "solved" : true,
+      "structuralIssues" : 0,
+      "wrongClues" : 0
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 10701,
+      "puzzle" : "example5",
+      "seconds" : 3.0001285416656174,
+      "seed" : 20261030,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 5
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 34764,
+      "puzzle" : "example5",
+      "seconds" : 3.0000123333302327,
+      "seed" : 20261030,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 5
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 8604,
+      "puzzle" : "example5",
+      "seconds" : 3.0060716249863617,
+      "seed" : 20261030,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 3
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 34628,
+      "puzzle" : "example5",
+      "seconds" : 3.0000196666806005,
+      "seed" : 20261031,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 5
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 10663,
+      "puzzle" : "example5",
+      "seconds" : 3.000159083341714,
+      "seed" : 20261031,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 6
+    },
+    {
+      "answer" : 8045,
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 2323,
+      "puzzle" : "example5",
+      "seconds" : 0.5888671249849722,
+      "seed" : 20261031,
+      "solved" : true,
+      "structuralIssues" : 0,
+      "wrongClues" : 0
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 10749,
+      "puzzle" : "example5",
+      "seconds" : 3.00032149994513,
+      "seed" : 20261032,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 5
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 34675,
+      "puzzle" : "example5",
+      "seconds" : 3.0000487083452754,
+      "seed" : 20261032,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 5
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 10182,
+      "puzzle" : "example5",
+      "seconds" : 3.0082968750502914,
+      "seed" : 20261032,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 3
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 34475,
+      "puzzle" : "example5",
+      "seconds" : 3.000038083351683,
+      "seed" : 20261033,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 5
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 10523,
+      "puzzle" : "example5",
+      "seconds" : 3.0000918750301935,
+      "seed" : 20261033,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 6
+    },
+    {
+      "answer" : 8045,
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 5222,
+      "puzzle" : "example5",
+      "seconds" : 1.8775208333390765,
+      "seed" : 20261033,
+      "solved" : true,
+      "structuralIssues" : 0,
+      "wrongClues" : 0
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 23487,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.000075999996625,
+      "seed" : 20261029,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 23
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 3493,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.000320874969475,
+      "seed" : 20261029,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 26
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 9933,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.0102359166485257,
+      "seed" : 20261029,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 15
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 3498,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.0008563333540224,
+      "seed" : 20261030,
+      "solved" : false,
+      "structuralIssues" : 1,
+      "wrongClues" : 24
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 23815,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.0000285416608676,
+      "seed" : 20261030,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 18
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 10681,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.0084179166588,
+      "seed" : 20261030,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 20
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 23454,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.0000206250115298,
+      "seed" : 20261031,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 21
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 3521,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.000758666661568,
+      "seed" : 20261031,
+      "solved" : false,
+      "structuralIssues" : 1,
+      "wrongClues" : 21
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 10209,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.00701258337358,
+      "seed" : 20261031,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 22
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 3412,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.00054620829178,
+      "seed" : 20261032,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 26
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 23517,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.000056749966461,
+      "seed" : 20261032,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 23
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 10541,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.0072244166512974,
+      "seed" : 20261032,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 10
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 23943,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.000037874968257,
+      "seed" : 20261033,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 23
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 3249,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.0007068749982864,
+      "seed" : 20261033,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 27
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 10844,
+      "puzzle" : "generated8_8101",
+      "seconds" : 3.008683708321769,
+      "seed" : 20261033,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 15
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 24534,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.0000274582998827,
+      "seed" : 20261029,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 18
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 3915,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.000526499992702,
+      "seed" : 20261029,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 23
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 3897,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.0080998750054277,
+      "seed" : 20261029,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 9
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 3859,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.000033041695133,
+      "seed" : 20261030,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 26
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 24115,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.0000841666478664,
+      "seed" : 20261030,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 18
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 4229,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.0074922500061803,
+      "seed" : 20261030,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 11
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 23829,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.0001270416541956,
+      "seed" : 20261031,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 15
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 3918,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.000595625024289,
+      "seed" : 20261031,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 21
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 4137,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.007793416676577,
+      "seed" : 20261031,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 10
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 3851,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.000383958336897,
+      "seed" : 20261032,
+      "solved" : false,
+      "structuralIssues" : 1,
+      "wrongClues" : 18
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 22630,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.0000409583444707,
+      "seed" : 20261032,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 16
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 4940,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.007376833294984,
+      "seed" : 20261032,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 10
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_discrete",
+      "evaluations" : 24128,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.0000833333469927,
+      "seed" : 20261033,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 19
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "controlled_continuous",
+      "evaluations" : 3878,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.0002092083450407,
+      "seed" : 20261033,
+      "solved" : false,
+      "structuralIssues" : 1,
+      "wrongClues" : 18
+    },
+    {
+      "budgetSeconds" : 3,
+      "candidate" : "production_discrete",
+      "evaluations" : 4665,
+      "puzzle" : "generated8_8102",
+      "seconds" : 3.007826125016436,
+      "seed" : 20261033,
+      "solved" : false,
+      "structuralIssues" : 0,
+      "wrongClues" : 9
+    }
+  ]
+}

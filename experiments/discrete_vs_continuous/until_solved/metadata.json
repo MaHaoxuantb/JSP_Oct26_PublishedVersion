@@ -1,0 +1,60 @@
+{
+  "started_at_utc": "2026-10-29T03:32:43.331598+00:00",
+  "seed": 20261029,
+  "time_cutoff": null,
+  "worker_count_per_search": 1,
+  "max_concurrent_searches": 3,
+  "historical_revision": "e23adc5f27835f932c80b6674c02ba5211c8430a",
+  "real_clue_ratio": [
+    33,
+    121
+  ],
+  "fixture_clue_counts": {
+    "5x5": [
+      7,
+      25
+    ],
+    "7x7": [
+      13,
+      49
+    ]
+  },
+  "original_source_sha256": {
+    "JaneStreetPuzzle_Oct26/CatalogRetention.swift": "7d1a2e6c754a95792bacd3556099b55816a8a5a12a0c4823fa6cb15d65b51413",
+    "JaneStreetPuzzle_Oct26/Energy.swift": "af45fcaf294acb4bdae729b91b86ef16db8c5a6adb869e8a8b8be62118c6e0d3",
+    "JaneStreetPuzzle_Oct26/ExactSearch.swift": "80ae03178df5960af1ce0245722903bc7cc59de37579f9ac51d243520c396a2d",
+    "JaneStreetPuzzle_Oct26/Logger.swift": "65630fb8ffc4255f455fd193270dbb95129d4a908a3b0a45c8d9c308714e5a39",
+    "JaneStreetPuzzle_Oct26/PathEvaluation.swift": "c84ae1b184270d66095514b285d1144bf22bdaff39134a8490917e7f8b321d56",
+    "JaneStreetPuzzle_Oct26/RegionRepairs.swift": "f9d6a17b01458934f541dd999023547b17f367178cb871201776b15f7d9b9bbc",
+    "JaneStreetPuzzle_Oct26/RunConfig.swift": "5c5b4099f817f78a9a87625da2bca65500eeaf9b2eb832b6acf1c66db90dad86",
+    "JaneStreetPuzzle_Oct26/Runners.swift": "8c6f3204ea8c44ce89a5edc9b7778b6305d402bb7cf157fab217e54df66d7de5",
+    "JaneStreetPuzzle_Oct26/SavedRunRepair.swift": "40882044b50b58242a449d0e4c4f3267fdcb0d5582dd62b0d1bfb7d8215d4671",
+    "JaneStreetPuzzle_Oct26/SearchSupport.swift": "3c65056dc0b7f38c7bef7fd5c6dd3210d0774e261338d110047019d9dc6a5c31",
+    "JaneStreetPuzzle_Oct26/ShapeGrowth.swift": "a9bb9b31bf05ad663ee63fee678f6aa7c8b88b0b2be729a8ea8a401def1b0ecb",
+    "JaneStreetPuzzle_Oct26/SharedSearch.swift": "6793a972f72ebadbeb53d5b0b6797ab6988e363a8bdbdd585312284fc638b244",
+    "JaneStreetPuzzle_Oct26/SoftwareVersion.swift": "82fcd256a33eb8a5359174dca566eef2bf557291da8521079d1e5f5c6c8c7003",
+    "JaneStreetPuzzle_Oct26/Solver.swift": "893788e6e59f03ba4c3055175ec66dfb29e4a7b183c63c63d8002a27ec9422c2",
+    "JaneStreetPuzzle_Oct26/Storage.swift": "1dcab208deabc197463e0cd0469e8ad19491831c5f7b97c95c9ee4c19ef8a357",
+    "JaneStreetPuzzle_Oct26/Validation.swift": "7a6516fb7ef949c61c8f51089e2a62595f99490eb6ddddbad2d6ec8aa5beb5bc",
+    "experiments/discrete_vs_continuous/SolveTime.swift": "33384b223fa5bbc7adeb1a06c77a2abab081a5a8bfc9a2af4045452239bdc68b",
+    "experiments/discrete_vs_continuous/LegacySolveTime.swift": "fede803ded5d515ca09845018f16b82a440d65e8045ba621db446b70d98757f2",
+    "experiments/discrete_vs_continuous/Experiment.swift": "7817383a9faee1ab1b3000f0895277b3aadc99388cece2058a2c2d810e70062f"
+  },
+  "parent_pid": 25115,
+  "comparison": "Current discrete and actual historical continuous search; concurrent one-worker jobs on a shared host.",
+  "historical_observation_patch": {
+    "insert_before": "                try logger.record(event)\n            }\n            try milestone(.initialized, state: current)",
+    "insertion": "                if kind == .progress || kind == .bestImproved || kind == .initialized {\n                    event.snapshot = BoardSnapshot(best)\n                }\n",
+    "purpose": "Persist best-board snapshots in existing progress events; search choices unchanged."
+  },
+  "historical_source_sha256": {
+    "JaneStreetPuzzle_Oct26/Energy.swift": "af45fcaf294acb4bdae729b91b86ef16db8c5a6adb869e8a8b8be62118c6e0d3",
+    "JaneStreetPuzzle_Oct26/Logger.swift": "bdfed6419d747ac880646c878737bcefe7a54c563d1091142567186a8c39bbc8",
+    "JaneStreetPuzzle_Oct26/RunConfig.swift": "838ebe82ece2bad7a3bf73908b84e9464ef46dcf969fa2ffc9fa73dd2ed217bc",
+    "JaneStreetPuzzle_Oct26/Runners.swift": "8c6f3204ea8c44ce89a5edc9b7778b6305d402bb7cf157fab217e54df66d7de5",
+    "JaneStreetPuzzle_Oct26/SearchSupport.swift": "4e5879bdcc7da6cdc4034ddaa7802b4efea3e41ebba6b0e1831f4d714833e60f",
+    "JaneStreetPuzzle_Oct26/Solver.swift": "2d7e0a7ccdc7382805c09778edd45d3b33df8986f5939ff597f17484a6c1450d",
+    "JaneStreetPuzzle_Oct26/Storage.swift": "1dcab208deabc197463e0cd0469e8ad19491831c5f7b97c95c9ee4c19ef8a357",
+    "JaneStreetPuzzle_Oct26/Validation.swift": "7a6516fb7ef949c61c8f51089e2a62595f99490eb6ddddbad2d6ec8aa5beb5bc"
+  }
+}

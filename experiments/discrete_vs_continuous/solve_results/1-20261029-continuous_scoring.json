@@ -1,0 +1,11 @@
+{
+  "candidate" : "continuous_scoring",
+  "elapsedSeconds" : 30.008682416693773,
+  "issues" : 0,
+  "limitSeconds" : 30,
+  "puzzle" : "generated8_8101",
+  "seed" : 20261029,
+  "solved" : false,
+  "stopReason" : "timeLimit",
+  "wrongClues" : 12
+}

@@ -1,0 +1,55 @@
+{
+  "updated_at_jst": "2026-10-29T13:52:19.948717+09:00",
+  "completed": 8,
+  "total": 8,
+  "trials": [
+    {
+      "id": "5x5-discrete-uniform",
+      "pid": 34713,
+      "state": "cutoff",
+      "wallSeconds": 300.00160004163627
+    },
+    {
+      "id": "5x5-discrete-regional",
+      "pid": 34714,
+      "state": "cutoff",
+      "wallSeconds": 300.001800249971
+    },
+    {
+      "id": "5x5-continuous-uniform",
+      "pid": 34715,
+      "state": "cutoff",
+      "wallSeconds": 300.00157708331244
+    },
+    {
+      "id": "5x5-continuous-regional",
+      "pid": 34716,
+      "state": "cutoff",
+      "wallSeconds": 300.0016918749898
+    },
+    {
+      "id": "7x7-discrete-uniform",
+      "pid": 38268,
+      "state": "cutoff",
+      "wallSeconds": 300.0019021666376
+    },
+    {
+      "id": "7x7-discrete-regional",
+      "pid": 38270,
+      "state": "cutoff",
+      "wallSeconds": 300.00217941665323
+    },
+    {
+      "id": "7x7-continuous-uniform",
+      "pid": 38271,
+      "state": "cutoff",
+      "wallSeconds": 300.0020843750099
+    },
+    {
+      "id": "7x7-continuous-regional",
+      "pid": 38273,
+      "state": "cutoff",
+      "wallSeconds": 300.0015179166221
+    }
+  ]
+}
