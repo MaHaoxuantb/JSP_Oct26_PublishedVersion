@@ -1,0 +1,100 @@
+{
+  "observed": 1793327482.040287,
+  "terminal": 176,
+  "matchedBlocks": 22,
+  "perCondition": {
+    "C R0 B0": {
+      "n": 22,
+      "solved": 4,
+      "cost": 1057.62,
+      "solvedMedian": 261.85,
+      "wrong": 4.455,
+      "residual": 0.1181
+    },
+    "C R0 B1": {
+      "n": 22,
+      "solved": 5,
+      "cost": 998.63,
+      "solvedMedian": 377.71,
+      "wrong": 3,
+      "residual": 0.07721
+    },
+    "C R1 B0": {
+      "n": 22,
+      "solved": 4,
+      "cost": 1067.89,
+      "solvedMedian": 500.15,
+      "wrong": 3.864,
+      "residual": 0.09231
+    },
+    "C R1 B1": {
+      "n": 22,
+      "solved": 7,
+      "cost": 928.06,
+      "solvedMedian": 253.15,
+      "wrong": 1.864,
+      "residual": 0.04044
+    },
+    "D R0 B0": {
+      "n": 22,
+      "solved": 2,
+      "cost": 1127.88,
+      "solvedMedian": 406.65,
+      "wrong": 4.682,
+      "residual": 0.1384
+    },
+    "D R0 B1": {
+      "n": 22,
+      "solved": 3,
+      "cost": 1053.67,
+      "solvedMedian": 153.21,
+      "wrong": 3.545,
+      "residual": 0.07383
+    },
+    "D R1 B0": {
+      "n": 22,
+      "solved": 5,
+      "cost": 1044.34,
+      "solvedMedian": 404.75,
+      "wrong": 3.545,
+      "residual": 0.07191
+    },
+    "D R1 B1": {
+      "n": 22,
+      "solved": 9,
+      "cost": 811.86,
+      "solvedMedian": 117.82,
+      "wrong": 1.591,
+      "residual": 0.02108
+    }
+  },
+  "pairedEffects": {
+    "representation": {
+      "pairs": 88,
+      "meanCostDifference": 3.6131683148679175,
+      "wins": 11,
+      "losses": 14,
+      "ties": 63,
+      "onlyFirstSolved": 5,
+      "onlySecondSolved": 6
+    },
+    "regional": {
+      "pairs": 88,
+      "meanCostDifference": -96.41178768702561,
+      "wins": 22,
+      "losses": 4,
+      "ties": 62,
+      "onlyFirstSolved": 1,
+      "onlySecondSolved": 12
+    },
+    "BP": {
+      "pairs": 88,
+      "meanCostDifference": -126.37474336505561,
+      "wins": 21,
+      "losses": 4,
+      "ties": 63,
+      "onlyFirstSolved": 1,
+      "onlySecondSolved": 10
+    }
+  }
+}

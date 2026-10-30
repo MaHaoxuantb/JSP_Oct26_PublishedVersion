@@ -1,0 +1,28 @@
+{
+  "experiment": "JSP-Oct26-Regional-SA-BP",
+  "copyright": "©2026 ThomasB",
+  "author": "ThomasB",
+  "publicExports": [
+    "JSP-Oct26-Regional-SA-BP-Evidence.zip",
+    "JSP-Oct26-Regional-SA-BP-Final-Report.html",
+    "JSP-Oct26-Regional-SA-BP-Final-Report.md",
+    "JSP-Oct26-Regional-SA-BP-Final-Report.pdf",
+    "JSP-Oct26-Regional-SA-BP-Publication-Manifest.json",
+    "JSP-Oct26-Regional-SA-BP-audit.json",
+    "JSP-Oct26-Regional-SA-BP-board-coverage.csv",
+    "JSP-Oct26-Regional-SA-BP-completed-trials.csv",
+    "JSP-Oct26-Regional-SA-BP-conditions.csv",
+    "JSP-Oct26-Regional-SA-BP-energy-at-budgets.csv",
+    "JSP-Oct26-Regional-SA-BP-fixtures.json",
+    "JSP-Oct26-Regional-SA-BP-interrupted-attempts.csv",
+    "JSP-Oct26-Regional-SA-BP-interrupted-observations.json",
+    "JSP-Oct26-Regional-SA-BP-last-improvements.json",
+    "JSP-Oct26-Regional-SA-BP-nineteen-audit.json",
+    "JSP-Oct26-Regional-SA-BP-observed-curves.json",
+    "JSP-Oct26-Regional-SA-BP-snapshot.json",
+    "JSP-Oct26-Regional-SA-BP-summary.json",
+    "JSP-Oct26-Regional-SA-BP-verification.json"
+  ],
+  "preservedMachineInputs": "Original raw filenames and durable IDs retained for reproducibility.",
+  "verifiedAt": "2026-10-30T03:40:28.842497+00:00"
+}

@@ -1,0 +1,1842 @@
+[
+  {
+    "job": "n7-b3-discrete-r0-b0-s20261029",
+    "n": 7,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 511.3286020833766,
+    "improvementCount": 11,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-continuous-r1-b1-s20261029",
+    "n": 7,
+    "condition": "C-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 756.9929229583358,
+    "improvementCount": 10,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-discrete-r1-b0-s20261029",
+    "n": 7,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 1155.6372569166706,
+    "improvementCount": 5,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n7-b3-continuous-r1-b0-s20261029",
+    "n": 7,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 884.9261542083113,
+    "improvementCount": 4,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-continuous-r0-b1-s20261029",
+    "n": 7,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 349.23589050001465,
+    "improvementCount": 13,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-discrete-r0-b1-s20261029",
+    "n": 7,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 940.0140554166865,
+    "improvementCount": 10,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n7-b3-discrete-r1-b1-s20261029",
+    "n": 7,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 296.80834812496323,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-continuous-r0-b0-s20261029",
+    "n": 7,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 554.3361820832943,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b2-continuous-r1-b1-s20261031",
+    "n": 9,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1168.8101461250335,
+    "improvementCount": 16,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b2-discrete-r1-b0-s20261031",
+    "n": 9,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 586.0476171667106,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b2-continuous-r1-b0-s20261031",
+    "n": 9,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 97.32958949997555,
+    "improvementCount": 6,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b2-continuous-r0-b1-s20261031",
+    "n": 9,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1170.5445572916651,
+    "improvementCount": 15,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b2-discrete-r0-b1-s20261031",
+    "n": 9,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 624.3665211666957,
+    "improvementCount": 14,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n9-b2-discrete-r1-b1-s20261031",
+    "n": 9,
+    "condition": "D-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 1163.8924657083116,
+    "improvementCount": 18,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b2-continuous-r0-b0-s20261031",
+    "n": 9,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 350.1772337083821,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b2-discrete-r0-b0-s20261031",
+    "n": 9,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 546.9032607499976,
+    "improvementCount": 9,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b3-discrete-r1-b0-s20261031",
+    "n": 9,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 1080.155765708303,
+    "improvementCount": 9,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-continuous-r1-b0-s20261031",
+    "n": 9,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 191.72163991665002,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b3-continuous-r0-b1-s20261031",
+    "n": 9,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1132.0332476249896,
+    "improvementCount": 12,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-discrete-r0-b1-s20261031",
+    "n": 9,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 845.5135995000019,
+    "improvementCount": 13,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n9-b3-discrete-r1-b1-s20261031",
+    "n": 9,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1109.597618458327,
+    "improvementCount": 15,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-continuous-r0-b0-s20261031",
+    "n": 9,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 333.250994083297,
+    "improvementCount": 9,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b3-discrete-r0-b0-s20261031",
+    "n": 9,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 86.29545187501935,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b3-continuous-r1-b1-s20261031",
+    "n": 9,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 683.3914274999988,
+    "improvementCount": 14,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n8-b2-continuous-r1-b0-s20261029",
+    "n": 8,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 72.30942162504653,
+    "improvementCount": 4,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n8-b2-continuous-r0-b1-s20261029",
+    "n": 8,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1005.248055541655,
+    "improvementCount": 13,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n8-b2-discrete-r0-b1-s20261029",
+    "n": 8,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 995.123913416639,
+    "improvementCount": 15,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n8-b2-discrete-r1-b1-s20261029",
+    "n": 8,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 864.5569971666555,
+    "improvementCount": 20,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n8-b2-continuous-r0-b0-s20261029",
+    "n": 8,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 596.9197354583303,
+    "improvementCount": 10,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n8-b2-discrete-r0-b0-s20261029",
+    "n": 8,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 1090.2235414583702,
+    "improvementCount": 9,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n8-b2-continuous-r1-b1-s20261029",
+    "n": 8,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 98.29460420832038,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n8-b2-discrete-r1-b0-s20261029",
+    "n": 8,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 90.28036795835942,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-continuous-r0-b1-s20261029",
+    "n": 5,
+    "condition": "C-R0-B1",
+    "status": "solved",
+    "lastObservedImprovement": 377.7052574166446,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-discrete-r0-b1-s20261029",
+    "n": 5,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 21.932733624998946,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-discrete-r1-b1-s20261029",
+    "n": 5,
+    "condition": "D-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 248.18817025003955,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-continuous-r0-b0-s20261029",
+    "n": 5,
+    "condition": "C-R0-B0",
+    "status": "solved",
+    "lastObservedImprovement": 26.784188916673884,
+    "improvementCount": 4,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-discrete-r0-b0-s20261029",
+    "n": 5,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 394.8141851249966,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-continuous-r1-b1-s20261029",
+    "n": 5,
+    "condition": "C-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 253.15110208332771,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-discrete-r1-b0-s20261029",
+    "n": 5,
+    "condition": "D-R1-B0",
+    "status": "solved",
+    "lastObservedImprovement": 924.6644254999701,
+    "improvementCount": 8,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n5-b1-continuous-r1-b0-s20261029",
+    "n": 5,
+    "condition": "C-R1-B0",
+    "status": "solved",
+    "lastObservedImprovement": 639.837562333385,
+    "improvementCount": 5,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n9-b3-discrete-r0-b1-s20261030",
+    "n": 9,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1011.9007232916774,
+    "improvementCount": 11,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-discrete-r1-b1-s20261030",
+    "n": 9,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1016.8432740833377,
+    "improvementCount": 17,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-continuous-r0-b0-s20261030",
+    "n": 9,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 1131.8995211666333,
+    "improvementCount": 11,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-discrete-r0-b0-s20261030",
+    "n": 9,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 450.573445875023,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b3-continuous-r1-b1-s20261030",
+    "n": 9,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1029.2641355416854,
+    "improvementCount": 12,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-discrete-r1-b0-s20261030",
+    "n": 9,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 228.7848457500222,
+    "improvementCount": 9,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b3-continuous-r1-b0-s20261030",
+    "n": 9,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 1106.5969215833466,
+    "improvementCount": 7,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-continuous-r0-b1-s20261030",
+    "n": 9,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1102.6030691249762,
+    "improvementCount": 13,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-discrete-r1-b1-s20261029",
+    "n": 9,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1076.1153439583723,
+    "improvementCount": 12,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-continuous-r0-b0-s20261029",
+    "n": 9,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 1176.9651615833282,
+    "improvementCount": 9,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-discrete-r0-b0-s20261029",
+    "n": 9,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 373.19508341670735,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b3-continuous-r1-b1-s20261029",
+    "n": 9,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1175.1964124166989,
+    "improvementCount": 16,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-discrete-r1-b0-s20261029",
+    "n": 9,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 933.2175466666231,
+    "improvementCount": 7,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-continuous-r1-b0-s20261029",
+    "n": 9,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 271.8592457083287,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b3-continuous-r0-b1-s20261029",
+    "n": 9,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 992.1234836249496,
+    "improvementCount": 10,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b3-discrete-r0-b1-s20261029",
+    "n": 9,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 468.7424774583196,
+    "improvementCount": 14,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n8-b2-continuous-r0-b0-s20261030",
+    "n": 8,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 892.4323648749851,
+    "improvementCount": 9,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n8-b2-discrete-r0-b0-s20261030",
+    "n": 8,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 247.6614752082969,
+    "improvementCount": 4,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n8-b2-continuous-r1-b1-s20261030",
+    "n": 8,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1130.4263541250257,
+    "improvementCount": 17,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n8-b2-discrete-r1-b0-s20261030",
+    "n": 8,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 464.40498033334734,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n8-b2-continuous-r1-b0-s20261030",
+    "n": 8,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 179.5446530416957,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n8-b2-continuous-r0-b1-s20261030",
+    "n": 8,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 883.77094508335,
+    "improvementCount": 11,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n8-b2-discrete-r0-b1-s20261030",
+    "n": 8,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 859.2214242083137,
+    "improvementCount": 12,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n8-b2-discrete-r1-b1-s20261030",
+    "n": 8,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 812.1607059999951,
+    "improvementCount": 12,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-discrete-r0-b0-s20261030",
+    "n": 5,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 270.5222374583245,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-continuous-r1-b1-s20261030",
+    "n": 5,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 23.05770108330762,
+    "improvementCount": 2,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-discrete-r1-b0-s20261030",
+    "n": 5,
+    "condition": "D-R1-B0",
+    "status": "solved",
+    "lastObservedImprovement": 951.961867416685,
+    "improvementCount": 6,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n5-b1-continuous-r1-b0-s20261030",
+    "n": 5,
+    "condition": "C-R1-B0",
+    "status": "solved",
+    "lastObservedImprovement": 802.8364069583477,
+    "improvementCount": 5,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-continuous-r0-b1-s20261030",
+    "n": 5,
+    "condition": "C-R0-B1",
+    "status": "solved",
+    "lastObservedImprovement": 583.2969188333373,
+    "improvementCount": 13,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-discrete-r0-b1-s20261030",
+    "n": 5,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 58.91143350000493,
+    "improvementCount": 3,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-discrete-r1-b1-s20261030",
+    "n": 5,
+    "condition": "D-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 65.79124766669702,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-continuous-r0-b0-s20261030",
+    "n": 5,
+    "condition": "C-R0-B0",
+    "status": "solved",
+    "lastObservedImprovement": 120.18817383336136,
+    "improvementCount": 11,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n8-b3-continuous-r1-b1-s20261029",
+    "n": 8,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 521.685519874969,
+    "improvementCount": 11,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n8-b3-discrete-r1-b0-s20261029",
+    "n": 8,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 847.4210165416589,
+    "improvementCount": 8,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n8-b3-continuous-r1-b0-s20261029",
+    "n": 8,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 985.7614421666949,
+    "improvementCount": 7,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n8-b3-continuous-r0-b1-s20261029",
+    "n": 8,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 514.5573096667067,
+    "improvementCount": 11,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n8-b3-discrete-r0-b1-s20261029",
+    "n": 8,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1110.2547674999805,
+    "improvementCount": 14,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n8-b3-discrete-r1-b1-s20261029",
+    "n": 8,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1116.6408946249867,
+    "improvementCount": 14,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n8-b3-continuous-r0-b0-s20261029",
+    "n": 8,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 277.87821062497096,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n8-b3-discrete-r0-b0-s20261029",
+    "n": 8,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 20.049516666622367,
+    "improvementCount": 4,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-discrete-r1-b0-s20261030",
+    "n": 7,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 2.0105382916517556,
+    "improvementCount": 2,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-continuous-r1-b0-s20261030",
+    "n": 7,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 90.1887046250049,
+    "improvementCount": 4,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-continuous-r0-b1-s20261030",
+    "n": 7,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 227.51975433336338,
+    "improvementCount": 11,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-discrete-r0-b1-s20261030",
+    "n": 7,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 491.5543891666457,
+    "improvementCount": 14,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-discrete-r1-b1-s20261030",
+    "n": 7,
+    "condition": "D-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 335.25781470834045,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-continuous-r0-b0-s20261030",
+    "n": 7,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 185.45482387498487,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-discrete-r0-b0-s20261030",
+    "n": 7,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 417.0400223333272,
+    "improvementCount": 9,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-continuous-r1-b1-s20261030",
+    "n": 7,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1074.7756194166723,
+    "improvementCount": 9,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n6-b2-continuous-r1-b0-s20261029",
+    "n": 6,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 588.2017427083338,
+    "improvementCount": 6,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b2-continuous-r0-b1-s20261029",
+    "n": 6,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 80.1884169583791,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b2-discrete-r0-b1-s20261029",
+    "n": 6,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 653.4261585833156,
+    "improvementCount": 7,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n6-b2-discrete-r1-b1-s20261029",
+    "n": 6,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 410.6370427500224,
+    "improvementCount": 6,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b2-continuous-r0-b0-s20261029",
+    "n": 6,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 415.8692392082885,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b2-discrete-r0-b0-s20261029",
+    "n": 6,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 486.98016329167876,
+    "improvementCount": 6,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b2-continuous-r1-b1-s20261029",
+    "n": 6,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 240.51676045829663,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b2-discrete-r1-b0-s20261029",
+    "n": 6,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 926.8304173333454,
+    "improvementCount": 6,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n7-b1-continuous-r0-b1-s20261031",
+    "n": 7,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 251.26713950000703,
+    "improvementCount": 13,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b1-discrete-r0-b1-s20261031",
+    "n": 7,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1132.7140904166154,
+    "improvementCount": 7,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n7-b1-discrete-r1-b1-s20261031",
+    "n": 7,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1117.6316319583566,
+    "improvementCount": 13,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n7-b1-continuous-r0-b0-s20261031",
+    "n": 7,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 886.1263650416513,
+    "improvementCount": 12,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n7-b1-discrete-r0-b0-s20261031",
+    "n": 7,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 381.92320416664006,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b1-continuous-r1-b1-s20261031",
+    "n": 7,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 165.71922016667668,
+    "improvementCount": 11,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b1-discrete-r1-b0-s20261031",
+    "n": 7,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 332.79873050004244,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b1-continuous-r1-b0-s20261031",
+    "n": 7,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 625.5372601249837,
+    "improvementCount": 7,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n6-b3-discrete-r0-b1-s20261029",
+    "n": 6,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 13.023451125016436,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b3-discrete-r1-b1-s20261029",
+    "n": 6,
+    "condition": "D-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 70.27599537500646,
+    "improvementCount": 3,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b3-continuous-r0-b0-s20261029",
+    "n": 6,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 84.16796645836439,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b3-discrete-r0-b0-s20261029",
+    "n": 6,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 13.021824541618116,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b3-continuous-r1-b1-s20261029",
+    "n": 6,
+    "condition": "C-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 148.1993623750168,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b3-discrete-r1-b0-s20261029",
+    "n": 6,
+    "condition": "D-R1-B0",
+    "status": "solved",
+    "lastObservedImprovement": 235.89995499997167,
+    "improvementCount": 4,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b3-continuous-r1-b0-s20261029",
+    "n": 6,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 262.50326187501196,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b3-continuous-r0-b1-s20261029",
+    "n": 6,
+    "condition": "C-R0-B1",
+    "status": "solved",
+    "lastObservedImprovement": 71.1027564999531,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b1-discrete-r1-b1-s20261030",
+    "n": 7,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 612.3909330833121,
+    "improvementCount": 12,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n7-b1-continuous-r0-b0-s20261030",
+    "n": 7,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 719.7951735417009,
+    "improvementCount": 11,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n7-b1-discrete-r0-b0-s20261030",
+    "n": 7,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 9.018623416661285,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b1-continuous-r1-b1-s20261030",
+    "n": 7,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 320.0972394999699,
+    "improvementCount": 10,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b1-discrete-r1-b0-s20261030",
+    "n": 7,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 911.2048126250156,
+    "improvementCount": 4,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n7-b1-continuous-r1-b0-s20261030",
+    "n": 7,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 1132.7827542083105,
+    "improvementCount": 8,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n7-b1-continuous-r0-b1-s20261030",
+    "n": 7,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 215.77079920831602,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b1-discrete-r0-b1-s20261030",
+    "n": 7,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 568.4141033750493,
+    "improvementCount": 9,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b3-continuous-r0-b0-s20261029",
+    "n": 5,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 1162.9286790416227,
+    "improvementCount": 7,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n5-b3-discrete-r0-b0-s20261029",
+    "n": 5,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 613.9455330416677,
+    "improvementCount": 9,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n5-b3-continuous-r1-b1-s20261029",
+    "n": 5,
+    "condition": "C-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 242.9205832083244,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b3-discrete-r1-b0-s20261029",
+    "n": 5,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 246.41107170830946,
+    "improvementCount": 2,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b3-continuous-r1-b0-s20261029",
+    "n": 5,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 81.14691220829263,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b3-continuous-r0-b1-s20261029",
+    "n": 5,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 416.00156074995175,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b3-discrete-r0-b1-s20261029",
+    "n": 5,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 24.040641500032507,
+    "improvementCount": 6,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b3-discrete-r1-b1-s20261029",
+    "n": 5,
+    "condition": "D-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 76.20325787499314,
+    "improvementCount": 3,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b2-discrete-r0-b0-s20261031",
+    "n": 7,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 184.44870474998606,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b2-continuous-r1-b1-s20261031",
+    "n": 7,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 161.37825329171028,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b2-discrete-r1-b0-s20261031",
+    "n": 7,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 517.259888999979,
+    "improvementCount": 9,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b2-continuous-r1-b0-s20261031",
+    "n": 7,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 39.09875879168976,
+    "improvementCount": 4,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b2-continuous-r0-b1-s20261031",
+    "n": 7,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 603.3605766249821,
+    "improvementCount": 8,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n7-b2-discrete-r0-b1-s20261031",
+    "n": 7,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 59.783511083282065,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b2-discrete-r1-b1-s20261031",
+    "n": 7,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1121.794344291673,
+    "improvementCount": 16,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n7-b2-continuous-r0-b0-s20261031",
+    "n": 7,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 1065.698164374975,
+    "improvementCount": 7,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n6-b1-continuous-r1-b1-s20261030",
+    "n": 6,
+    "condition": "C-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 553.2063432916766,
+    "improvementCount": 15,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b1-discrete-r1-b0-s20261030",
+    "n": 6,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 376.9045894166338,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b1-continuous-r1-b0-s20261030",
+    "n": 6,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 713.654276791669,
+    "improvementCount": 14,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n6-b1-continuous-r0-b1-s20261030",
+    "n": 6,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 842.5854037083336,
+    "improvementCount": 8,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n6-b1-discrete-r0-b1-s20261030",
+    "n": 6,
+    "condition": "D-R0-B1",
+    "status": "solved",
+    "lastObservedImprovement": 153.20559087500442,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b1-discrete-r1-b1-s20261030",
+    "n": 6,
+    "condition": "D-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 138.78207545838086,
+    "improvementCount": 9,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b1-continuous-r0-b0-s20261030",
+    "n": 6,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 252.59518499998376,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n6-b1-discrete-r0-b0-s20261030",
+    "n": 6,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 491.0961701250053,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-discrete-r1-b0-s20261031",
+    "n": 5,
+    "condition": "D-R1-B0",
+    "status": "solved",
+    "lastObservedImprovement": 404.74467712501064,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-continuous-r1-b0-s20261031",
+    "n": 5,
+    "condition": "C-R1-B0",
+    "status": "solved",
+    "lastObservedImprovement": 360.46149899996817,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-continuous-r0-b1-s20261031",
+    "n": 5,
+    "condition": "C-R0-B1",
+    "status": "solved",
+    "lastObservedImprovement": 495.08560366666643,
+    "improvementCount": 6,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-discrete-r0-b1-s20261031",
+    "n": 5,
+    "condition": "D-R0-B1",
+    "status": "solved",
+    "lastObservedImprovement": 179.6210347500164,
+    "improvementCount": 11,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-discrete-r1-b1-s20261031",
+    "n": 5,
+    "condition": "D-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 117.81615408335347,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-continuous-r0-b0-s20261031",
+    "n": 5,
+    "condition": "C-R0-B0",
+    "status": "solved",
+    "lastObservedImprovement": 1117.0761062916717,
+    "improvementCount": 5,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n5-b1-discrete-r0-b0-s20261031",
+    "n": 5,
+    "condition": "D-R0-B0",
+    "status": "solved",
+    "lastObservedImprovement": 719.5725094583468,
+    "improvementCount": 10,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n5-b1-continuous-r1-b1-s20261031",
+    "n": 5,
+    "condition": "C-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 443.5017492083716,
+    "improvementCount": 8,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-continuous-r1-b0-s20261031",
+    "n": 7,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 418.96882883337094,
+    "improvementCount": 9,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-continuous-r0-b1-s20261031",
+    "n": 7,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 207.1540555000538,
+    "improvementCount": 13,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-discrete-r0-b1-s20261031",
+    "n": 7,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 323.89260775002185,
+    "improvementCount": 11,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-discrete-r1-b1-s20261031",
+    "n": 7,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1120.6459567083512,
+    "improvementCount": 14,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n7-b3-continuous-r0-b0-s20261031",
+    "n": 7,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 73.18101429165108,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-discrete-r0-b0-s20261031",
+    "n": 7,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 956.2370832500164,
+    "improvementCount": 6,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n7-b3-continuous-r1-b1-s20261031",
+    "n": 7,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 297.1052933333558,
+    "improvementCount": 10,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n7-b3-discrete-r1-b0-s20261031",
+    "n": 7,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 152.35431258333847,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b2-continuous-r0-b1-s20261029",
+    "n": 5,
+    "condition": "C-R0-B1",
+    "status": "solved",
+    "lastObservedImprovement": 42.71034341666382,
+    "improvementCount": 4,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b2-discrete-r0-b1-s20261029",
+    "n": 5,
+    "condition": "D-R0-B1",
+    "status": "solved",
+    "lastObservedImprovement": 47.91565716662444,
+    "improvementCount": 9,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b2-discrete-r1-b1-s20261029",
+    "n": 5,
+    "condition": "D-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 44.77945570833981,
+    "improvementCount": 6,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b2-continuous-r0-b0-s20261029",
+    "n": 5,
+    "condition": "C-R0-B0",
+    "status": "solved",
+    "lastObservedImprovement": 403.5197773333057,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b2-discrete-r0-b0-s20261029",
+    "n": 5,
+    "condition": "D-R0-B0",
+    "status": "solved",
+    "lastObservedImprovement": 93.71857520833146,
+    "improvementCount": 9,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b2-continuous-r1-b1-s20261029",
+    "n": 5,
+    "condition": "C-R1-B1",
+    "status": "solved",
+    "lastObservedImprovement": 19.282693124958314,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b2-discrete-r1-b0-s20261029",
+    "n": 5,
+    "condition": "D-R1-B0",
+    "status": "solved",
+    "lastObservedImprovement": 58.10794858337613,
+    "improvementCount": 6,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n5-b2-continuous-r1-b0-s20261029",
+    "n": 5,
+    "condition": "C-R1-B0",
+    "status": "solved",
+    "lastObservedImprovement": 90.49792620836524,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b1-discrete-r0-b1-s20261031",
+    "n": 9,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 396.7627034166944,
+    "improvementCount": 14,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b1-discrete-r1-b1-s20261031",
+    "n": 9,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1051.9162788332906,
+    "improvementCount": 16,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b1-continuous-r0-b0-s20261031",
+    "n": 9,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 206.69639020832255,
+    "improvementCount": 7,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b1-discrete-r0-b0-s20261031",
+    "n": 9,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 494.78116141667124,
+    "improvementCount": 12,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b1-continuous-r1-b1-s20261031",
+    "n": 9,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1178.6458732916508,
+    "improvementCount": 23,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b1-discrete-r1-b0-s20261031",
+    "n": 9,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 6.040885166672524,
+    "improvementCount": 5,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b1-continuous-r1-b0-s20261031",
+    "n": 9,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 551.8685406250297,
+    "improvementCount": 10,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b1-continuous-r0-b1-s20261031",
+    "n": 9,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 741.0877435000148,
+    "improvementCount": 16,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n9-b1-discrete-r1-b1-s20261030",
+    "n": 9,
+    "condition": "D-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 728.2497672500322,
+    "improvementCount": 13,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n9-b1-continuous-r0-b0-s20261030",
+    "n": 9,
+    "condition": "C-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 142.40480470831972,
+    "improvementCount": 4,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b1-discrete-r0-b0-s20261030",
+    "n": 9,
+    "condition": "D-R0-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 689.148755833332,
+    "improvementCount": 6,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n9-b1-continuous-r1-b1-s20261030",
+    "n": 9,
+    "condition": "C-R1-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 631.0165191666456,
+    "improvementCount": 19,
+    "after600": true,
+    "after900": false
+  },
+  {
+    "job": "n9-b1-discrete-r1-b0-s20261030",
+    "n": 9,
+    "condition": "D-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 134.4260888750432,
+    "improvementCount": 4,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b1-continuous-r1-b0-s20261030",
+    "n": 9,
+    "condition": "C-R1-B0",
+    "status": "timeout",
+    "lastObservedImprovement": 209.76408108329633,
+    "improvementCount": 6,
+    "after600": false,
+    "after900": false
+  },
+  {
+    "job": "n9-b1-continuous-r0-b1-s20261030",
+    "n": 9,
+    "condition": "C-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1068.2525555833126,
+    "improvementCount": 18,
+    "after600": true,
+    "after900": true
+  },
+  {
+    "job": "n9-b1-discrete-r0-b1-s20261030",
+    "n": 9,
+    "condition": "D-R0-B1",
+    "status": "timeout",
+    "lastObservedImprovement": 1023.1371889583534,
+    "improvementCount": 14,
+    "after600": true,
+    "after900": true
+  }
+]

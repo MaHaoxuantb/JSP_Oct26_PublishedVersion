@@ -7,3 +7,8 @@
 - Preserve run IDs, checkpoints, active assignments, and durable state during updates. Never replace live SQLite files or synchronize them through iCloud.
 - Build and test new work in an isolated scratch directory; do not overwrite an installed worker executable as a side effect of testing. Set `PUZZLE_TEST_EXECUTABLE` to the isolated product when running process recovery tests. Deployment requires the user's authorization for that release. Respect an explicit “don't deploy yet.”
 - When authorized to deploy, inspect the existing launch mechanism and reuse its tmux session where applicable. Do not create duplicate workers. Local macOS Documents permission issues are managed by the user; do not repeatedly request access.
+
+# Experiment publication identity
+
+- Follow [EXPERIMENT-NAMING.md](EXPERIMENT-NAMING.md) for current and future experiment artifacts.
+- Use the exact notice `©2026 ThomasB`, author `ThomasB`, and names in the form `JSP-Oct26-<ExperimentName>`.

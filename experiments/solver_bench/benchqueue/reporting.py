@@ -16,7 +16,7 @@ def export_report(store):
     fields=['id','board_id','representation','regional','newBP','seed','status','attempt','solved','seconds','cpuSeconds','wrong','residual','issues','reason']
     with (output/'results.csv').open('w',newline='') as f:
         writer=csv.DictWriter(f,fieldnames=fields);writer.writeheader();writer.writerows(results)
-    text='# Shared-framework solver experiment\n\n'
+    text='# '+config.get('display_name','JSP-Oct26-Regional-SA-BP')+'\n\n©2026 ThomasB\n\n'
     text+=f"Campaign: `{config['id']}`. State: **{phase}**. Four single-threaded CPU-only searches; macOS P-core placement is not guaranteed.\n\n"
     certified=sum(b['solution_count'] is not None for b in boards)
     text+=f"Boards ready: {len(boards)}/{len(config['sizes'])*config['boards_per_size']}; exact counts proven for {certified}; count unknown for {len(boards)-certified}. Planned trials: {store.get('planned_trials')}. Trial cutoff: {config['trial_seconds']} seconds.\n\n"

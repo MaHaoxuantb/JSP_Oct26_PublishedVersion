@@ -1,0 +1,2798 @@
+{
+  "observed": 1793329677.843884,
+  "campaign": "20261029-214421",
+  "phase": "paused",
+  "counts": {
+    "timeout": 145,
+    "solved": 39,
+    "pending": 176
+  },
+  "attemptCounts": {
+    "timeout": 145,
+    "solved": 39,
+    "interrupted": 8
+  },
+  "matchedBlocks": 23,
+  "representedBoards": 14,
+  "perCondition": {
+    "D-R0-B0": {
+      "trials": 23,
+      "solved": 2,
+      "solveRate": 0.08695652173913043,
+      "cappedCost": 1131.0127203804338,
+      "solvedMedian": 406.6462843749905,
+      "wrong": 4.826086956521739,
+      "residual": 0.1446862003574327,
+      "issues": 0,
+      "cpuSeconds": 25731.360771,
+      "wallSeconds": 26013.30923183338
+    },
+    "D-R0-B1": {
+      "trials": 23,
+      "solved": 3,
+      "solveRate": 0.13043478260869565,
+      "cappedCost": 1060.032365443843,
+      "solvedMedian": 153.20606404170394,
+      "wrong": 3.6956521739130435,
+      "residual": 0.07378088015210688,
+      "issues": 0,
+      "cpuSeconds": 24090.847207,
+      "wallSeconds": 24380.764658000204
+    },
+    "D-R1-B0": {
+      "trials": 23,
+      "solved": 5,
+      "solveRate": 0.21739130434782608,
+      "cappedCost": 1051.10358753623,
+      "solvedMedian": 404.74550395831466,
+      "wrong": 3.739130434782609,
+      "residual": 0.07514152874155099,
+      "issues": 0,
+      "cpuSeconds": 23886.748867,
+      "wallSeconds": 24175.398188625055
+    },
+    "D-R1-B1": {
+      "trials": 23,
+      "solved": 9,
+      "solveRate": 0.391304347826087,
+      "cappedCost": 828.7389095851483,
+      "solvedMedian": 117.81696145836031,
+      "wrong": 1.608695652173913,
+      "residual": 0.020811121382621173,
+      "issues": 0,
+      "cpuSeconds": 18794.538458,
+      "wallSeconds": 19061.008384875022
+    },
+    "C-R0-B0": {
+      "trials": 23,
+      "solved": 4,
+      "solveRate": 0.17391304347826086,
+      "cappedCost": 1063.807444934784,
+      "solvedMedian": 261.85478027083445,
+      "wrong": 4.6521739130434785,
+      "residual": 0.12359629999727591,
+      "issues": 0,
+      "cpuSeconds": 24242.073727,
+      "wallSeconds": 24467.586679749948
+    },
+    "C-R0-B1": {
+      "trials": 23,
+      "solved": 5,
+      "solveRate": 0.21739130434782608,
+      "cappedCost": 1007.3871419293472,
+      "solvedMedian": 377.7060444999952,
+      "wrong": 3.0869565217391304,
+      "residual": 0.08003972184885468,
+      "issues": 0,
+      "cpuSeconds": 22886.982522,
+      "wallSeconds": 23169.92021429172
+    },
+    "C-R1-B0": {
+      "trials": 23,
+      "solved": 4,
+      "solveRate": 0.17391304347826086,
+      "cappedCost": 1073.6363567862352,
+      "solvedMedian": 500.1502637291851,
+      "wrong": 3.9565217391304346,
+      "residual": 0.09797573482269716,
+      "issues": 0,
+      "cpuSeconds": 24380.015701,
+      "wallSeconds": 24693.65145516675
+    },
+    "C-R1-B1": {
+      "trials": 23,
+      "solved": 7,
+      "solveRate": 0.30434782608695654,
+      "cappedCost": 939.8809354565228,
+      "solvedMedian": 253.15226241666824,
+      "wrong": 1.8695652173913044,
+      "residual": 0.040216174802538245,
+      "issues": 0,
+      "cpuSeconds": 21331.491357,
+      "wallSeconds": 21617.275700375147
+    }
+  },
+  "perSize": {
+    "5": {
+      "trials": 40,
+      "solved": 29,
+      "solveRate": 0.725,
+      "cappedCost": 578.7991119833357,
+      "solvedMedian": 248.18943383335136,
+      "wrong": 0.525,
+      "residual": 0.02501603273780693,
+      "issues": 0,
+      "cpuSeconds": 22955.021296,
+      "wallSeconds": 23151.971367625054
+    },
+    "6": {
+      "trials": 24,
+      "solved": 7,
+      "solveRate": 0.2916666666666667,
+      "cappedCost": 907.1115266510436,
+      "solvedMedian": 148.20015183335636,
+      "wrong": 1.5,
+      "residual": 0.028539400177827287,
+      "issues": 0,
+      "cpuSeconds": 21747.733408,
+      "wallSeconds": 21770.689771333535
+    },
+    "7": {
+      "trials": 48,
+      "solved": 2,
+      "solveRate": 0.041666666666666664,
+      "cappedCost": 1172.7552715746533,
+      "solvedMedian": 546.1265177916794,
+      "wrong": 2.5833333333333335,
+      "residual": 0.06245052647058301,
+      "issues": 0,
+      "cpuSeconds": 56059.167893,
+      "wallSeconds": 56292.29021162522
+    },
+    "8": {
+      "trials": 24,
+      "solved": 0,
+      "solveRate": 0.0,
+      "cappedCost": 1200,
+      "solvedMedian": null,
+      "wrong": 6.041666666666667,
+      "residual": 0.1648442440785971,
+      "issues": 0,
+      "cpuSeconds": 28558.384225,
+      "wallSeconds": 28800.025635791535
+    },
+    "9": {
+      "trials": 48,
+      "solved": 1,
+      "solveRate": 0.020833333333333332,
+      "cappedCost": 1199.2477806805557,
+      "solvedMedian": 1163.8934726666776,
+      "wrong": 6.354166666666667,
+      "residual": 0.13446296221171544,
+      "issues": 0,
+      "cpuSeconds": 56023.751788,
+      "wallSeconds": 57563.93752654188
+    }
+  },
+  "perSizeCondition": {
+    "5": {
+      "D-R0-B0": {
+        "trials": 5,
+        "solved": 2,
+        "solveRate": 0.4,
+        "cappedCost": 882.6585137499962,
+        "solvedMedian": 406.6462843749905,
+        "wrong": 1.4,
+        "residual": 0.09873051623051622,
+        "issues": 0,
+        "cpuSeconds": 4365.855171,
+        "wallSeconds": 4413.294317666674
+      },
+      "D-R0-B1": {
+        "trials": 5,
+        "solved": 2,
+        "solveRate": 0.4,
+        "cappedCost": 765.5076682333369,
+        "solvedMedian": 113.7691705833422,
+        "wrong": 1.4,
+        "residual": 0.06105087806700709,
+        "issues": 0,
+        "cpuSeconds": 3783.0524159999995,
+        "wallSeconds": 3827.5407284167013
+      },
+      "D-R1-B0": {
+        "trials": 5,
+        "solved": 4,
+        "solveRate": 0.8,
+        "cappedCost": 707.8963166916626,
+        "solvedMedian": 664.7052888333274,
+        "wrong": 0.2,
+        "residual": 0.0017857142857142857,
+        "issues": 0,
+        "cpuSeconds": 3522.2650169999997,
+        "wallSeconds": 3539.4820448749815
+      },
+      "D-R1-B1": {
+        "trials": 5,
+        "solved": 5,
+        "solveRate": 1.0,
+        "cappedCost": 110.55664216667647,
+        "solvedMedian": 76.20436004165094,
+        "wrong": 0,
+        "residual": 0,
+        "issues": 0,
+        "cpuSeconds": 524.063321,
+        "wallSeconds": 552.7832108333823
+      },
+      "C-R0-B0": {
+        "trials": 5,
+        "solved": 4,
+        "solveRate": 0.8,
+        "cappedCost": 573.5142467000056,
+        "solvedMedian": 261.85478027083445,
+        "wrong": 0.2,
+        "residual": 0.005357142857142857,
+        "issues": 0,
+        "cpuSeconds": 2856.590975,
+        "wallSeconds": 2867.5717112499988
+      },
+      "C-R0-B1": {
+        "trials": 5,
+        "solved": 4,
+        "solveRate": 0.8,
+        "cappedCost": 539.7602023249958,
+        "solvedMedian": 436.3962316249963,
+        "wrong": 0.2,
+        "residual": 0.0017857142857142857,
+        "issues": 0,
+        "cpuSeconds": 2694.788799,
+        "wallSeconds": 2698.801569083298
+      },
+      "C-R1-B0": {
+        "trials": 5,
+        "solved": 4,
+        "solveRate": 0.8,
+        "cappedCost": 618.7272412166815,
+        "solvedMedian": 500.1502637291851,
+        "wrong": 0.2,
+        "residual": 0.0017857142857142857,
+        "issues": 0,
+        "cpuSeconds": 3080.281525,
+        "wallSeconds": 3093.636639250035
+      },
+      "C-R1-B1": {
+        "trials": 5,
+        "solved": 4,
+        "solveRate": 0.8,
+        "cappedCost": 431.772064783331,
+        "solvedMedian": 248.03692149999551,
+        "wrong": 0.6,
+        "residual": 0.029632581890646402,
+        "issues": 0,
+        "cpuSeconds": 2128.124072,
+        "wallSeconds": 2158.861146249983
+      }
+    },
+    "6": {
+      "D-R0-B0": {
+        "trials": 3,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 2.3333333333333335,
+        "residual": 0.04286025521319639,
+        "issues": 0,
+        "cpuSeconds": 3596.125334,
+        "wallSeconds": 3600.002420875011
+      },
+      "D-R0-B1": {
+        "trials": 3,
+        "solved": 1,
+        "solveRate": 0.3333333333333333,
+        "cappedCost": 851.0686880139014,
+        "solvedMedian": 153.20606404170394,
+        "wrong": 0.6666666666666666,
+        "residual": 0.008181818181818182,
+        "issues": 0,
+        "cpuSeconds": 2551.095229,
+        "wallSeconds": 2553.2079506667214
+      },
+      "D-R1-B0": {
+        "trials": 3,
+        "solved": 1,
+        "solveRate": 0.3333333333333333,
+        "cappedCost": 878.6336432916578,
+        "solvedMedian": 235.90092987497337,
+        "wrong": 2,
+        "residual": 0.02914332399626517,
+        "issues": 0,
+        "cpuSeconds": 2632.662589,
+        "wallSeconds": 2635.902714625001
+      },
+      "D-R1-B1": {
+        "trials": 3,
+        "solved": 2,
+        "solveRate": 0.6666666666666666,
+        "cappedCost": 469.6864601111156,
+        "solvedMedian": 104.52969016667339,
+        "wrong": 0.3333333333333333,
+        "residual": 0.004166666666666667,
+        "issues": 0,
+        "cpuSeconds": 1408.1189900000002,
+        "wallSeconds": 1409.0600128333317
+      },
+      "C-R0-B0": {
+        "trials": 3,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 2.3333333333333335,
+        "residual": 0.042625610630725716,
+        "issues": 0,
+        "cpuSeconds": 3596.09825,
+        "wallSeconds": 3600.0021127083455
+      },
+      "C-R0-B1": {
+        "trials": 3,
+        "solved": 1,
+        "solveRate": 0.3333333333333333,
+        "cappedCost": 823.7010842500022,
+        "solvedMedian": 71.1032527500065,
+        "wrong": 2,
+        "residual": 0.059004956396260744,
+        "issues": 0,
+        "cpuSeconds": 2468.195026,
+        "wallSeconds": 2471.1047142500756
+      },
+      "C-R1-B0": {
+        "trials": 3,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 2,
+        "residual": 0.03653546888841006,
+        "issues": 0,
+        "cpuSeconds": 3595.833193,
+        "wallSeconds": 3600.0019961250364
+      },
+      "C-R1-B1": {
+        "trials": 3,
+        "solved": 2,
+        "solveRate": 0.6666666666666666,
+        "cappedCost": 633.8023375416718,
+        "solvedMedian": 350.70350631250767,
+        "wrong": 0.3333333333333333,
+        "residual": 0.005797101449275362,
+        "issues": 0,
+        "cpuSeconds": 1899.604797,
+        "wallSeconds": 1901.407849250012
+      }
+    },
+    "7": {
+      "D-R0-B0": {
+        "trials": 6,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 3.6666666666666665,
+        "residual": 0.12298920285345626,
+        "issues": 0,
+        "cpuSeconds": 7162.30077,
+        "wallSeconds": 7200.004466000013
+      },
+      "D-R0-B1": {
+        "trials": 6,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 2.5,
+        "residual": 0.03972498090145149,
+        "issues": 0,
+        "cpuSeconds": 7180.44594,
+        "wallSeconds": 7200.004695166659
+      },
+      "D-R1-B0": {
+        "trials": 6,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 2.8333333333333335,
+        "residual": 0.0583050964629912,
+        "issues": 0,
+        "cpuSeconds": 7157.090198,
+        "wallSeconds": 7200.004965833388
+      },
+      "D-R1-B1": {
+        "trials": 6,
+        "solved": 1,
+        "solveRate": 0.16666666666666666,
+        "cappedCost": 1055.8764761041675,
+        "solvedMedian": 335.25885662500514,
+        "wrong": 1.3333333333333333,
+        "residual": 0.012631812631812631,
+        "issues": 0,
+        "cpuSeconds": 6318.537265,
+        "wallSeconds": 6335.263594000018
+      },
+      "C-R0-B0": {
+        "trials": 6,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 4,
+        "residual": 0.11554620840574018,
+        "issues": 0,
+        "cpuSeconds": 7184.338162,
+        "wallSeconds": 7200.00447325001
+      },
+      "C-R0-B1": {
+        "trials": 6,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 2.3333333333333335,
+        "residual": 0.058135655194478726,
+        "issues": 0,
+        "cpuSeconds": 7174.128204,
+        "wallSeconds": 7200.0054785833345
+      },
+      "C-R1-B0": {
+        "trials": 6,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 2.8333333333333335,
+        "residual": 0.07358197358197358,
+        "issues": 0,
+        "cpuSeconds": 7158.418562,
+        "wallSeconds": 7200.004873875005
+      },
+      "C-R1-B1": {
+        "trials": 6,
+        "solved": 1,
+        "solveRate": 0.16666666666666666,
+        "cappedCost": 1126.165696493059,
+        "solvedMedian": 756.9941789583536,
+        "wrong": 1.1666666666666667,
+        "residual": 0.018689281732759994,
+        "issues": 0,
+        "cpuSeconds": 6723.908792,
+        "wallSeconds": 6756.997664916795
+      }
+    },
+    "8": {
+      "D-R0-B0": {
+        "trials": 3,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 8,
+        "residual": 0.2511719054550873,
+        "issues": 0,
+        "cpuSeconds": 3586.079731,
+        "wallSeconds": 3600.002374249976
+      },
+      "D-R0-B1": {
+        "trials": 3,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 6.333333333333333,
+        "residual": 0.13869137356194944,
+        "issues": 0,
+        "cpuSeconds": 3555.2113790000003,
+        "wallSeconds": 3600.0058470416698
+      },
+      "D-R1-B0": {
+        "trials": 3,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 6.333333333333333,
+        "residual": 0.15999852189110503,
+        "issues": 0,
+        "cpuSeconds": 3585.6721880000005,
+        "wallSeconds": 3600.0026114999782
+      },
+      "D-R1-B1": {
+        "trials": 3,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 3.6666666666666665,
+        "residual": 0.06927588206999971,
+        "issues": 0,
+        "cpuSeconds": 3555.4971370000003,
+        "wallSeconds": 3600.0039529999485
+      },
+      "C-R0-B0": {
+        "trials": 3,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 7.666666666666667,
+        "residual": 0.22695471074244714,
+        "issues": 0,
+        "cpuSeconds": 3581.496087,
+        "wallSeconds": 3600.002755958296
+      },
+      "C-R0-B1": {
+        "trials": 3,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 5,
+        "residual": 0.15595684712807453,
+        "issues": 0,
+        "cpuSeconds": 3554.653027,
+        "wallSeconds": 3600.0030251250137
+      },
+      "C-R1-B0": {
+        "trials": 3,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 7,
+        "residual": 0.20301466912897054,
+        "issues": 0,
+        "cpuSeconds": 3554.195522,
+        "wallSeconds": 3600.0023337916937
+      },
+      "C-R1-B1": {
+        "trials": 3,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 4.333333333333333,
+        "residual": 0.11369004265114321,
+        "issues": 0,
+        "cpuSeconds": 3585.579154,
+        "wallSeconds": 3600.002735124959
+      }
+    },
+    "9": {
+      "D-R0-B0": {
+        "trials": 6,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 8.5,
+        "residual": 0.2023497213237971,
+        "issues": 0,
+        "cpuSeconds": 7020.9997650000005,
+        "wallSeconds": 7200.005653041706
+      },
+      "D-R0-B1": {
+        "trials": 6,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 7,
+        "residual": 0.11878939875390179,
+        "issues": 0,
+        "cpuSeconds": 7021.042243,
+        "wallSeconds": 7200.005436708452
+      },
+      "D-R1-B0": {
+        "trials": 6,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 7.166666666666667,
+        "residual": 0.13367841219784057,
+        "issues": 0,
+        "cpuSeconds": 6989.058875,
+        "wallSeconds": 7200.005851791706
+      },
+      "D-R1-B1": {
+        "trials": 6,
+        "solved": 1,
+        "solveRate": 0.16666666666666666,
+        "cappedCost": 1193.9822454444463,
+        "solvedMedian": 1163.8934726666776,
+        "wrong": 2.8333333333333335,
+        "residual": 0.030422878299902,
+        "issues": 0,
+        "cpuSeconds": 6988.321744999999,
+        "wallSeconds": 7163.897614208341
+      },
+      "C-R0-B0": {
+        "trials": 6,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 8.666666666666666,
+        "residual": 0.21898516184961198,
+        "issues": 0,
+        "cpuSeconds": 7023.550253,
+        "wallSeconds": 7200.005626583297
+      },
+      "C-R0-B1": {
+        "trials": 6,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 5.833333333333333,
+        "residual": 0.13971428155920135,
+        "issues": 0,
+        "cpuSeconds": 6995.217466,
+        "wallSeconds": 7200.005427249998
+      },
+      "C-R1-B0": {
+        "trials": 6,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 7.666666666666667,
+        "residual": 0.18072851232491333,
+        "issues": 0,
+        "cpuSeconds": 6991.286899,
+        "wallSeconds": 7200.00561212498
+      },
+      "C-R1-B1": {
+        "trials": 6,
+        "solved": 0,
+        "solveRate": 0.0,
+        "cappedCost": 1200,
+        "solvedMedian": null,
+        "wrong": 3.1666666666666665,
+        "residual": 0.05103533138455533,
+        "issues": 0,
+        "cpuSeconds": 6994.274542,
+        "wallSeconds": 7200.006304833398
+      }
+    }
+  },
+  "pairedEffects": {
+    "continuous_minus_discrete": {
+      "pairs": 92,
+      "boards": 14,
+      "meanCostDifference": 3.456074040308443,
+      "costCI95": [
+        -49.026662668709456,
+        60.68902744705191
+      ],
+      "solveRateDifference": 0.010869565217391304,
+      "solveRateCI95": [
+        -0.05263157894736842,
+        0.08
+      ],
+      "wins": 11,
+      "losses": 14,
+      "ties": 67,
+      "onlyFirstSolved": 5,
+      "onlySecondSolved": 6
+    },
+    "regional_on_minus_off": {
+      "pairs": 92,
+      "boards": 14,
+      "meanCostDifference": -92.21997083106797,
+      "costCI95": [
+        -169.06131786484218,
+        -31.866225516926605
+      ],
+      "solveRateDifference": 0.11956521739130435,
+      "solveRateCI95": [
+        0.045454545454545456,
+        0.203125
+      ],
+      "wins": 22,
+      "losses": 4,
+      "ties": 66,
+      "onlyFirstSolved": 1,
+      "onlySecondSolved": 12
+    },
+    "newBP_on_minus_off": {
+      "pairs": 92,
+      "boards": 14,
+      "meanCostDifference": -120.88018930570536,
+      "costCI95": [
+        -226.38885448757236,
+        -43.317713137258856
+      ],
+      "solveRateDifference": 0.09782608695652174,
+      "solveRateCI95": [
+        0.011904761904761904,
+        0.2166847826086954
+      ],
+      "wins": 21,
+      "losses": 4,
+      "ties": 67,
+      "onlyFirstSolved": 1,
+      "onlySecondSolved": 10
+    },
+    "D_hybrid_minus_C_hybrid": {
+      "pairs": 23,
+      "boards": 14,
+      "meanCostDifference": -111.14202587137444,
+      "costCI95": [
+        -230.47504728857902,
+        -18.643442303986987
+      ],
+      "solveRateDifference": 0.08695652173913043,
+      "solveRateCI95": [
+        0.0,
+        0.21052631578947367
+      ],
+      "wins": 8,
+      "losses": 2,
+      "ties": 13,
+      "onlyFirstSolved": 1,
+      "onlySecondSolved": 3
+    }
+  },
+  "interactionCostDifference": -114.35972066938311,
+  "equalBoard": {
+    "D-R0-B0": {
+      "cappedCost": 1109.5412273075392,
+      "solveRate": 0.09523809523809523
+    },
+    "D-R0-B1": {
+      "cappedCost": 1018.642606598217,
+      "solveRate": 0.16666666666666666
+    },
+    "D-R1-B0": {
+      "cappedCost": 1018.1762201230144,
+      "solveRate": 0.21428571428571427
+    },
+    "D-R1-B1": {
+      "cappedCost": 782.115938187502,
+      "solveRate": 0.4523809523809524
+    },
+    "C-R0-B0": {
+      "cappedCost": 1087.4907714543654,
+      "solveRate": 0.14285714285714285
+    },
+    "C-R0-B1": {
+      "cappedCost": 985.6555499573393,
+      "solveRate": 0.21428571428571427
+    },
+    "C-R1-B0": {
+      "cappedCost": 1077.9674719940508,
+      "solveRate": 0.14285714285714285
+    },
+    "C-R1-B1": {
+      "cappedCost": 874.8687076904766,
+      "solveRate": 0.35714285714285715
+    }
+  },
+  "leaveOneBoardOutCostRange": {
+    "D-R0-B0": [
+      1120.664628437499,
+      1178.1624127121204
+    ],
+    "D-R0-B1": [
+      1039.0372202604194,
+      1106.0376333314423
+    ],
+    "D-R1-B0": [
+      1028.7691256666644,
+      1096.239730785982
+    ],
+    "D-R1-B1": [
+      773.0497460229205,
+      931.459804916667
+    ],
+    "C-R0-B0": [
+      1043.3785616750015,
+      1160.176029189583
+    ],
+    "C-R0-B1": [
+      978.4952132187493,
+      1085.6907208458317
+    ],
+    "C-R1-B0": [
+      1054.6818103041703,
+      1144.5249404416682
+    ],
+    "C-R1-B1": [
+      900.8630757750012,
+      986.0303141354176
+    ]
+  },
+  "boardProfiles": [
+    {
+      "knownDistinctPartitionsLowerBound": 1,
+      "knownAnswerUnion": [
+        13013
+      ],
+      "id": "n5-b1",
+      "n": 5,
+      "clues": 7,
+      "zeros": 0,
+      "maxClue": 37,
+      "provenCount": 1,
+      "knownRegionCount": 4,
+      "largestKnownRegion": 14,
+      "largestKnownBoundingArea": 16,
+      "knownRegionsBeyondSeedCache": 0,
+      "completed": 24,
+      "solved": 19,
+      "observedDistinctSolvedPartitions": 1,
+      "observedAnswers": [
+        13013
+      ],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 3,
+          "solved": 1,
+          "solveRate": 0.3333333333333333,
+          "cappedCost": 1039.8576932222156,
+          "solvedMedian": 719.5730796666467,
+          "wrong": 2,
+          "residual": 0.15562228895562227,
+          "issues": 0,
+          "cpuSeconds": 3074.6283200000003,
+          "wallSeconds": 3119.5743207499618
+        },
+        "D-R0-B1": {
+          "trials": 3,
+          "solved": 1,
+          "solveRate": 0.3333333333333333,
+          "cappedCost": 859.8739564166754,
+          "solvedMedian": 179.62186925002607,
+          "wrong": 2,
+          "residual": 0.09877527296882134,
+          "issues": 0,
+          "cpuSeconds": 2535.891433,
+          "wallSeconds": 2579.623418833362
+        },
+        "D-R1-B0": {
+          "trials": 3,
+          "solved": 3,
+          "solveRate": 1.0,
+          "cappedCost": 760.4577158055423,
+          "solvedMedian": 924.6650737083401,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 2265.737596,
+          "wallSeconds": 2281.373147416627
+        },
+        "D-R1-B1": {
+          "trials": 3,
+          "solved": 3,
+          "solveRate": 1.0,
+          "cappedCost": 143.9329407083569,
+          "solvedMedian": 117.81696145836031,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 403.22565399999996,
+          "wallSeconds": 431.7988221250707
+        },
+        "C-R0-B0": {
+          "trials": 3,
+          "solved": 3,
+          "solveRate": 1.0,
+          "cappedCost": 421.35021656945656,
+          "solvedMedian": 120.18897675001062,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 1259.354957,
+          "wallSeconds": 1264.0506497083697
+        },
+        "C-R0-B1": {
+          "trials": 3,
+          "solved": 3,
+          "solveRate": 1.0,
+          "cappedCost": 485.36328248611727,
+          "solvedMedian": 495.0864187499974,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 1452.860713,
+          "wallSeconds": 1456.0898474583519
+        },
+        "C-R1-B0": {
+          "trials": 3,
+          "solved": 3,
+          "solveRate": 1.0,
+          "cappedCost": 601.045799083348,
+          "solvedMedian": 639.8382696667104,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 1791.406763,
+          "wallSeconds": 1803.1373972500442
+        },
+        "C-R1-B1": {
+          "trials": 3,
+          "solved": 2,
+          "solveRate": 0.6666666666666666,
+          "cappedCost": 632.2184109305575,
+          "solvedMedian": 348.32761639583623,
+          "wrong": 1,
+          "residual": 0.04938763648441067,
+          "issues": 0,
+          "cpuSeconds": 1866.411225,
+          "wallSeconds": 1896.6560551250004
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 1,
+      "knownAnswerUnion": [
+        5445
+      ],
+      "id": "n5-b2",
+      "n": 5,
+      "clues": 7,
+      "zeros": 0,
+      "maxClue": 19,
+      "provenCount": 1,
+      "knownRegionCount": 6,
+      "largestKnownRegion": 9,
+      "largestKnownBoundingArea": 9,
+      "knownRegionsBeyondSeedCache": 0,
+      "completed": 8,
+      "solved": 8,
+      "observedDistinctSolvedPartitions": 1,
+      "observedAnswers": [
+        5445
+      ],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 93.71948908333434,
+          "solvedMedian": 93.71948908333434,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 92.307317,
+          "wallSeconds": 93.71948908333434
+        },
+        "D-R0-B1": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 47.91647191665834,
+          "solvedMedian": 47.91647191665834,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 47.813699,
+          "wallSeconds": 47.91647191665834
+        },
+        "D-R1-B0": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 58.10843604168622,
+          "solvedMedian": 58.10843604168622,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 57.654368999999996,
+          "wallSeconds": 58.10843604168622
+        },
+        "D-R1-B1": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 44.780028666660655,
+          "solvedMedian": 44.780028666660655,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 44.68535,
+          "wallSeconds": 44.780028666660655
+        },
+        "C-R0-B0": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 403.5205837916583,
+          "solvedMedian": 403.5205837916583,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 398.463414,
+          "wallSeconds": 403.5205837916583
+        },
+        "C-R0-B1": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 42.711164166626986,
+          "solvedMedian": 42.711164166626986,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 42.621323,
+          "wallSeconds": 42.711164166626986
+        },
+        "C-R1-B0": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 90.498808833363,
+          "solvedMedian": 90.498808833363,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 89.64380399999999,
+          "wallSeconds": 90.498808833363
+        },
+        "C-R1-B1": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 19.28351054165978,
+          "solvedMedian": 19.28351054165978,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 18.906441,
+          "wallSeconds": 19.28351054165978
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 1,
+      "knownAnswerUnion": [
+        1813
+      ],
+      "id": "n5-b3",
+      "n": 5,
+      "clues": 7,
+      "zeros": 0,
+      "maxClue": 16,
+      "provenCount": 1,
+      "knownRegionCount": 7,
+      "largestKnownRegion": 5,
+      "largestKnownBoundingArea": 9,
+      "knownRegionsBeyondSeedCache": 0,
+      "completed": 8,
+      "solved": 2,
+      "observedDistinctSolvedPartitions": 1,
+      "observedAnswers": [
+        1813
+      ],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.026785714285714284,
+          "issues": 0,
+          "cpuSeconds": 1198.9195339999999,
+          "wallSeconds": 1200.000507833378
+        },
+        "D-R0-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.008928571428571428,
+          "issues": 0,
+          "cpuSeconds": 1199.347284,
+          "wallSeconds": 1200.000837666681
+        },
+        "D-R1-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.008928571428571428,
+          "issues": 0,
+          "cpuSeconds": 1198.873052,
+          "wallSeconds": 1200.0004614166683
+        },
+        "D-R1-B1": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 76.20436004165094,
+          "solvedMedian": 76.20436004165094,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 76.152317,
+          "wallSeconds": 76.20436004165094
+        },
+        "C-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.026785714285714284,
+          "issues": 0,
+          "cpuSeconds": 1198.772604,
+          "wallSeconds": 1200.0004777499707
+        },
+        "C-R0-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.008928571428571428,
+          "issues": 0,
+          "cpuSeconds": 1199.306763,
+          "wallSeconds": 1200.0005574583192
+        },
+        "C-R1-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.008928571428571428,
+          "issues": 0,
+          "cpuSeconds": 1199.2309579999999,
+          "wallSeconds": 1200.0004331666278
+        },
+        "C-R1-B1": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 242.9215805833228,
+          "solvedMedian": 242.9215805833228,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 242.80640599999998,
+          "wallSeconds": 242.9215805833228
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 1,
+      "knownAnswerUnion": [
+        28602
+      ],
+      "id": "n6-b1",
+      "n": 6,
+      "clues": 10,
+      "zeros": 0,
+      "maxClue": 63,
+      "provenCount": null,
+      "knownRegionCount": 5,
+      "largestKnownRegion": 18,
+      "largestKnownBoundingArea": 18,
+      "knownRegionsBeyondSeedCache": 1,
+      "completed": 8,
+      "solved": 3,
+      "observedDistinctSolvedPartitions": 1,
+      "observedAnswers": [
+        28602
+      ],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 4,
+          "residual": 0.0638188608776844,
+          "issues": 0,
+          "cpuSeconds": 1198.0313959999999,
+          "wallSeconds": 1200.0008904166752
+        },
+        "D-R0-B1": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 153.20606404170394,
+          "solvedMedian": 153.20606404170394,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 152.84986800000001,
+          "wallSeconds": 153.20606404170394
+        },
+        "D-R1-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 4,
+          "residual": 0.0638188608776844,
+          "issues": 0,
+          "cpuSeconds": 1197.822488,
+          "wallSeconds": 1200.00086929166
+        },
+        "D-R1-B1": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 138.78289154166123,
+          "solvedMedian": 138.78289154166123,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 138.504987,
+          "wallSeconds": 138.78289154166123
+        },
+        "C-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 4,
+          "residual": 0.0638188608776844,
+          "issues": 0,
+          "cpuSeconds": 1197.8839110000001,
+          "wallSeconds": 1200.0008752083522
+        },
+        "C-R0-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 4,
+          "residual": 0.14927159796725015,
+          "issues": 0,
+          "cpuSeconds": 1197.7847749999999,
+          "wallSeconds": 1200.0005995417014
+        },
+        "C-R1-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 4,
+          "residual": 0.0638188608776844,
+          "issues": 0,
+          "cpuSeconds": 1197.779248,
+          "wallSeconds": 1200.0005006249994
+        },
+        "C-R1-B1": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 553.206860791659,
+          "solvedMedian": 553.206860791659,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 552.220705,
+          "wallSeconds": 553.206860791659
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 1,
+      "knownAnswerUnion": [
+        12110
+      ],
+      "id": "n6-b2",
+      "n": 6,
+      "clues": 10,
+      "zeros": 1,
+      "maxClue": 23,
+      "provenCount": null,
+      "knownRegionCount": 9,
+      "largestKnownRegion": 10,
+      "largestKnownBoundingArea": 12,
+      "knownRegionsBeyondSeedCache": 0,
+      "completed": 8,
+      "solved": 0,
+      "observedDistinctSolvedPartitions": 0,
+      "observedAnswers": [],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 2,
+          "residual": 0.04476190476190476,
+          "issues": 0,
+          "cpuSeconds": 1199.2791,
+          "wallSeconds": 1200.000925750006
+        },
+        "D-R0-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.004545454545454545,
+          "issues": 0,
+          "cpuSeconds": 1199.343641,
+          "wallSeconds": 1200.0008805416874
+        },
+        "D-R1-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 2,
+          "residual": 0.02361111111111111,
+          "issues": 0,
+          "cpuSeconds": 1199.205397,
+          "wallSeconds": 1200.0009154583677
+        },
+        "D-R1-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.0125,
+          "issues": 0,
+          "cpuSeconds": 1199.3903930000001,
+          "wallSeconds": 1200.000632499985
+        },
+        "C-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 2,
+          "residual": 0.044057971014492756,
+          "issues": 0,
+          "cpuSeconds": 1199.283299,
+          "wallSeconds": 1200.0007615416544
+        },
+        "C-R0-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 2,
+          "residual": 0.02774327122153209,
+          "issues": 0,
+          "cpuSeconds": 1199.36181,
+          "wallSeconds": 1200.0008619583678
+        },
+        "C-R1-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.03809523809523809,
+          "issues": 0,
+          "cpuSeconds": 1199.2048069999998,
+          "wallSeconds": 1200.0008714583237
+        },
+        "C-R1-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.017391304347826087,
+          "issues": 0,
+          "cpuSeconds": 1199.2591850000001,
+          "wallSeconds": 1200.0008366249967
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 5,
+      "knownAnswerUnion": [
+        2880,
+        2984,
+        3080,
+        3642,
+        4040
+      ],
+      "id": "n6-b3",
+      "n": 6,
+      "clues": 10,
+      "zeros": 0,
+      "maxClue": 13,
+      "provenCount": null,
+      "knownRegionCount": 13,
+      "largestKnownRegion": 7,
+      "largestKnownBoundingArea": 12,
+      "knownRegionsBeyondSeedCache": 0,
+      "completed": 8,
+      "solved": 4,
+      "observedDistinctSolvedPartitions": 4,
+      "observedAnswers": [
+        2880,
+        2984,
+        3080,
+        3642
+      ],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.02,
+          "issues": 0,
+          "cpuSeconds": 1198.814838,
+          "wallSeconds": 1200.0006047083298
+        },
+        "D-R0-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.02,
+          "issues": 0,
+          "cpuSeconds": 1198.90172,
+          "wallSeconds": 1200.0010060833301
+        },
+        "D-R1-B0": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 235.90092987497337,
+          "solvedMedian": 235.90092987497337,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 235.634704,
+          "wallSeconds": 235.90092987497337
+        },
+        "D-R1-B1": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 70.27648879168555,
+          "solvedMedian": 70.27648879168555,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 70.22361,
+          "wallSeconds": 70.27648879168555
+        },
+        "C-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.02,
+          "issues": 0,
+          "cpuSeconds": 1198.93104,
+          "wallSeconds": 1200.000475958339
+        },
+        "C-R0-B1": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 71.1032527500065,
+          "solvedMedian": 71.1032527500065,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 71.048441,
+          "wallSeconds": 71.1032527500065
+        },
+        "C-R1-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.007692307692307693,
+          "issues": 0,
+          "cpuSeconds": 1198.849138,
+          "wallSeconds": 1200.0006240417133
+        },
+        "C-R1-B1": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 148.20015183335636,
+          "solvedMedian": 148.20015183335636,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 148.12490699999998,
+          "wallSeconds": 148.20015183335636
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 1,
+      "knownAnswerUnion": [
+        9351
+      ],
+      "id": "n7-b1",
+      "n": 7,
+      "clues": 13,
+      "zeros": 1,
+      "maxClue": 22,
+      "provenCount": null,
+      "knownRegionCount": 12,
+      "largestKnownRegion": 8,
+      "largestKnownBoundingArea": 12,
+      "knownRegionsBeyondSeedCache": 0,
+      "completed": 16,
+      "solved": 0,
+      "observedDistinctSolvedPartitions": 0,
+      "observedAnswers": [],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 3.5,
+          "residual": 0.09073505679840521,
+          "issues": 0,
+          "cpuSeconds": 2396.876401,
+          "wallSeconds": 2400.0012364999857
+        },
+        "D-R0-B1": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 3.5,
+          "residual": 0.040501165501165504,
+          "issues": 0,
+          "cpuSeconds": 2398.1035279999996,
+          "wallSeconds": 2400.0013219999964
+        },
+        "D-R1-B0": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 3,
+          "residual": 0.03285179732548153,
+          "issues": 0,
+          "cpuSeconds": 2396.584908,
+          "wallSeconds": 2400.001668208395
+        },
+        "D-R1-B1": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1.5,
+          "residual": 0.012187812187812189,
+          "issues": 0,
+          "cpuSeconds": 2398.426108,
+          "wallSeconds": 2400.0027654166915
+        },
+        "C-R0-B0": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 4,
+          "residual": 0.0711200338123415,
+          "issues": 0,
+          "cpuSeconds": 2398.397203,
+          "wallSeconds": 2400.0012178749894
+        },
+        "C-R0-B1": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 3.5,
+          "residual": 0.025181191357661947,
+          "issues": 0,
+          "cpuSeconds": 2397.991146,
+          "wallSeconds": 2400.0018730416195
+        },
+        "C-R1-B0": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 3.5,
+          "residual": 0.04671994671994672,
+          "issues": 0,
+          "cpuSeconds": 2396.538281,
+          "wallSeconds": 2400.0013960416545
+        },
+        "C-R1-B1": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 2,
+          "residual": 0.03473084886128364,
+          "issues": 0,
+          "cpuSeconds": 2396.9496579999995,
+          "wallSeconds": 2400.001222583349
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 1,
+      "knownAnswerUnion": [
+        16321
+      ],
+      "id": "n7-b2",
+      "n": 7,
+      "clues": 13,
+      "zeros": 0,
+      "maxClue": 11,
+      "provenCount": null,
+      "knownRegionCount": 12,
+      "largestKnownRegion": 10,
+      "largestKnownBoundingArea": 16,
+      "knownRegionsBeyondSeedCache": 0,
+      "completed": 8,
+      "solved": 0,
+      "observedDistinctSolvedPartitions": 0,
+      "observedAnswers": [],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 3,
+          "residual": 0.13496503496503498,
+          "issues": 0,
+          "cpuSeconds": 1199.184143,
+          "wallSeconds": 1200.0008663749904
+        },
+        "D-R0-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 3,
+          "residual": 0.07783882783882784,
+          "issues": 0,
+          "cpuSeconds": 1191.814182,
+          "wallSeconds": 1200.000838499982
+        },
+        "D-R1-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 3,
+          "residual": 0.059052059052059055,
+          "issues": 0,
+          "cpuSeconds": 1199.1944520000002,
+          "wallSeconds": 1200.000797374989
+        },
+        "D-R1-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 2,
+          "residual": 0.03566433566433566,
+          "issues": 0,
+          "cpuSeconds": 1191.846176,
+          "wallSeconds": 1200.0006519166636
+        },
+        "C-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 4,
+          "residual": 0.14141414141414144,
+          "issues": 0,
+          "cpuSeconds": 1191.886569,
+          "wallSeconds": 1200.0008019583183
+        },
+        "C-R0-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.07692307692307693,
+          "issues": 0,
+          "cpuSeconds": 1191.784046,
+          "wallSeconds": 1200.0008221249445
+        },
+        "C-R1-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 2,
+          "residual": 0.10769230769230768,
+          "issues": 0,
+          "cpuSeconds": 1199.292702,
+          "wallSeconds": 1200.0008996666875
+        },
+        "C-R1-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1,
+          "residual": 0.03076923076923077,
+          "issues": 0,
+          "cpuSeconds": 1199.280219,
+          "wallSeconds": 1200.0008559167036
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 3,
+      "knownAnswerUnion": [
+        11219,
+        13841,
+        14237
+      ],
+      "id": "n7-b3",
+      "n": 7,
+      "clues": 13,
+      "zeros": 1,
+      "maxClue": 14,
+      "provenCount": null,
+      "knownRegionCount": 11,
+      "largestKnownRegion": 11,
+      "largestKnownBoundingArea": 15,
+      "knownRegionsBeyondSeedCache": 0,
+      "completed": 24,
+      "solved": 2,
+      "observedDistinctSolvedPartitions": 2,
+      "observedAnswers": [
+        11219,
+        13841
+      ],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 4,
+          "residual": 0.14050002285296403,
+          "issues": 0,
+          "cpuSeconds": 3566.240226,
+          "wallSeconds": 3600.002363125037
+        },
+        "D-R0-B1": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 1.6666666666666667,
+          "residual": 0.026502908855850032,
+          "issues": 0,
+          "cpuSeconds": 3590.52823,
+          "wallSeconds": 3600.0025346666807
+        },
+        "D-R1-B0": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 2.6666666666666665,
+          "residual": 0.07502497502497502,
+          "issues": 0,
+          "cpuSeconds": 3561.3108380000003,
+          "wallSeconds": 3600.0025002500042
+        },
+        "D-R1-B1": {
+          "trials": 3,
+          "solved": 1,
+          "solveRate": 0.3333333333333333,
+          "cappedCost": 911.752952208335,
+          "solvedMedian": 335.25885662500514,
+          "wrong": 1,
+          "residual": 0.00525030525030525,
+          "issues": 0,
+          "cpuSeconds": 2728.264981,
+          "wallSeconds": 2735.260176666663
+        },
+        "C-R0-B0": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 4,
+          "residual": 0.1365410137985389,
+          "issues": 0,
+          "cpuSeconds": 3594.0543900000002,
+          "wallSeconds": 3600.0024534167023
+        },
+        "C-R0-B1": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 2,
+          "residual": 0.07384282384282384,
+          "issues": 0,
+          "cpuSeconds": 3584.353012,
+          "wallSeconds": 3600.0027834167704
+        },
+        "C-R1-B0": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 2.6666666666666665,
+          "residual": 0.08011988011988012,
+          "issues": 0,
+          "cpuSeconds": 3562.587579,
+          "wallSeconds": 3600.0025781666627
+        },
+        "C-R1-B1": {
+          "trials": 3,
+          "solved": 1,
+          "solveRate": 0.3333333333333333,
+          "cappedCost": 1052.3313929861179,
+          "solvedMedian": 756.9941789583536,
+          "wrong": 0.6666666666666666,
+          "residual": 0.003968253968253968,
+          "issues": 0,
+          "cpuSeconds": 3127.6789150000004,
+          "wallSeconds": 3156.9955864167423
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 1,
+      "knownAnswerUnion": [
+        45848
+      ],
+      "id": "n8-b1",
+      "n": 8,
+      "clues": 17,
+      "zeros": 1,
+      "maxClue": 43,
+      "provenCount": null,
+      "knownRegionCount": 11,
+      "largestKnownRegion": 14,
+      "largestKnownBoundingArea": 20,
+      "knownRegionsBeyondSeedCache": 1,
+      "completed": 0,
+      "solved": 0,
+      "observedDistinctSolvedPartitions": 0,
+      "observedAnswers": [],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 0,
+          "solved": 0,
+          "solveRate": null,
+          "cappedCost": null,
+          "solvedMedian": null,
+          "wrong": null,
+          "residual": null,
+          "issues": 0,
+          "cpuSeconds": 0,
+          "wallSeconds": 0
+        },
+        "D-R0-B1": {
+          "trials": 0,
+          "solved": 0,
+          "solveRate": null,
+          "cappedCost": null,
+          "solvedMedian": null,
+          "wrong": null,
+          "residual": null,
+          "issues": 0,
+          "cpuSeconds": 0,
+          "wallSeconds": 0
+        },
+        "D-R1-B0": {
+          "trials": 0,
+          "solved": 0,
+          "solveRate": null,
+          "cappedCost": null,
+          "solvedMedian": null,
+          "wrong": null,
+          "residual": null,
+          "issues": 0,
+          "cpuSeconds": 0,
+          "wallSeconds": 0
+        },
+        "D-R1-B1": {
+          "trials": 0,
+          "solved": 0,
+          "solveRate": null,
+          "cappedCost": null,
+          "solvedMedian": null,
+          "wrong": null,
+          "residual": null,
+          "issues": 0,
+          "cpuSeconds": 0,
+          "wallSeconds": 0
+        },
+        "C-R0-B0": {
+          "trials": 0,
+          "solved": 0,
+          "solveRate": null,
+          "cappedCost": null,
+          "solvedMedian": null,
+          "wrong": null,
+          "residual": null,
+          "issues": 0,
+          "cpuSeconds": 0,
+          "wallSeconds": 0
+        },
+        "C-R0-B1": {
+          "trials": 0,
+          "solved": 0,
+          "solveRate": null,
+          "cappedCost": null,
+          "solvedMedian": null,
+          "wrong": null,
+          "residual": null,
+          "issues": 0,
+          "cpuSeconds": 0,
+          "wallSeconds": 0
+        },
+        "C-R1-B0": {
+          "trials": 0,
+          "solved": 0,
+          "solveRate": null,
+          "cappedCost": null,
+          "solvedMedian": null,
+          "wrong": null,
+          "residual": null,
+          "issues": 0,
+          "cpuSeconds": 0,
+          "wallSeconds": 0
+        },
+        "C-R1-B1": {
+          "trials": 0,
+          "solved": 0,
+          "solveRate": null,
+          "cappedCost": null,
+          "solvedMedian": null,
+          "wrong": null,
+          "residual": null,
+          "issues": 0,
+          "cpuSeconds": 0,
+          "wallSeconds": 0
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 1,
+      "knownAnswerUnion": [
+        41764
+      ],
+      "id": "n8-b2",
+      "n": 8,
+      "clues": 17,
+      "zeros": 2,
+      "maxClue": 45,
+      "provenCount": null,
+      "knownRegionCount": 12,
+      "largestKnownRegion": 14,
+      "largestKnownBoundingArea": 18,
+      "knownRegionsBeyondSeedCache": 1,
+      "completed": 16,
+      "solved": 0,
+      "observedDistinctSolvedPartitions": 0,
+      "observedAnswers": [],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 8,
+          "residual": 0.24743362849075418,
+          "issues": 0,
+          "cpuSeconds": 2386.966186,
+          "wallSeconds": 2400.001544583356
+        },
+        "D-R0-B1": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 6,
+          "residual": 0.12691671010492686,
+          "issues": 0,
+          "cpuSeconds": 2357.0824900000002,
+          "wallSeconds": 2400.004935499979
+        },
+        "D-R1-B0": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 6,
+          "residual": 0.15811068016950372,
+          "issues": 0,
+          "cpuSeconds": 2386.370284,
+          "wallSeconds": 2400.0018147916417
+        },
+        "D-R1-B1": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 4,
+          "residual": 0.08404337492572786,
+          "issues": 0,
+          "cpuSeconds": 2357.4249760000002,
+          "wallSeconds": 2400.0029678333085
+        },
+        "C-R0-B0": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 8,
+          "residual": 0.24257718886865504,
+          "issues": 0,
+          "cpuSeconds": 2383.513915,
+          "wallSeconds": 2400.001781500003
+        },
+        "C-R0-B1": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 5.5,
+          "residual": 0.186361316868158,
+          "issues": 0,
+          "cpuSeconds": 2356.671622,
+          "wallSeconds": 2400.002040624968
+        },
+        "C-R1-B0": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 7,
+          "residual": 0.22026079921166308,
+          "issues": 0,
+          "cpuSeconds": 2354.912123,
+          "wallSeconds": 2400.0013457916793
+        },
+        "C-R1-B1": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 4.5,
+          "residual": 0.12296111015276098,
+          "issues": 0,
+          "cpuSeconds": 2386.39539,
+          "wallSeconds": 2400.001847916632
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 1,
+      "knownAnswerUnion": [
+        19948
+      ],
+      "id": "n8-b3",
+      "n": 8,
+      "clues": 17,
+      "zeros": 2,
+      "maxClue": 21,
+      "provenCount": null,
+      "knownRegionCount": 15,
+      "largestKnownRegion": 11,
+      "largestKnownBoundingArea": 16,
+      "knownRegionsBeyondSeedCache": 0,
+      "completed": 8,
+      "solved": 0,
+      "observedDistinctSolvedPartitions": 0,
+      "observedAnswers": [],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 8,
+          "residual": 0.2586484593837535,
+          "issues": 0,
+          "cpuSeconds": 1199.113545,
+          "wallSeconds": 1200.0008296666201
+        },
+        "D-R0-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 7,
+          "residual": 0.1622407004759946,
+          "issues": 0,
+          "cpuSeconds": 1198.1288889999998,
+          "wallSeconds": 1200.0009115416906
+        },
+        "D-R1-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 7,
+          "residual": 0.16377420533430764,
+          "issues": 0,
+          "cpuSeconds": 1199.3019040000001,
+          "wallSeconds": 1200.0007967083366
+        },
+        "D-R1-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 3,
+          "residual": 0.03974089635854342,
+          "issues": 0,
+          "cpuSeconds": 1198.072161,
+          "wallSeconds": 1200.00098516664
+        },
+        "C-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 7,
+          "residual": 0.1957097544900313,
+          "issues": 0,
+          "cpuSeconds": 1197.982172,
+          "wallSeconds": 1200.000974458293
+        },
+        "C-R0-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 4,
+          "residual": 0.09514790764790765,
+          "issues": 0,
+          "cpuSeconds": 1197.981405,
+          "wallSeconds": 1200.000984500046
+        },
+        "C-R1-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 7,
+          "residual": 0.16852240896358542,
+          "issues": 0,
+          "cpuSeconds": 1199.283399,
+          "wallSeconds": 1200.0009880000143
+        },
+        "C-R1-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 4,
+          "residual": 0.09514790764790765,
+          "issues": 0,
+          "cpuSeconds": 1199.1837639999999,
+          "wallSeconds": 1200.0008872083272
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 1,
+      "knownAnswerUnion": [
+        43069
+      ],
+      "id": "n9-b1",
+      "n": 9,
+      "clues": 22,
+      "zeros": 2,
+      "maxClue": 28,
+      "provenCount": null,
+      "knownRegionCount": 16,
+      "largestKnownRegion": 13,
+      "largestKnownBoundingArea": 15,
+      "knownRegionsBeyondSeedCache": 0,
+      "completed": 16,
+      "solved": 0,
+      "observedDistinctSolvedPartitions": 0,
+      "observedAnswers": [],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 8,
+          "residual": 0.25180731330463946,
+          "issues": 0,
+          "cpuSeconds": 2259.8361130000003,
+          "wallSeconds": 2400.002040749998
+        },
+        "D-R0-B1": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 7,
+          "residual": 0.10126183797352892,
+          "issues": 0,
+          "cpuSeconds": 2294.135822,
+          "wallSeconds": 2400.002237000037
+        },
+        "D-R1-B0": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 8,
+          "residual": 0.16627334835890986,
+          "issues": 0,
+          "cpuSeconds": 2260.6891290000003,
+          "wallSeconds": 2400.0019081250066
+        },
+        "D-R1-B1": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 3,
+          "residual": 0.034798107184119006,
+          "issues": 0,
+          "cpuSeconds": 2261.7803219999996,
+          "wallSeconds": 2400.00167829165
+        },
+        "C-R0-B0": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 9,
+          "residual": 0.275986217662572,
+          "issues": 0,
+          "cpuSeconds": 2263.2645039999998,
+          "wallSeconds": 2400.0018946666387
+        },
+        "C-R0-B1": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 6,
+          "residual": 0.152098777633537,
+          "issues": 0,
+          "cpuSeconds": 2264.309658,
+          "wallSeconds": 2400.001494083379
+        },
+        "C-R1-B0": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 7,
+          "residual": 0.22173181096977884,
+          "issues": 0,
+          "cpuSeconds": 2260.925817,
+          "wallSeconds": 2400.001887874969
+        },
+        "C-R1-B1": {
+          "trials": 2,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 2.5,
+          "residual": 0.036389746617019346,
+          "issues": 0,
+          "cpuSeconds": 2225.848272,
+          "wallSeconds": 2400.002717333322
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 2,
+      "knownAnswerUnion": [
+        13653,
+        26821
+      ],
+      "id": "n9-b2",
+      "n": 9,
+      "clues": 22,
+      "zeros": 2,
+      "maxClue": 18,
+      "provenCount": null,
+      "knownRegionCount": 20,
+      "largestKnownRegion": 12,
+      "largestKnownBoundingArea": 24,
+      "knownRegionsBeyondSeedCache": 1,
+      "completed": 8,
+      "solved": 1,
+      "observedDistinctSolvedPartitions": 1,
+      "observedAnswers": [
+        13653
+      ],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 8,
+          "residual": 0.230991230991231,
+          "issues": 0,
+          "cpuSeconds": 1185.8104389999999,
+          "wallSeconds": 1200.000808541663
+        },
+        "D-R0-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 5,
+          "residual": 0.11111111111111112,
+          "issues": 0,
+          "cpuSeconds": 1154.277762,
+          "wallSeconds": 1200.0007498750347
+        },
+        "D-R1-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 7,
+          "residual": 0.15591630591630593,
+          "issues": 0,
+          "cpuSeconds": 1152.2750899999999,
+          "wallSeconds": 1200.0009999166941
+        },
+        "D-R1-B1": {
+          "trials": 1,
+          "solved": 1,
+          "solveRate": 1.0,
+          "cappedCost": 1163.8934726666776,
+          "solvedMedian": 1163.8934726666776,
+          "wrong": 0,
+          "residual": 0,
+          "issues": 0,
+          "cpuSeconds": 1149.7015959999999,
+          "wallSeconds": 1163.8934726666776
+        },
+        "C-R0-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 7,
+          "residual": 0.1898989898989899,
+          "issues": 0,
+          "cpuSeconds": 1185.669647,
+          "wallSeconds": 1200.000989708351
+        },
+        "C-R0-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 5,
+          "residual": 0.13023088023088022,
+          "issues": 0,
+          "cpuSeconds": 1152.414288,
+          "wallSeconds": 1200.0006670416915
+        },
+        "C-R1-B0": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 8,
+          "residual": 0.15772005772005773,
+          "issues": 0,
+          "cpuSeconds": 1151.9795550000001,
+          "wallSeconds": 1200.0007261250285
+        },
+        "C-R1-B1": {
+          "trials": 1,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 3,
+          "residual": 0.0606060606060606,
+          "issues": 0,
+          "cpuSeconds": 1190.657009,
+          "wallSeconds": 1200.0011435833876
+        }
+      }
+    },
+    {
+      "knownDistinctPartitionsLowerBound": 1,
+      "knownAnswerUnion": [
+        30293
+      ],
+      "id": "n9-b3",
+      "n": 9,
+      "clues": 22,
+      "zeros": 0,
+      "maxClue": 33,
+      "provenCount": null,
+      "knownRegionCount": 17,
+      "largestKnownRegion": 11,
+      "largestKnownBoundingArea": 25,
+      "knownRegionsBeyondSeedCache": 1,
+      "completed": 24,
+      "solved": 0,
+      "observedDistinctSolvedPartitions": 0,
+      "observedAnswers": [],
+      "byCondition": {
+        "D-R0-B0": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 9,
+          "residual": 0.15983082344742425,
+          "issues": 0,
+          "cpuSeconds": 3575.3532130000003,
+          "wallSeconds": 3600.002803750045
+        },
+        "D-R0-B1": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 7.666666666666667,
+          "residual": 0.13303386848841392,
+          "issues": 0,
+          "cpuSeconds": 3572.628659,
+          "wallSeconds": 3600.0024498333805
+        },
+        "D-R1-B0": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 6.666666666666667,
+          "residual": 0.10453582351763926,
+          "issues": 0,
+          "cpuSeconds": 3576.094656,
+          "wallSeconds": 3600.002943750005
+        },
+        "D-R1-B1": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 3.6666666666666665,
+          "residual": 0.037647018477058,
+          "issues": 0,
+          "cpuSeconds": 3576.839827,
+          "wallSeconds": 3600.0024632500135
+        },
+        "C-R0-B0": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 9,
+          "residual": 0.19067984862451268,
+          "issues": 0,
+          "cpuSeconds": 3574.616102,
+          "wallSeconds": 3600.0027422083076
+        },
+        "C-R0-B1": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 6,
+          "residual": 0.13461908461908462,
+          "issues": 0,
+          "cpuSeconds": 3578.49352,
+          "wallSeconds": 3600.003266124928
+        },
+        "C-R1-B0": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 8,
+          "residual": 0.16106246476328817,
+          "issues": 0,
+          "cpuSeconds": 3578.381527,
+          "wallSeconds": 3600.0029981249827
+        },
+        "C-R1-B1": {
+          "trials": 3,
+          "solved": 0,
+          "solveRate": 0.0,
+          "cappedCost": 1200,
+          "solvedMedian": null,
+          "wrong": 3.6666666666666665,
+          "residual": 0.05760881148907756,
+          "issues": 0,
+          "cpuSeconds": 3577.769261,
+          "wallSeconds": 3600.002443916688
+        }
+      }
+    }
+  ],
+  "knownNonuniqueObserved": [
+    "n6-b3",
+    "n7-b3"
+  ],
+  "knownNonuniqueIncludingWitness": [
+    "n6-b3",
+    "n7-b3",
+    "n9-b2"
+  ],
+  "resource": {
+    "terminalCPUHours": 51.484460725000005,
+    "terminalWallHours": 52.105254031365895,
+    "interruptedSampledCPUHours": 1.0175472241666668,
+    "interruptedWallEstimateHours": 1.0345183212889566,
+    "cpuWallRatio": 0.9880857829424996,
+    "cpuWallMin": 0.865399815361874,
+    "cpuWallMax": 0.9995258775155084,
+    "memoryMaxBytes": 176062464,
+    "memoryMedianBytes": 24616960.0,
+    "bpEnabledWallSeconds": 88228.96895754209,
+    "bpSeconds": 3566.946401379071,
+    "bpPhases": 12207,
+    "bpSourceImprovements": 2955,
+    "bpNodes": 36245156,
+    "bpTimeShare": 0.04042829065695613,
+    "discrete": {
+      "iterationsPerCPUSecond": 853.4300216592973,
+      "iterationMedian": 884428.0
+    },
+    "continuous": {
+      "iterationsPerCPUSecond": 830.0852262729583,
+      "iterationMedian": 859556.0
+    }
+  },
+  "lateSolves": {
+    "10": 0,
+    "30": 2,
+    "60": 6,
+    "120": 13,
+    "300": 22,
+    "600": 31,
+    "900": 35,
+    "1200": 39
+  },
+  "initializationBlocksChecked": 23,
+  "audit": {
+    "terminalChecked": 184,
+    "fixturesChecked": 15,
+    "allPassed": true,
+    "hashes": {
+      "bench-worker": "08cb0d7f1758943f30c9b92f1f87deab87d051ca2fae9d68482d1ccf966a5d75",
+      "bench-tools": "8cb5d26a3487deec3ff8089b0e0d15dc412d7c0737e7d74c202ead26edc0caf1",
+      "shapeStore": "38f7a898632ec53e30e2a873bfd496c50c2afe13a331cbc74814048aed5144fc"
+    }
+  },
+  "interrupted": [
+    {
+      "job": "n7-b2-continuous-r0-b1-s20261031",
+      "attempt": 1,
+      "started": 1793314359.237015,
+      "ended": 1793315268.4716291,
+      "processWallEstimate": 909.2346141338348,
+      "lastSampleSeconds": 908.4410800416372,
+      "cpuSeconds": 900.960899,
+      "quality": {
+        "issues": 0,
+        "residual": 0.08974358974358974,
+        "wrong": 2
+      },
+      "checkpointSolved": false,
+      "finalJobStatus": "timeout"
+    },
+    {
+      "job": "n7-b2-discrete-r0-b1-s20261031",
+      "attempt": 1,
+      "started": 1793314479.563369,
+      "ended": 1793315268.4787579,
+      "processWallEstimate": 788.9153888225555,
+      "lastSampleSeconds": 788.5052410833305,
+      "cpuSeconds": 780.6542129999999,
+      "quality": {
+        "issues": 0,
+        "residual": 0.07783882783882784,
+        "wrong": 3
+      },
+      "checkpointSolved": false,
+      "finalJobStatus": "timeout"
+    },
+    {
+      "job": "n7-b2-discrete-r1-b1-s20261031",
+      "attempt": 1,
+      "started": 1793314812.8714821,
+      "ended": 1793315268.4855418,
+      "processWallEstimate": 455.61405968666077,
+      "lastSampleSeconds": 455.0391812499729,
+      "cpuSeconds": 447.738852,
+      "quality": {
+        "issues": 0,
+        "residual": 0.027972027972027972,
+        "wrong": 1
+      },
+      "checkpointSolved": false,
+      "finalJobStatus": "timeout"
+    },
+    {
+      "job": "n7-b2-continuous-r0-b0-s20261031",
+      "attempt": 1,
+      "started": 1793315057.6623669,
+      "ended": 1793315268.492214,
+      "processWallEstimate": 210.82984709739685,
+      "lastSampleSeconds": 209.8396517916699,
+      "cpuSeconds": 202.73476200000002,
+      "quality": {
+        "issues": 0,
+        "residual": 0.1406926406926407,
+        "wrong": 4
+      },
+      "checkpointSolved": false,
+      "finalJobStatus": "timeout"
+    },
+    {
+      "job": "n5-b3-continuous-r0-b0-s20261031",
+      "attempt": 1,
+      "started": 1793329231.313223,
+      "ended": 1793329677.530875,
+      "processWallEstimate": 446.21765208244324,
+      "lastSampleSeconds": 445.8384336666786,
+      "cpuSeconds": 437.743513,
+      "quality": {
+        "issues": 0,
+        "residual": 0.023809523809523808,
+        "wrong": 1
+      },
+      "checkpointSolved": false,
+      "finalJobStatus": "pending"
+    },
+    {
+      "job": "n5-b3-discrete-r0-b0-s20261031",
+      "attempt": 1,
+      "started": 1793329264.606915,
+      "ended": 1793329677.538121,
+      "processWallEstimate": 412.9312059879303,
+      "lastSampleSeconds": 412.8153490416589,
+      "cpuSeconds": 404.826549,
+      "quality": {
+        "issues": 0,
+        "residual": 0.03809523809523809,
+        "wrong": 1
+      },
+      "checkpointSolved": false,
+      "finalJobStatus": "pending"
+    },
+    {
+      "job": "n5-b3-continuous-r1-b1-s20261031",
+      "attempt": 1,
+      "started": 1793329368.56465,
+      "ended": 1793329677.5447948,
+      "processWallEstimate": 308.980144739151,
+      "lastSampleSeconds": 308.28120904165553,
+      "cpuSeconds": 300.342381,
+      "quality": {
+        "issues": 0,
+        "residual": 0.008928571428571428,
+        "wrong": 1
+      },
+      "checkpointSolved": false,
+      "finalJobStatus": "pending"
+    },
+    {
+      "job": "n5-b3-discrete-r1-b0-s20261031",
+      "attempt": 1,
+      "started": 1793329486.008309,
+      "ended": 1793329677.551353,
+      "processWallEstimate": 191.543044090271,
+      "lastSampleSeconds": 191.40396324999165,
+      "cpuSeconds": 188.168838,
+      "quality": {
+        "issues": 0,
+        "residual": 0.011904761904761904,
+        "wrong": 1
+      },
+      "checkpointSolved": false,
+      "finalJobStatus": "pending"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "experiment": "JSP-Oct26-GPU-Quick",
+  "copyright": "\u00a92026 ThomasB",
+  "author": "ThomasB",
+  "created": "2026-10-30T20:36:25.782219+09:00",
+  "software": "Isolated probe; production software version 2 unchanged; no deployment",
+  "constraint": "One dispatched threadgroup, 256 threads / 8 SIMD groups; no physical core affinity guarantee",
+  "build": "native clang++ -O3 and swiftc -O on each host",
+  "sources": {
+    "experiments/gpu_quick/main.swift": "d750b7ab5de5b54b77445e976215ea1d36ae5918b93ff6bfe790c504a8234c4f",
+    "experiments/gpu_quick/build.py": "3f1b8bd2c0accbbc10dcc1bbd712fcff5ced3b23d2890a6df1e351eab442d1ff",
+    "experiments/gpu_quick/capture.py": "a1fe16fa799b8cb7e18d1c81b8c9117c821f11c734e9e69ff55fdb7168fd98de",
+    "experiments/gpu_quick/report.py": "544569dceb48116c409b87c93d3f9125bf61899dbdbbc78f4459ee290fca6e44",
+    "experiments/gpu_quick/cpu.cpp": "8410835ad1c8b6192131d22fbf1cd6974f9eeda33a77635cb8e85bb11f3c81e8",
+    "experiments/gpu_quick/shared.h": "4cf5a3e1c01b1be2f9b7d8f2e0631d770ac4185775a697ca9f681f2436741dd1",
+    "experiments/gpu_quick/kernels.metal": "6e9a6d1aac22236d8f88f885a019ea38bff4ee6f6b9a4fa50fcf8f0ad0a60f65",
+    "experiments/solver_bench/Sources/PuzzleRules/Types.swift": "326a26514fda96c74214e566137ac806a501bbdf586a50f53e17638f666e4969",
+    "experiments/solver_bench/Sources/PuzzleRules/Rules.swift": "12874660b88d5f655ec677504d0465501a75a582e66647b9b93fa43cb831a9e7",
+    "experiments/solver_bench/Sources/ShapeDomain/ShapeOracle.swift": "e24df69541a8e1b046b51bc474f018fb087eaf2c87be6f934752f0c350e6570d",
+    "experiments/solver_bench/Sources/ShapeDomain/CoverSearch.swift": "951622f2f99e90620382b89d24253b6387fd3ac6329cb2ccfe9d917da4560ec8"
+  },
+  "data": {
+    "JSP-Oct26-GPU-Quick-Inputs.json": "468e07bcc3b333a91a2450180efd86eb2836714bada8a717ceed87b43cb826e9",
+    "JSP-Oct26-GPU-Quick-Timings.csv": "64b5143e12f64c29f486f8cb22e45b16a775a2e5bd700184996f0a4936ef3052",
+    "JSP-Oct26-GPU-Quick-local-final.json": "05fc4a0fcfcde4199f14ff4c8dd59b8964850643883daab8db50334a23a11a94",
+    "JSP-Oct26-GPU-Quick-mini-final.json": "b1e960aed255b1eeb3b2ca31300cf085b5c7d02dc5e447729707bdcdeda66c09",
+    "JSP-Oct26-GPU-Quick-local-repeat.json": "82c1288286631d8ff236df3dd58cd440b04789e78795c591f98cf8f73a86ec0c",
+    "JSP-Oct26-GPU-Quick-mini-repeat.json": "9c2e144ad1f2396b7be61df4aa046d5be0c94ce49fe940c02a82b9fd0ccc018a"
+  }
+}

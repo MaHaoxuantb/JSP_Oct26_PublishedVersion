@@ -1,4 +1,8 @@
-# Solver Lab — isolated, certified experiment
+# JSP-Oct26-Regional-SA-BP
+
+©2026 ThomasB
+
+Publication naming follows [EXPERIMENT-NAMING.md](../../EXPERIMENT-NAMING.md).
 
 This is an independent Swift package and Python queue/dashboard. It does not
 import production worker/coordinator code, deploy software, or change the release

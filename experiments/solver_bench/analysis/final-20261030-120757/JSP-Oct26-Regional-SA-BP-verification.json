@@ -1,0 +1,9 @@
+{
+  "pdfPages": 11,
+  "completedCSVRows": 184,
+  "validatedSolves": 39,
+  "timeoutRows": 145,
+  "archiveCRC": "passed",
+  "pdfSHA256": "55ac41a3bcaa65ef5f2a2c5a2e1c865292894b1a048f555fd17d0e7d124d2ac3",
+  "checks": "PDF text assertions, exact rule/route validation, data totals and rendered-page inspection"
+}

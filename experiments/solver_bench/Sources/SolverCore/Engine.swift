@@ -10,8 +10,10 @@ public final class SearchEngine {
   private var pendingBP: CoverSearch?, pendingBase: [Int] = [], bpFailures = 0
   private var lastProgress = 0.0, lastBest = 0.0, lastBP = 0.0, started = 0.0, cpuStart = 0.0
   private var handle: FileHandle?
-  public init(input: WorkerInput) {
+  private let intensifier: SearchIntensifier?
+  public init(input: WorkerInput, intensifier: SearchIntensifier? = nil) {
     self.input = input
+    self.intensifier = intensifier
     streams = Streams(seed: input.seed)
   }
   public func initialLabels() -> [Int] {
@@ -138,7 +140,11 @@ public final class SearchEngine {
       StateCodec.encode(candidate, grid: grid, previous: source.state, continuous: continuous),
       puzzle: puzzle)
   }
-  private func intensify(_ source: ScoredState, until: Double) -> ScoredState? {
+  private func intensify(_ source: ScoredState, globalBest: ScoredState, until: Double) throws -> ScoredState? {
+    if let intensifier {
+      return try intensifier.improve(source: source, globalBest: globalBest, input: input,
+        oracle: oracle, until: until, rng: &streams.bp, metrics: &metrics)
+    }
     let t = monotonic()
     let limits = [16, 32, 48, 64, input.puzzle.n * input.puzzle.n]
     let limit = limits[min(limits.count - 1, bpFailures / 2)]
@@ -249,7 +255,7 @@ public final class SearchEngine {
       let now = monotonic()
       if input.condition.newBP && now - lastBest >= 5 && now - lastBP >= 4 {
         let source = metrics.bpPhases % 4 == 3 ? current : best
-        if let improved = intensify(source, until: min(until, now + 1)) {
+        if let improved = try intensify(source, globalBest: best, until: min(until, now + 1)) {
           if improved.exact.quality < best.exact.quality {
             best = improved
             lastBest = monotonic()

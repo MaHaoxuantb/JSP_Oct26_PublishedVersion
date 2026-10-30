@@ -1,0 +1,12 @@
+{
+  "pdfPages": 11,
+  "completedCSVRows": 184,
+  "validatedSolves": 39,
+  "timeoutRows": 145,
+  "archiveCRC": "passed",
+  "pdfSHA256": "56cebda5bb4a5cbbc688c23675179d28642578b50b2ebab828f3e1fe4d161652",
+  "checks": "PDF text assertions, exact rule/route validation, data totals and rendered-page inspection",
+  "copyright": "©2026 ThomasB",
+  "experiment": "JSP-Oct26-Regional-SA-BP",
+  "publicationChecks": "11 page copyright and identity assertions; author metadata; rendered header/footer inspection"
+}

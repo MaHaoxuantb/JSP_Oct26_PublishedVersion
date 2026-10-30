@@ -1,0 +1,1971 @@
+{
+  "terminal": [
+    {
+      "job": "n7-b3-discrete-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 5,
+      "residual": 0.17107892107892106,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.11405261405261403
+    },
+    {
+      "job": "n7-b3-continuous-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13841,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n7-b3-discrete-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.09312354312354312,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.062082362082362084
+    },
+    {
+      "job": "n7-b3-continuous-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.09999999999999999,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.06666666666666667
+    },
+    {
+      "job": "n7-b3-continuous-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.016483516483516484,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.01098901098901099
+    },
+    {
+      "job": "n7-b3-discrete-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.02747252747252747,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.018315018315018312
+    },
+    {
+      "job": "n7-b3-discrete-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.005494505494505494,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0036630036630036626
+    },
+    {
+      "job": "n7-b3-continuous-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.11703296703296703,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.07802197802197802
+    },
+    {
+      "job": "n9-b2-continuous-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.0606060606060606,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0404040404040404
+    },
+    {
+      "job": "n9-b2-discrete-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.1559163059163059,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.10394420394420394
+    },
+    {
+      "job": "n9-b2-continuous-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.15772005772005773,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.10514670514670515
+    },
+    {
+      "job": "n9-b2-continuous-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 5,
+      "residual": 0.13023088023088022,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.08682058682058681
+    },
+    {
+      "job": "n9-b2-discrete-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 5,
+      "residual": 0.1111111111111111,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.07407407407407407
+    },
+    {
+      "job": "n9-b2-discrete-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13653,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n9-b2-continuous-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.1898989898989899,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.1265993265993266
+    },
+    {
+      "job": "n9-b2-discrete-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.23099123099123098,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.15399415399415398
+    },
+    {
+      "job": "n9-b3-discrete-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.09022424943477575,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.06014949962318383
+    },
+    {
+      "job": "n9-b3-continuous-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.1442753395152196,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.09618355967681307
+    },
+    {
+      "job": "n9-b3-continuous-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 5,
+      "residual": 0.08325008325008325,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0555000555000555
+    },
+    {
+      "job": "n9-b3-discrete-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.15935730935730935,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.10623820623820623
+    },
+    {
+      "job": "n9-b3-discrete-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.021551636769028073,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.014367757846018715
+    },
+    {
+      "job": "n9-b3-continuous-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 9,
+      "residual": 0.2080349953077226,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.13868999687181507
+    },
+    {
+      "job": "n9-b3-discrete-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 9,
+      "residual": 0.16195257282213804,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.10796838188142537
+    },
+    {
+      "job": "n9-b3-continuous-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.06958041958041959,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0463869463869464
+    },
+    {
+      "job": "n8-b2-continuous-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.29314471218495985,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.19542980812330657
+    },
+    {
+      "job": "n8-b2-continuous-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.17249523094724334,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.11499682063149556
+    },
+    {
+      "job": "n8-b2-discrete-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 6,
+      "residual": 0.13545677361853833,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.09030451574569222
+    },
+    {
+      "job": "n8-b2-discrete-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.06143790849673203,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.04095860566448802
+    },
+    {
+      "job": "n8-b2-continuous-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.2974160032806694,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.19827733552044627
+    },
+    {
+      "job": "n8-b2-discrete-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.26166668035738244,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.1744444535715883
+    },
+    {
+      "job": "n8-b2-continuous-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 5,
+      "residual": 0.15199049316696375,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.1013269954446425
+    },
+    {
+      "job": "n8-b2-discrete-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 6,
+      "residual": 0.15807656395891692,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.10538437597261129
+    },
+    {
+      "job": "n5-b1-continuous-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-discrete-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.14816290945323202,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.09877527296882134
+    },
+    {
+      "job": "n5-b1-discrete-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-continuous-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-discrete-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.23343343343343342,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.15562228895562227
+    },
+    {
+      "job": "n5-b1-continuous-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-discrete-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-continuous-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n9-b3-discrete-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.09536120445211355,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.06357413630140903
+    },
+    {
+      "job": "n9-b3-discrete-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.016181293454020727,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.01078752896934715
+    },
+    {
+      "job": "n9-b3-continuous-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 9,
+      "residual": 0.17123528645267774,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.1141568576351185
+    },
+    {
+      "job": "n9-b3-discrete-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 9,
+      "residual": 0.14704857066517144,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.09803238044344763
+    },
+    {
+      "job": "n9-b3-continuous-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.04633171706342438,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.03088781137561625
+    },
+    {
+      "job": "n9-b3-discrete-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 6,
+      "residual": 0.1383391208334,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0922260805556
+    },
+    {
+      "job": "n9-b3-continuous-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.21820124384644266,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.14546749589762845
+    },
+    {
+      "job": "n9-b3-continuous-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 5,
+      "residual": 0.10637140637140638,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.07091427091427092
+    },
+    {
+      "job": "n9-b3-discrete-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.0752081252081252,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.05013875013875013
+    },
+    {
+      "job": "n9-b3-continuous-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 9,
+      "residual": 0.19276926411313766,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.12851284274209177
+    },
+    {
+      "job": "n9-b3-discrete-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 9,
+      "residual": 0.17049132685496324,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.11366088456997549
+    },
+    {
+      "job": "n9-b3-continuous-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.05691429782338873,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.03794286521559249
+    },
+    {
+      "job": "n9-b3-discrete-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 6,
+      "residual": 0.08504410028474199,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.05669606685649466
+    },
+    {
+      "job": "n9-b3-continuous-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.12071081092820224,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.08047387395213483
+    },
+    {
+      "job": "n9-b3-continuous-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.21423576423576424,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.14282384282384283
+    },
+    {
+      "job": "n9-b3-discrete-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 9,
+      "residual": 0.14438309165581892,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.09625539443721261
+    },
+    {
+      "job": "n8-b2-continuous-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.1877383744566407,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.12515891630442713
+    },
+    {
+      "job": "n8-b2-discrete-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.23320057662412602,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.1554670510827507
+    },
+    {
+      "job": "n8-b2-continuous-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.09393172713855825,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0626211514257055
+    },
+    {
+      "job": "n8-b2-discrete-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 6,
+      "residual": 0.15814479638009052,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.10542986425339368
+    },
+    {
+      "job": "n8-b2-continuous-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.1473768862383663,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.09825125749224421
+    },
+    {
+      "job": "n8-b2-continuous-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.2002274027890726,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.13348493519271507
+    },
+    {
+      "job": "n8-b2-discrete-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 6,
+      "residual": 0.11837664659131535,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.07891776439421024
+    },
+    {
+      "job": "n8-b2-discrete-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 5,
+      "residual": 0.1066488413547237,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0710992275698158
+    },
+    {
+      "job": "n5-b1-discrete-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.23343343343343342,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.15562228895562227
+    },
+    {
+      "job": "n5-b1-continuous-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.14816290945323202,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.09877527296882134
+    },
+    {
+      "job": "n5-b1-discrete-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-continuous-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-continuous-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-discrete-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.14816290945323202,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.09877527296882134
+    },
+    {
+      "job": "n5-b1-discrete-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-continuous-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n8-b3-continuous-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.09514790764790765,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.06343193843193844
+    },
+    {
+      "job": "n8-b3-discrete-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.16377420533430764,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.10918280355620509
+    },
+    {
+      "job": "n8-b3-continuous-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.16852240896358542,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.11234827264239028
+    },
+    {
+      "job": "n8-b3-continuous-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.09514790764790765,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.06343193843193844
+    },
+    {
+      "job": "n8-b3-discrete-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.16224070047599456,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.10816046698399638
+    },
+    {
+      "job": "n8-b3-discrete-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.03974089635854342,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.026493930905695615
+    },
+    {
+      "job": "n8-b3-continuous-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.1957097544900313,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.13047316966002087
+    },
+    {
+      "job": "n8-b3-discrete-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.2586484593837535,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.1724323062558357
+    },
+    {
+      "job": "n7-b3-discrete-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.07192807192807192,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.047952047952047945
+    },
+    {
+      "job": "n7-b3-continuous-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.06343656343656344,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.042291042291042295
+    },
+    {
+      "job": "n7-b3-continuous-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.17157842157842157,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.11438561438561438
+    },
+    {
+      "job": "n7-b3-discrete-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.013574660633484163,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.00904977375565611
+    },
+    {
+      "job": "n7-b3-discrete-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 11219,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n7-b3-continuous-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.1793591024360255,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.11957273495735034
+    },
+    {
+      "job": "n7-b3-discrete-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.1868964368964369,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.12459762459762459
+    },
+    {
+      "job": "n7-b3-continuous-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.005494505494505494,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0036630036630036626
+    },
+    {
+      "job": "n6-b2-continuous-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.03809523809523809,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.025396825396825393
+    },
+    {
+      "job": "n6-b2-continuous-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.02774327122153209,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.01849551414768806
+    },
+    {
+      "job": "n6-b2-discrete-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.004545454545454545,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0030303030303030303
+    },
+    {
+      "job": "n6-b2-discrete-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.0125,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.008333333333333333
+    },
+    {
+      "job": "n6-b2-continuous-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.044057971014492756,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.029371980676328503
+    },
+    {
+      "job": "n6-b2-discrete-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.04476190476190476,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.02984126984126984
+    },
+    {
+      "job": "n6-b2-continuous-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.017391304347826087,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.011594202898550725
+    },
+    {
+      "job": "n6-b2-discrete-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.02361111111111111,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.01574074074074074
+    },
+    {
+      "job": "n7-b1-continuous-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.015034965034965033,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.010023310023310023
+    },
+    {
+      "job": "n7-b1-discrete-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 5,
+      "residual": 0.05920745920745921,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.03947163947163947
+    },
+    {
+      "job": "n7-b1-discrete-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.02087912087912088,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.01391941391941392
+    },
+    {
+      "job": "n7-b1-continuous-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.06555367709213863,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.04370245139475909
+    },
+    {
+      "job": "n7-b1-discrete-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.1242081447963801,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.08280542986425339
+    },
+    {
+      "job": "n7-b1-continuous-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.016117216117216115,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.010744810744810743
+    },
+    {
+      "job": "n7-b1-discrete-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.0349343638817323,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.023289575921154868
+    },
+    {
+      "job": "n7-b1-continuous-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.04542124542124542,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.03028083028083028
+    },
+    {
+      "job": "n6-b3-discrete-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.02,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.013333333333333334
+    },
+    {
+      "job": "n6-b3-discrete-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 3080,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n6-b3-continuous-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.02,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.013333333333333334
+    },
+    {
+      "job": "n6-b3-discrete-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.02,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.013333333333333334
+    },
+    {
+      "job": "n6-b3-continuous-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 2880,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n6-b3-discrete-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 3642,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n6-b3-continuous-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.007692307692307693,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.005128205128205128
+    },
+    {
+      "job": "n6-b3-continuous-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 2984,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n7-b1-discrete-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.0034965034965034965,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.002331002331002331
+    },
+    {
+      "job": "n7-b1-continuous-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.07668639053254438,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.05112426035502959
+    },
+    {
+      "job": "n7-b1-discrete-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.057261968800430336,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.03817464586695356
+    },
+    {
+      "job": "n7-b1-continuous-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.05334448160535117,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.03556298773690078
+    },
+    {
+      "job": "n7-b1-discrete-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.03076923076923077,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.020512820512820513
+    },
+    {
+      "job": "n7-b1-continuous-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.04801864801864802,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.032012432012432014
+    },
+    {
+      "job": "n7-b1-continuous-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.03532741768035886,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.023551611786905905
+    },
+    {
+      "job": "n7-b1-discrete-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.021794871794871794,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.014529914529914529
+    },
+    {
+      "job": "n5-b3-continuous-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.026785714285714284,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.017857142857142856
+    },
+    {
+      "job": "n5-b3-discrete-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.026785714285714284,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.017857142857142856
+    },
+    {
+      "job": "n5-b3-continuous-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 1813,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b3-discrete-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.008928571428571428,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.005952380952380952
+    },
+    {
+      "job": "n5-b3-continuous-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.008928571428571428,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.005952380952380952
+    },
+    {
+      "job": "n5-b3-continuous-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.008928571428571428,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.005952380952380952
+    },
+    {
+      "job": "n5-b3-discrete-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.008928571428571428,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.005952380952380952
+    },
+    {
+      "job": "n5-b3-discrete-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 1813,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n7-b2-discrete-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.13496503496503498,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.08997668997668999
+    },
+    {
+      "job": "n7-b2-continuous-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.03076923076923077,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.020512820512820513
+    },
+    {
+      "job": "n7-b2-discrete-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.059052059052059055,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.03936803936803937
+    },
+    {
+      "job": "n7-b2-continuous-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.10769230769230768,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.07179487179487179
+    },
+    {
+      "job": "n7-b2-continuous-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.07692307692307693,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.05128205128205129
+    },
+    {
+      "job": "n7-b2-discrete-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.07783882783882784,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.051892551892551896
+    },
+    {
+      "job": "n7-b2-discrete-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.03566433566433566,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.023776223776223775
+    },
+    {
+      "job": "n7-b2-continuous-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.1414141414141414,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.09427609427609428
+    },
+    {
+      "job": "n6-b1-continuous-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 28602,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n6-b1-discrete-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.0638188608776844,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.042545907251789604
+    },
+    {
+      "job": "n6-b1-continuous-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.0638188608776844,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.042545907251789604
+    },
+    {
+      "job": "n6-b1-continuous-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.14927159796725015,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.09951439864483343
+    },
+    {
+      "job": "n6-b1-discrete-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 28602,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n6-b1-discrete-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 28602,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n6-b1-continuous-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.0638188608776844,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.042545907251789604
+    },
+    {
+      "job": "n6-b1-discrete-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.0638188608776844,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.042545907251789604
+    },
+    {
+      "job": "n5-b1-discrete-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-continuous-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-continuous-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-discrete-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-discrete-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-continuous-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-discrete-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b1-continuous-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 13013,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n7-b3-continuous-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.07692307692307693,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.05128205128205129
+    },
+    {
+      "job": "n7-b3-continuous-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.033466533466533464,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.02231102231102231
+    },
+    {
+      "job": "n7-b3-discrete-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.038461538461538464,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.025641025641025644
+    },
+    {
+      "job": "n7-b3-discrete-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.010256410256410256,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.006837606837606838
+    },
+    {
+      "job": "n7-b3-continuous-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 5,
+      "residual": 0.1132309719266241,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0754873146177494
+    },
+    {
+      "job": "n7-b3-discrete-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.06352471058353412,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.042349807055689415
+    },
+    {
+      "job": "n7-b3-continuous-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 1,
+      "residual": 0.00641025641025641,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.004273504273504273
+    },
+    {
+      "job": "n7-b3-discrete-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.060023310023310024,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.040015540015540016
+    },
+    {
+      "job": "n5-b2-continuous-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 5445,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b2-discrete-r0-b1-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 5445,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b2-discrete-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 5445,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b2-continuous-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 5445,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b2-discrete-r0-b0-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 5445,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b2-continuous-r1-b1-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 5445,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b2-discrete-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 5445,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n5-b2-continuous-r1-b0-s20261029",
+      "issues": 0,
+      "wrong": 0,
+      "residual": 0.0,
+      "solved": true,
+      "answer": 5445,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0
+    },
+    {
+      "job": "n9-b1-discrete-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.12976929487624675,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.08651286325083117
+    },
+    {
+      "job": "n9-b1-discrete-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 4,
+      "residual": 0.05473607450809815,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.0364907163387321
+    },
+    {
+      "job": "n9-b1-continuous-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 9,
+      "residual": 0.30750575924372714,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.2050038394958181
+    },
+    {
+      "job": "n9-b1-discrete-r0-b0-s20261031",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.22063089910683492,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.14708726607122327
+    },
+    {
+      "job": "n9-b1-continuous-r1-b1-s20261031",
+      "issues": 0,
+      "wrong": 3,
+      "residual": 0.037507946598855695,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.025005297732570462
+    },
+    {
+      "job": "n9-b1-discrete-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.18629335607945235,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.1241955707196349
+    },
+    {
+      "job": "n9-b1-continuous-r1-b0-s20261031",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.220818619882791,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.147212413255194
+    },
+    {
+      "job": "n9-b1-continuous-r0-b1-s20261031",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.1619113655209912,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.10794091034732746
+    },
+    {
+      "job": "n9-b1-discrete-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.01486013986013986,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.009906759906759906
+    },
+    {
+      "job": "n9-b1-continuous-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 9,
+      "residual": 0.2444666760814168,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.16297778405427787
+    },
+    {
+      "job": "n9-b1-discrete-r0-b0-s20261030",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.28298372750244405,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.1886558183349627
+    },
+    {
+      "job": "n9-b1-continuous-r1-b1-s20261030",
+      "issues": 0,
+      "wrong": 2,
+      "residual": 0.035271546635183,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.023514364423455333
+    },
+    {
+      "job": "n9-b1-discrete-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 8,
+      "residual": 0.14625334063836737,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.09750222709224492
+    },
+    {
+      "job": "n9-b1-continuous-r1-b0-s20261030",
+      "issues": 0,
+      "wrong": 6,
+      "residual": 0.22264500205676677,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.14843000137117784
+    },
+    {
+      "job": "n9-b1-continuous-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 5,
+      "residual": 0.1422861897460828,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.09485745983072186
+    },
+    {
+      "job": "n9-b1-discrete-r0-b1-s20261030",
+      "issues": 0,
+      "wrong": 7,
+      "residual": 0.0727543810708111,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.04850292071387407
+    }
+  ],
+  "fixtures": [
+    {
+      "board": "n5-b1",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        13013
+      ],
+      "countProof": "exhaustive Swift search; independent partition validation"
+    },
+    {
+      "board": "n5-b2",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        5445
+      ],
+      "countProof": "exhaustive Swift search; independent partition validation"
+    },
+    {
+      "board": "n5-b3",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        1813
+      ],
+      "countProof": "exhaustive Swift search; independent partition validation"
+    },
+    {
+      "board": "n6-b1",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        28602
+      ],
+      "countProof": "unproven; valid saved solutions only"
+    },
+    {
+      "board": "n6-b2",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        12110
+      ],
+      "countProof": "unproven; valid saved solutions only"
+    },
+    {
+      "board": "n6-b3",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        4040
+      ],
+      "countProof": "unproven; valid saved solutions only"
+    },
+    {
+      "board": "n7-b1",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        9351
+      ],
+      "countProof": "unproven; valid saved solutions only"
+    },
+    {
+      "board": "n7-b2",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        16321
+      ],
+      "countProof": "unproven; valid saved solutions only"
+    },
+    {
+      "board": "n7-b3",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        14237
+      ],
+      "countProof": "unproven; valid saved solutions only"
+    },
+    {
+      "board": "n8-b1",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        45848
+      ],
+      "countProof": "unproven; valid saved solutions only"
+    },
+    {
+      "board": "n8-b2",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        41764
+      ],
+      "countProof": "unproven; valid saved solutions only"
+    },
+    {
+      "board": "n8-b3",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        19948
+      ],
+      "countProof": "unproven; valid saved solutions only"
+    },
+    {
+      "board": "n9-b1",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        43069
+      ],
+      "countProof": "unproven; valid saved solutions only"
+    },
+    {
+      "board": "n9-b2",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        26821
+      ],
+      "countProof": "unproven; valid saved solutions only"
+    },
+    {
+      "board": "n9-b3",
+      "independentlyValidatedSolutions": 1,
+      "answers": [
+        30293
+      ],
+      "countProof": "unproven; valid saved solutions only"
+    }
+  ],
+  "hashes": {
+    "bench-worker": "08cb0d7f1758943f30c9b92f1f87deab87d051ca2fae9d68482d1ccf966a5d75",
+    "bench-tools": "8cb5d26a3487deec3ff8089b0e0d15dc412d7c0737e7d74c202ead26edc0caf1",
+    "shapeStore": "38f7a898632ec53e30e2a873bfd496c50c2afe13a331cbc74814048aed5144fc"
+  }
+}

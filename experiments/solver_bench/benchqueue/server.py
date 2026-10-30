@@ -62,7 +62,7 @@ def serve(directory,port=0):
                     elif name in allowed:file=store.directory/'report'/name
                     else:return self.send({'error':'Unknown export'},status=404)
                     if not file.exists():return self.send({'error':'Export not created yet'},status=404)
-                    return self.send(file.read_bytes(),mimetypes.guess_type(file)[0] or 'application/octet-stream',download=name)
+                    return self.send(file.read_bytes(),mimetypes.guess_type(file)[0] or 'application/octet-stream',download=store.get('config').get('display_name','JSP-Oct26-Regional-SA-BP')+'-'+name)
                 name='index.html' if parsed.path=='/' else parsed.path.lstrip('/')
                 if name not in {'index.html','app.js','style.css'}:return self.send({'error':'Not found'},status=404)
                 return self.send((web/name).read_bytes(),mimetypes.guess_type(name)[0] or 'text/plain')
