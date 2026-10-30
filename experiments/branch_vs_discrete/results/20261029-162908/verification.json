@@ -1,0 +1,74 @@
+[
+  {
+    "id": "7x7-branch",
+    "solved": false,
+    "wrongClues": 11,
+    "issues": 0,
+    "answer": null,
+    "exactClueEnergy": 0.5529486596597813,
+    "invalidCellFraction": 0.0,
+    "commonExactEnergy": 0.34027609825217314,
+    "exactWrongClues": 11,
+    "verifiedControlSnapshots": null
+  },
+  {
+    "id": "7x7-discrete",
+    "solved": true,
+    "wrongClues": 0,
+    "issues": 0,
+    "answer": 17811,
+    "exactClueEnergy": 0.0,
+    "invalidCellFraction": 0.0,
+    "commonExactEnergy": 0.0,
+    "exactWrongClues": 0,
+    "verifiedControlSnapshots": 199
+  },
+  {
+    "id": "8x8-branch",
+    "solved": false,
+    "wrongClues": 16,
+    "issues": 0,
+    "answer": null,
+    "exactClueEnergy": 0.7873591989987484,
+    "invalidCellFraction": 0.0,
+    "commonExactEnergy": 0.48452873784538364,
+    "exactWrongClues": 16,
+    "verifiedControlSnapshots": null
+  },
+  {
+    "id": "8x8-discrete",
+    "solved": false,
+    "wrongClues": 1,
+    "issues": 0,
+    "answer": null,
+    "exactClueEnergy": 0.008760951188986232,
+    "invalidCellFraction": 0.0,
+    "commonExactEnergy": 0.0053913545778376815,
+    "exactWrongClues": 1,
+    "verifiedControlSnapshots": 1355
+  },
+  {
+    "id": "9x9-branch",
+    "solved": false,
+    "wrongClues": 18,
+    "issues": 0,
+    "answer": null,
+    "exactClueEnergy": 0.6423970147381668,
+    "invalidCellFraction": 0.0,
+    "commonExactEnergy": 0.39532123983887185,
+    "exactWrongClues": 18,
+    "verifiedControlSnapshots": null
+  },
+  {
+    "id": "9x9-discrete",
+    "solved": false,
+    "wrongClues": 4,
+    "issues": 0,
+    "answer": null,
+    "exactClueEnergy": 0.010373522873522873,
+    "invalidCellFraction": 0.0,
+    "commonExactEnergy": 0.006383706383706384,
+    "exactWrongClues": 4,
+    "verifiedControlSnapshots": 1375
+  }
+]

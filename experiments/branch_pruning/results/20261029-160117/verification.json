@@ -1,0 +1,46 @@
+[
+  {
+    "n": 4,
+    "solved": true,
+    "wrongClues": 0,
+    "issues": 0,
+    "answer": 2676,
+    "exactClueEnergy": 0.0,
+    "invalidCellFraction": 0.0,
+    "commonExactEnergy": 0.0,
+    "exactWrongClues": 0
+  },
+  {
+    "n": 5,
+    "solved": true,
+    "wrongClues": 0,
+    "issues": 0,
+    "answer": 8045,
+    "exactClueEnergy": 0.0,
+    "invalidCellFraction": 0.0,
+    "commonExactEnergy": 0.0,
+    "exactWrongClues": 0
+  },
+  {
+    "n": 6,
+    "solved": true,
+    "wrongClues": 0,
+    "issues": 0,
+    "answer": 12864,
+    "exactClueEnergy": 0.0,
+    "invalidCellFraction": 0.0,
+    "commonExactEnergy": 0.0,
+    "exactWrongClues": 0
+  },
+  {
+    "n": 7,
+    "solved": false,
+    "wrongClues": 9,
+    "issues": 0,
+    "answer": null,
+    "exactClueEnergy": 0.3445383099872264,
+    "invalidCellFraction": 0.0,
+    "commonExactEnergy": 0.2120235753767547,
+    "exactWrongClues": 9
+  }
+]

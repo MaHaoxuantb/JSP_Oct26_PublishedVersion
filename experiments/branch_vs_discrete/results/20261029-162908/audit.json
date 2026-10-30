@@ -1,0 +1,10 @@
+{
+  "trialCount": 6,
+  "allFinalPartitionsIndependentlyChecked": true,
+  "controlSnapshotsIndependentlyChecked": 2929,
+  "productionSourcesUnchanged": true,
+  "controlFrozenSourcesMatch": true,
+  "previousReportPreserved": true,
+  "allTrialsStopped": true,
+  "plotVisuallyChecked": true
+}

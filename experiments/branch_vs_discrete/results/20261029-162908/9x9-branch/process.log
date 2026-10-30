@@ -1,0 +1,104 @@
+catalog n=9 shapes=1472061 seconds=45.002155541675165 complete=false
+incumbent n=9 t=53.91471979167545 wrong=21 energy=0.5874125874125874
+progress n=9 t=53.914732791658025 nodes=1 depth=0 distancePrunes=0
+progress n=9 t=63.92835841671331 nodes=1137 depth=3 distancePrunes=947
+progress n=9 t=73.93083595833741 nodes=1758 depth=3 distancePrunes=1388
+progress n=9 t=83.93422070832457 nodes=13570 depth=4 distancePrunes=12669
+progress n=9 t=93.94968887499999 nodes=15392 depth=4 distancePrunes=13501
+incumbent n=9 t=102.09224979166174 wrong=21 energy=0.5414479075395142
+progress n=9 t=104.01455604168586 nodes=16490 depth=4 distancePrunes=14269
+progress n=9 t=114.03334429167444 nodes=17291 depth=4 distancePrunes=14784
+progress n=9 t=124.10940441669663 nodes=17896 depth=4 distancePrunes=15198
+progress n=9 t=134.12427779170685 nodes=18407 depth=4 distancePrunes=15546
+progress n=9 t=144.13059158338 nodes=25036 depth=8 distancePrunes=21928
+progress n=9 t=154.17299204168376 nodes=31437 depth=8 distancePrunes=28089
+progress n=9 t=164.22683291666908 nodes=44918 depth=9 distancePrunes=41351
+progress n=9 t=174.2621904166881 nodes=53175 depth=9 distancePrunes=49361
+incumbent n=9 t=184.0731088333414 wrong=18 energy=0.4603871769554169
+progress n=9 t=184.26675441669067 nodes=55320 depth=10 distancePrunes=51193
+progress n=9 t=194.272902708326 nodes=56899 depth=10 distancePrunes=52365
+progress n=9 t=204.29495025001233 nodes=59341 depth=11 distancePrunes=54460
+progress n=9 t=214.3070370000205 nodes=60772 depth=11 distancePrunes=55497
+progress n=9 t=224.31996416667243 nodes=63233 depth=11 distancePrunes=57592
+incumbent n=9 t=226.55902966670692 wrong=18 energy=0.4219207948526712
+progress n=9 t=234.32569316669833 nodes=64834 depth=11 distancePrunes=58805
+progress n=9 t=244.33103483333252 nodes=67533 depth=11 distancePrunes=61023
+progress n=9 t=254.34517387504457 nodes=70194 depth=11 distancePrunes=63150
+progress n=9 t=264.37190908333287 nodes=74153 depth=11 distancePrunes=66537
+progress n=9 t=274.37799570837524 nodes=76221 depth=11 distancePrunes=68013
+progress n=9 t=284.3942437916994 nodes=79025 depth=11 distancePrunes=70179
+progress n=9 t=294.4071252083522 nodes=81332 depth=11 distancePrunes=71848
+progress n=9 t=304.42588641669136 nodes=84159 depth=11 distancePrunes=73977
+progress n=9 t=314.4352632500231 nodes=86137 depth=12 distancePrunes=75339
+progress n=9 t=324.4453860417125 nodes=89107 depth=12 distancePrunes=77675
+progress n=9 t=334.45082866668236 nodes=91523 depth=12 distancePrunes=79518
+progress n=9 t=344.4556397916749 nodes=94222 depth=12 distancePrunes=81723
+progress n=9 t=354.48312495835125 nodes=96505 depth=12 distancePrunes=83472
+progress n=9 t=364.48395362502197 nodes=98758 depth=12 distancePrunes=85251
+progress n=9 t=374.4996130000218 nodes=100957 depth=12 distancePrunes=87002
+progress n=9 t=384.5262708750088 nodes=102868 depth=12 distancePrunes=88401
+progress n=9 t=394.5333775000181 nodes=104903 depth=12 distancePrunes=89860
+progress n=9 t=404.5393473750446 nodes=106523 depth=13 distancePrunes=91026
+progress n=9 t=414.5610397083801 nodes=108072 depth=13 distancePrunes=92110
+incumbent n=9 t=417.34854408336105 wrong=18 energy=0.42089984521487395
+progress n=9 t=424.5656874999986 nodes=110024 depth=13 distancePrunes=93571
+progress n=9 t=434.56950829166453 nodes=112775 depth=13 distancePrunes=95794
+progress n=9 t=444.5830925416667 nodes=114633 depth=13 distancePrunes=97182
+progress n=9 t=454.605611291714 nodes=116230 depth=13 distancePrunes=98325
+progress n=9 t=464.6209033750347 nodes=118765 depth=13 distancePrunes=100328
+progress n=9 t=474.62709633336635 nodes=120903 depth=13 distancePrunes=101966
+progress n=9 t=484.64939541666536 nodes=123604 depth=13 distancePrunes=104087
+progress n=9 t=494.65924675000133 nodes=126448 depth=13 distancePrunes=106339
+progress n=9 t=504.67018825002015 nodes=128659 depth=13 distancePrunes=108009
+progress n=9 t=514.6889696666622 nodes=130836 depth=13 distancePrunes=109706
+progress n=9 t=524.6915313333739 nodes=133390 depth=13 distancePrunes=111776
+incumbent n=9 t=529.608931499999 wrong=18 energy=0.4136467073507609
+progress n=9 t=534.700130708341 nodes=136035 depth=13 distancePrunes=113908
+progress n=9 t=544.7193065000465 nodes=138666 depth=13 distancePrunes=116069
+progress n=9 t=554.7230348333251 nodes=140185 depth=13 distancePrunes=116958
+progress n=9 t=564.7458471250138 nodes=142738 depth=13 distancePrunes=118872
+progress n=9 t=574.7603220000165 nodes=145275 depth=13 distancePrunes=120927
+progress n=9 t=584.8001737500308 nodes=146953 depth=13 distancePrunes=122110
+progress n=9 t=594.8082306666765 nodes=149010 depth=13 distancePrunes=123581
+progress n=9 t=604.8172719166614 nodes=151199 depth=13 distancePrunes=125170
+progress n=9 t=614.8244008333422 nodes=152819 depth=13 distancePrunes=126264
+progress n=9 t=624.8438176666969 nodes=154955 depth=13 distancePrunes=127872
+incumbent n=9 t=627.723965000012 wrong=18 energy=0.3953212398388718
+progress n=9 t=634.8438891250407 nodes=156959 depth=13 distancePrunes=129349
+progress n=9 t=644.8522822916857 nodes=159897 depth=13 distancePrunes=131786
+progress n=9 t=654.8563005416654 nodes=161577 depth=13 distancePrunes=132907
+progress n=9 t=664.8822611250216 nodes=163036 depth=13 distancePrunes=133859
+progress n=9 t=674.8835449166945 nodes=165108 depth=13 distancePrunes=135306
+progress n=9 t=684.8947441250202 nodes=166825 depth=13 distancePrunes=136415
+progress n=9 t=694.8950487916591 nodes=168466 depth=13 distancePrunes=137612
+progress n=9 t=704.9139845833415 nodes=170326 depth=13 distancePrunes=138866
+progress n=9 t=714.9403738750261 nodes=172638 depth=13 distancePrunes=140639
+progress n=9 t=724.947514916712 nodes=175185 depth=13 distancePrunes=142615
+progress n=9 t=734.953304374998 nodes=177008 depth=13 distancePrunes=143857
+progress n=9 t=744.9568676250055 nodes=178894 depth=13 distancePrunes=145177
+progress n=9 t=754.9695028333808 nodes=181770 depth=13 distancePrunes=147462
+progress n=9 t=764.9739114583354 nodes=183555 depth=13 distancePrunes=148787
+progress n=9 t=774.9793138750247 nodes=186935 depth=13 distancePrunes=151532
+progress n=9 t=784.9840562916943 nodes=189237 depth=13 distancePrunes=153294
+progress n=9 t=795.0003227916895 nodes=192744 depth=13 distancePrunes=156245
+progress n=9 t=805.0182491250453 nodes=194168 depth=13 distancePrunes=157162
+progress n=9 t=815.0268078750232 nodes=196042 depth=13 distancePrunes=158549
+progress n=9 t=825.0321180833271 nodes=197818 depth=13 distancePrunes=159814
+progress n=9 t=835.0453255000175 nodes=199977 depth=14 distancePrunes=161362
+progress n=9 t=845.0759885833249 nodes=202231 depth=14 distancePrunes=162979
+progress n=9 t=855.0891516666743 nodes=205333 depth=14 distancePrunes=165494
+progress n=9 t=865.0903334583272 nodes=207602 depth=14 distancePrunes=167139
+progress n=9 t=875.1117597083794 nodes=209745 depth=14 distancePrunes=168754
+progress n=9 t=885.1141400000197 nodes=212573 depth=14 distancePrunes=171000
+progress n=9 t=895.1332639167085 nodes=214901 depth=14 distancePrunes=172800
+progress n=9 t=905.1539811250404 nodes=217354 depth=14 distancePrunes=174618
+progress n=9 t=915.1658964583767 nodes=220780 depth=14 distancePrunes=177455
+progress n=9 t=925.1713355417014 nodes=223501 depth=14 distancePrunes=179557
+progress n=9 t=935.1875002083252 nodes=225949 depth=14 distancePrunes=181428
+progress n=9 t=945.1898840416688 nodes=228617 depth=14 distancePrunes=183500
+progress n=9 t=955.2146333749988 nodes=230580 depth=14 distancePrunes=184833
+progress n=9 t=965.2170294583775 nodes=232379 depth=14 distancePrunes=186094
+progress n=9 t=975.2342165833688 nodes=235083 depth=14 distancePrunes=188229
+progress n=9 t=985.2455733333481 nodes=236670 depth=14 distancePrunes=189403
+progress n=9 t=995.2531718750251 nodes=240257 depth=14 distancePrunes=192362
+finished n=9 solved=false seconds=1000.017033000011 nodes=241853

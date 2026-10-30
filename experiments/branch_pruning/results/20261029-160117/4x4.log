@@ -1,0 +1,5 @@
+catalog n=4 shapes=558 seconds=0.012138749996665865 complete=true
+incumbent n=4 t=0.012569291691761464 wrong=3 energy=0.46153846153846156
+progress n=4 t=0.012579541653394699 nodes=1 depth=0 distancePrunes=0
+incumbent n=4 t=0.013285833352711052 wrong=0 energy=0.0
+finished n=4 solved=true seconds=0.018466083332896233 nodes=426

@@ -1,0 +1,36 @@
+[
+  {
+    "n": 8,
+    "currentWrong": 1,
+    "currentMeanError": 0.008760951188986232,
+    "regions": 16,
+    "patches": 359,
+    "upTo32": {
+      "patches": 356,
+      "cannotImprove": 135,
+      "fullSolutionExcluded": 171
+    },
+    "upTo48": {
+      "patches": 359,
+      "cannotImprove": 135,
+      "fullSolutionExcluded": 171
+    }
+  },
+  {
+    "n": 9,
+    "currentWrong": 4,
+    "currentMeanError": 0.010373522873522873,
+    "regions": 14,
+    "patches": 247,
+    "upTo32": {
+      "patches": 239,
+      "cannotImprove": 0,
+      "fullSolutionExcluded": 172
+    },
+    "upTo48": {
+      "patches": 247,
+      "cannotImprove": 0,
+      "fullSolutionExcluded": 172
+    }
+  }
+]

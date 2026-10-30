@@ -1,0 +1,5 @@
+catalog n=5 shapes=12679 seconds=0.40630499995313585 complete=true
+incumbent n=5 t=0.4239904166315682 wrong=6 energy=0.5274725274725275
+progress n=5 t=0.4240001666476019 nodes=1 depth=0 distancePrunes=0
+incumbent n=5 t=0.43505587498657405 wrong=0 energy=0.0
+finished n=5 solved=true seconds=0.44068929163040593 nodes=1125

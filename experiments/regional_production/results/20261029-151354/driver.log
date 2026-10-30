@@ -1,0 +1,75 @@
+Policy tests passed: noise variance, bounds, spatial field, normalization.
+Built discrete
+Policy tests passed: noise variance, bounds, spatial field, normalization.
+Built continuous
+START gate-5x5-discrete-control-20261029
+END gate-5x5-discrete-control-20261029: 8.637s, solved=True, wrong=0, issues=0
+START 5x5-discrete-regional-20261029
+END 5x5-discrete-regional-20261029: 10.397s, solved=True, wrong=0, issues=0
+START 5x5-continuous-control-20261029
+RUNNING 5x5-continuous-control-20261029
+RUNNING 5x5-continuous-control-20261029
+RUNNING 5x5-continuous-control-20261029
+RUNNING 5x5-continuous-control-20261029
+RUNNING 5x5-continuous-control-20261029
+RUNNING 5x5-continuous-control-20261029
+RUNNING 5x5-continuous-control-20261029
+RUNNING 5x5-continuous-control-20261029
+RUNNING 5x5-continuous-control-20261029
+END 5x5-continuous-control-20261029: 300.000s, solved=False, wrong=3, issues=1
+START 5x5-continuous-regional-20261029
+RUNNING 5x5-continuous-regional-20261029
+RUNNING 5x5-continuous-regional-20261029
+RUNNING 5x5-continuous-regional-20261029
+RUNNING 5x5-continuous-regional-20261029
+RUNNING 5x5-continuous-regional-20261029
+RUNNING 5x5-continuous-regional-20261029
+RUNNING 5x5-continuous-regional-20261029
+RUNNING 5x5-continuous-regional-20261029
+RUNNING 5x5-continuous-regional-20261029
+END 5x5-continuous-regional-20261029: 300.000s, solved=False, wrong=4, issues=0
+START 7x7-discrete-control-20261029
+RUNNING 7x7-discrete-control-20261029
+RUNNING 7x7-discrete-control-20261029
+RUNNING 7x7-discrete-control-20261029
+RUNNING 7x7-discrete-control-20261029
+RUNNING 7x7-discrete-control-20261029
+RUNNING 7x7-discrete-control-20261029
+RUNNING 7x7-discrete-control-20261029
+RUNNING 7x7-discrete-control-20261029
+RUNNING 7x7-discrete-control-20261029
+END 7x7-discrete-control-20261029: 300.002s, solved=False, wrong=1, issues=0
+START 7x7-discrete-regional-20261029
+RUNNING 7x7-discrete-regional-20261029
+RUNNING 7x7-discrete-regional-20261029
+RUNNING 7x7-discrete-regional-20261029
+RUNNING 7x7-discrete-regional-20261029
+RUNNING 7x7-discrete-regional-20261029
+RUNNING 7x7-discrete-regional-20261029
+RUNNING 7x7-discrete-regional-20261029
+RUNNING 7x7-discrete-regional-20261029
+RUNNING 7x7-discrete-regional-20261029
+END 7x7-discrete-regional-20261029: 300.002s, solved=False, wrong=1, issues=0
+START 7x7-continuous-control-20261029
+RUNNING 7x7-continuous-control-20261029
+RUNNING 7x7-continuous-control-20261029
+RUNNING 7x7-continuous-control-20261029
+RUNNING 7x7-continuous-control-20261029
+RUNNING 7x7-continuous-control-20261029
+RUNNING 7x7-continuous-control-20261029
+RUNNING 7x7-continuous-control-20261029
+RUNNING 7x7-continuous-control-20261029
+RUNNING 7x7-continuous-control-20261029
+END 7x7-continuous-control-20261029: 300.001s, solved=False, wrong=3, issues=1
+START 7x7-continuous-regional-20261029
+RUNNING 7x7-continuous-regional-20261029
+RUNNING 7x7-continuous-regional-20261029
+RUNNING 7x7-continuous-regional-20261029
+RUNNING 7x7-continuous-regional-20261029
+RUNNING 7x7-continuous-regional-20261029
+RUNNING 7x7-continuous-regional-20261029
+RUNNING 7x7-continuous-regional-20261029
+RUNNING 7x7-continuous-regional-20261029
+RUNNING 7x7-continuous-regional-20261029
+END 7x7-continuous-regional-20261029: 300.001s, solved=False, wrong=4, issues=0
+DONE /Users/thomasb/Library/Mobile Documents/com~apple~CloudDocs/Documents/develop/JaneStreetPuzzle_Oct26/experiments/regional_production/results/20261029-151354

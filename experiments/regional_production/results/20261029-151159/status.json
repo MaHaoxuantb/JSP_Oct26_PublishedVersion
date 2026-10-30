@@ -1,0 +1,5 @@
+{
+  "running": null,
+  "state": "aborted",
+  "reason": "Discarded: discrete field used an unpopulated legacy array. Corrected run is 20261029-151354."
+}

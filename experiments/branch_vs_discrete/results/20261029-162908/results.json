@@ -1,0 +1,715 @@
+[
+  {
+    "id": "7x7-branch",
+    "n": 7,
+    "engine": "branch",
+    "seed": null,
+    "solved": false,
+    "seconds": 1000.0201744166552,
+    "wallSeconds": 1000.8144770829822,
+    "reason": "time_limit",
+    "labels": [
+      [
+        5,
+        6,
+        6,
+        6,
+        6,
+        6,
+        13
+      ],
+      [
+        5,
+        15,
+        16,
+        6,
+        18,
+        19,
+        20
+      ],
+      [
+        0,
+        0,
+        0,
+        6,
+        25,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        4,
+        4,
+        4,
+        3,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0
+      ],
+      [
+        0,
+        0,
+        2,
+        2,
+        0,
+        0,
+        0
+      ]
+    ],
+    "validation": {
+      "solved": false,
+      "wrongClues": 11,
+      "issues": 0,
+      "answer": null
+    },
+    "rawResult": "/Users/thomasb/Library/Mobile Documents/com~apple~CloudDocs/Documents/develop/JaneStreetPuzzle_Oct26/experiments/branch_vs_discrete/results/20261029-162908/7x7-branch/result.json",
+    "catalogSeconds": 45.00056025001686,
+    "shapeCount": 1466963,
+    "catalogComplete": false,
+    "counters": {
+      "catalogJobsTruncated": 67,
+      "catalogVisited": 13611947,
+      "complete": 0,
+      "coveragePrunes": 16413,
+      "diagnosticCompletions": 27,
+      "distancePrunes": 418416,
+      "maxDepth": 13,
+      "nodes": 458111
+    },
+    "observations": [
+      {
+        "energy": 0.6153846153846154,
+        "seconds": 53.854762541654054,
+        "wrongClues": 13
+      },
+      {
+        "energy": 0.48513821972264465,
+        "seconds": 56.19515412498731,
+        "wrongClues": 11
+      },
+      {
+        "energy": 0.34846631815433915,
+        "seconds": 117.44688666664297,
+        "wrongClues": 11
+      },
+      {
+        "energy": 0.3402760982521732,
+        "seconds": 975.6472969583119,
+        "wrongClues": 11
+      }
+    ]
+  },
+  {
+    "id": "7x7-discrete",
+    "n": 7,
+    "engine": "discrete",
+    "seed": 20261029,
+    "solved": true,
+    "seconds": 116.73429758334532,
+    "wallSeconds": 120.58661741699325,
+    "reason": "solved",
+    "labels": [
+      [
+        0,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2
+      ],
+      [
+        3,
+        4,
+        4,
+        5,
+        2,
+        2,
+        6
+      ],
+      [
+        3,
+        3,
+        3,
+        5,
+        2,
+        2,
+        6
+      ],
+      [
+        3,
+        3,
+        3,
+        2,
+        2,
+        7,
+        6
+      ],
+      [
+        3,
+        8,
+        8,
+        9,
+        2,
+        2,
+        6
+      ],
+      [
+        10,
+        8,
+        8,
+        9,
+        2,
+        2,
+        11
+      ],
+      [
+        10,
+        8,
+        8,
+        12,
+        12,
+        2,
+        2
+      ]
+    ],
+    "validation": {
+      "solved": true,
+      "wrongClues": 0,
+      "issues": 0,
+      "answer": 17811
+    },
+    "rawResult": "/Users/thomasb/Library/Mobile Documents/com~apple~CloudDocs/Documents/develop/JaneStreetPuzzle_Oct26/experiments/branch_vs_discrete/results/20261029-162908/7x7-discrete/result.json"
+  },
+  {
+    "id": "8x8-branch",
+    "n": 8,
+    "engine": "branch",
+    "seed": null,
+    "solved": false,
+    "seconds": 1000.0125322083477,
+    "wallSeconds": 1001.0012347500306,
+    "reason": "time_limit",
+    "labels": [
+      [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      [
+        20,
+        21,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        28,
+        29,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        36,
+        37,
+        0,
+        1,
+        1,
+        2,
+        2,
+        0
+      ],
+      [
+        44,
+        45,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        52,
+        53,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        60,
+        61,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "validation": {
+      "solved": false,
+      "wrongClues": 16,
+      "issues": 0,
+      "answer": null
+    },
+    "rawResult": "/Users/thomasb/Library/Mobile Documents/com~apple~CloudDocs/Documents/develop/JaneStreetPuzzle_Oct26/experiments/branch_vs_discrete/results/20261029-162908/8x8-branch/result.json",
+    "catalogSeconds": 45.00202054169495,
+    "shapeCount": 1666430,
+    "catalogComplete": false,
+    "counters": {
+      "catalogJobsTruncated": 305,
+      "catalogVisited": 12090102,
+      "complete": 0,
+      "coveragePrunes": 6764,
+      "diagnosticCompletions": 12,
+      "distancePrunes": 177914,
+      "maxDepth": 13,
+      "nodes": 204454
+    },
+    "observations": [
+      {
+        "energy": 0.6153846153846154,
+        "seconds": 55.67636095837224,
+        "wrongClues": 17
+      },
+      {
+        "energy": 0.5337192858594612,
+        "seconds": 108.49650337500498,
+        "wrongClues": 17
+      },
+      {
+        "energy": 0.48452873784538364,
+        "seconds": 173.91131804167526,
+        "wrongClues": 16
+      }
+    ]
+  },
+  {
+    "id": "8x8-discrete",
+    "n": 8,
+    "engine": "discrete",
+    "seed": 20261029,
+    "solved": false,
+    "seconds": 1000.0030196666485,
+    "wallSeconds": 1000.9258879580302,
+    "reason": "timeLimit",
+    "labels": [
+      [
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      [
+        3,
+        4,
+        5,
+        5,
+        6,
+        6,
+        6,
+        2
+      ],
+      [
+        3,
+        7,
+        7,
+        5,
+        8,
+        8,
+        2,
+        2
+      ],
+      [
+        9,
+        9,
+        9,
+        8,
+        8,
+        8,
+        2,
+        2
+      ],
+      [
+        10,
+        11,
+        11,
+        8,
+        8,
+        8,
+        2,
+        2
+      ],
+      [
+        10,
+        11,
+        11,
+        11,
+        8,
+        8,
+        2,
+        2
+      ],
+      [
+        12,
+        11,
+        11,
+        13,
+        13,
+        13,
+        13,
+        2
+      ],
+      [
+        14,
+        14,
+        14,
+        14,
+        15,
+        15,
+        15,
+        2
+      ]
+    ],
+    "validation": {
+      "solved": false,
+      "wrongClues": 1,
+      "issues": 0,
+      "answer": null
+    },
+    "rawResult": "/Users/thomasb/Library/Mobile Documents/com~apple~CloudDocs/Documents/develop/JaneStreetPuzzle_Oct26/experiments/branch_vs_discrete/results/20261029-162908/8x8-discrete/result.json"
+  },
+  {
+    "id": "9x9-branch",
+    "n": 9,
+    "engine": "branch",
+    "seed": null,
+    "solved": false,
+    "seconds": 1000.0027038333355,
+    "wallSeconds": 1000.8755899579846,
+    "reason": "time_limit",
+    "labels": [
+      [
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      [
+        0,
+        1,
+        1,
+        0,
+        0,
+        3,
+        3,
+        1,
+        1
+      ],
+      [
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        0,
+        0,
+        1,
+        38,
+        1,
+        1,
+        4,
+        1,
+        4
+      ],
+      [
+        44,
+        0,
+        46,
+        7,
+        48,
+        49,
+        4,
+        4,
+        4
+      ],
+      [
+        7,
+        7,
+        7,
+        7,
+        57,
+        58,
+        4,
+        4,
+        4
+      ],
+      [
+        7,
+        6,
+        5,
+        65,
+        5,
+        5,
+        4,
+        5,
+        4
+      ],
+      [
+        6,
+        6,
+        5,
+        74,
+        5,
+        5,
+        4,
+        5,
+        4
+      ],
+      [
+        6,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ]
+    ],
+    "validation": {
+      "solved": false,
+      "wrongClues": 18,
+      "issues": 0,
+      "answer": null
+    },
+    "rawResult": "/Users/thomasb/Library/Mobile Documents/com~apple~CloudDocs/Documents/develop/JaneStreetPuzzle_Oct26/experiments/branch_vs_discrete/results/20261029-162908/9x9-branch/result.json",
+    "catalogSeconds": 45.002155541675165,
+    "shapeCount": 1472061,
+    "catalogComplete": false,
+    "counters": {
+      "catalogJobsTruncated": 1027,
+      "catalogVisited": 10564014,
+      "complete": 0,
+      "coveragePrunes": 16567,
+      "diagnosticCompletions": 27,
+      "distancePrunes": 193656,
+      "maxDepth": 14,
+      "nodes": 241853
+    },
+    "observations": [
+      {
+        "energy": 0.5874125874125874,
+        "seconds": 53.91470424999716,
+        "wrongClues": 21
+      },
+      {
+        "energy": 0.5414479075395142,
+        "seconds": 102.09224154165713,
+        "wrongClues": 21
+      },
+      {
+        "energy": 0.4603871769554169,
+        "seconds": 184.07309162500314,
+        "wrongClues": 18
+      },
+      {
+        "energy": 0.4219207948526712,
+        "seconds": 226.55901320837438,
+        "wrongClues": 18
+      },
+      {
+        "energy": 0.42089984521487395,
+        "seconds": 417.3485207083286,
+        "wrongClues": 18
+      },
+      {
+        "energy": 0.4136467073507609,
+        "seconds": 529.6089169167099,
+        "wrongClues": 18
+      },
+      {
+        "energy": 0.3953212398388718,
+        "seconds": 627.7239588749944,
+        "wrongClues": 18
+      }
+    ]
+  },
+  {
+    "id": "9x9-discrete",
+    "n": 9,
+    "engine": "discrete",
+    "seed": 20261029,
+    "solved": false,
+    "seconds": 1000.0021060833242,
+    "wallSeconds": 1000.7571478749742,
+    "reason": "timeLimit",
+    "labels": [
+      [
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        3,
+        3
+      ],
+      [
+        4,
+        4,
+        4,
+        5,
+        5,
+        2,
+        2,
+        2,
+        3
+      ],
+      [
+        4,
+        4,
+        4,
+        5,
+        5,
+        2,
+        2,
+        3,
+        3
+      ],
+      [
+        4,
+        4,
+        4,
+        5,
+        5,
+        2,
+        2,
+        2,
+        3
+      ],
+      [
+        4,
+        6,
+        4,
+        5,
+        5,
+        7,
+        2,
+        3,
+        3
+      ],
+      [
+        8,
+        6,
+        6,
+        9,
+        7,
+        7,
+        7,
+        10,
+        10
+      ],
+      [
+        8,
+        6,
+        6,
+        9,
+        7,
+        7,
+        11,
+        11,
+        12
+      ],
+      [
+        8,
+        6,
+        9,
+        9,
+        9,
+        11,
+        11,
+        11,
+        12
+      ],
+      [
+        8,
+        13,
+        13,
+        13,
+        13,
+        11,
+        11,
+        11,
+        12
+      ]
+    ],
+    "validation": {
+      "solved": false,
+      "wrongClues": 4,
+      "issues": 0,
+      "answer": null
+    },
+    "rawResult": "/Users/thomasb/Library/Mobile Documents/com~apple~CloudDocs/Documents/develop/JaneStreetPuzzle_Oct26/experiments/branch_vs_discrete/results/20261029-162908/9x9-discrete/result.json"
+  }
+]

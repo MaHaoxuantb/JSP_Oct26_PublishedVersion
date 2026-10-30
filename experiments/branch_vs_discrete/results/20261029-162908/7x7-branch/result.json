@@ -1,0 +1,109 @@
+{
+  "budgetSeconds" : 1000,
+  "catalogComplete" : false,
+  "catalogSeconds" : 45.00056025001686,
+  "counters" : {
+    "catalogJobsTruncated" : 67,
+    "catalogVisited" : 13611947,
+    "complete" : 0,
+    "coveragePrunes" : 16413,
+    "diagnosticCompletions" : 27,
+    "distancePrunes" : 418416,
+    "maxDepth" : 13,
+    "nodes" : 458111
+  },
+  "labels" : [
+    [
+      5,
+      6,
+      6,
+      6,
+      6,
+      6,
+      13
+    ],
+    [
+      5,
+      15,
+      16,
+      6,
+      18,
+      19,
+      20
+    ],
+    [
+      0,
+      0,
+      0,
+      6,
+      25,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      4,
+      4,
+      4,
+      3,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      3,
+      0
+    ],
+    [
+      0,
+      0,
+      2,
+      2,
+      0,
+      0,
+      0
+    ]
+  ],
+  "maxRegionSize" : 49,
+  "n" : 7,
+  "name" : "generated7_7101_clues13",
+  "observations" : [
+    {
+      "energy" : 0.6153846153846154,
+      "seconds" : 53.854762541654054,
+      "wrongClues" : 13
+    },
+    {
+      "energy" : 0.48513821972264465,
+      "seconds" : 56.19515412498731,
+      "wrongClues" : 11
+    },
+    {
+      "energy" : 0.34846631815433915,
+      "seconds" : 117.44688666664297,
+      "wrongClues" : 11
+    },
+    {
+      "energy" : 0.3402760982521732,
+      "seconds" : 975.6472969583119,
+      "wrongClues" : 11
+    }
+  ],
+  "reason" : "time_limit",
+  "seconds" : 1000.0201744166552,
+  "shapeCount" : 1466963,
+  "solved" : false
+}

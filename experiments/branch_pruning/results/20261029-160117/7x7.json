@@ -1,0 +1,119 @@
+{
+  "budgetSeconds" : 600,
+  "catalogComplete" : false,
+  "catalogSeconds" : 45.00003649998689,
+  "counters" : {
+    "catalogJobsTruncated" : 67,
+    "catalogVisited" : 13776037,
+    "complete" : 0,
+    "coveragePrunes" : 11661,
+    "diagnosticCompletions" : 15,
+    "distancePrunes" : 279233,
+    "maxDepth" : 13,
+    "nodes" : 303308
+  },
+  "labels" : [
+    [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      6
+    ],
+    [
+      0,
+      0,
+      0,
+      17,
+      18,
+      0,
+      6
+    ],
+    [
+      0,
+      1,
+      0,
+      24,
+      25,
+      0,
+      6
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      5
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      5
+    ],
+    [
+      0,
+      1,
+      0,
+      3,
+      2,
+      0,
+      4
+    ],
+    [
+      0,
+      0,
+      0,
+      3,
+      2,
+      0,
+      4
+    ]
+  ],
+  "maxRegionSize" : 49,
+  "n" : 7,
+  "name" : "generated7_7101_clues13",
+  "observations" : [
+    {
+      "energy" : 0.6153846153846154,
+      "seconds" : 53.91443837498082,
+      "wrongClues" : 13
+    },
+    {
+      "energy" : 0.5376558484250792,
+      "seconds" : 96.10980016668327,
+      "wrongClues" : 12
+    },
+    {
+      "energy" : 0.44639414574673886,
+      "seconds" : 108.86854758334812,
+      "wrongClues" : 11
+    },
+    {
+      "energy" : 0.35794354411167945,
+      "seconds" : 147.02751204167726,
+      "wrongClues" : 9
+    },
+    {
+      "energy" : 0.2618247545896986,
+      "seconds" : 450.03559879167005,
+      "wrongClues" : 9
+    },
+    {
+      "energy" : 0.2120235753767547,
+      "seconds" : 499.5930209166836,
+      "wrongClues" : 9
+    }
+  ],
+  "reason" : "time_limit",
+  "seconds" : 600.0005036666407,
+  "shapeCount" : 1483284,
+  "solved" : false
+}

@@ -1,0 +1,16 @@
+catalog n=6 shapes=133247 seconds=15.315954041667283 complete=true
+incumbent n=6 t=15.80798966664588 wrong=9 energy=0.5538461538461539
+progress n=6 t=15.807999041629955 nodes=1 depth=0 distancePrunes=0
+incumbent n=6 t=20.40954037499614 wrong=8 energy=0.32204092204092205
+progress n=6 t=25.809121083293576 nodes=104283 depth=10 distancePrunes=90868
+progress n=6 t=35.80924195831176 nodes=267181 depth=10 distancePrunes=238689
+progress n=6 t=45.81022970832419 nodes=487062 depth=10 distancePrunes=439254
+progress n=6 t=55.81059099995764 nodes=585007 depth=10 distancePrunes=515066
+progress n=6 t=65.81085495831212 nodes=748772 depth=10 distancePrunes=654342
+progress n=6 t=75.81093104166212 nodes=951825 depth=10 distancePrunes=833112
+progress n=6 t=85.81103304162389 nodes=1190486 depth=10 distancePrunes=1050315
+progress n=6 t=95.81162941665389 nodes=1388758 depth=10 distancePrunes=1225922
+incumbent n=6 t=100.21303616667865 wrong=6 energy=0.3076923076923077
+progress n=6 t=105.81174749997444 nodes=1622014 depth=10 distancePrunes=1436492
+incumbent n=6 t=114.49035474995617 wrong=0 energy=0.0
+finished n=6 solved=true seconds=114.5009104583296 nodes=1774005

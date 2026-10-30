@@ -1,0 +1,90 @@
+[
+  {
+    "n": 8,
+    "arm": "sa",
+    "before": {
+      "exactClueEnergy": 0.008760951188986232,
+      "invalidCellFraction": 0.0,
+      "commonExactEnergy": 0.0053913545778376815,
+      "exactWrongClues": 1
+    },
+    "after": {
+      "exactClueEnergy": 0.008760951188986232,
+      "invalidCellFraction": 0.0,
+      "commonExactEnergy": 0.0053913545778376815,
+      "exactWrongClues": 1
+    },
+    "independent": {
+      "solved": false,
+      "wrongClues": 1,
+      "issues": 0,
+      "answer": null
+    }
+  },
+  {
+    "n": 8,
+    "arm": "bp",
+    "before": {
+      "exactClueEnergy": 0.008760951188986232,
+      "invalidCellFraction": 0.0,
+      "commonExactEnergy": 0.0053913545778376815,
+      "exactWrongClues": 1
+    },
+    "after": {
+      "exactClueEnergy": 0.008760951188986232,
+      "invalidCellFraction": 0.0,
+      "commonExactEnergy": 0.0053913545778376815,
+      "exactWrongClues": 1
+    },
+    "independent": {
+      "solved": false,
+      "wrongClues": 1,
+      "issues": 0,
+      "answer": null
+    }
+  },
+  {
+    "n": 9,
+    "arm": "sa",
+    "before": {
+      "exactClueEnergy": 0.010373522873522873,
+      "invalidCellFraction": 0.0,
+      "commonExactEnergy": 0.006383706383706384,
+      "exactWrongClues": 4
+    },
+    "after": {
+      "exactClueEnergy": 0.010373522873522873,
+      "invalidCellFraction": 0.0,
+      "commonExactEnergy": 0.006383706383706384,
+      "exactWrongClues": 4
+    },
+    "independent": {
+      "solved": false,
+      "wrongClues": 4,
+      "issues": 0,
+      "answer": null
+    }
+  },
+  {
+    "n": 9,
+    "arm": "bp",
+    "before": {
+      "exactClueEnergy": 0.010373522873522873,
+      "invalidCellFraction": 0.0,
+      "commonExactEnergy": 0.006383706383706384,
+      "exactWrongClues": 4
+    },
+    "after": {
+      "exactClueEnergy": 0.010373522873522873,
+      "invalidCellFraction": 0.0,
+      "commonExactEnergy": 0.006383706383706384,
+      "exactWrongClues": 4
+    },
+    "independent": {
+      "solved": false,
+      "wrongClues": 4,
+      "issues": 0,
+      "answer": null
+    }
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "id": "gate-5x5-discrete-control-20261029",
+    "verified_snapshots": 32,
+    "discrete_scores_agree": true
+  },
+  {
+    "id": "5x5-discrete-regional-20261029",
+    "verified_snapshots": 47,
+    "discrete_scores_agree": true
+  },
+  {
+    "id": "5x5-continuous-control-20261029",
+    "verified_snapshots": 1230,
+    "discrete_scores_agree": null
+  },
+  {
+    "id": "5x5-continuous-regional-20261029",
+    "verified_snapshots": 963,
+    "discrete_scores_agree": null
+  },
+  {
+    "id": "7x7-discrete-control-20261029",
+    "verified_snapshots": 467,
+    "discrete_scores_agree": true
+  },
+  {
+    "id": "7x7-discrete-regional-20261029",
+    "verified_snapshots": 579,
+    "discrete_scores_agree": true
+  },
+  {
+    "id": "7x7-continuous-control-20261029",
+    "verified_snapshots": 685,
+    "discrete_scores_agree": null
+  },
+  {
+    "id": "7x7-continuous-regional-20261029",
+    "verified_snapshots": 755,
+    "discrete_scores_agree": null
+  },
+  {
+    "size": 5,
+    "representation": "discrete",
+    "seed": 20261029,
+    "matched_initial_state": true
+  },
+  {
+    "size": 5,
+    "representation": "continuous",
+    "seed": 20261029,
+    "matched_initial_state": true
+  },
+  {
+    "size": 7,
+    "representation": "discrete",
+    "seed": 20261029,
+    "matched_initial_state": true
+  },
+  {
+    "size": 7,
+    "representation": "continuous",
+    "seed": 20261029,
+    "matched_initial_state": true
+  }
+]

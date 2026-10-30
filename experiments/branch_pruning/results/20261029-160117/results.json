@@ -1,0 +1,370 @@
+[
+  {
+    "budgetSeconds": 600,
+    "catalogComplete": true,
+    "catalogSeconds": 0.012138749996665865,
+    "counters": {
+      "catalogJobsTruncated": 0,
+      "catalogVisited": 7326,
+      "complete": 1,
+      "coveragePrunes": 39,
+      "diagnosticCompletions": 1,
+      "distancePrunes": 292,
+      "maxDepth": 5,
+      "nodes": 426
+    },
+    "labels": [
+      [
+        0,
+        2,
+        1,
+        1
+      ],
+      [
+        3,
+        3,
+        1,
+        1
+      ],
+      [
+        3,
+        3,
+        1,
+        1
+      ],
+      [
+        3,
+        3,
+        1,
+        1
+      ]
+    ],
+    "maxRegionSize": 16,
+    "n": 4,
+    "name": "generated4_4101_clues4",
+    "observations": [
+      {
+        "energy": 0.46153846153846156,
+        "seconds": 0.012559833354316652,
+        "wrongClues": 3
+      },
+      {
+        "energy": 0,
+        "seconds": 0.013285458320751786,
+        "wrongClues": 0
+      }
+    ],
+    "reason": "solved",
+    "seconds": 0.013312875002156943,
+    "shapeCount": 558,
+    "solved": true,
+    "independentValidation": {
+      "solved": true,
+      "wrongClues": 0,
+      "issues": 0,
+      "answer": 2676
+    }
+  },
+  {
+    "budgetSeconds": 600,
+    "catalogComplete": true,
+    "catalogSeconds": 0.40630499995313585,
+    "counters": {
+      "catalogJobsTruncated": 0,
+      "catalogVisited": 198420,
+      "complete": 1,
+      "coveragePrunes": 18,
+      "diagnosticCompletions": 1,
+      "distancePrunes": 805,
+      "maxDepth": 7,
+      "nodes": 1125
+    },
+    "labels": [
+      [
+        1,
+        2,
+        2,
+        0,
+        0
+      ],
+      [
+        1,
+        2,
+        2,
+        3,
+        0
+      ],
+      [
+        1,
+        1,
+        3,
+        3,
+        0
+      ],
+      [
+        0,
+        1,
+        1,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "maxRegionSize": 25,
+    "n": 5,
+    "name": "example5_clues7",
+    "observations": [
+      {
+        "energy": 0.5274725274725275,
+        "seconds": 0.42398187500657514,
+        "wrongClues": 6
+      },
+      {
+        "energy": 0,
+        "seconds": 0.43505495833233,
+        "wrongClues": 0
+      }
+    ],
+    "reason": "solved",
+    "seconds": 0.43510662496555597,
+    "shapeCount": 12679,
+    "solved": true,
+    "independentValidation": {
+      "solved": true,
+      "wrongClues": 0,
+      "issues": 0,
+      "answer": 8045
+    }
+  },
+  {
+    "budgetSeconds": 600,
+    "catalogComplete": true,
+    "catalogSeconds": 15.315954041667283,
+    "counters": {
+      "catalogJobsTruncated": 0,
+      "catalogVisited": 7118670,
+      "complete": 1,
+      "coveragePrunes": 133217,
+      "diagnosticCompletions": 101,
+      "distancePrunes": 1569300,
+      "maxDepth": 10,
+      "nodes": 1774005
+    },
+    "labels": [
+      [
+        1,
+        2,
+        2,
+        2,
+        2,
+        3
+      ],
+      [
+        1,
+        1,
+        5,
+        5,
+        3,
+        3
+      ],
+      [
+        6,
+        6,
+        6,
+        5,
+        3,
+        3
+      ],
+      [
+        6,
+        6,
+        6,
+        0,
+        3,
+        3
+      ],
+      [
+        6,
+        6,
+        6,
+        4,
+        3,
+        4
+      ],
+      [
+        6,
+        6,
+        6,
+        4,
+        4,
+        4
+      ]
+    ],
+    "maxRegionSize": 36,
+    "n": 6,
+    "name": "generated6_6101_clues10",
+    "observations": [
+      {
+        "energy": 0.5538461538461539,
+        "seconds": 15.807974166644271,
+        "wrongClues": 9
+      },
+      {
+        "energy": 0.32204092204092205,
+        "seconds": 20.409526958304923,
+        "wrongClues": 8
+      },
+      {
+        "energy": 0.3076923076923077,
+        "seconds": 100.21301704167854,
+        "wrongClues": 6
+      },
+      {
+        "energy": 0,
+        "seconds": 114.49034862499684,
+        "wrongClues": 0
+      }
+    ],
+    "reason": "solved",
+    "seconds": 114.4904897499946,
+    "shapeCount": 133247,
+    "solved": true,
+    "independentValidation": {
+      "solved": true,
+      "wrongClues": 0,
+      "issues": 0,
+      "answer": 12864
+    }
+  },
+  {
+    "budgetSeconds": 600,
+    "catalogComplete": false,
+    "catalogSeconds": 45.00003649998689,
+    "counters": {
+      "catalogJobsTruncated": 67,
+      "catalogVisited": 13776037,
+      "complete": 0,
+      "coveragePrunes": 11661,
+      "diagnosticCompletions": 15,
+      "distancePrunes": 279233,
+      "maxDepth": 13,
+      "nodes": 303308
+    },
+    "labels": [
+      [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        6
+      ],
+      [
+        0,
+        0,
+        0,
+        17,
+        18,
+        0,
+        6
+      ],
+      [
+        0,
+        1,
+        0,
+        24,
+        25,
+        0,
+        6
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        5
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        5
+      ],
+      [
+        0,
+        1,
+        0,
+        3,
+        2,
+        0,
+        4
+      ],
+      [
+        0,
+        0,
+        0,
+        3,
+        2,
+        0,
+        4
+      ]
+    ],
+    "maxRegionSize": 49,
+    "n": 7,
+    "name": "generated7_7101_clues13",
+    "observations": [
+      {
+        "energy": 0.6153846153846154,
+        "seconds": 53.91443837498082,
+        "wrongClues": 13
+      },
+      {
+        "energy": 0.5376558484250792,
+        "seconds": 96.10980016668327,
+        "wrongClues": 12
+      },
+      {
+        "energy": 0.44639414574673886,
+        "seconds": 108.86854758334812,
+        "wrongClues": 11
+      },
+      {
+        "energy": 0.35794354411167945,
+        "seconds": 147.02751204167726,
+        "wrongClues": 9
+      },
+      {
+        "energy": 0.2618247545896986,
+        "seconds": 450.03559879167005,
+        "wrongClues": 9
+      },
+      {
+        "energy": 0.2120235753767547,
+        "seconds": 499.5930209166836,
+        "wrongClues": 9
+      }
+    ],
+    "reason": "time_limit",
+    "seconds": 600.0005036666407,
+    "shapeCount": 1483284,
+    "solved": false,
+    "independentValidation": {
+      "solved": false,
+      "wrongClues": 9,
+      "issues": 0,
+      "answer": null
+    }
+  }
+]

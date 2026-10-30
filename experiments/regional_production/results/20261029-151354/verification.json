@@ -1,0 +1,10 @@
+{
+  "core_sources_unchanged": true,
+  "trials_finished": 8,
+  "verified_solutions": 2,
+  "cutoffs": 6,
+  "independently_checked_retained_snapshots": 4758,
+  "all_four_initial_state_pairs_match": true,
+  "noise_and_spatial_policy_tests": "passed in both compiled engines",
+  "timed_search_processes_remaining": 0
+}

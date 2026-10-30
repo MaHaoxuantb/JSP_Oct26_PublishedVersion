@@ -1,0 +1,50 @@
+{
+  "budgetSeconds": 1000,
+  "seed": 20261029,
+  "concurrency": 1,
+  "trialOrder": [
+    "7-branch",
+    "7-discrete",
+    "8-branch",
+    "8-discrete",
+    "9-branch",
+    "9-discrete"
+  ],
+  "report": "/Users/thomasb/Library/Mobile Documents/com~apple~CloudDocs/Documents/develop/JaneStreetPuzzle_Oct26/experiments/regional_production/results/20261029-151354/REPORT.md",
+  "started": "2026-10-29T16:28:27.554381",
+  "coreHashesBefore": {
+    "JaneStreetPuzzle_Oct26/Storage.swift": "1dcab208deabc197463e0cd0469e8ad19491831c5f7b97c95c9ee4c19ef8a357",
+    "JaneStreetPuzzle_Oct26/ShapeGrowth.swift": "a9bb9b31bf05ad663ee63fee678f6aa7c8b88b0b2be729a8ea8a401def1b0ecb",
+    "JaneStreetPuzzle_Oct26/Runners.swift": "8c6f3204ea8c44ce89a5edc9b7778b6305d402bb7cf157fab217e54df66d7de5",
+    "JaneStreetPuzzle_Oct26/SavedRunRepair.swift": "40882044b50b58242a449d0e4c4f3267fdcb0d5582dd62b0d1bfb7d8215d4671",
+    "JaneStreetPuzzle_Oct26/RegionRepairs.swift": "f9d6a17b01458934f541dd999023547b17f367178cb871201776b15f7d9b9bbc",
+    "JaneStreetPuzzle_Oct26/Solver.swift": "893788e6e59f03ba4c3055175ec66dfb29e4a7b183c63c63d8002a27ec9422c2",
+    "JaneStreetPuzzle_Oct26/SharedSearch.swift": "6793a972f72ebadbeb53d5b0b6797ab6988e363a8bdbdd585312284fc638b244",
+    "JaneStreetPuzzle_Oct26/Logger.swift": "65630fb8ffc4255f455fd193270dbb95129d4a908a3b0a45c8d9c308714e5a39",
+    "JaneStreetPuzzle_Oct26/SearchSupport.swift": "3c65056dc0b7f38c7bef7fd5c6dd3210d0774e261338d110047019d9dc6a5c31",
+    "JaneStreetPuzzle_Oct26/RunConfig.swift": "5c5b4099f817f78a9a87625da2bca65500eeaf9b2eb832b6acf1c66db90dad86",
+    "JaneStreetPuzzle_Oct26/Energy.swift": "af45fcaf294acb4bdae729b91b86ef16db8c5a6adb869e8a8b8be62118c6e0d3",
+    "JaneStreetPuzzle_Oct26/Validation.swift": "7a6516fb7ef949c61c8f51089e2a62595f99490eb6ddddbad2d6ec8aa5beb5bc",
+    "JaneStreetPuzzle_Oct26/CatalogRetention.swift": "7d1a2e6c754a95792bacd3556099b55816a8a5a12a0c4823fa6cb15d65b51413",
+    "JaneStreetPuzzle_Oct26/ExactSearch.swift": "80ae03178df5960af1ce0245722903bc7cc59de37579f9ac51d243520c396a2d",
+    "JaneStreetPuzzle_Oct26/main.swift": "078fa4446c7ad40180b4407ac42a6ae918afaaccb9c0b091a1f705f0d9765537",
+    "JaneStreetPuzzle_Oct26/SoftwareVersion.swift": "82fcd256a33eb8a5359174dca566eef2bf557291da8521079d1e5f5c6c8c7003",
+    "JaneStreetPuzzle_Oct26/PathEvaluation.swift": "c84ae1b184270d66095514b285d1144bf22bdaff39134a8490917e7f8b321d56",
+    "JaneStreetPuzzle_Oct26/Distributed/Transport.swift": "ca737ddc9a22817cd0c02e9e029a41022638756bf846618e17384ffa987b36ad",
+    "JaneStreetPuzzle_Oct26/Distributed/Protocol.swift": "a2cc816a67f186645ceb1ee061f24525aca3975a5c5664d0987e94753646f6bd",
+    "JaneStreetPuzzle_Oct26/Distributed/Management.swift": "91caae5fd3e48ad01a2aeaa889765b8b002556a4c11c2e471cef39c2fdc03dd6",
+    "JaneStreetPuzzle_Oct26/Distributed/Backup.swift": "9d5efcc7d33e721bb0ce86b268c991209a152a6868809cb71bcc6a007708a46d",
+    "JaneStreetPuzzle_Oct26/Distributed/Runtime.swift": "5b45324dd256ab475bfad09fe1825498b91927302af8123304a25ce90aa49131",
+    "JaneStreetPuzzle_Oct26/Distributed/Persistence.swift": "f2a69f43e314a8f48c6c539724f61b0336a6a02a7b2141e4ddd6a4e463ec67f3",
+    "JaneStreetPuzzle_Oct26/Distributed/Dashboard.swift": "79b0b0bfafe1e220c6df5e7036dab458df3644932a884c35e171a8fb3a0028bd",
+    "JaneStreetPuzzle_Oct26/Distributed/Client.swift": "512d32563c1d5b3c9a4b538d7e5b3e1bb1be8934a4d4dec92df09f5f3c009bf1",
+    "JaneStreetPuzzle_Oct26/Distributed/TLS.swift": "30fbc802a302dde9b95e4319d5dfd8113722a35a93737648a91c38976683327d",
+    "JaneStreetPuzzle_Oct26/Distributed/Coordinator.swift": "58183f298a57a919e87de1e9f5c455e668ad49cd341f43ff2b02c8d01ebe25d9"
+  },
+  "controlSource": "/Users/thomasb/Library/Mobile Documents/com~apple~CloudDocs/Documents/develop/JaneStreetPuzzle_Oct26/experiments/regional_production/results/20261029-151354/sources/discrete",
+  "maskBits": {
+    "7": 64,
+    "8": 128,
+    "9": 128
+  }
+}
