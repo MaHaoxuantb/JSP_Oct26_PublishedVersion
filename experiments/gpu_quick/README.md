@@ -10,6 +10,9 @@ production solver, resume the paused campaign, or demonstrate time to solution.
 Read the [measured report](results/20261030-quick/JSP-Oct26-GPU-Quick-Report.md)
 for timing boundaries, resource limitations and conclusions. Raw samples,
 captured inputs, source hashes and a timing CSV are beside it.
+The subsequent [multicore Mini solver report](../gpu_multicore/results/20261030-mini8/JSP-Oct26-GPU-Multicore-Report.md)
+tests eight CPU search workers with CPU-only versus full-device GPU paths,
+sequentially. It is a separate dataset from this component probe.
 
 - `shared.h`: the same exact shape routine compiled for C++ and Metal.
 - `cpu.cpp`: optimized shape, scan/heap distance and certificate controls.

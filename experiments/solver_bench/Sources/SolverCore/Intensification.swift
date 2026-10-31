@@ -9,3 +9,10 @@ public protocol SearchIntensifier: AnyObject {
     until: Double, rng: inout SplitMix, metrics: inout SearchMetrics
   ) throws -> ScoredState?
 }
+
+public protocol GuidedIntensifier: SearchIntensifier {
+  func guide(_ advice: SearchAdvice)
+}
+
+/// Exact lanes can finish independently without cancelling exploratory workers.
+public protocol ExactSearchStatus: AnyObject { var exactSearchExhausted: Bool { get } }

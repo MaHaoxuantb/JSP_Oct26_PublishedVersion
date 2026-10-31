@@ -1,0 +1,165 @@
+{
+  "answer" : 584,
+  "commonEnergy" : 0,
+  "copyright" : "©2026 ThomasB",
+  "cpuEquivalentCores" : 0.8637625428808049,
+  "cpuSeconds" : 0.034745999999999999,
+  "cpuWorkers" : 1,
+  "experiment" : "JSP-Oct26-Search-Escape",
+  "gpuEnabled" : false,
+  "id" : "native-exact4",
+  "labels" : [
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    2,
+    2,
+    3,
+    4,
+    5,
+    5,
+    6,
+    7
+  ],
+  "policy" : "exact",
+  "probe" : false,
+  "puzzle" : {
+    "clues" : [
+      9,
+      -1,
+      -1,
+      5,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      0,
+      -1,
+      -1,
+      -1,
+      0,
+      -1
+    ],
+    "id" : "complete-domain-4",
+    "n" : 4
+  },
+  "quality" : {
+    "issues" : 0,
+    "residual" : 0,
+    "wrong" : 0
+  },
+  "reason" : "solved",
+  "seconds" : 0.040226333367172629,
+  "seed" : 61,
+  "softwareVersion" : 6,
+  "solved" : true,
+  "workers" : [
+    {
+      "answer" : 584,
+      "condition" : {
+        "newBP" : true,
+        "regional" : true,
+        "representation" : "discrete"
+      },
+      "cpuSeconds" : 0.025056542000000001,
+      "gpuEnabled" : false,
+      "jobID" : "native-exact4-w1",
+      "labels" : [
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          2,
+          2,
+          3,
+          4
+        ],
+        [
+          5,
+          5,
+          6,
+          7
+        ]
+      ],
+      "metrics" : {
+        "accepted" : 0,
+        "basicCoverNodes" : 0,
+        "bpImprovements" : 1,
+        "bpNodes" : 17,
+        "bpPhases" : 1,
+        "bpSeconds" : 0.016344708332326263,
+        "catalogSeconds" : 0.015726000186987221,
+        "coverSeconds" : 0,
+        "iterations" : 0,
+        "noProposal" : 0,
+        "patchRejects" : 0,
+        "patchScreens" : 0,
+        "reheats" : 0,
+        "restarts" : 0
+      },
+      "oracle" : {
+        "cacheSeeds" : 3049,
+        "exhaustedQueries" : 0,
+        "generatedShapes" : 0,
+        "generatorNodes" : 0,
+        "generatorSeconds" : 5.4162228479981422e-07,
+        "queryCount" : 30,
+        "seedSeconds" : 0.015725458564702421
+      },
+      "puzzleID" : "complete-domain-4",
+      "quality" : {
+        "issues" : 0,
+        "residual" : 0,
+        "wrong" : 0
+      },
+      "reason" : "solved",
+      "seconds" : 0.027475833368953317,
+      "seed" : 61,
+      "singleThreaded" : true,
+      "solved" : true,
+      "strengths" : [
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "version" : "solver-bench-v1"
+    }
+  ]
+}

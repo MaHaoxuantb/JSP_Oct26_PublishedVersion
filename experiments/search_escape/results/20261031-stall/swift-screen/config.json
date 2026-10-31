@@ -1,0 +1,20 @@
+{
+  "experiment": "JSP-Oct26-Search-Escape-Stall",
+  "copyright": "\u00a92026 ThomasB",
+  "author": "ThomasB",
+  "seconds": 60.0,
+  "threads": 4,
+  "seeds": [
+    2026103101,
+    2026103102
+  ],
+  "startingQuality": {
+    "issues": 0,
+    "residual": 0.16496219632232606,
+    "wrong": 13
+  },
+  "recordAge": 44000,
+  "binarySHA256": "7117f9dc4718906e5ae399b766a993464f59d7c82888a71aace958aa333da2e4",
+  "seedSHA256": "409d08e4c3e55998dcf854ccc10ce01bedfb9cc55882c255a7ba44013a2f3a21",
+  "shapeSHA256": "38f7a898632ec53e30e2a873bfd496c50c2afe13a331cbc74814048aed5144fc"
+}

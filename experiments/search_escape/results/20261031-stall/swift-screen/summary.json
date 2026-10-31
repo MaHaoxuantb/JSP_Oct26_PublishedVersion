@@ -1,0 +1,182 @@
+{
+  "config": {
+    "experiment": "JSP-Oct26-Search-Escape-Stall",
+    "copyright": "\u00a92026 ThomasB",
+    "author": "ThomasB",
+    "seconds": 60.0,
+    "threads": 4,
+    "seeds": [
+      2026103101,
+      2026103102
+    ],
+    "startingQuality": {
+      "issues": 0,
+      "residual": 0.16496219632232606,
+      "wrong": 13
+    },
+    "recordAge": 44000,
+    "binarySHA256": "7117f9dc4718906e5ae399b766a993464f59d7c82888a71aace958aa333da2e4",
+    "seedSHA256": "409d08e4c3e55998dcf854ccc10ce01bedfb9cc55882c255a7ba44013a2f3a21",
+    "shapeSHA256": "38f7a898632ec53e30e2a873bfd496c50c2afe13a331cbc74814048aed5144fc"
+  },
+  "trials": [
+    {
+      "stabilized": false,
+      "seed": 2026103101,
+      "seconds": 60.08897816669196,
+      "quality": {
+        "issues": 0,
+        "residual": 0.16496219632232606,
+        "wrong": 13
+      },
+      "solved": false,
+      "cpuEquivalentCores": 3.918380161946464,
+      "repairs": {
+        "created": 10,
+        "kind_full_board": 60,
+        "protectedCreated": 1,
+        "protectedNodes": 331122,
+        "protectedSlices": 60,
+        "scopeCellsTotal": 709,
+        "scope_121": 1,
+        "distinctLocalReturns": 10,
+        "kind_block": 9,
+        "kind_disagreement": 5,
+        "kind_neighbor": 18,
+        "scope_64": 4,
+        "scope_65": 2,
+        "scope_66": 2,
+        "scope_70": 1
+      },
+      "iterations": 56317,
+      "restarts": 279,
+      "completedCovers": 89,
+      "maximumSurvivingJobSlices": 6,
+      "meanPublishedWorkingEnergy": 0.33972254518406286
+    },
+    {
+      "stabilized": true,
+      "seed": 2026103101,
+      "seconds": 60.040102124912664,
+      "quality": {
+        "issues": 0,
+        "residual": 0.16496219632232606,
+        "wrong": 13
+      },
+      "solved": false,
+      "cpuEquivalentCores": 3.9585070409362784,
+      "repairs": {
+        "created": 13,
+        "kind_full_board": 60,
+        "protectedCreated": 1,
+        "protectedNodes": 331679,
+        "protectedSlices": 60,
+        "scopeCellsTotal": 534,
+        "scope_121": 1,
+        "distinctLocalReturns": 7,
+        "kind_block": 12,
+        "kind_neighbor": 6,
+        "scope_24": 1,
+        "scope_34": 1,
+        "workerImprovements": 1,
+        "exhausted": 3,
+        "kind_capital": 4,
+        "kind_disagreement": 7,
+        "kind_route": 2,
+        "scope_16": 1,
+        "scope_20": 1,
+        "scope_32": 1,
+        "scope_39": 1,
+        "scope_66": 1,
+        "scope_17": 1,
+        "scope_25": 1,
+        "scope_35": 1,
+        "scope_41": 1,
+        "scope_64": 1
+      },
+      "iterations": 55314,
+      "restarts": 275,
+      "completedCovers": 147,
+      "maximumSurvivingJobSlices": 5,
+      "meanPublishedWorkingEnergy": 0.2919222512486547
+    },
+    {
+      "stabilized": true,
+      "seed": 2026103102,
+      "seconds": 60.02842979168054,
+      "quality": {
+        "issues": 0,
+        "residual": 0.16496219632232606,
+        "wrong": 13
+      },
+      "solved": false,
+      "cpuEquivalentCores": 3.977523663847207,
+      "repairs": {
+        "created": 12,
+        "kind_full_board": 60,
+        "protectedCreated": 1,
+        "protectedNodes": 348803,
+        "protectedSlices": 60,
+        "scopeCellsTotal": 510,
+        "scope_121": 1,
+        "kind_neighbor": 5,
+        "scope_28": 1,
+        "workerImprovements": 1,
+        "distinctLocalReturns": 5,
+        "exhausted": 4,
+        "kind_block": 10,
+        "kind_capital": 2,
+        "kind_disagreement": 8,
+        "kind_route": 2,
+        "scope_17": 1,
+        "scope_24": 1,
+        "scope_34": 1,
+        "scope_37": 2,
+        "scope_65": 1,
+        "scope_23": 1,
+        "scope_25": 1,
+        "scope_33": 1,
+        "scope_66": 1
+      },
+      "iterations": 61305,
+      "restarts": 304,
+      "completedCovers": 102,
+      "maximumSurvivingJobSlices": 5,
+      "meanPublishedWorkingEnergy": 0.28785023002503374
+    },
+    {
+      "stabilized": false,
+      "seed": 2026103102,
+      "seconds": 60.04684129159432,
+      "quality": {
+        "issues": 0,
+        "residual": 0.16496219632232606,
+        "wrong": 13
+      },
+      "solved": false,
+      "cpuEquivalentCores": 3.968317081707284,
+      "repairs": {
+        "created": 10,
+        "kind_full_board": 60,
+        "protectedCreated": 1,
+        "protectedNodes": 349226,
+        "protectedSlices": 60,
+        "scopeCellsTotal": 708,
+        "scope_121": 1,
+        "distinctLocalReturns": 6,
+        "kind_block": 8,
+        "kind_disagreement": 5,
+        "kind_neighbor": 18,
+        "scope_64": 5,
+        "scope_65": 2,
+        "scope_67": 1,
+        "scope_70": 1
+      },
+      "iterations": 61195,
+      "restarts": 303,
+      "completedCovers": 131,
+      "maximumSurvivingJobSlices": 6,
+      "meanPublishedWorkingEnergy": 0.3511743889625197
+    }
+  ]
+}

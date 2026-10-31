@@ -1,0 +1,3960 @@
+{
+  "experiment": "JSP-Oct26-Search-Escape",
+  "copyright": "\u00a92026 ThomasB",
+  "author": "ThomasB",
+  "config": {
+    "maximumSegments": 2,
+    "policy": "combined",
+    "roles": [
+      "incumbent",
+      "incumbent",
+      "structural",
+      "structural",
+      "structural",
+      "structural",
+      "broad/recombination",
+      "exact feasibility"
+    ],
+    "structural": true,
+    "cpSat": "optional global constraint-guided sidecar",
+    "seconds": 3000.0,
+    "threads": 8,
+    "simultaneousPuzzles": 1,
+    "puzzle": {
+      "clues": [
+        -1,
+        8,
+        4,
+        -1,
+        -1,
+        11,
+        -1,
+        -1,
+        -1,
+        5,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        11,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        7,
+        -1,
+        -1,
+        1,
+        -1,
+        -1,
+        -1,
+        -1,
+        14,
+        28,
+        -1,
+        -1,
+        51,
+        -1,
+        -1,
+        1,
+        -1,
+        6,
+        -1,
+        -1,
+        -1,
+        22,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        4,
+        -1,
+        1,
+        -1,
+        -1,
+        -1,
+        15,
+        -1,
+        10,
+        -1,
+        0,
+        -1,
+        -1,
+        -1,
+        11,
+        -1,
+        11,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        9,
+        -1,
+        -1,
+        -1,
+        17,
+        -1,
+        14,
+        -1,
+        -1,
+        10,
+        -1,
+        -1,
+        13,
+        30,
+        -1,
+        -1,
+        -1,
+        -1,
+        6,
+        -1,
+        -1,
+        45,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        10,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        26,
+        -1,
+        -1,
+        -1,
+        0,
+        -1,
+        -1,
+        77,
+        61,
+        -1
+      ],
+      "id": "original-11",
+      "n": 11
+    },
+    "seed": 2026103050,
+    "softwareVersion": 10,
+    "minimumPeerVersion": 10,
+    "gpuEnabled": false,
+    "continuation": true,
+    "seedSource": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/preparation/JSP-Oct26-Structural-Search-v10-20261031-130850/restore-smoke/validated-result.json",
+    "startingQuality": {
+      "issues": 0,
+      "residual": 0.16496219632232606,
+      "wrong": 13
+    },
+    "priorSearchSeconds": 12.085990250110626,
+    "fanControl": "unchanged; existing controls",
+    "structuralSeedSource": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/preparation/JSP-Oct26-Structural-Search-v10-20261031-130850/structural-seed.json",
+    "structuralSeedQuality": {
+      "issues": 0,
+      "wrong": 14,
+      "residual": 0.2389780862636728,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.15931872417578188
+    }
+  },
+  "jobs": [
+    {
+      "id": "original11-P-escape-0001",
+      "method": "P",
+      "label": "Escape portfolio \u00b7 segment 1",
+      "routeSelected": false,
+      "status": "running",
+      "started": 1793420038.497429,
+      "series": [
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 0.018018207978457212
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.10997479754821737,
+            "original11-P-escape-0001-w2": 0.10997479754821737,
+            "original11-P-escape-0001-w3": 0.16081282222102183,
+            "original11-P-escape-0001-w4": 0.16081282222102183,
+            "original11-P-escape-0001-w5": 0.16081282222102183,
+            "original11-P-escape-0001-w6": 0.16081282222102183,
+            "original11-P-escape-0001-w7": 0.10997479754821737,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 1.0323160416446626
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.2693758423851057,
+            "original11-P-escape-0001-w2": 0.17043520266102885,
+            "original11-P-escape-0001-w3": 0.3621410493784183,
+            "original11-P-escape-0001-w4": 0.3149695860852753,
+            "original11-P-escape-0001-w5": 0.4002804429341835,
+            "original11-P-escape-0001-w6": 0.45430046611825836,
+            "original11-P-escape-0001-w7": 0.31990479646451125,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 2.045302374754101
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.2518381296397719,
+            "original11-P-escape-0001-w2": 0.19024440580356536,
+            "original11-P-escape-0001-w3": 0.2610689441148246,
+            "original11-P-escape-0001-w4": 0.3812716278243348,
+            "original11-P-escape-0001-w5": 0.24408799203233109,
+            "original11-P-escape-0001-w6": 0.2505911985096621,
+            "original11-P-escape-0001-w7": 0.4177229016552823,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 3.0571345412172377
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.21020073628851865,
+            "original11-P-escape-0001-w2": 0.2526503104554593,
+            "original11-P-escape-0001-w3": 0.40458073254163357,
+            "original11-P-escape-0001-w4": 0.18601497406894174,
+            "original11-P-escape-0001-w5": 0.40897183559583833,
+            "original11-P-escape-0001-w6": 0.2646026324336003,
+            "original11-P-escape-0001-w7": 0.4726200939856296,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 4.061694249976426
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.19526146902027205,
+            "original11-P-escape-0001-w2": 0.2775494899497705,
+            "original11-P-escape-0001-w3": 0.3867006449927217,
+            "original11-P-escape-0001-w4": 0.3819962634317808,
+            "original11-P-escape-0001-w5": 0.40897183559583833,
+            "original11-P-escape-0001-w6": 0.3825885596351139,
+            "original11-P-escape-0001-w7": 0.47989248753253305,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 5.081678207963705
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.19526146902027205,
+            "original11-P-escape-0001-w2": 0.2775494899497705,
+            "original11-P-escape-0001-w3": 0.3867006449927217,
+            "original11-P-escape-0001-w4": 0.3819962634317808,
+            "original11-P-escape-0001-w5": 0.2827464768204014,
+            "original11-P-escape-0001-w6": 0.3825885596351139,
+            "original11-P-escape-0001-w7": 0.47989248753253305,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 6.08699187496677
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.23057865857608706,
+            "original11-P-escape-0001-w2": 0.4393395374678797,
+            "original11-P-escape-0001-w3": 0.23876581005781916,
+            "original11-P-escape-0001-w4": 0.4152936306417752,
+            "original11-P-escape-0001-w5": 0.15931872417578188,
+            "original11-P-escape-0001-w6": 0.2991150527692417,
+            "original11-P-escape-0001-w7": 0.18586765098117775,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 7.094946458004415
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.2679464370312095,
+            "original11-P-escape-0001-w2": 0.2723723196985229,
+            "original11-P-escape-0001-w3": 0.1754803403373981,
+            "original11-P-escape-0001-w4": 0.17768419708670938,
+            "original11-P-escape-0001-w5": 0.15931872417578188,
+            "original11-P-escape-0001-w6": 0.24585119073540918,
+            "original11-P-escape-0001-w7": 0.24274640030222114,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 8.099043041467667
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.10997479754821737,
+            "original11-P-escape-0001-w2": 0.3026402296455772,
+            "original11-P-escape-0001-w3": 0.3532237866462465,
+            "original11-P-escape-0001-w4": 0.3110739099152647,
+            "original11-P-escape-0001-w5": 0.3015145507762297,
+            "original11-P-escape-0001-w6": 0.2427723961915604,
+            "original11-P-escape-0001-w7": 0.24274640030222114,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 9.10663158306852
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.30750235595067715,
+            "original11-P-escape-0001-w2": 0.35448915063466657,
+            "original11-P-escape-0001-w3": 0.2852049994063705,
+            "original11-P-escape-0001-w4": 0.3307452071266688,
+            "original11-P-escape-0001-w5": 0.3015145507762297,
+            "original11-P-escape-0001-w6": 0.37291882153624484,
+            "original11-P-escape-0001-w7": 0.42552171206360145,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 10.125830916222185
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.30750235595067715,
+            "original11-P-escape-0001-w2": 0.35448915063466657,
+            "original11-P-escape-0001-w3": 0.14169499273886135,
+            "original11-P-escape-0001-w4": 0.3307452071266688,
+            "original11-P-escape-0001-w5": 0.3015145507762297,
+            "original11-P-escape-0001-w6": 0.37291882153624484,
+            "original11-P-escape-0001-w7": 0.42552171206360145,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 11.146663166582584
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.38083360105948577,
+            "original11-P-escape-0001-w2": 0.35448915063466657,
+            "original11-P-escape-0001-w3": 0.14169499273886135,
+            "original11-P-escape-0001-w4": 0.16300920311615497,
+            "original11-P-escape-0001-w5": 0.15832740904042147,
+            "original11-P-escape-0001-w6": 0.14169499273886135,
+            "original11-P-escape-0001-w7": 0.43770457112703104,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 12.154960291460156
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.3975346191266241,
+            "original11-P-escape-0001-w2": 0.3890766116189171,
+            "original11-P-escape-0001-w3": 0.40698766313475465,
+            "original11-P-escape-0001-w4": 0.4181506177346835,
+            "original11-P-escape-0001-w5": 0.3350205189645885,
+            "original11-P-escape-0001-w6": 0.16092029961224466,
+            "original11-P-escape-0001-w7": 0.10309554753171246,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 13.156326041556895
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.10997479754821737,
+            "original11-P-escape-0001-w2": 0.19538748558694763,
+            "original11-P-escape-0001-w3": 0.15931872417578188,
+            "original11-P-escape-0001-w4": 0.2588561428506199,
+            "original11-P-escape-0001-w5": 0.342312698575822,
+            "original11-P-escape-0001-w6": 0.37898564401122176,
+            "original11-P-escape-0001-w7": 0.2682647711404292,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 14.158019999973476
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.37672026398977687,
+            "original11-P-escape-0001-w2": 0.2194007957048196,
+            "original11-P-escape-0001-w3": 0.22865133405642868,
+            "original11-P-escape-0001-w4": 0.2158839228554136,
+            "original11-P-escape-0001-w5": 0.342312698575822,
+            "original11-P-escape-0001-w6": 0.21997644050734935,
+            "original11-P-escape-0001-w7": 0.37586331216704383,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 15.189956541638821
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.37672026398977687,
+            "original11-P-escape-0001-w2": 0.2194007957048196,
+            "original11-P-escape-0001-w3": 0.22865133405642868,
+            "original11-P-escape-0001-w4": 0.35061207998121896,
+            "original11-P-escape-0001-w5": 0.342312698575822,
+            "original11-P-escape-0001-w6": 0.21997644050734935,
+            "original11-P-escape-0001-w7": 0.37586331216704383,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 16.201474541332573
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.4307337885915367,
+            "original11-P-escape-0001-w2": 0.29097960841042575,
+            "original11-P-escape-0001-w3": 0.3183166511051353,
+            "original11-P-escape-0001-w4": 0.35061207998121896,
+            "original11-P-escape-0001-w5": 0.24963529477392446,
+            "original11-P-escape-0001-w6": 0.1747322314623231,
+            "original11-P-escape-0001-w7": 0.37669382973874366,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 17.21556679159403
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.4527393139195833,
+            "original11-P-escape-0001-w2": 0.3756140020772849,
+            "original11-P-escape-0001-w3": 0.2600350771950725,
+            "original11-P-escape-0001-w4": 0.3377869387999621,
+            "original11-P-escape-0001-w5": 0.37903365847843945,
+            "original11-P-escape-0001-w6": 0.43370063884514076,
+            "original11-P-escape-0001-w7": 0.440579826908397,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 18.218734708148986
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.4658503502283637,
+            "original11-P-escape-0001-w2": 0.4468108105114621,
+            "original11-P-escape-0001-w3": 0.32505544565449307,
+            "original11-P-escape-0001-w4": 0.3828536933501014,
+            "original11-P-escape-0001-w5": 0.37903365847843945,
+            "original11-P-escape-0001-w6": 0.241047543272634,
+            "original11-P-escape-0001-w7": 0.4093802230311976,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 19.221941208001226
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.49666357542661554,
+            "original11-P-escape-0001-w2": 0.4370663482217791,
+            "original11-P-escape-0001-w3": 0.43646414550829965,
+            "original11-P-escape-0001-w4": 0.16625577059326316,
+            "original11-P-escape-0001-w5": 0.18442525812387167,
+            "original11-P-escape-0001-w6": 0.241047543272634,
+            "original11-P-escape-0001-w7": 0.13636140361396784,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 20.249427041504532
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.20468000770300523,
+            "original11-P-escape-0001-w2": 0.4370663482217791,
+            "original11-P-escape-0001-w3": 0.43646414550829965,
+            "original11-P-escape-0001-w4": 0.16625577059326316,
+            "original11-P-escape-0001-w5": 0.18442525812387167,
+            "original11-P-escape-0001-w6": 0.241047543272634,
+            "original11-P-escape-0001-w7": 0.13636140361396784,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 21.261982166673988
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.20468000770300523,
+            "original11-P-escape-0001-w2": 0.3185400501916676,
+            "original11-P-escape-0001-w3": 0.26555540784426823,
+            "original11-P-escape-0001-w4": 0.2914707793515154,
+            "original11-P-escape-0001-w5": 0.1821691711050414,
+            "original11-P-escape-0001-w6": 0.39348839697699556,
+            "original11-P-escape-0001-w7": 0.191681668840431,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 22.273097208235413
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.2458753466774857,
+            "original11-P-escape-0001-w2": 0.31521899375410384,
+            "original11-P-escape-0001-w3": 0.36077843338969817,
+            "original11-P-escape-0001-w4": 0.3890002312788181,
+            "original11-P-escape-0001-w5": 0.42305383095624904,
+            "original11-P-escape-0001-w6": 0.3674876691910179,
+            "original11-P-escape-0001-w7": 0.2806857437772588,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 23.285619999747723
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.25425727306297713,
+            "original11-P-escape-0001-w2": 0.3875975823537263,
+            "original11-P-escape-0001-w3": 0.14169499273886135,
+            "original11-P-escape-0001-w4": 0.18651551112572348,
+            "original11-P-escape-0001-w5": 0.28920884401080466,
+            "original11-P-escape-0001-w6": 0.26278633547521696,
+            "original11-P-escape-0001-w7": 0.4429315544931687,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 24.293841291218996
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.3626535641687157,
+            "original11-P-escape-0001-w2": 0.3655465444827241,
+            "original11-P-escape-0001-w3": 0.35280369036899867,
+            "original11-P-escape-0001-w4": 0.3993587327127301,
+            "original11-P-escape-0001-w5": 0.28920884401080466,
+            "original11-P-escape-0001-w6": 0.14169499273886135,
+            "original11-P-escape-0001-w7": 0.4669943109088663,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 25.309571374673396
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.3626535641687157,
+            "original11-P-escape-0001-w2": 0.14884838187634716,
+            "original11-P-escape-0001-w3": 0.2778072930331727,
+            "original11-P-escape-0001-w4": 0.3993587327127301,
+            "original11-P-escape-0001-w5": 0.28920884401080466,
+            "original11-P-escape-0001-w6": 0.14169499273886135,
+            "original11-P-escape-0001-w7": 0.4669943109088663,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 26.31926141632721
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.4690924636309049,
+            "original11-P-escape-0001-w2": 0.14884838187634716,
+            "original11-P-escape-0001-w3": 0.2778072930331727,
+            "original11-P-escape-0001-w4": 0.2852251399488477,
+            "original11-P-escape-0001-w5": 0.3890878123366946,
+            "original11-P-escape-0001-w6": 0.4330772512020868,
+            "original11-P-escape-0001-w7": 0.10997479754821737,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 27.33368841651827
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.4191030043868944,
+            "original11-P-escape-0001-w2": 0.1708869493694601,
+            "original11-P-escape-0001-w3": 0.3001804006535066,
+            "original11-P-escape-0001-w4": 0.25640120270139005,
+            "original11-P-escape-0001-w5": 0.4053454691617971,
+            "original11-P-escape-0001-w6": 0.22284239850363427,
+            "original11-P-escape-0001-w7": 0.26195702130800463,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 28.34080229140818
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.16409768682495954,
+            "original11-P-escape-0001-w2": 0.25501141525366416,
+            "original11-P-escape-0001-w3": 0.3748587801789837,
+            "original11-P-escape-0001-w4": 0.4462178661032319,
+            "original11-P-escape-0001-w5": 0.15832740904042147,
+            "original11-P-escape-0001-w6": 0.32717371943643575,
+            "original11-P-escape-0001-w7": 0.3559865018121644,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 29.345857416279614
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.21015697513023715,
+            "original11-P-escape-0001-w2": 0.362650374062957,
+            "original11-P-escape-0001-w3": 0.24434404181102828,
+            "original11-P-escape-0001-w4": 0.2981215054792113,
+            "original11-P-escape-0001-w5": 0.15832740904042147,
+            "original11-P-escape-0001-w6": 0.28892771758819796,
+            "original11-P-escape-0001-w7": 0.4737106882134787,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 30.366733333095908
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.21015697513023715,
+            "original11-P-escape-0001-w2": 0.362650374062957,
+            "original11-P-escape-0001-w3": 0.24434404181102828,
+            "original11-P-escape-0001-w4": 0.2981215054792113,
+            "original11-P-escape-0001-w5": 0.15832740904042147,
+            "original11-P-escape-0001-w6": 0.28892771758819796,
+            "original11-P-escape-0001-w7": 0.4737106882134787,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 31.378607749938965
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.21015697513023715,
+            "original11-P-escape-0001-w2": 0.4402980211504217,
+            "original11-P-escape-0001-w3": 0.2173252916626435,
+            "original11-P-escape-0001-w4": 0.3648043207556526,
+            "original11-P-escape-0001-w5": 0.29991094708860605,
+            "original11-P-escape-0001-w6": 0.42455606043077293,
+            "original11-P-escape-0001-w7": 0.4819836761904497,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 32.39007479138672
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.33581185970216104,
+            "original11-P-escape-0001-w2": 0.14884838187634716,
+            "original11-P-escape-0001-w3": 0.1855792200357297,
+            "original11-P-escape-0001-w4": 0.15832740904042147,
+            "original11-P-escape-0001-w5": 0.33533222188652306,
+            "original11-P-escape-0001-w6": 0.19847625420602413,
+            "original11-P-escape-0001-w7": 0.47608904943551716,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 33.3999754996039
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.4532248796954679,
+            "original11-P-escape-0001-w2": 0.23423616099604527,
+            "original11-P-escape-0001-w3": 0.3149258950433668,
+            "original11-P-escape-0001-w4": 0.3599233854851751,
+            "original11-P-escape-0001-w5": 0.17501571275723823,
+            "original11-P-escape-0001-w6": 0.3579770744479549,
+            "original11-P-escape-0001-w7": 0.10997479754821737,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 34.4104995415546
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.10997479754821737,
+            "original11-P-escape-0001-w2": 0.28771604815554436,
+            "original11-P-escape-0001-w3": 0.27865771527287947,
+            "original11-P-escape-0001-w4": 0.29556741805076553,
+            "original11-P-escape-0001-w5": 0.32605354218242827,
+            "original11-P-escape-0001-w6": 0.43375953366053205,
+            "original11-P-escape-0001-w7": 0.39080146151973394,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 35.42048829142004
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.10997479754821737,
+            "original11-P-escape-0001-w2": 0.28771604815554436,
+            "original11-P-escape-0001-w3": 0.27865771527287947,
+            "original11-P-escape-0001-w4": 0.29556741805076553,
+            "original11-P-escape-0001-w5": 0.32605354218242827,
+            "original11-P-escape-0001-w6": 0.43375953366053205,
+            "original11-P-escape-0001-w7": 0.39080146151973394,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 36.43377162469551
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.3636170884454102,
+            "original11-P-escape-0001-w2": 0.40009096715505055,
+            "original11-P-escape-0001-w3": 0.31856945111803603,
+            "original11-P-escape-0001-w4": 0.2054079479088807,
+            "original11-P-escape-0001-w5": 0.3675965935188656,
+            "original11-P-escape-0001-w6": 0.15855624596375095,
+            "original11-P-escape-0001-w7": 0.4777618196264641,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 37.444699957966805
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.3100673701898096,
+            "original11-P-escape-0001-w2": 0.4207919041661481,
+            "original11-P-escape-0001-w3": 0.14169499273886135,
+            "original11-P-escape-0001-w4": 0.38297629101718383,
+            "original11-P-escape-0001-w5": 0.21663705670524205,
+            "original11-P-escape-0001-w6": 0.2505162685475835,
+            "original11-P-escape-0001-w7": 0.4587505978420914,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 38.45947429165244
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.483046294201725,
+            "original11-P-escape-0001-w2": 0.42889899610188315,
+            "original11-P-escape-0001-w3": 0.3040705829891588,
+            "original11-P-escape-0001-w4": 0.38587508033843476,
+            "original11-P-escape-0001-w5": 0.2183348719195534,
+            "original11-P-escape-0001-w6": 0.4761587485046763,
+            "original11-P-escape-0001-w7": 0.5002608971312399,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 39.46920754155144
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.42894316222681844,
+            "original11-P-escape-0001-w2": 0.230226775963312,
+            "original11-P-escape-0001-w3": 0.35296488077876914,
+            "original11-P-escape-0001-w4": 0.18651551112572348,
+            "original11-P-escape-0001-w5": 0.41767685839016294,
+            "original11-P-escape-0001-w6": 0.16515883156045197,
+            "original11-P-escape-0001-w7": 0.14493243250585233,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 40.48121524974704
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.42894316222681844,
+            "original11-P-escape-0001-w2": 0.230226775963312,
+            "original11-P-escape-0001-w3": 0.35296488077876914,
+            "original11-P-escape-0001-w4": 0.18651551112572348,
+            "original11-P-escape-0001-w5": 0.41767685839016294,
+            "original11-P-escape-0001-w6": 0.16515883156045197,
+            "original11-P-escape-0001-w7": 0.21981155747410383,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 41.49274499993771
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.41314545696065813,
+            "original11-P-escape-0001-w2": 0.39189146167755795,
+            "original11-P-escape-0001-w3": 0.14169499273886135,
+            "original11-P-escape-0001-w4": 0.3139235569373232,
+            "original11-P-escape-0001-w5": 0.303951273263976,
+            "original11-P-escape-0001-w6": 0.32063577646260805,
+            "original11-P-escape-0001-w7": 0.5004575935057218,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 42.50494945794344
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.2167151395200333,
+            "original11-P-escape-0001-w2": 0.46714882139183,
+            "original11-P-escape-0001-w3": 0.4203978409462614,
+            "original11-P-escape-0001-w4": 0.4202869324413135,
+            "original11-P-escape-0001-w5": 0.18319383895998761,
+            "original11-P-escape-0001-w6": 0.15931872417578188,
+            "original11-P-escape-0001-w7": 0.46395404621786085,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 43.51489341631532
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.257939377409878,
+            "original11-P-escape-0001-w2": 0.43778636693075196,
+            "original11-P-escape-0001-w3": 0.2653630867559484,
+            "original11-P-escape-0001-w4": 0.2529722086585398,
+            "original11-P-escape-0001-w5": 0.22605170501476365,
+            "original11-P-escape-0001-w6": 0.3728493005382503,
+            "original11-P-escape-0001-w7": 0.4685712940366514,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 44.52624449972063
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.3069341772477274,
+            "original11-P-escape-0001-w2": 0.38001996818074657,
+            "original11-P-escape-0001-w3": 0.32043997053384565,
+            "original11-P-escape-0001-w4": 0.3342051995086681,
+            "original11-P-escape-0001-w5": 0.3593443115847689,
+            "original11-P-escape-0001-w6": 0.33806269718751275,
+            "original11-P-escape-0001-w7": 0.5082528919865642,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 45.53971587494016
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.3069341772477274,
+            "original11-P-escape-0001-w2": 0.38001996818074657,
+            "original11-P-escape-0001-w3": 0.32043997053384565,
+            "original11-P-escape-0001-w4": 0.3342051995086681,
+            "original11-P-escape-0001-w5": 0.2197511846582263,
+            "original11-P-escape-0001-w6": 0.24163833270287102,
+            "original11-P-escape-0001-w7": 0.5082528919865642,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 46.55434758309275
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.3514996108725105,
+            "original11-P-escape-0001-w2": 0.24649340866575897,
+            "original11-P-escape-0001-w3": 0.14169499273886135,
+            "original11-P-escape-0001-w4": 0.4272202301625379,
+            "original11-P-escape-0001-w5": 0.2197511846582263,
+            "original11-P-escape-0001-w6": 0.24163833270287102,
+            "original11-P-escape-0001-w7": 0.2256589532136711,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 47.568422499578446
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.42384089345311987,
+            "original11-P-escape-0001-w2": 0.4119149708919148,
+            "original11-P-escape-0001-w3": 0.343925247021059,
+            "original11-P-escape-0001-w4": 0.15931872417578188,
+            "original11-P-escape-0001-w5": 0.32760191103583575,
+            "original11-P-escape-0001-w6": 0.15931872417578188,
+            "original11-P-escape-0001-w7": 0.2464504271527199,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 48.57903412496671
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.10997479754821737,
+            "original11-P-escape-0001-w2": 0.4079765016777377,
+            "original11-P-escape-0001-w3": 0.30778985167664635,
+            "original11-P-escape-0001-w4": 0.2647068412349305,
+            "original11-P-escape-0001-w5": 0.3308281159264474,
+            "original11-P-escape-0001-w6": 0.3650765288841467,
+            "original11-P-escape-0001-w7": 0.4201384085417281,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 49.5917755831033
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.10997479754821737,
+            "original11-P-escape-0001-w2": 0.4228494711312279,
+            "original11-P-escape-0001-w3": 0.29387901586165066,
+            "original11-P-escape-0001-w4": 0.2999667707431379,
+            "original11-P-escape-0001-w5": 0.17837214042185112,
+            "original11-P-escape-0001-w6": 0.3184712666744427,
+            "original11-P-escape-0001-w7": 0.45822781632810555,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 50.60394695820287
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.10997479754821737,
+            "original11-P-escape-0001-w2": 0.4228494711312279,
+            "original11-P-escape-0001-w3": 0.29387901586165066,
+            "original11-P-escape-0001-w4": 0.2999667707431379,
+            "original11-P-escape-0001-w5": 0.17837214042185112,
+            "original11-P-escape-0001-w6": 0.3184712666744427,
+            "original11-P-escape-0001-w7": 0.45822781632810555,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 51.61815695790574
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.20670502315544828,
+            "original11-P-escape-0001-w2": 0.445139661959743,
+            "original11-P-escape-0001-w3": 0.3410383563709998,
+            "original11-P-escape-0001-w4": 0.21039062590992919,
+            "original11-P-escape-0001-w5": 0.3944773574723021,
+            "original11-P-escape-0001-w6": 0.27673092057882326,
+            "original11-P-escape-0001-w7": 0.46118847747379926,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 52.63045945810154
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.26434189744876174,
+            "original11-P-escape-0001-w2": 0.4765953794313573,
+            "original11-P-escape-0001-w3": 0.40268138798447356,
+            "original11-P-escape-0001-w4": 0.40964620530238127,
+            "original11-P-escape-0001-w5": 0.45454270730270846,
+            "original11-P-escape-0001-w6": 0.4753472451382115,
+            "original11-P-escape-0001-w7": 0.13017681775023757,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 53.6413015415892
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.35535342108060625,
+            "original11-P-escape-0001-w2": 0.22488923545730768,
+            "original11-P-escape-0001-w3": 0.2812002304312548,
+            "original11-P-escape-0001-w4": 0.3083609395857834,
+            "original11-P-escape-0001-w5": 0.2226106203824564,
+            "original11-P-escape-0001-w6": 0.28216718946359515,
+            "original11-P-escape-0001-w7": 0.2805537333677948,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 54.65399566665292
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.40512895835212537,
+            "original11-P-escape-0001-w2": 0.34716604260013284,
+            "original11-P-escape-0001-w3": 0.14169499273886135,
+            "original11-P-escape-0001-w4": 0.24645469916344856,
+            "original11-P-escape-0001-w5": 0.15931872417578188,
+            "original11-P-escape-0001-w6": 0.266261374461018,
+            "original11-P-escape-0001-w7": 0.3757506783499595,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 55.6657216665335
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.40512895835212537,
+            "original11-P-escape-0001-w2": 0.34716604260013284,
+            "original11-P-escape-0001-w3": 0.14169499273886135,
+            "original11-P-escape-0001-w4": 0.24645469916344856,
+            "original11-P-escape-0001-w5": 0.15931872417578188,
+            "original11-P-escape-0001-w6": 0.266261374461018,
+            "original11-P-escape-0001-w7": 0.3757506783499595,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 56.67798983305693
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.3824731596713713,
+            "original11-P-escape-0001-w2": 0.508830047693611,
+            "original11-P-escape-0001-w3": 0.25529445788530253,
+            "original11-P-escape-0001-w4": 0.37085464872510365,
+            "original11-P-escape-0001-w5": 0.22024274167767932,
+            "original11-P-escape-0001-w6": 0.3294653249106371,
+            "original11-P-escape-0001-w7": 0.38832550567011864,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 57.69125641649589
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.16334360145178062,
+            "original11-P-escape-0001-w2": 0.4137200899379094,
+            "original11-P-escape-0001-w3": 0.3156544687712642,
+            "original11-P-escape-0001-w4": 0.26966967383086143,
+            "original11-P-escape-0001-w5": 0.30735104359333637,
+            "original11-P-escape-0001-w6": 0.22622640130109828,
+            "original11-P-escape-0001-w7": 0.4610126422069381,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 58.7015324998647
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.23853570979896913,
+            "original11-P-escape-0001-w2": 0.38691297484582315,
+            "original11-P-escape-0001-w3": 0.2805002632132404,
+            "original11-P-escape-0001-w4": 0.4020511335417026,
+            "original11-P-escape-0001-w5": 0.14169499273886135,
+            "original11-P-escape-0001-w6": 0.2723172384491458,
+            "original11-P-escape-0001-w7": 0.23789811339999822,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 59.71496604150161
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.2552131141759657,
+            "original11-P-escape-0001-w2": 0.2828531450561783,
+            "original11-P-escape-0001-w3": 0.44048159868124204,
+            "original11-P-escape-0001-w4": 0.456728001701848,
+            "original11-P-escape-0001-w5": 0.3195815024874903,
+            "original11-P-escape-0001-w6": 0.15931872417578188,
+            "original11-P-escape-0001-w7": 0.18367573185521224,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 60.72759437467903
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.2552131141759657,
+            "original11-P-escape-0001-w2": 0.2828531450561783,
+            "original11-P-escape-0001-w3": 0.24903026433090736,
+            "original11-P-escape-0001-w4": 0.456728001701848,
+            "original11-P-escape-0001-w5": 0.3195815024874903,
+            "original11-P-escape-0001-w6": 0.15931872417578188,
+            "original11-P-escape-0001-w7": 0.3084135756296126,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 61.74105108296499
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.354885114258014,
+            "original11-P-escape-0001-w2": 0.3865712926245933,
+            "original11-P-escape-0001-w3": 0.24903026433090736,
+            "original11-P-escape-0001-w4": 0.3009222091835485,
+            "original11-P-escape-0001-w5": 0.33658630536717093,
+            "original11-P-escape-0001-w6": 0.4231697555869846,
+            "original11-P-escape-0001-w7": 0.10997479754821737,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 62.75041029136628
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.2713163933949417,
+            "original11-P-escape-0001-w2": 0.49994274822450496,
+            "original11-P-escape-0001-w3": 0.24228383509157772,
+            "original11-P-escape-0001-w4": 0.3089292927973855,
+            "original11-P-escape-0001-w5": 0.14169499273886135,
+            "original11-P-escape-0001-w6": 0.2659561696979486,
+            "original11-P-escape-0001-w7": 0.3728652884551309,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 63.76047179149464
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.16096959399755928,
+            "original11-P-escape-0001-w2": 0.5083835059770889,
+            "original11-P-escape-0001-w3": 0.14169499273886135,
+            "original11-P-escape-0001-w4": 0.22462006907950274,
+            "original11-P-escape-0001-w5": 0.3428302086476471,
+            "original11-P-escape-0001-w6": 0.15668634165966883,
+            "original11-P-escape-0001-w7": 0.4419205109935947,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 64.76074112486094
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.16096959399755928,
+            "original11-P-escape-0001-w2": 0.14493243250585233,
+            "original11-P-escape-0001-w3": 0.38249179719609133,
+            "original11-P-escape-0001-w4": 0.3567741322065446,
+            "original11-P-escape-0001-w5": 0.41359869822859063,
+            "original11-P-escape-0001-w6": 0.32833251837887334,
+            "original11-P-escape-0001-w7": 0.22321995669355477,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 65.78092683292925
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.269662307503107,
+            "original11-P-escape-0001-w2": 0.14493243250585233,
+            "original11-P-escape-0001-w3": 0.38249179719609133,
+            "original11-P-escape-0001-w4": 0.3567741322065446,
+            "original11-P-escape-0001-w5": 0.41359869822859063,
+            "original11-P-escape-0001-w6": 0.32833251837887334,
+            "original11-P-escape-0001-w7": 0.22321995669355477,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 66.79428854165599
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.4050500724049129,
+            "original11-P-escape-0001-w2": 0.20778735786917893,
+            "original11-P-escape-0001-w3": 0.23025829736475248,
+            "original11-P-escape-0001-w4": 0.28120205837436135,
+            "original11-P-escape-0001-w5": 0.17669188429639235,
+            "original11-P-escape-0001-w6": 0.495523776425854,
+            "original11-P-escape-0001-w7": 0.34756339684307896,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 67.80617608316243
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.46121618214485155,
+            "original11-P-escape-0001-w2": 0.3285121058491211,
+            "original11-P-escape-0001-w3": 0.25339880830515243,
+            "original11-P-escape-0001-w4": 0.21819337657127322,
+            "original11-P-escape-0001-w5": 0.35119204922373487,
+            "original11-P-escape-0001-w6": 0.21518123727218785,
+            "original11-P-escape-0001-w7": 0.461370620565267,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 68.81539783300832
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.46121618214485155,
+            "original11-P-escape-0001-w2": 0.40938656777907534,
+            "original11-P-escape-0001-w3": 0.40730080289660137,
+            "original11-P-escape-0001-w4": 0.35348819928487574,
+            "original11-P-escape-0001-w5": 0.2701071656384015,
+            "original11-P-escape-0001-w6": 0.15931872417578188,
+            "original11-P-escape-0001-w7": 0.3700163902130531,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 69.82995458319783
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.46247215786679857,
+            "original11-P-escape-0001-w2": 0.41287062845754874,
+            "original11-P-escape-0001-w3": 0.40245654502105205,
+            "original11-P-escape-0001-w4": 0.20440423526430662,
+            "original11-P-escape-0001-w5": 0.27748069009012255,
+            "original11-P-escape-0001-w6": 0.4370957532811243,
+            "original11-P-escape-0001-w7": 0.4362716482233737,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 70.84050970803946
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.16907226573659465,
+            "original11-P-escape-0001-w2": 0.41287062845754874,
+            "original11-P-escape-0001-w3": 0.40245654502105205,
+            "original11-P-escape-0001-w4": 0.20440423526430662,
+            "original11-P-escape-0001-w5": 0.27748069009012255,
+            "original11-P-escape-0001-w6": 0.4370957532811243,
+            "original11-P-escape-0001-w7": 0.4362716482233737,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 71.85321279149503
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.21012537648667506,
+            "original11-P-escape-0001-w2": 0.309236189621041,
+            "original11-P-escape-0001-w3": 0.2306608591907194,
+            "original11-P-escape-0001-w4": 0.237031244710163,
+            "original11-P-escape-0001-w5": 0.14169499273886135,
+            "original11-P-escape-0001-w6": 0.17738119463473292,
+            "original11-P-escape-0001-w7": 0.2120659921527809,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 72.86374833295122
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.21012537648667506,
+            "original11-P-escape-0001-w2": 0.4365727518776816,
+            "original11-P-escape-0001-w3": 0.451723468989183,
+            "original11-P-escape-0001-w4": 0.4440306346942622,
+            "original11-P-escape-0001-w5": 0.35584567329608935,
+            "original11-P-escape-0001-w6": 0.14863012717408064,
+            "original11-P-escape-0001-w7": 0.414856228507203,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 73.87499979138374
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.30378942802454684,
+            "original11-P-escape-0001-w2": 0.44201130883139,
+            "original11-P-escape-0001-w3": 0.26827339597201433,
+            "original11-P-escape-0001-w4": 0.3322420807690814,
+            "original11-P-escape-0001-w5": 0.446697757218603,
+            "original11-P-escape-0001-w6": 0.45716438049070046,
+            "original11-P-escape-0001-w7": 0.48207654497505753,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 74.89154562493786
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.24520494457375316,
+            "original11-P-escape-0001-w2": 0.4407197773507934,
+            "original11-P-escape-0001-w3": 0.43999396772499044,
+            "original11-P-escape-0001-w4": 0.2911056469426241,
+            "original11-P-escape-0001-w5": 0.15931872417578188,
+            "original11-P-escape-0001-w6": 0.19230823654929827,
+            "original11-P-escape-0001-w7": 0.47520130694497315,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 75.90443754149601
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.32123035217187934,
+            "original11-P-escape-0001-w2": 0.4407197773507934,
+            "original11-P-escape-0001-w3": 0.43999396772499044,
+            "original11-P-escape-0001-w4": 0.2911056469426241,
+            "original11-P-escape-0001-w5": 0.15931872417578188,
+            "original11-P-escape-0001-w6": 0.19230823654929827,
+            "original11-P-escape-0001-w7": 0.47520130694497315,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 76.91504020802677
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.32123035217187934,
+            "original11-P-escape-0001-w2": 0.4504520632862879,
+            "original11-P-escape-0001-w3": 0.17837214042185112,
+            "original11-P-escape-0001-w4": 0.4130286050788082,
+            "original11-P-escape-0001-w5": 0.42375955662241854,
+            "original11-P-escape-0001-w6": 0.15931872417578188,
+            "original11-P-escape-0001-w7": 0.5006350782643118,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 77.92936295829713
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.40363508545326726,
+            "original11-P-escape-0001-w2": 0.23847712716354966,
+            "original11-P-escape-0001-w3": 0.14169499273886135,
+            "original11-P-escape-0001-w4": 0.31039090120356017,
+            "original11-P-escape-0001-w5": 0.4258371843030391,
+            "original11-P-escape-0001-w6": 0.4104176433696319,
+            "original11-P-escape-0001-w7": 0.10997479754821737,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 78.93938124971464
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.146223794452952,
+            "original11-P-escape-0001-w2": 0.34270502649422024,
+            "original11-P-escape-0001-w3": 0.47822379245920327,
+            "original11-P-escape-0001-w4": 0.28407973421403954,
+            "original11-P-escape-0001-w5": 0.21451454401543535,
+            "original11-P-escape-0001-w6": 0.23488081853913775,
+            "original11-P-escape-0001-w7": 0.10997479754821737,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 79.9502078332007
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.24625097927894457,
+            "original11-P-escape-0001-w2": 0.32570525891513,
+            "original11-P-escape-0001-w3": 0.27537806486113087,
+            "original11-P-escape-0001-w4": 0.3954499681711392,
+            "original11-P-escape-0001-w5": 0.2775590743843028,
+            "original11-P-escape-0001-w6": 0.18131518598614596,
+            "original11-P-escape-0001-w7": 0.12466717587695936,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 80.96022549970075
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.2812027085674846,
+            "original11-P-escape-0001-w2": 0.32570525891513,
+            "original11-P-escape-0001-w3": 0.27537806486113087,
+            "original11-P-escape-0001-w4": 0.384728862937419,
+            "original11-P-escape-0001-w5": 0.2775590743843028,
+            "original11-P-escape-0001-w6": 0.18131518598614596,
+            "original11-P-escape-0001-w7": 0.20736463290596718,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 81.9737458745949
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.34140673508167146,
+            "original11-P-escape-0001-w2": 0.4186713331799683,
+            "original11-P-escape-0001-w3": 0.19436610461565904,
+            "original11-P-escape-0001-w4": 0.384728862937419,
+            "original11-P-escape-0001-w5": 0.36840369341611273,
+            "original11-P-escape-0001-w6": 0.3672968637174261,
+            "original11-P-escape-0001-w7": 0.20736463290596718,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 82.98615862475708
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.34140673508167146,
+            "original11-P-escape-0001-w2": 0.452830848384748,
+            "original11-P-escape-0001-w3": 0.43934258420538774,
+            "original11-P-escape-0001-w4": 0.21541509791084157,
+            "original11-P-escape-0001-w5": 0.20078210057089188,
+            "original11-P-escape-0001-w6": 0.43834593742983324,
+            "original11-P-escape-0001-w7": 0.3931731779471472,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 83.99531395826489
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.3897940091461613,
+            "original11-P-escape-0001-w2": 0.26773869919306925,
+            "original11-P-escape-0001-w3": 0.2866424052192584,
+            "original11-P-escape-0001-w4": 0.1617041884595796,
+            "original11-P-escape-0001-w5": 0.2756126183501838,
+            "original11-P-escape-0001-w6": 0.16700226284566952,
+            "original11-P-escape-0001-w7": 0.4232837704317205,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 85.00711670797318
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.41951467469570386,
+            "original11-P-escape-0001-w2": 0.3919868245399352,
+            "original11-P-escape-0001-w3": 0.3530608472973298,
+            "original11-P-escape-0001-w4": 0.35436567008478076,
+            "original11-P-escape-0001-w5": 0.3218197023848444,
+            "original11-P-escape-0001-w6": 0.2737960889303538,
+            "original11-P-escape-0001-w7": 0.10997479754821737,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 86.02007162477821
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.17726869398649883,
+            "original11-P-escape-0001-w2": 0.4113058761228014,
+            "original11-P-escape-0001-w3": 0.3530608472973298,
+            "original11-P-escape-0001-w4": 0.35436567008478076,
+            "original11-P-escape-0001-w5": 0.3218197023848444,
+            "original11-P-escape-0001-w6": 0.2737960889303538,
+            "original11-P-escape-0001-w7": 0.2978044712593674,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 87.0295774997212
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.17726869398649883,
+            "original11-P-escape-0001-w2": 0.4113058761228014,
+            "original11-P-escape-0001-w3": 0.4229331103414267,
+            "original11-P-escape-0001-w4": 0.16515883156045197,
+            "original11-P-escape-0001-w5": 0.29865263410016635,
+            "original11-P-escape-0001-w6": 0.35520313005997406,
+            "original11-P-escape-0001-w7": 0.2978044712593674,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 88.03916137479246
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.16008503589374984,
+            "original11-P-escape-0001-w2": 0.4261057599884635,
+            "original11-P-escape-0001-w3": 0.33528647500135295,
+            "original11-P-escape-0001-w4": 0.27846882876591733,
+            "original11-P-escape-0001-w5": 0.14169499273886135,
+            "original11-P-escape-0001-w6": 0.1820075432514711,
+            "original11-P-escape-0001-w7": 0.3601002932597568,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 89.04825899982825
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.2659139872970561,
+            "original11-P-escape-0001-w2": 0.49665190886224747,
+            "original11-P-escape-0001-w3": 0.2698060221556497,
+            "original11-P-escape-0001-w4": 0.4146365125659754,
+            "original11-P-escape-0001-w5": 0.43769146547411353,
+            "original11-P-escape-0001-w6": 0.25572422550694557,
+            "original11-P-escape-0001-w7": 0.33385513413712475,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 90.05933820828795
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.3111772736666808,
+            "original11-P-escape-0001-w2": 0.1314626090947648,
+            "original11-P-escape-0001-w3": 0.14169499273886135,
+            "original11-P-escape-0001-w4": 0.3871287424386327,
+            "original11-P-escape-0001-w5": 0.33287414668876353,
+            "original11-P-escape-0001-w6": 0.3924690629716328,
+            "original11-P-escape-0001-w7": 0.2858440698379267,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 91.07187737477943
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.42922648929925167,
+            "original11-P-escape-0001-w2": 0.1314626090947648,
+            "original11-P-escape-0001-w3": 0.14169499273886135,
+            "original11-P-escape-0001-w4": 0.3871287424386327,
+            "original11-P-escape-0001-w5": 0.33287414668876353,
+            "original11-P-escape-0001-w6": 0.3924690629716328,
+            "original11-P-escape-0001-w7": 0.43715195285283825,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 92.08408979140222
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.42922648929925167,
+            "original11-P-escape-0001-w2": 0.3896748146638565,
+            "original11-P-escape-0001-w3": 0.387233640981705,
+            "original11-P-escape-0001-w4": 0.20319284840346855,
+            "original11-P-escape-0001-w5": 0.16557010752306706,
+            "original11-P-escape-0001-w6": 0.16165747227774915,
+            "original11-P-escape-0001-w7": 0.43715195285283825,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 93.09487366629764
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.4086508243517097,
+            "original11-P-escape-0001-w2": 0.48170727734007596,
+            "original11-P-escape-0001-w3": 0.18374173229267463,
+            "original11-P-escape-0001-w4": 0.377741832148137,
+            "original11-P-escape-0001-w5": 0.4016537879369227,
+            "original11-P-escape-0001-w6": 0.2681296182066253,
+            "original11-P-escape-0001-w7": 0.13972224402237368,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 94.10921770799905
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.10997479754821737,
+            "original11-P-escape-0001-w2": 0.4864911479884742,
+            "original11-P-escape-0001-w3": 0.21730200971894667,
+            "original11-P-escape-0001-w4": 0.3030834370266312,
+            "original11-P-escape-0001-w5": 0.3283064199285233,
+            "original11-P-escape-0001-w6": 0.19735750414600414,
+            "original11-P-escape-0001-w7": 0.26539112636830414,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 95.12036404153332
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.327287233577231,
+            "original11-P-escape-0001-w2": 0.44635906774944206,
+            "original11-P-escape-0001-w3": 0.4694232841934544,
+            "original11-P-escape-0001-w4": 0.3427030299548713,
+            "original11-P-escape-0001-w5": 0.2316104851951667,
+            "original11-P-escape-0001-w6": 0.2528243145586795,
+            "original11-P-escape-0001-w7": 0.389218168783348,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 96.13338241633028
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.4750323236209096,
+            "original11-P-escape-0001-w2": 0.44635906774944206,
+            "original11-P-escape-0001-w3": 0.4694232841934544,
+            "original11-P-escape-0001-w4": 0.3427030299548713,
+            "original11-P-escape-0001-w5": 0.2316104851951667,
+            "original11-P-escape-0001-w6": 0.36990600455870326,
+            "original11-P-escape-0001-w7": 0.4005900490646699,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 97.14415987487882
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.4750323236209096,
+            "original11-P-escape-0001-w2": 0.20107814681468286,
+            "original11-P-escape-0001-w3": 0.29946649706007994,
+            "original11-P-escape-0001-w4": 0.4368240576168456,
+            "original11-P-escape-0001-w5": 0.3523856821053922,
+            "original11-P-escape-0001-w6": 0.36990600455870326,
+            "original11-P-escape-0001-w7": 0.4005900490646699,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 98.15391691634431
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.46737693152321585,
+            "original11-P-escape-0001-w2": 0.4133432514645805,
+            "original11-P-escape-0001-w3": 0.342178395535496,
+            "original11-P-escape-0001-w4": 0.3949860425547868,
+            "original11-P-escape-0001-w5": 0.34370258353923355,
+            "original11-P-escape-0001-w6": 0.15931872417578188,
+            "original11-P-escape-0001-w7": 0.40608725671552587,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 99.16692349966615
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.46376798842258177,
+            "original11-P-escape-0001-w2": 0.4375005921103347,
+            "original11-P-escape-0001-w3": 0.469387959380946,
+            "original11-P-escape-0001-w4": 0.22831853923898246,
+            "original11-P-escape-0001-w5": 0.25205061328055983,
+            "original11-P-escape-0001-w6": 0.2431343133660425,
+            "original11-P-escape-0001-w7": 0.18982354731356185,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 100.17801404139027
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.2827263470830287,
+            "original11-P-escape-0001-w2": 0.417231111848452,
+            "original11-P-escape-0001-w3": 0.2377392165268538,
+            "original11-P-escape-0001-w4": 0.21614863920415858,
+            "original11-P-escape-0001-w5": 0.35337910651449905,
+            "original11-P-escape-0001-w6": 0.4264256763326746,
+            "original11-P-escape-0001-w7": 0.4553727167064006,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 101.19059024984017
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.38244743044938817,
+            "original11-P-escape-0001-w2": 0.417231111848452,
+            "original11-P-escape-0001-w3": 0.2377392165268538,
+            "original11-P-escape-0001-w4": 0.21614863920415858,
+            "original11-P-escape-0001-w5": 0.35337910651449905,
+            "original11-P-escape-0001-w6": 0.4264256763326746,
+            "original11-P-escape-0001-w7": 0.41150298708669303,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 102.2001888747327
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.38244743044938817,
+            "original11-P-escape-0001-w2": 0.1569885384122256,
+            "original11-P-escape-0001-w3": 0.30341643283306785,
+            "original11-P-escape-0001-w4": 0.4388974589260963,
+            "original11-P-escape-0001-w5": 0.3318348119886167,
+            "original11-P-escape-0001-w6": 0.3970379700623312,
+            "original11-P-escape-0001-w7": 0.41150298708669303,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 103.2126534995623
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.46249706355927683,
+            "original11-P-escape-0001-w2": 0.3373214757540172,
+            "original11-P-escape-0001-w3": 0.36154358596241004,
+            "original11-P-escape-0001-w4": 0.18319383895998761,
+            "original11-P-escape-0001-w5": 0.2669622420351863,
+            "original11-P-escape-0001-w6": 0.18425712802452612,
+            "original11-P-escape-0001-w7": 0.4220889396468719,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 104.22435937495902
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.4520166932822904,
+            "original11-P-escape-0001-w2": 0.35066972050987705,
+            "original11-P-escape-0001-w3": 0.21263628817823518,
+            "original11-P-escape-0001-w4": 0.31394762167527107,
+            "original11-P-escape-0001-w5": 0.36250846695748956,
+            "original11-P-escape-0001-w6": 0.14169499273886135,
+            "original11-P-escape-0001-w7": 0.4246206028737222,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 105.23524949979037
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.19069878001089827,
+            "original11-P-escape-0001-w2": 0.4142721822439878,
+            "original11-P-escape-0001-w3": 0.344426413521779,
+            "original11-P-escape-0001-w4": 0.3607881759477524,
+            "original11-P-escape-0001-w5": 0.4468892261870257,
+            "original11-P-escape-0001-w6": 0.36722088425172394,
+            "original11-P-escape-0001-w7": 0.4451274726130321,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 106.24758899956942
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.43689263563755826,
+            "original11-P-escape-0001-w2": 0.4142721822439878,
+            "original11-P-escape-0001-w3": 0.344426413521779,
+            "original11-P-escape-0001-w4": 0.3607881759477524,
+            "original11-P-escape-0001-w5": 0.4468892261870257,
+            "original11-P-escape-0001-w6": 0.36722088425172394,
+            "original11-P-escape-0001-w7": 0.14690251629411796,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 107.25779295805842
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.43689263563755826,
+            "original11-P-escape-0001-w2": 0.4549208987463275,
+            "original11-P-escape-0001-w3": 0.3775418426133088,
+            "original11-P-escape-0001-w4": 0.21880873180084517,
+            "original11-P-escape-0001-w5": 0.20056661646238436,
+            "original11-P-escape-0001-w6": 0.27953640297668825,
+            "original11-P-escape-0001-w7": 0.14690251629411796,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 108.27229195833206
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.42896394489276046,
+            "original11-P-escape-0001-w2": 0.15634761664830923,
+            "original11-P-escape-0001-w3": 0.28535581414553696,
+            "original11-P-escape-0001-w4": 0.24505286700553172,
+            "original11-P-escape-0001-w5": 0.3891048903184417,
+            "original11-P-escape-0001-w6": 0.14169499273886135,
+            "original11-P-escape-0001-w7": 0.24779871479704915,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 109.2846065829508
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.46164261500458564,
+            "original11-P-escape-0001-w2": 0.16352879272900683,
+            "original11-P-escape-0001-w3": 0.27213309432789934,
+            "original11-P-escape-0001-w4": 0.14169499273886135,
+            "original11-P-escape-0001-w5": 0.25106970241856,
+            "original11-P-escape-0001-w6": 0.43151354423380367,
+            "original11-P-escape-0001-w7": 0.41894280215194274,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 110.2937815412879
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.4662326793488945,
+            "original11-P-escape-0001-w2": 0.32581390141252586,
+            "original11-P-escape-0001-w3": 0.33722118989029587,
+            "original11-P-escape-0001-w4": 0.303128287835697,
+            "original11-P-escape-0001-w5": 0.4278666125193111,
+            "original11-P-escape-0001-w6": 0.3008318815117699,
+            "original11-P-escape-0001-w7": 0.4486264273894675,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 111.30359216639772
+        },
+        {
+          "activeEnergies": {
+            "original11-P-escape-0001-w1": 0.29903804169167536,
+            "original11-P-escape-0001-w2": 0.32581390141252586,
+            "original11-P-escape-0001-w3": 0.33722118989029587,
+            "original11-P-escape-0001-w4": 0.303128287835697,
+            "original11-P-escape-0001-w5": 0.4278666125193111,
+            "original11-P-escape-0001-w6": 0.3008318815117699,
+            "original11-P-escape-0001-w7": 0.48032133181164466,
+            "original11-P-escape-0001-w8": 0.10997479754821737
+          },
+          "commonEnergy": 0.10997479754821737,
+          "quality": {
+            "issues": 0,
+            "residual": 0.16496219632232606,
+            "wrong": 13
+          },
+          "seconds": 112.31457029143348
+        }
+      ],
+      "seedSource": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/campaigns/JSP-Oct26-Structural-Search-20261031-130850/inputs/seed-result.json",
+      "workerPID": 73535,
+      "progress": {
+        "activeEnergies": {
+          "original11-P-escape-0001-w1": 0.29903804169167536,
+          "original11-P-escape-0001-w2": 0.32581390141252586,
+          "original11-P-escape-0001-w3": 0.33722118989029587,
+          "original11-P-escape-0001-w4": 0.303128287835697,
+          "original11-P-escape-0001-w5": 0.4278666125193111,
+          "original11-P-escape-0001-w6": 0.3008318815117699,
+          "original11-P-escape-0001-w7": 0.48032133181164466,
+          "original11-P-escape-0001-w8": 0.10997479754821737
+        },
+        "archiveSize": 16,
+        "commonEnergy": 0.10997479754821737,
+        "cpuEquivalentCores": 7.692732926441156,
+        "cpuSeconds": 864.005993,
+        "distinctActive": 8,
+        "distinctPublished": 568,
+        "labels": [
+          0,
+          0,
+          1,
+          1,
+          1,
+          2,
+          2,
+          3,
+          4,
+          4,
+          4,
+          0,
+          0,
+          0,
+          5,
+          2,
+          2,
+          3,
+          3,
+          3,
+          4,
+          6,
+          7,
+          0,
+          8,
+          8,
+          9,
+          9,
+          9,
+          10,
+          3,
+          3,
+          3,
+          7,
+          7,
+          8,
+          8,
+          11,
+          12,
+          10,
+          10,
+          13,
+          3,
+          14,
+          7,
+          7,
+          8,
+          8,
+          11,
+          11,
+          15,
+          10,
+          13,
+          13,
+          13,
+          7,
+          16,
+          16,
+          16,
+          11,
+          11,
+          15,
+          17,
+          18,
+          18,
+          13,
+          7,
+          7,
+          16,
+          19,
+          11,
+          20,
+          20,
+          18,
+          18,
+          18,
+          18,
+          7,
+          7,
+          16,
+          19,
+          21,
+          20,
+          20,
+          18,
+          18,
+          22,
+          22,
+          7,
+          23,
+          16,
+          21,
+          21,
+          21,
+          24,
+          24,
+          18,
+          24,
+          24,
+          23,
+          23,
+          16,
+          21,
+          21,
+          25,
+          24,
+          24,
+          24,
+          24,
+          24,
+          23,
+          16,
+          16,
+          16,
+          25,
+          25,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "migrations": 3,
+        "quality": {
+          "issues": 0,
+          "residual": 0.16496219632232606,
+          "wrong": 13
+        },
+        "recordAge": 48403.21571982326,
+        "seconds": 112.31457029143348,
+        "solved": false,
+        "updated": 1793420151.5251188,
+        "workersObserved": 8,
+        "wrongAge": 48455.198678855784
+      },
+      "workers": [
+        {
+          "worker": 1,
+          "progress": {
+            "commonEnergy": 0.10997479754821737,
+            "cpuRatio": 0.9614552353152046,
+            "cpuSeconds": 107.70539583399999,
+            "discreteness": 0,
+            "jobID": "original11-P-escape-0001-w1",
+            "memoryBytes": 297664512,
+            "metrics": {
+              "accepted": 1432,
+              "basicCoverNodes": 62258,
+              "bpImprovements": 0,
+              "bpNodes": 9636,
+              "bpPhases": 21,
+              "bpSeconds": 21.02086616680026,
+              "catalogSeconds": 14.733140684198588,
+              "coverSeconds": 80.10807239217684,
+              "iterations": 3234,
+              "noProposal": 1311,
+              "patchRejects": 0,
+              "patchScreens": 0,
+              "reheats": 32,
+              "restarts": 16
+            },
+            "nativeEnergy": 0.06598487852893042,
+            "oracle": {
+              "cacheSeeds": 592498,
+              "exhaustedQueries": 32135,
+              "generatedShapes": 468,
+              "generatorNodes": 411606,
+              "generatorSeconds": 11.835881414823234,
+              "queryCount": 70773,
+              "seedSeconds": 2.897259269375354
+            },
+            "phase": "sa",
+            "quality": {
+              "issues": 0,
+              "residual": 0.16496219632232606,
+              "wrong": 13
+            },
+            "seconds": 112.02330787526444,
+            "updated": 1793420151.26714
+          },
+          "repairs": {
+            "kind_block": 5,
+            "kind_capital": 5,
+            "kind_neighbor": 5,
+            "kind_route": 6,
+            "restoredJobs": 4
+          },
+          "structure": {}
+        },
+        {
+          "worker": 2,
+          "progress": {
+            "commonEnergy": 0.10997479754821737,
+            "cpuRatio": 0.9606457886670193,
+            "cpuSeconds": 106.66256862499999,
+            "discreteness": 0,
+            "jobID": "original11-P-escape-0001-w2",
+            "memoryBytes": 297566208,
+            "metrics": {
+              "accepted": 1651,
+              "basicCoverNodes": 59365,
+              "bpImprovements": 0,
+              "bpNodes": 8623,
+              "bpPhases": 21,
+              "bpSeconds": 21.016820875462145,
+              "catalogSeconds": 16.225668670609593,
+              "coverSeconds": 79.0192544516176,
+              "iterations": 3484,
+              "noProposal": 1375,
+              "patchRejects": 0,
+              "patchScreens": 0,
+              "reheats": 34,
+              "restarts": 17
+            },
+            "nativeEnergy": 0.06598487852893042,
+            "oracle": {
+              "cacheSeeds": 552070,
+              "exhaustedQueries": 31007,
+              "generatedShapes": 912,
+              "generatorNodes": 434412,
+              "generatorSeconds": 12.189048778265715,
+              "queryCount": 68900,
+              "seedSeconds": 4.036619892343879
+            },
+            "phase": "sa",
+            "quality": {
+              "issues": 0,
+              "residual": 0.16496219632232606,
+              "wrong": 13
+            },
+            "seconds": 111.0321513749659,
+            "updated": 1793420150.262995
+          },
+          "repairs": {
+            "kind_block": 5,
+            "kind_capital": 5,
+            "kind_disagreement": 5,
+            "kind_neighbor": 6,
+            "restoredJobs": 4
+          },
+          "structure": {}
+        },
+        {
+          "worker": 3,
+          "progress": {
+            "commonEnergy": 0.10997479754821737,
+            "cpuRatio": 0.9615305833025505,
+            "cpuSeconds": 108.320729709,
+            "discreteness": 0,
+            "jobID": "original11-P-escape-0001-w3",
+            "memoryBytes": 301416448,
+            "metrics": {
+              "accepted": 3814,
+              "basicCoverNodes": 202137,
+              "bpImprovements": 1,
+              "bpNodes": 9898,
+              "bpPhases": 22,
+              "bpSeconds": 22.019860168453306,
+              "catalogSeconds": 2.7368838456459343,
+              "coverSeconds": 4.479064060375094,
+              "iterations": 12525,
+              "noProposal": 5905,
+              "patchRejects": 0,
+              "patchScreens": 0,
+              "reheats": 125,
+              "restarts": 62
+            },
+            "nativeEnergy": 0.06598487852893042,
+            "oracle": {
+              "cacheSeeds": 61944,
+              "exhaustedQueries": 2179,
+              "generatedShapes": 241,
+              "generatorNodes": 99841,
+              "generatorSeconds": 2.091549826785922,
+              "queryCount": 6878,
+              "seedSeconds": 0.6453340188600123
+            },
+            "phase": "new_bp",
+            "quality": {
+              "issues": 0,
+              "residual": 0.16496219632232606,
+              "wrong": 13
+            },
+            "seconds": 112.65448191668838,
+            "updated": 1793420151.913182
+          },
+          "repairs": {
+            "distinctLocalReturns": 1,
+            "kind_block": 11,
+            "kind_capital": 6,
+            "kind_route": 5,
+            "restoredJobs": 4
+          },
+          "structure": {
+            "bestConstraintViolations": 0,
+            "bestLargestRegion": 26,
+            "bestWorkingLabels": [
+              0,
+              1,
+              2,
+              2,
+              3,
+              3,
+              3,
+              3,
+              4,
+              4,
+              4,
+              0,
+              1,
+              1,
+              2,
+              2,
+              3,
+              3,
+              5,
+              5,
+              5,
+              4,
+              6,
+              6,
+              1,
+              1,
+              7,
+              8,
+              9,
+              10,
+              10,
+              10,
+              4,
+              11,
+              11,
+              11,
+              11,
+              7,
+              8,
+              8,
+              12,
+              12,
+              10,
+              13,
+              11,
+              11,
+              11,
+              11,
+              14,
+              8,
+              12,
+              12,
+              15,
+              10,
+              16,
+              11,
+              17,
+              17,
+              11,
+              14,
+              18,
+              12,
+              15,
+              15,
+              16,
+              16,
+              11,
+              11,
+              11,
+              11,
+              14,
+              18,
+              15,
+              15,
+              19,
+              19,
+              16,
+              11,
+              11,
+              11,
+              11,
+              14,
+              18,
+              20,
+              20,
+              20,
+              20,
+              20,
+              11,
+              11,
+              11,
+              11,
+              21,
+              18,
+              20,
+              20,
+              20,
+              20,
+              20,
+              11,
+              11,
+              11,
+              11,
+              21,
+              18,
+              20,
+              20,
+              20,
+              20,
+              20,
+              22,
+              22,
+              21,
+              21,
+              21,
+              23,
+              20,
+              20,
+              20,
+              20,
+              20
+            ],
+            "bestWorkingObjective": 0.4306831057305543,
+            "bestWorkingWrong": 14,
+            "catalogShapes": 19741,
+            "constraintPenalty": 0,
+            "constraintViolations": 0,
+            "coverNodes": 202137,
+            "currentLabels": [
+              0,
+              1,
+              2,
+              2,
+              3,
+              4,
+              5,
+              5,
+              6,
+              6,
+              6,
+              0,
+              1,
+              1,
+              2,
+              2,
+              4,
+              4,
+              7,
+              7,
+              7,
+              6,
+              8,
+              9,
+              1,
+              8,
+              10,
+              11,
+              12,
+              13,
+              13,
+              13,
+              6,
+              8,
+              8,
+              8,
+              8,
+              10,
+              11,
+              11,
+              14,
+              14,
+              13,
+              15,
+              8,
+              8,
+              8,
+              8,
+              16,
+              11,
+              14,
+              14,
+              17,
+              13,
+              18,
+              8,
+              8,
+              8,
+              8,
+              16,
+              19,
+              14,
+              17,
+              17,
+              18,
+              18,
+              8,
+              8,
+              8,
+              8,
+              16,
+              19,
+              17,
+              17,
+              20,
+              20,
+              18,
+              8,
+              8,
+              8,
+              8,
+              16,
+              19,
+              21,
+              21,
+              21,
+              21,
+              21,
+              8,
+              8,
+              8,
+              8,
+              22,
+              23,
+              21,
+              21,
+              21,
+              21,
+              21,
+              8,
+              8,
+              8,
+              8,
+              22,
+              23,
+              21,
+              21,
+              21,
+              21,
+              21,
+              8,
+              8,
+              8,
+              8,
+              24,
+              25,
+              21,
+              21,
+              21,
+              21,
+              21
+            ],
+            "generatedLargeShapes": 5884,
+            "largestRegion": 34,
+            "necessaryFeasibleProposals": 5123,
+            "proposals": 12525,
+            "requiredLargestRegion": 26,
+            "restored": true,
+            "role": "large-region feasibility",
+            "tiledProposals": 6620,
+            "updated": 1793420151.912867,
+            "workingObjective": 0.6474050125585761,
+            "workingResidual": 0.36436541443301057,
+            "workingWrong": 21
+          }
+        },
+        {
+          "worker": 4,
+          "progress": {
+            "commonEnergy": 0.10997479754821737,
+            "cpuRatio": 0.9616765260700539,
+            "cpuSeconds": 108.218695834,
+            "discreteness": 0,
+            "jobID": "original11-P-escape-0001-w4",
+            "memoryBytes": 301072384,
+            "metrics": {
+              "accepted": 3906,
+              "basicCoverNodes": 199425,
+              "bpImprovements": 5,
+              "bpNodes": 8720,
+              "bpPhases": 22,
+              "bpSeconds": 22.018034207634628,
+              "catalogSeconds": 2.8501422530971467,
+              "coverSeconds": 4.587653387337923,
+              "iterations": 12292,
+              "noProposal": 5647,
+              "patchRejects": 0,
+              "patchScreens": 0,
+              "reheats": 122,
+              "restarts": 61
+            },
+            "nativeEnergy": 0.06598487852893042,
+            "oracle": {
+              "cacheSeeds": 33051,
+              "exhaustedQueries": 1323,
+              "generatedShapes": 2300,
+              "generatorNodes": 54318,
+              "generatorSeconds": 2.0838323766365647,
+              "queryCount": 3872,
+              "seedSeconds": 0.766309876460582
+            },
+            "phase": "new_bp",
+            "quality": {
+              "issues": 0,
+              "residual": 0.16496219632232606,
+              "wrong": 13
+            },
+            "seconds": 112.53128562495112,
+            "updated": 1793420151.787599
+          },
+          "repairs": {
+            "distinctLocalReturns": 3,
+            "kind_block": 5,
+            "kind_disagreement": 6,
+            "kind_neighbor": 5,
+            "kind_route": 6,
+            "restoredJobs": 4
+          },
+          "structure": {
+            "bestConstraintViolations": 0,
+            "bestLargestRegion": 26,
+            "bestWorkingLabels": [
+              0,
+              1,
+              2,
+              2,
+              3,
+              3,
+              3,
+              3,
+              4,
+              4,
+              4,
+              0,
+              1,
+              1,
+              2,
+              2,
+              3,
+              3,
+              5,
+              5,
+              5,
+              4,
+              6,
+              6,
+              1,
+              1,
+              7,
+              8,
+              9,
+              10,
+              10,
+              10,
+              4,
+              11,
+              11,
+              11,
+              11,
+              7,
+              8,
+              8,
+              12,
+              12,
+              10,
+              13,
+              11,
+              11,
+              11,
+              11,
+              14,
+              8,
+              12,
+              12,
+              15,
+              10,
+              16,
+              11,
+              17,
+              17,
+              11,
+              14,
+              18,
+              12,
+              15,
+              15,
+              16,
+              16,
+              11,
+              11,
+              11,
+              11,
+              14,
+              18,
+              15,
+              15,
+              19,
+              19,
+              16,
+              11,
+              11,
+              11,
+              11,
+              14,
+              18,
+              20,
+              20,
+              20,
+              20,
+              20,
+              11,
+              11,
+              11,
+              11,
+              21,
+              18,
+              20,
+              20,
+              20,
+              20,
+              20,
+              11,
+              11,
+              11,
+              11,
+              21,
+              18,
+              20,
+              20,
+              20,
+              20,
+              20,
+              22,
+              22,
+              21,
+              21,
+              21,
+              23,
+              20,
+              20,
+              20,
+              20,
+              20
+            ],
+            "bestWorkingObjective": 0.4306831057305543,
+            "bestWorkingWrong": 14,
+            "catalogShapes": 19741,
+            "constraintPenalty": 0,
+            "constraintViolations": 0,
+            "coverNodes": 199425,
+            "currentLabels": [
+              0,
+              1,
+              2,
+              2,
+              3,
+              3,
+              3,
+              3,
+              4,
+              4,
+              4,
+              0,
+              1,
+              1,
+              2,
+              2,
+              3,
+              3,
+              5,
+              5,
+              5,
+              4,
+              6,
+              6,
+              1,
+              1,
+              7,
+              8,
+              9,
+              10,
+              10,
+              10,
+              4,
+              11,
+              11,
+              11,
+              11,
+              8,
+              8,
+              8,
+              12,
+              12,
+              10,
+              13,
+              11,
+              11,
+              11,
+              11,
+              14,
+              8,
+              12,
+              12,
+              15,
+              10,
+              16,
+              11,
+              17,
+              17,
+              11,
+              14,
+              18,
+              12,
+              15,
+              15,
+              16,
+              16,
+              11,
+              11,
+              11,
+              11,
+              19,
+              18,
+              15,
+              15,
+              20,
+              20,
+              16,
+              11,
+              11,
+              11,
+              11,
+              19,
+              18,
+              21,
+              21,
+              21,
+              21,
+              21,
+              11,
+              22,
+              22,
+              11,
+              23,
+              18,
+              21,
+              21,
+              21,
+              21,
+              21,
+              11,
+              11,
+              11,
+              11,
+              24,
+              25,
+              21,
+              21,
+              21,
+              21,
+              21,
+              26,
+              11,
+              11,
+              27,
+              28,
+              29,
+              21,
+              21,
+              21,
+              21,
+              21
+            ],
+            "generatedLargeShapes": 5805,
+            "largestRegion": 26,
+            "necessaryFeasibleProposals": 5194,
+            "proposals": 12292,
+            "requiredLargestRegion": 26,
+            "restored": true,
+            "role": "large-region feasibility",
+            "tiledProposals": 6645,
+            "updated": 1793420151.787294,
+            "workingObjective": 0.5559408616854735,
+            "workingResidual": 0.3460484356206282,
+            "workingWrong": 18
+          }
+        },
+        {
+          "worker": 5,
+          "progress": {
+            "commonEnergy": 0.10997479754821737,
+            "cpuRatio": 0.9628996767592087,
+            "cpuSeconds": 108.30056275000001,
+            "discreteness": 0,
+            "jobID": "original11-P-escape-0001-w5",
+            "memoryBytes": 300089344,
+            "metrics": {
+              "accepted": 3889,
+              "basicCoverNodes": 206065,
+              "bpImprovements": 0,
+              "bpNodes": 8998,
+              "bpPhases": 22,
+              "bpSeconds": 22.018319169059396,
+              "catalogSeconds": 2.266059100162238,
+              "coverSeconds": 4.771216299384832,
+              "iterations": 12519,
+              "noProposal": 5835,
+              "patchRejects": 0,
+              "patchScreens": 0,
+              "reheats": 125,
+              "restarts": 62
+            },
+            "nativeEnergy": 0.06598487852893042,
+            "oracle": {
+              "cacheSeeds": 57172,
+              "exhaustedQueries": 1626,
+              "generatedShapes": 197,
+              "generatorNodes": 83150,
+              "generatorSeconds": 1.7837730343453586,
+              "queryCount": 5304,
+              "seedSeconds": 0.4822860658168793
+            },
+            "phase": "new_bp",
+            "quality": {
+              "issues": 0,
+              "residual": 0.16496219632232606,
+              "wrong": 13
+            },
+            "seconds": 112.47336079133675,
+            "updated": 1793420151.71939
+          },
+          "repairs": {
+            "kind_capital": 11,
+            "kind_disagreement": 6,
+            "kind_neighbor": 5,
+            "restoredJobs": 4
+          },
+          "structure": {
+            "bestConstraintViolations": 0,
+            "bestLargestRegion": 26,
+            "bestWorkingLabels": [
+              0,
+              1,
+              2,
+              2,
+              3,
+              3,
+              3,
+              3,
+              4,
+              4,
+              4,
+              0,
+              1,
+              1,
+              2,
+              2,
+              3,
+              3,
+              5,
+              5,
+              5,
+              4,
+              6,
+              6,
+              1,
+              1,
+              7,
+              8,
+              9,
+              10,
+              10,
+              10,
+              4,
+              11,
+              11,
+              11,
+              11,
+              7,
+              8,
+              8,
+              12,
+              12,
+              10,
+              13,
+              11,
+              11,
+              11,
+              11,
+              14,
+              8,
+              12,
+              12,
+              15,
+              10,
+              16,
+              11,
+              17,
+              17,
+              11,
+              14,
+              18,
+              12,
+              15,
+              15,
+              16,
+              16,
+              11,
+              11,
+              11,
+              11,
+              14,
+              18,
+              15,
+              15,
+              19,
+              19,
+              16,
+              11,
+              11,
+              11,
+              11,
+              14,
+              18,
+              20,
+              20,
+              20,
+              20,
+              20,
+              11,
+              11,
+              11,
+              11,
+              21,
+              18,
+              20,
+              20,
+              20,
+              20,
+              20,
+              11,
+              11,
+              11,
+              11,
+              21,
+              18,
+              20,
+              20,
+              20,
+              20,
+              20,
+              22,
+              22,
+              21,
+              21,
+              21,
+              23,
+              20,
+              20,
+              20,
+              20,
+              20
+            ],
+            "bestWorkingObjective": 0.4306831057305543,
+            "bestWorkingWrong": 14,
+            "catalogShapes": 19741,
+            "constraintPenalty": 0,
+            "constraintViolations": 0,
+            "coverNodes": 206065,
+            "currentLabels": [
+              0,
+              1,
+              1,
+              2,
+              3,
+              3,
+              3,
+              4,
+              5,
+              5,
+              5,
+              6,
+              1,
+              1,
+              2,
+              7,
+              3,
+              8,
+              4,
+              9,
+              10,
+              5,
+              1,
+              1,
+              1,
+              1,
+              11,
+              12,
+              13,
+              14,
+              14,
+              14,
+              5,
+              15,
+              16,
+              17,
+              15,
+              18,
+              12,
+              12,
+              19,
+              19,
+              14,
+              20,
+              15,
+              15,
+              21,
+              15,
+              15,
+              12,
+              19,
+              19,
+              22,
+              14,
+              23,
+              15,
+              15,
+              15,
+              15,
+              24,
+              25,
+              19,
+              22,
+              22,
+              26,
+              23,
+              15,
+              15,
+              15,
+              15,
+              15,
+              25,
+              22,
+              22,
+              27,
+              27,
+              23,
+              15,
+              15,
+              15,
+              15,
+              15,
+              25,
+              28,
+              28,
+              28,
+              28,
+              23,
+              15,
+              15,
+              15,
+              15,
+              29,
+              25,
+              28,
+              28,
+              28,
+              28,
+              23,
+              15,
+              15,
+              30,
+              15,
+              15,
+              25,
+              28,
+              28,
+              28,
+              28,
+              31,
+              15,
+              32,
+              32,
+              15,
+              33,
+              34,
+              28,
+              28,
+              28,
+              28,
+              35
+            ],
+            "generatedLargeShapes": 5790,
+            "largestRegion": 30,
+            "necessaryFeasibleProposals": 5246,
+            "proposals": 12519,
+            "requiredLargestRegion": 26,
+            "restored": true,
+            "role": "large-region feasibility",
+            "tiledProposals": 6684,
+            "updated": 1793420151.7190828,
+            "workingObjective": 0.8060623869945541,
+            "workingResidual": 0.6000587708202868,
+            "workingWrong": 26
+          }
+        },
+        {
+          "worker": 6,
+          "progress": {
+            "commonEnergy": 0.10997479754821737,
+            "cpuRatio": 0.9617248881059579,
+            "cpuSeconds": 108.21988208299999,
+            "discreteness": 0,
+            "jobID": "original11-P-escape-0001-w6",
+            "memoryBytes": 300564480,
+            "metrics": {
+              "accepted": 3916,
+              "basicCoverNodes": 198389,
+              "bpImprovements": 1,
+              "bpNodes": 8833,
+              "bpPhases": 22,
+              "bpSeconds": 22.020000125747174,
+              "catalogSeconds": 2.4404277121648192,
+              "coverSeconds": 4.664489841554314,
+              "iterations": 12611,
+              "noProposal": 5841,
+              "patchRejects": 0,
+              "patchScreens": 0,
+              "reheats": 126,
+              "restarts": 63
+            },
+            "nativeEnergy": 0.06598487852893042,
+            "oracle": {
+              "cacheSeeds": 65599,
+              "exhaustedQueries": 1406,
+              "generatedShapes": 47,
+              "generatorNodes": 106578,
+              "generatorSeconds": 1.8532557422295213,
+              "queryCount": 5377,
+              "seedSeconds": 0.587171969935298
+            },
+            "phase": "new_bp",
+            "quality": {
+              "issues": 0,
+              "residual": 0.16496219632232606,
+              "wrong": 13
+            },
+            "seconds": 112.5268602501601,
+            "updated": 1793420151.771659
+          },
+          "repairs": {
+            "distinctLocalReturns": 1,
+            "kind_block": 6,
+            "kind_disagreement": 5,
+            "kind_neighbor": 5,
+            "kind_route": 6,
+            "restoredJobs": 4
+          },
+          "structure": {
+            "bestConstraintViolations": 0,
+            "bestLargestRegion": 26,
+            "bestWorkingLabels": [
+              0,
+              1,
+              2,
+              2,
+              3,
+              3,
+              3,
+              3,
+              4,
+              4,
+              4,
+              0,
+              1,
+              1,
+              2,
+              2,
+              3,
+              3,
+              5,
+              5,
+              5,
+              4,
+              6,
+              6,
+              1,
+              1,
+              7,
+              8,
+              9,
+              10,
+              10,
+              10,
+              4,
+              11,
+              11,
+              11,
+              11,
+              7,
+              8,
+              8,
+              12,
+              12,
+              10,
+              13,
+              11,
+              11,
+              11,
+              11,
+              14,
+              8,
+              12,
+              12,
+              15,
+              10,
+              16,
+              11,
+              17,
+              17,
+              11,
+              14,
+              18,
+              12,
+              15,
+              15,
+              16,
+              16,
+              11,
+              11,
+              11,
+              11,
+              14,
+              18,
+              15,
+              15,
+              19,
+              19,
+              16,
+              11,
+              11,
+              11,
+              11,
+              14,
+              18,
+              20,
+              20,
+              20,
+              20,
+              20,
+              11,
+              11,
+              11,
+              11,
+              21,
+              18,
+              20,
+              20,
+              20,
+              20,
+              20,
+              11,
+              11,
+              11,
+              11,
+              21,
+              18,
+              20,
+              20,
+              20,
+              20,
+              20,
+              22,
+              22,
+              21,
+              21,
+              21,
+              23,
+              20,
+              20,
+              20,
+              20,
+              20
+            ],
+            "bestWorkingObjective": 0.4306831057305543,
+            "bestWorkingWrong": 14,
+            "catalogShapes": 19741,
+            "constraintPenalty": 0,
+            "constraintViolations": 0,
+            "coverNodes": 198389,
+            "currentLabels": [
+              0,
+              1,
+              2,
+              2,
+              3,
+              3,
+              3,
+              3,
+              4,
+              4,
+              4,
+              0,
+              1,
+              1,
+              2,
+              2,
+              3,
+              3,
+              5,
+              5,
+              5,
+              4,
+              6,
+              6,
+              1,
+              1,
+              7,
+              8,
+              9,
+              10,
+              10,
+              10,
+              4,
+              11,
+              11,
+              11,
+              11,
+              7,
+              8,
+              8,
+              12,
+              12,
+              10,
+              13,
+              11,
+              11,
+              11,
+              11,
+              14,
+              8,
+              12,
+              12,
+              15,
+              10,
+              16,
+              11,
+              11,
+              11,
+              11,
+              14,
+              17,
+              12,
+              15,
+              15,
+              16,
+              16,
+              11,
+              11,
+              11,
+              11,
+              14,
+              17,
+              15,
+              15,
+              18,
+              18,
+              16,
+              11,
+              11,
+              11,
+              11,
+              14,
+              17,
+              19,
+              19,
+              19,
+              19,
+              19,
+              11,
+              11,
+              11,
+              11,
+              20,
+              17,
+              19,
+              19,
+              19,
+              19,
+              19,
+              11,
+              11,
+              11,
+              11,
+              20,
+              17,
+              19,
+              19,
+              19,
+              19,
+              19,
+              11,
+              11,
+              11,
+              11,
+              20,
+              21,
+              19,
+              19,
+              19,
+              19,
+              19
+            ],
+            "generatedLargeShapes": 5642,
+            "largestRegion": 32,
+            "necessaryFeasibleProposals": 5322,
+            "proposals": 12611,
+            "requiredLargestRegion": 26,
+            "restored": true,
+            "role": "large-region feasibility",
+            "tiledProposals": 6770,
+            "updated": 1793420151.771339,
+            "workingObjective": 0.49314509961797065,
+            "workingResidual": 0.27378828739303074,
+            "workingWrong": 16
+          }
+        },
+        {
+          "worker": 7,
+          "progress": {
+            "commonEnergy": 0.10997479754821737,
+            "cpuRatio": 0.9614122476908485,
+            "cpuSeconds": 107.388146875,
+            "discreteness": 0,
+            "jobID": "original11-P-escape-0001-w7",
+            "memoryBytes": 297648128,
+            "metrics": {
+              "accepted": 1574,
+              "basicCoverNodes": 59688,
+              "bpImprovements": 3,
+              "bpNodes": 8568,
+              "bpPhases": 21,
+              "bpSeconds": 21.017570209223777,
+              "catalogSeconds": 16.63046939438209,
+              "coverSeconds": 79.75271454500034,
+              "iterations": 3360,
+              "noProposal": 1375,
+              "patchRejects": 0,
+              "patchScreens": 0,
+              "reheats": 33,
+              "restarts": 16
+            },
+            "nativeEnergy": 0.06598487852893042,
+            "oracle": {
+              "cacheSeeds": 519493,
+              "exhaustedQueries": 30771,
+              "generatedShapes": 1360,
+              "generatorNodes": 488777,
+              "generatorSeconds": 12.702381629496813,
+              "queryCount": 67868,
+              "seedSeconds": 3.9280877648852766
+            },
+            "phase": "sa",
+            "quality": {
+              "issues": 0,
+              "residual": 0.16496219632232606,
+              "wrong": 13
+            },
+            "seconds": 111.69833454163745,
+            "updated": 1793420150.933877
+          },
+          "repairs": {
+            "distinctLocalReturns": 3,
+            "kind_disagreement": 14,
+            "kind_full_board": 7,
+            "protectedNodes": 3585,
+            "protectedSlices": 7,
+            "restoredJobs": 4
+          },
+          "structure": {}
+        },
+        {
+          "worker": 8,
+          "progress": {
+            "commonEnergy": 0.10997479754821737,
+            "cpuRatio": 0.9620072571702684,
+            "cpuSeconds": 108.039873416,
+            "discreteness": 0,
+            "jobID": "original11-P-escape-0001-w8",
+            "memoryBytes": 299122688,
+            "metrics": {
+              "accepted": 0,
+              "basicCoverNodes": 0,
+              "bpImprovements": 0,
+              "bpNodes": 43086,
+              "bpPhases": 111,
+              "bpSeconds": 111.09567653853446,
+              "catalogSeconds": 12.531053550541401,
+              "coverSeconds": 0,
+              "iterations": 0,
+              "noProposal": 0,
+              "patchRejects": 0,
+              "patchScreens": 0,
+              "reheats": 0,
+              "restarts": 0
+            },
+            "nativeEnergy": 0.06598487852893042,
+            "oracle": {
+              "cacheSeeds": 0,
+              "exhaustedQueries": 0,
+              "generatedShapes": 43086,
+              "generatorNodes": 138263,
+              "generatorSeconds": 12.531053550541401,
+              "queryCount": 0,
+              "seedSeconds": 0
+            },
+            "phase": "new_bp",
+            "quality": {
+              "issues": 0,
+              "residual": 0.16496219632232606,
+              "wrong": 13
+            },
+            "seconds": 112.30671350006014,
+            "updated": 1793420151.524382
+          },
+          "repairs": {
+            "kind_full_board": 111,
+            "protectedNodes": 43086,
+            "protectedSlices": 111,
+            "restoredJobs": 1
+          },
+          "structure": {}
+        }
+      ]
+    }
+  ],
+  "phase": "running",
+  "started": 1793420038.496897,
+  "updated": 1793420152.2447748
+}

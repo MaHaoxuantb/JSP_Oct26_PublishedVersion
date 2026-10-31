@@ -1,0 +1,41 @@
+{
+  "experiment": "JSP-Oct26-GPU-Multicore",
+  "copyright": "©2026 ThomasB",
+  "author": "ThomasB",
+  "created": 1793360881.783296,
+  "binarySHA256": "bd3e30a19a9e1a0bc43efe4aab64549e6bb73497e808676d208579f87c735ed6",
+  "seconds": 90.0,
+  "smoke": false,
+  "cpuWorkers": 8,
+  "gpuAvailableCores": 10,
+  "gpuLimit": "full device; no affinity enforcement",
+  "order": "CPU-GPU-GPU-CPU",
+  "seeds": [
+    2026103011,
+    2026103012
+  ],
+  "originalPuzzle": true,
+  "sourceSHA256": {
+    "JaneStreetPuzzle_Oct26/Storage.swift": "1dcab208deabc197463e0cd0469e8ad19491831c5f7b97c95c9ee4c19ef8a357",
+    "JaneStreetPuzzle_Oct26/ShapeGrowth.swift": "a9bb9b31bf05ad663ee63fee678f6aa7c8b88b0b2be729a8ea8a401def1b0ecb",
+    "JaneStreetPuzzle_Oct26/Runners.swift": "8c6f3204ea8c44ce89a5edc9b7778b6305d402bb7cf157fab217e54df66d7de5",
+    "JaneStreetPuzzle_Oct26/SavedRunRepair.swift": "40882044b50b58242a449d0e4c4f3267fdcb0d5582dd62b0d1bfb7d8215d4671",
+    "JaneStreetPuzzle_Oct26/RegionRepairs.swift": "f9d6a17b01458934f541dd999023547b17f367178cb871201776b15f7d9b9bbc",
+    "JaneStreetPuzzle_Oct26/Solver.swift": "893788e6e59f03ba4c3055175ec66dfb29e4a7b183c63c63d8002a27ec9422c2",
+    "JaneStreetPuzzle_Oct26/SharedSearch.swift": "6793a972f72ebadbeb53d5b0b6797ab6988e363a8bdbdd585312284fc638b244",
+    "JaneStreetPuzzle_Oct26/Logger.swift": "65630fb8ffc4255f455fd193270dbb95129d4a908a3b0a45c8d9c308714e5a39",
+    "JaneStreetPuzzle_Oct26/SearchSupport.swift": "3c65056dc0b7f38c7bef7fd5c6dd3210d0774e261338d110047019d9dc6a5c31",
+    "JaneStreetPuzzle_Oct26/RunConfig.swift": "5c5b4099f817f78a9a87625da2bca65500eeaf9b2eb832b6acf1c66db90dad86",
+    "JaneStreetPuzzle_Oct26/Energy.swift": "af45fcaf294acb4bdae729b91b86ef16db8c5a6adb869e8a8b8be62118c6e0d3",
+    "JaneStreetPuzzle_Oct26/Validation.swift": "7a6516fb7ef949c61c8f51089e2a62595f99490eb6ddddbad2d6ec8aa5beb5bc",
+    "JaneStreetPuzzle_Oct26/CatalogRetention.swift": "7d1a2e6c754a95792bacd3556099b55816a8a5a12a0c4823fa6cb15d65b51413",
+    "JaneStreetPuzzle_Oct26/ExactSearch.swift": "80ae03178df5960af1ce0245722903bc7cc59de37579f9ac51d243520c396a2d",
+    "JaneStreetPuzzle_Oct26/main.swift": "078fa4446c7ad40180b4407ac42a6ae918afaaccb9c0b091a1f705f0d9765537",
+    "JaneStreetPuzzle_Oct26/SoftwareVersion.swift": "618e404a0eb9f4a9fa6b499ed8a5dcc1c112829f1f0852f8542d01fd04622a62",
+    "JaneStreetPuzzle_Oct26/PathEvaluation.swift": "c84ae1b184270d66095514b285d1144bf22bdaff39134a8490917e7f8b321d56",
+    "experiments/gpu_multicore/build.py": "64bcb1f23ae259cfce1dca02199f4a86237e5ebaa1225f1281616a2a9d32ef89",
+    "experiments/gpu_multicore/run.py": "9b26fda78f885764c5723206404048b38527175c53ec0314786411159b5880cb",
+    "experiments/gpu_multicore/JSP-Oct26-GPU-Multicore-Plan.md": "b8dfda7685687741a168ee45563d7816f1dca2022fcf90d0d7c73a8436489c42",
+    "experiments/gpu_multicore/MulticoreWorker.swift": "413352fa1543b33cf91d00ab1bab78f14378f463d1cf8ddd4b3aa3fbbefce8de"
+  }
+}

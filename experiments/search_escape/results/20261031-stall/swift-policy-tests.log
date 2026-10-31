@@ -1,0 +1,43 @@
+warning: /Users/thomasb/Library/org.swift.swiftpm/configuration is not accessible or not writable, disabling user-level cache features.
+warning: /Users/thomasb/Library/org.swift.swiftpm/security is not accessible or not writable, disabling user-level cache features.
+warning: /Users/thomasb/Library/Caches/org.swift.swiftpm is not accessible or not writable, disabling user-level cache features.
+warning: 'search_escape': failed storing manifest for 'search_escape' in cache: attempt to write a readonly database
+warning: 'solver_bench': failed storing manifest for 'solver_bench' in cache: attempt to write a readonly database
+warning: 'repair_completion': failed storing manifest for 'repair_completion' in cache: attempt to write a readonly database
+[0/1] Planning build
+Building for production...
+[0/4] Write sources
+[1/4] Write swift-version--58304C5D6DBC2206.txt
+[3/4] Compiling EscapeTests PolicyTests.swift
+[4/6] Compiling JSP_Oct26_Search_EscapePackageTests runner.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking JSP-Oct26-Search-EscapePackageTests
+Build complete! (2.04s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+Test Suite 'All tests' started at 2026-10-31 12:22:56.909.
+Test Suite 'JSP-Oct26-Search-EscapePackageTests.xctest' started at 2026-10-31 12:22:56.911.
+Test Suite 'PolicyTests' started at 2026-10-31 12:22:56.911.
+Test Case '-[EscapeTests.PolicyTests testBoundaryDistanceIgnoresRegionNames]' started.
+Test Case '-[EscapeTests.PolicyTests testBoundaryDistanceIgnoresRegionNames]' passed (0.001 seconds).
+Test Case '-[EscapeTests.PolicyTests testExhaustedScopeMemoAvoidsRepeatingSameSearch]' started.
+Test Case '-[EscapeTests.PolicyTests testExhaustedScopeMemoAvoidsRepeatingSameSearch]' passed (0.006 seconds).
+Test Case '-[EscapeTests.PolicyTests testGrowthReachesActualTargetAndWholeRegions]' started.
+Test Case '-[EscapeTests.PolicyTests testGrowthReachesActualTargetAndWholeRegions]' passed (0.000 seconds).
+Test Case '-[EscapeTests.PolicyTests testImprovementFlushesProgressAndResetsWrongClockImmediately]' started.
+Test Case '-[EscapeTests.PolicyTests testImprovementFlushesProgressAndResetsWrongClockImmediately]' passed (0.004 seconds).
+Test Case '-[EscapeTests.PolicyTests testProtectedSearchRestoresAndRejectsIncompatiblePolicy]' started.
+Test Case '-[EscapeTests.PolicyTests testProtectedSearchRestoresAndRejectsIncompatiblePolicy]' passed (0.008 seconds).
+Test Case '-[EscapeTests.PolicyTests testUnfinishedRepairsReceiveWorkInsteadOfBeingImmediatelyEvicted]' started.
+Test Case '-[EscapeTests.PolicyTests testUnfinishedRepairsReceiveWorkInsteadOfBeingImmediatelyEvicted]' passed (0.087 seconds).
+Test Case '-[EscapeTests.PolicyTests testWorseMigrationCannotEraseRetainedBest]' started.
+Test Case '-[EscapeTests.PolicyTests testWorseMigrationCannotEraseRetainedBest]' passed (0.009 seconds).
+Test Suite 'PolicyTests' passed at 2026-10-31 12:22:57.027.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.115 (0.115) seconds
+Test Suite 'JSP-Oct26-Search-EscapePackageTests.xctest' passed at 2026-10-31 12:22:57.027.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.115 (0.116) seconds
+Test Suite 'All tests' passed at 2026-10-31 12:22:57.027.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.115 (0.118) seconds
+􀟈  Test run started.
+􀄵  Testing Library Version: 2084
+􀄵  Target Platform: arm64e-apple-macos14.0
+􁁛  Test run with 0 tests in 0 suites passed after 0.001 seconds.

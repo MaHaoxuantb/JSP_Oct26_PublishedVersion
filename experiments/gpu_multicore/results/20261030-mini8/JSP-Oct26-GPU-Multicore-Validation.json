@@ -1,0 +1,50 @@
+[
+  {
+    "id": "01-s2026103011-cpu8",
+    "independentPython": {
+      "issues": 0,
+      "wrong": 14,
+      "residual": 0.16839127952041075,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.11226085301360716
+    }
+  },
+  {
+    "id": "02-s2026103011-cpu8-fullGPU",
+    "independentPython": {
+      "issues": 0,
+      "wrong": 12,
+      "residual": 0.1902457948450874,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.12683052989672494
+    }
+  },
+  {
+    "id": "03-s2026103012-cpu8-fullGPU",
+    "independentPython": {
+      "issues": 0,
+      "wrong": 13,
+      "residual": 0.24500344893086193,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.16333563262057463
+    }
+  },
+  {
+    "id": "04-s2026103012-cpu8",
+    "independentPython": {
+      "issues": 0,
+      "wrong": 13,
+      "residual": 0.13166702799759372,
+      "solved": false,
+      "answer": null,
+      "invalidCellFraction": 0.0,
+      "commonEnergy": 0.08777801866506248
+    }
+  }
+]

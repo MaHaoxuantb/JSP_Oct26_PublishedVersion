@@ -1,0 +1,22 @@
+{
+  "experiments/solver_bench/Sources/ShapeDomain/ShapeOracle.swift": "e24df69541a8e1b046b51bc474f018fb087eaf2c87be6f934752f0c350e6570d",
+  "experiments/solver_bench/Sources/ShapeDomain/ShapeStore.swift": "420e8c4d35b6df3a51e96aa510752878e9b69b6a997b428c30d6636c00cf04d6",
+  "experiments/solver_bench/Sources/ShapeDomain/CoverSearch.swift": "951622f2f99e90620382b89d24253b6387fd3ac6329cb2ccfe9d917da4560ec8",
+  "experiments/solver_bench/Sources/BoardPreparation/Preparation.swift": "5208bf692291b11a8dc36657a8827f6e8d448b525f04fe4a8d73aa34e5e822b7",
+  "experiments/solver_bench/Sources/BenchWorker/main.swift": "9c5f8e298d92d66af798082b093ee885b0fb3be0805720e0780bf57b1ef982c4",
+  "experiments/solver_bench/Sources/PuzzleRules/Rules.swift": "12874660b88d5f655ec677504d0465501a75a582e66647b9b93fa43cb831a9e7",
+  "experiments/solver_bench/Sources/PuzzleRules/Types.swift": "326a26514fda96c74214e566137ac806a501bbdf586a50f53e17638f666e4969",
+  "experiments/solver_bench/Sources/SolverCore/Model.swift": "766bf759cb25d7168b149eca03c344e60bcb4366cea484788fb192e2df31eb47",
+  "experiments/solver_bench/Sources/SolverCore/Engine.swift": "424df6b23e799b572d0fc78bb196b50a8edcb01d26e8c7c4a5c96877b418b2c4",
+  "experiments/solver_bench/Sources/SolverCore/Policy.swift": "339381a0862b1c24c69413d3ebab401d6de93f2ffcc2dfbc5554521e2dff9463",
+  "experiments/solver_bench/Sources/SolverCore/Intensification.swift": "528c5a28810697edd99f174154b3e34a0ce78da6d8252fe9b39e5006c519e781",
+  "experiments/solver_bench/Sources/SolverCore/Exchange.swift": "9e09c486f89cc3856ad5721c8b596eee13c342e6622bcfb8b7bba261128ad7c5",
+  "experiments/solver_bench/Sources/BenchTools/main.swift": "49c147fcab9781664cf3cbb97db87c24a36a356ad38b16777f9de3eaecb5c9ef",
+  "experiments/repair_completion/Sources/CompletionWorker/main.swift": "52304c29a24b2769e05ae77dd0c44461ede9f67b893332d4c0ba981b67598a30",
+  "experiments/repair_completion/Sources/RepairPolicies/RepairScheduler.swift": "dde0b6aa8dd7725ecf84bbd5c0f8bb36cd8dd3649531734eef2c57b198c7341f",
+  "experiments/search_escape/Sources/EscapePolicies/Population.swift": "177a3c7b557ff8e86d2649d36f5ab39fb92a95184a062f1f4c08f57a1b4b31f4",
+  "experiments/search_escape/Sources/EscapePolicies/AdaptiveRepair.swift": "ac678f3479613ece0530b3954e503e3fa8845c8913ec84b67f3dc9e77439a24c",
+  "experiments/search_escape/Sources/EscapeWorker/Version.swift": "e7ec651c20518547ae20465ab8c61711cee9e4c79d167cf2df95ce54107461c0",
+  "experiments/search_escape/Sources/EscapeWorker/Worker.swift": "bcb4460f388847832bb920dd936c000916646e16776689863d325c8f6443c958",
+  "JaneStreetPuzzle_Oct26/SoftwareVersion.swift": "e7ec651c20518547ae20465ab8c61711cee9e4c79d167cf2df95ce54107461c0"
+}

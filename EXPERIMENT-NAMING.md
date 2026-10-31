@@ -16,7 +16,35 @@ name. Use this consistent form:
 The `+` in `"JSP-Oct26" + ExperimentName` means concatenation; it is not a
 literal plus sign in the name. Use hyphens to separate words in filenames.
 
+## Search escape portfolio
+
+- Full identity: **JSP-Oct26-Search-Escape**.
+- Report: `experiments/search_escape/results/20261030-screen/JSP-Oct26-Search-Escape-Report.md`.
+- Execution record: `experiments/search_escape/JSP-Oct26-Search-Escape-Run.md`.
+- This continues the original-puzzle solve attempt; earlier comparison and continuation datasets remain separate.
+- Stall investigation identity: **JSP-Oct26-Search-Escape-Stall**; report
+  `experiments/search_escape/results/20261031-stall/JSP-Oct26-Search-Escape-Stall-Report.md`.
+- Large-region continuation: **JSP-Oct26-Structural-Search**; report
+  `experiments/search_escape/results/20261031-structural/JSP-Oct26-Structural-Search-Report.md`,
+  run record `experiments/search_escape/JSP-Oct26-Structural-Search-Run.md`.
+
 ## Current experiment
+
+- Full identity: **JSP-Oct26-Structural-Search**.
+- Run: `experiments/search_escape/JSP-Oct26-Structural-Search-Run.md`.
+- Report: `experiments/search_escape/results/20261031-structural/JSP-Oct26-Structural-Search-Report.md`.
+
+## Earlier CPU8 completion experiment
+
+- Experiment name: **CPU8-Completion**.
+- Incumbent continuation: **JSP-Oct26-CPU8-Continuation**; run record `experiments/cpu8_completion/JSP-Oct26-CPU8-Continuation-Run.md`. The live harness retains the established **JSP-Oct26-CPU8-Completion** export identity and distinguishes continuation in its manifest/configuration.
+- Full identity: **JSP-Oct26-CPU8-Completion**.
+- Reports: `JSP-Oct26-CPU8-Completion-Report.md` and live read-only dashboard.
+- Trial/data exports: `JSP-Oct26-CPU8-Completion-Trials.csv` and
+  `JSP-Oct26-CPU8-Completion-Results.json`.
+- Execution record: `experiments/cpu8_completion/JSP-Oct26-CPU8-Completion-Run.md`.
+
+## Previous repair completion experiment
 
 - Experiment name: **Repair-Completion**.
 - Full identity: **JSP-Oct26-Repair-Completion**.

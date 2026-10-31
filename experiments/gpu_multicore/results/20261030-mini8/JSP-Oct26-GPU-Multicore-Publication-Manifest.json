@@ -1,0 +1,25 @@
+{
+  "experiment": "JSP-Oct26-GPU-Multicore",
+  "copyright": "\u00a92026 ThomasB",
+  "author": "ThomasB",
+  "files": {
+    "JSP-Oct26-GPU-Multicore-Trials.csv": "467624d089174378765d926667dfb9156e2c345bf430f7ef4266edc6adf034e6",
+    "state.json": "1917681487726bbb1031758bf68bb89b6ff2e72ce28795c4a7d73030c1b3bfe7",
+    "JSP-Oct26-GPU-Multicore-Report.md": "275e52ff00786b253d305a86ce0bcf080d00b84d08312e8b07203747ee37c72f",
+    "background.json": "c494a71efe4179cea9dd3ab70d112edd76bcde4d9611d09349fa7a225a0ae290",
+    "JSP-Oct26-GPU-Multicore-Energy.png": "fabc74300185fd12baaffdc8010772b7f487b95b78e45e3ef554f68e4d41ebe9",
+    "results.json": "dd6aeea4af1c51d32fa02b729c4875c7b78951cf546d143a66749efdf26e002c",
+    "JSP-Oct26-GPU-Multicore-Evidence.tar.gz": "94d13d2c9e9523ce841623df62c3867386a639e656ef0f4786150784a113f2e2",
+    "manifest.json": "39331808f016e25f1021ae239c29e4c4c00dcf665ae4f081536e7f2651f610d7",
+    "JSP-Oct26-GPU-Multicore-Validation.json": "3bfd778f4d47d2802eb59d4d3ccef31a073d4dec608163e33d48f1e1fcf04dd2"
+  },
+  "reportSources": {
+    "build.py": "64bcb1f23ae259cfce1dca02199f4a86237e5ebaa1225f1281616a2a9d32ef89",
+    "collect.py": "186da857e4c3ff9b918fbb3ab1ab916ebec9edaa4c8d8e5de0b30b26a0a46169",
+    "run.py": "9b26fda78f885764c5723206404048b38527175c53ec0314786411159b5880cb",
+    "JSP-Oct26-GPU-Multicore-Plan.md": "b8dfda7685687741a168ee45563d7816f1dca2022fcf90d0d7c73a8436489c42",
+    "README.md": "1b7097e31a25ba553da696a1197775a3bd83fd3213610df15cd837155e85fb2b",
+    "report.py": "299959da2aea659e7cacc43029bfdcf4dad98b9f6a94c71e76b4da851907a85f",
+    "MulticoreWorker.swift": "413352fa1543b33cf91d00ab1bab78f14378f463d1cf8ddd4b3aa3fbbefce8de"
+  }
+}

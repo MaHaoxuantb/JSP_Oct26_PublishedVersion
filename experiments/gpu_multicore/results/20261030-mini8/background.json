@@ -1,0 +1,65 @@
+[
+  {
+    "at": 1793360881.784266,
+    "gpu": [
+      {
+        "device": "AGXAcceleratorG14G",
+        "stats": {
+          "Alloc system memory": 1252540416,
+          "Allocated PB Size": 24379392,
+          "Device Utilization %": 0,
+          "In use system memory": 49201152,
+          "In use system memory (driver)": 0,
+          "Renderer Utilization %": 0,
+          "SplitSceneCount": 0,
+          "TiledSceneBytes": 491520,
+          "Tiler Utilization %": 0,
+          "lastRecoveryTime": 0,
+          "recoveryCount": 0
+        }
+      }
+    ]
+  },
+  {
+    "at": 1793360882.314411,
+    "gpu": [
+      {
+        "device": "AGXAcceleratorG14G",
+        "stats": {
+          "Alloc system memory": 1252540416,
+          "Allocated PB Size": 24379392,
+          "Device Utilization %": 0,
+          "In use system memory": 49201152,
+          "In use system memory (driver)": 0,
+          "Renderer Utilization %": 0,
+          "SplitSceneCount": 0,
+          "TiledSceneBytes": 229376,
+          "Tiler Utilization %": 0,
+          "lastRecoveryTime": 0,
+          "recoveryCount": 0
+        }
+      }
+    ]
+  },
+  {
+    "at": 1793360882.885977,
+    "gpu": [
+      {
+        "device": "AGXAcceleratorG14G",
+        "stats": {
+          "Alloc system memory": 1252540416,
+          "Allocated PB Size": 24379392,
+          "Device Utilization %": 0,
+          "In use system memory": 49201152,
+          "In use system memory (driver)": 0,
+          "Renderer Utilization %": 0,
+          "SplitSceneCount": 0,
+          "TiledSceneBytes": 229376,
+          "Tiler Utilization %": 0,
+          "lastRecoveryTime": 0,
+          "recoveryCount": 0
+        }
+      }
+    ]
+  }
+]

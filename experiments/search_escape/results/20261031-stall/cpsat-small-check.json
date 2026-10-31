@@ -1,0 +1,120 @@
+{
+  "experiment": "JSP-Oct26-Search-Escape",
+  "copyright": "\u00a92026 ThomasB",
+  "approach": "CP-SAT",
+  "seconds": 0.3755804169923067,
+  "catalogSeconds": 0.25470016698818654,
+  "patchCells": 16,
+  "candidateShapes": 1130,
+  "completePatchDomain": true,
+  "fullBoardScope": true,
+  "globalDomain": true,
+  "status": "OPTIMAL",
+  "labels": [
+    21,
+    21,
+    24,
+    42,
+    21,
+    21,
+    24,
+    42,
+    96,
+    96,
+    116,
+    754,
+    413,
+    413,
+    474,
+    754
+  ],
+  "quality": {
+    "issues": 0,
+    "wrong": 0,
+    "residual": 0.0,
+    "solved": true,
+    "answer": 386,
+    "invalidCellFraction": 0.0,
+    "commonEnergy": 0.0
+  },
+  "hard": true,
+  "branches": 496,
+  "conflicts": 0,
+  "solverVersion": "9.15.6755",
+  "clueBounds": {
+    "minimumLargestRegion": 3,
+    "witness": {
+      "cells": [
+        0,
+        10
+      ],
+      "clues": [
+        9,
+        0
+      ],
+      "steps": 4
+    },
+    "adjacentSizeBounds": [],
+    "singletonCapitalDisjunctions": []
+  },
+  "maxDomainRegionSize": 16,
+  "solutionExcludedByAreaBound": false,
+  "patch": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "baseLabels": [
+    65,
+    65,
+    66,
+    67,
+    65,
+    65,
+    66,
+    67,
+    68,
+    68,
+    69,
+    70,
+    71,
+    71,
+    72,
+    70
+  ],
+  "puzzle": {
+    "id": "complete-domain-4",
+    "n": 4,
+    "clues": [
+      9,
+      -1,
+      -1,
+      5,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      0,
+      -1,
+      -1,
+      -1,
+      0,
+      -1
+    ]
+  }
+}

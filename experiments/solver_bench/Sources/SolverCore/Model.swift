@@ -70,6 +70,12 @@ public struct WorkerResult: Codable {
     oracle: OracleMetrics, singleThreaded: Bool, gpuEnabled: Bool
 }
 public enum ResourceUse {
+  /// Synchronous engines stay on one thread even when several share a process.
+  public static func threadCPUSeconds() -> Double {
+    var t = timespec()
+    guard clock_gettime(CLOCK_THREAD_CPUTIME_ID, &t) == 0 else { return usage().cpu }
+    return Double(t.tv_sec) + Double(t.tv_nsec) / 1_000_000_000
+  }
   public static func usage() -> (cpu: Double, memory: Int) {
     var r = rusage()
     #if os(Linux)

@@ -1,0 +1,9 @@
+test_adjacent_difference_bounds_both_state_sizes (test_clue_constraints.ClueConstraintTests.test_adjacent_difference_bounds_both_state_sizes) ... ok
+test_necessary_bounds_preserve_every_legal_two_by_two_partition (test_clue_constraints.ClueConstraintTests.test_necessary_bounds_preserve_every_legal_two_by_two_partition) ... ok
+test_original_high_clue_requires_large_region (test_clue_constraints.ClueConstraintTests.test_original_high_clue_requires_large_region) ... ok
+test_positive_clue_cannot_be_singleton_capital (test_clue_constraints.ClueConstraintTests.test_positive_clue_cannot_be_singleton_capital) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK

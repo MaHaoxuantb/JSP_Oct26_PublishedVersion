@@ -11,9 +11,16 @@ public final class SearchEngine {
   private var lastProgress = 0.0, lastBest = 0.0, lastBP = 0.0, started = 0.0, cpuStart = 0.0
   private var handle: FileHandle?
   private let intensifier: SearchIntensifier?
-  public init(input: WorkerInput, intensifier: SearchIntensifier? = nil) {
+  private let exchange: SearchExchange?
+  private let strategy: SearchStrategy?
+  private let islandMode: Bool, exactOnly: Bool, anchoredRestarts: Bool
+  public init(input: WorkerInput, intensifier: SearchIntensifier? = nil, exchange: SearchExchange? = nil, islandMode: Bool = false, exactOnly: Bool = false, anchoredRestarts: Bool = false, strategy: SearchStrategy? = nil) {
     self.input = input
     self.intensifier = intensifier
+    self.exchange = exchange
+    self.islandMode = islandMode; self.exactOnly = exactOnly
+    self.anchoredRestarts = anchoredRestarts
+    self.strategy = strategy
     streams = Streams(seed: input.seed)
   }
   public func initialLabels() -> [Int] {
@@ -36,6 +43,8 @@ public final class SearchEngine {
     return normalized(labels)
   }
   private func propose(_ source: ScoredState, until: Double) -> ScoredState? {
+    if let strategy { return strategy.propose(source: source, input: input, until: until,
+      rng: &streams.proposal, metrics: &metrics) }
     let puzzle = input.puzzle
     let grid = puzzle.grid
     let parts = groups(source.exact.labels)
@@ -200,14 +209,15 @@ public final class SearchEngine {
     if bpFailures % 2 == 0 { pendingBP = nil }
     return nil
   }
-  private func observe(_ best: ScoredState, phase: String, force: Bool = false) throws {
+  private func observe(_ best: ScoredState, current: ScoredState? = nil, phase: String, force: Bool = false) throws {
     let now = monotonic()
     if !force && now - lastProgress < 1 { return }
     lastProgress = now
+    if let current { try strategy?.checkpoint(current: current, best: best, input: input) }
     metrics.catalogSeconds = oracle.metrics.generatorSeconds + oracle.metrics.seedSeconds
     let usage = ResourceUse.usage()
     let elapsed = now - started
-    let cpu = usage.cpu - cpuStart
+    let cpu = ResourceUse.threadCPUSeconds() - cpuStart
     let sample = Observation(
       jobID: input.jobID, seconds: elapsed, cpuSeconds: cpu, cpuRatio: cpu / max(0.001, elapsed),
       phase: phase, quality: best.exact.quality, commonEnergy: best.exact.commonEnergy,
@@ -227,13 +237,13 @@ public final class SearchEngine {
         labels: best.exact.labels, strengths: best.state.strengths, streams: streams,
         metrics: metrics, seconds: elapsed), to: input.output + "/checkpoint.json")
   }
-  public func run() throws -> WorkerResult {
+  public func run(initialState: SearchState? = nil) throws -> WorkerResult {
     ResourceUse.performanceQoS()
     started = monotonic()
-    cpuStart = ResourceUse.usage().cpu
+    cpuStart = ResourceUse.threadCPUSeconds()
     let until = started + input.budgetSeconds
     guard ["discrete", "continuous"].contains(input.condition.representation),
-      input.budgetSeconds > 0, input.budgetSeconds <= 1200
+      input.budgetSeconds > 0, input.budgetSeconds <= 3000
     else { throw BenchError("Invalid benchmark condition or budget") }
     let templates = try ShapeStore.read(input.shapeStore)
     oracle = ShapeOracle(grid: input.puzzle.grid, templates: templates)
@@ -241,41 +251,84 @@ public final class SearchEngine {
     FileManager.default.createFile(atPath: log, contents: nil)
     handle = try FileHandle(forWritingTo: URL(fileURLWithPath: log))
     defer { try? handle?.close() }
+    if let initialState {
+      guard initialState.strengths.count == StateCodec.edges(input.puzzle.grid).count,
+        initialState.strengths.allSatisfy({ $0.isFinite && (0...1).contains($0) })
+      else { throw BenchError("Invalid initial search state") }
+    }
     var current = StateCodec.evaluate(
-      StateCodec.encode(
+      initialState ?? StateCodec.encode(
         initialLabels(), grid: input.puzzle.grid, previous: nil,
         continuous: input.condition.representation == "continuous"), puzzle: input.puzzle)
     var best = current
+    var island = current
+    if let restored = strategy?.restoredState {
+      guard restored.strengths.count == current.state.strengths.count,
+        restored.strengths.allSatisfy({$0.isFinite && (0...1).contains($0)})
+      else {throw BenchError("Invalid restored strategy state")}
+      current=StateCodec.evaluate(restored,puzzle:input.puzzle)
+      if current.exact.quality < best.exact.quality { best=current }
+    }
     lastBest = started
     lastBP = started
     var stagnation = 0
     var epoch = 0
-    try observe(best, phase: "sa", force: true)
+    var lastExchange = -Double.infinity
+    var stopReason = "time_limit"
+    try observe(best, current: current, phase: strategy == nil ? "sa":"structure", force: true)
     while monotonic() < until && !best.exact.solved {
       let now = monotonic()
-      if input.condition.newBP && now - lastBest >= 5 && now - lastBP >= 4 {
-        let source = metrics.bpPhases % 4 == 3 ? current : best
+      if exactOnly && (intensifier as? ExactSearchStatus)?.exactSearchExhausted == true { stopReason = "exact_exhausted"; break }
+      if let exchange, now - lastExchange >= 1 {
+        if exchange.shouldStop { stopReason = "cancelled"; break }
+        let state: SearchState?
+        if let guided = exchange as? GuidedSearchExchange {
+          let advice = try guided.advise(current: current, best: best, worker: input)
+          (intensifier as? GuidedIntensifier)?.guide(advice)
+          state = advice.candidate
+        } else { state = try exchange.exchange(best: best, worker: input) }
+        if let state {
+          guard state.strengths.count == current.state.strengths.count,
+            state.strengths.allSatisfy({ $0.isFinite && (0...1).contains($0) })
+          else { throw BenchError("Invalid cooperative candidate") }
+          let candidate = StateCodec.evaluate(state, puzzle: input.puzzle)
+          if (islandMode && strategy == nil) || candidate.exact.solved { current = candidate; island = candidate }
+          if candidate.exact.quality < best.exact.quality {
+            best = candidate
+            if strategy == nil || strategy!.energy(candidate) <= strategy!.energy(current) {current = candidate}
+            lastBest = monotonic()
+            stagnation = 0
+            try observe(best, current: current, phase: "elite_import", force: true)
+          }
+        }
+        lastExchange = monotonic()
+        if best.exact.solved { break }
+      }
+      if exactOnly || (input.condition.newBP && now - lastBest >= 5 && now - lastBP >= 4) {
+        let source = strategy != nil ? current : exactOnly ? best : metrics.bpPhases % 4 == 3 ? current : (islandMode ? island : best)
         if let improved = try intensify(source, globalBest: best, until: min(until, now + 1)) {
           if improved.exact.quality < best.exact.quality {
             best = improved
             lastBest = monotonic()
           }
-          current = improved
+          if strategy == nil || strategy!.energy(improved) <= strategy!.energy(current) {current = improved}
+          if improved.exact.quality < island.exact.quality { island = improved }
           temperature.reheat()
         }
         lastBP = monotonic()
-        try observe(best, phase: "new_bp")
+        try observe(best, current: current, phase: "new_bp")
         continue
       }
       metrics.iterations += 1
       if let proposal = propose(current, until: until) {
-        let delta = proposal.nativeEnergy - current.nativeEnergy
+        let delta = strategy.map{$0.energy(proposal)-$0.energy(current)} ?? (proposal.nativeEnergy-current.nativeEnergy)
         if proposal.exact.solved || delta <= 0
           || streams.acceptance.unit() < exp(-delta / temperature.value)
         {
           current = proposal
           metrics.accepted += 1
         }
+        if proposal.exact.quality < island.exact.quality { island = proposal }
         if proposal.exact.quality < best.exact.quality {
           best = proposal
           lastBest = monotonic()
@@ -293,27 +346,29 @@ public final class SearchEngine {
         stagnation = 0
         epoch += 1
         if epoch % 2 == 0 {
-          current = StateCodec.evaluate(
+          current = strategy?.restart(fallback: current) ?? (anchoredRestarts ? (islandMode ? island : best) : StateCodec.evaluate(
             StateCodec.encode(
               initialLabels(), grid: input.puzzle.grid, previous: nil,
-              continuous: input.condition.representation == "continuous"), puzzle: input.puzzle)
+              continuous: input.condition.representation == "continuous"), puzzle: input.puzzle))
           metrics.restarts += 1
+          if islandMode && !anchoredRestarts { island = current }
           if current.exact.quality < best.exact.quality {
             best = current
             lastBest = monotonic()
           }
         }
       }
-      try observe(best, phase: "sa")
+      try observe(best, current: current, phase: strategy == nil ? "sa":"structure")
     }
-    try observe(best, phase: best.exact.solved ? "solved" : "time_limit", force: true)
+    _ = try exchange?.exchange(best: best, worker: input)
+    try observe(best, current: current, phase: best.exact.solved ? "solved" : stopReason, force: true)
     let elapsed = monotonic() - started
-    let cpu = ResourceUse.usage().cpu - cpuStart
+    let cpu = ResourceUse.threadCPUSeconds() - cpuStart
     let n = input.puzzle.n
     return WorkerResult(
       version: benchmarkVersion, jobID: input.jobID, puzzleID: input.puzzle.id,
       condition: input.condition, seed: input.seed, seconds: elapsed, cpuSeconds: cpu,
-      solved: best.exact.solved, reason: best.exact.solved ? "solved" : "time_limit",
+      solved: best.exact.solved, reason: best.exact.solved ? "solved" : stopReason,
       labels: (0..<n).map { Array(best.exact.labels[($0 * n)..<(($0 + 1) * n)]) },
       strengths: best.state.strengths, quality: best.exact.quality, answer: best.exact.answer,
       metrics: metrics, oracle: oracle.metrics, singleThreaded: true, gpuEnabled: false)

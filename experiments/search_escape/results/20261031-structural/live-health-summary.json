@@ -1,0 +1,60 @@
+{
+  "seconds": 112.31457029143348,
+  "phase": "running",
+  "cpuEquivalentCores": 7.692732926441156,
+  "quality": {
+    "issues": 0,
+    "residual": 0.16496219632232606,
+    "wrong": 13
+  },
+  "workers": [
+    {
+      "worker": 3,
+      "tiledBefore": 3784,
+      "tiledAfter": 6620,
+      "nodesBefore": 118796,
+      "nodesAfter": 202137,
+      "largest": 26,
+      "wrong": 14,
+      "violations": 0
+    },
+    {
+      "worker": 4,
+      "tiledBefore": 3689,
+      "tiledAfter": 6645,
+      "nodesBefore": 115227,
+      "nodesAfter": 199425,
+      "largest": 26,
+      "wrong": 14,
+      "violations": 0
+    },
+    {
+      "worker": 5,
+      "tiledBefore": 3757,
+      "tiledAfter": 6684,
+      "nodesBefore": 124952,
+      "nodesAfter": 206065,
+      "largest": 26,
+      "wrong": 14,
+      "violations": 0
+    },
+    {
+      "worker": 6,
+      "tiledBefore": 3824,
+      "tiledAfter": 6770,
+      "nodesBefore": 107010,
+      "nodesAfter": 198389,
+      "largest": 26,
+      "wrong": 14,
+      "violations": 0
+    }
+  ],
+  "cpsat": {
+    "state": "solving constrained global model",
+    "attempts": 4,
+    "candidateShapes": 8997,
+    "updated": 1793420157.204905,
+    "mode": "structural global",
+    "best": null
+  }
+}

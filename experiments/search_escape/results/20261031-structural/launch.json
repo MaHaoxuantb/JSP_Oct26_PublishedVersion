@@ -1,0 +1,20 @@
+{
+  "root": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/campaigns/JSP-Oct26-Structural-Search-20261031-130850",
+  "controllerPID": 73533,
+  "log": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/campaigns/JSP-Oct26-Structural-Search-20261031-130850.controller.log",
+  "ssh": "thomasb@192.168.4.173",
+  "softwareVersion": 10,
+  "segmentSeconds": 3000,
+  "maximumSegments": 2,
+  "continuation": true,
+  "experiment": "JSP-Oct26-Structural-Search",
+  "previousRun": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/campaigns/JSP-Oct26-Structural-Search-20261031-125842",
+  "started": 1793420038.44367,
+  "restoredJobs": 29,
+  "restoredStructural": 4,
+  "preparation": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/preparation/JSP-Oct26-Structural-Search-v10-20261031-130850",
+  "localMirror": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/mirrors/JSP-Oct26-Structural-Search-20261031-130850",
+  "dashboardURL": "http://127.0.0.1:60793",
+  "monitorPID": 61705,
+  "sidecarPID": 61706
+}

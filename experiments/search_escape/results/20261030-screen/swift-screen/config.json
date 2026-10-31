@@ -1,0 +1,23 @@
+{
+  "experiment": "JSP-Oct26-Search-Escape",
+  "copyright": "\u00a92026 ThomasB",
+  "author": "ThomasB",
+  "seconds": 30,
+  "threads": 4,
+  "seeds": [
+    2026103061,
+    2026103062
+  ],
+  "policies": [
+    "control",
+    "diversity",
+    "escalation",
+    "adaptive",
+    "recombination",
+    "exact",
+    "combined"
+  ],
+  "probe": true,
+  "binarySHA256": "4bf2026a878eefc568c43401153344858f442ce2bec180c9e3f08720c2e4c440",
+  "seedSHA256": "de1d49d2c9a7a49203f05c18ec95bfb65298086776a479bd06a53953c1641242"
+}

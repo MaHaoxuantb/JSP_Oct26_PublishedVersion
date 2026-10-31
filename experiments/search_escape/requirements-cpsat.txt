@@ -1,0 +1,2 @@
+# JSP-Oct26-Search-Escape; ©2026 ThomasB. Isolate from system packages.
+ortools==9.15.6755

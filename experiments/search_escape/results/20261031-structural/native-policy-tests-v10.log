@@ -1,0 +1,56 @@
+warning: /Users/thomasb/Library/org.swift.swiftpm/configuration is not accessible or not writable, disabling user-level cache features.
+warning: /Users/thomasb/Library/org.swift.swiftpm/security is not accessible or not writable, disabling user-level cache features.
+warning: /Users/thomasb/Library/Caches/org.swift.swiftpm is not accessible or not writable, disabling user-level cache features.
+warning: 'search_escape': failed storing manifest for 'search_escape' in cache: attempt to write a readonly database
+warning: 'repair_completion': failed storing manifest for 'repair_completion' in cache: attempt to write a readonly database
+warning: 'solver_bench': failed storing manifest for 'solver_bench' in cache: attempt to write a readonly database
+[0/1] Planning build
+Building for production...
+[0/5] Write sources
+[2/5] Write swift-version--58304C5D6DBC2206.txt
+[4/6] Compiling EscapePolicies AdaptiveRepair.swift
+[4/8] Write Objects.LinkFileList
+[5/9] Linking JSP-Oct26-Search-EscapePackageTests
+[7/9] Compiling EscapeWorker Version.swift
+[7/9] Write Objects.LinkFileList
+[8/9] Linking escape-worker
+Build complete! (5.61s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+Test Suite 'All tests' started at 2026-10-31 13:07:17.544.
+Test Suite 'JSP-Oct26-Search-EscapePackageTests.xctest' started at 2026-10-31 13:07:17.548.
+Test Suite 'PolicyTests' started at 2026-10-31 13:07:17.548.
+Test Case '-[EscapeTests.PolicyTests testBoundaryDistanceIgnoresRegionNames]' started.
+Test Case '-[EscapeTests.PolicyTests testBoundaryDistanceIgnoresRegionNames]' passed (0.002 seconds).
+Test Case '-[EscapeTests.PolicyTests testExhaustedScopeMemoAvoidsRepeatingSameSearch]' started.
+Test Case '-[EscapeTests.PolicyTests testExhaustedScopeMemoAvoidsRepeatingSameSearch]' passed (0.007 seconds).
+Test Case '-[EscapeTests.PolicyTests testGrowthReachesActualTargetAndWholeRegions]' started.
+Test Case '-[EscapeTests.PolicyTests testGrowthReachesActualTargetAndWholeRegions]' passed (0.000 seconds).
+Test Case '-[EscapeTests.PolicyTests testImprovementFlushesProgressAndResetsWrongClockImmediately]' started.
+Test Case '-[EscapeTests.PolicyTests testImprovementFlushesProgressAndResetsWrongClockImmediately]' passed (0.003 seconds).
+Test Case '-[EscapeTests.PolicyTests testProtectedSearchRestoresAndRejectsIncompatiblePolicy]' started.
+Test Case '-[EscapeTests.PolicyTests testProtectedSearchRestoresAndRejectsIncompatiblePolicy]' passed (0.009 seconds).
+Test Case '-[EscapeTests.PolicyTests testUnfinishedRepairsReceiveWorkInsteadOfBeingImmediatelyEvicted]' started.
+Test Case '-[EscapeTests.PolicyTests testUnfinishedRepairsReceiveWorkInsteadOfBeingImmediatelyEvicted]' passed (0.101 seconds).
+Test Case '-[EscapeTests.PolicyTests testWorseMigrationCannotEraseRetainedBest]' started.
+Test Case '-[EscapeTests.PolicyTests testWorseMigrationCannotEraseRetainedBest]' passed (0.010 seconds).
+Test Suite 'PolicyTests' passed at 2026-10-31 13:07:17.681.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.132 (0.133) seconds
+Test Suite 'StructuralTests' started at 2026-10-31 13:07:17.681.
+Test Case '-[EscapeTests.StructuralTests testDeductionsPreservePrintedExample]' started.
+Test Case '-[EscapeTests.StructuralTests testDeductionsPreservePrintedExample]' passed (0.000 seconds).
+Test Case '-[EscapeTests.StructuralTests testDirectGrowthProducesLargeLegalRegions]' started.
+Test Case '-[EscapeTests.StructuralTests testDirectGrowthProducesLargeLegalRegions]' passed (0.033 seconds).
+Test Case '-[EscapeTests.StructuralTests testFiniteCoverKeepsKnownNecessaryFeasibleTiling]' started.
+Test Case '-[EscapeTests.StructuralTests testFiniteCoverKeepsKnownNecessaryFeasibleTiling]' passed (0.001 seconds).
+Test Case '-[EscapeTests.StructuralTests testStructuralStateSurvivesIndependentCheckpointAndPuzzleMismatchFails]' started.
+Test Case '-[EscapeTests.StructuralTests testStructuralStateSurvivesIndependentCheckpointAndPuzzleMismatchFails]' passed (0.003 seconds).
+Test Suite 'StructuralTests' passed at 2026-10-31 13:07:17.718.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.037 (0.037) seconds
+Test Suite 'JSP-Oct26-Search-EscapePackageTests.xctest' passed at 2026-10-31 13:07:17.718.
+	 Executed 11 tests, with 0 failures (0 unexpected) in 0.169 (0.170) seconds
+Test Suite 'All tests' passed at 2026-10-31 13:07:17.718.
+	 Executed 11 tests, with 0 failures (0 unexpected) in 0.169 (0.174) seconds
+􀟈  Test run started.
+􀄵  Testing Library Version: 2084
+􀄵  Target Platform: arm64e-apple-macos14.0
+􁁛  Test run with 0 tests in 0 suites passed after 0.001 seconds.

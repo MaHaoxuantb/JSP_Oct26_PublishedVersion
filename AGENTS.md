@@ -1,5 +1,6 @@
 # Solver maintenance
 
+- Do not change fan settings or force fan speeds for experiments. Leave the user's existing cooling controls unchanged.
 - `JaneStreetPuzzle_Oct26/SoftwareVersion.swift` is the software release authority. Increment `SoftwareVersion.current` whenever changing core code executed by workers or the coordinator, including search, scoring, validation, wire messages, persistence, credentials, management, or the dashboard. Use one new monotonically increasing integer for each coherent release/change set; never reuse a released number. Documentation-only changes do not require a bump.
 - Software version is separate from `WireMessage.version`. Bump the wire protocol version as well for incompatible framing/schema changes. Keep saved-state decoding compatible when adding fields.
 - Review `minimumPeerVersion` defaults after a bump: it defaults to the current software version. Older/unversioned workers are rejected before reports or assignments are processed. Setting it to 0 explicitly allows legacy peers for a transition; future versions remain rejected. Test both strict and transitional behavior.

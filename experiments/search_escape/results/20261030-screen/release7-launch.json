@@ -1,0 +1,13 @@
+{
+  "root": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/campaigns/JSP-Oct26-Search-Escape-20261030-235845",
+  "controllerPID": 66390,
+  "log": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/campaigns/JSP-Oct26-Search-Escape-20261030-235845.controller.log",
+  "ssh": "thomasb@192.168.4.173",
+  "softwareVersion": 7,
+  "segmentSeconds": 3000,
+  "continuation": true,
+  "experiment": "JSP-Oct26-Search-Escape",
+  "previousRun": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/campaigns/JSP-Oct26-Search-Escape-20261030-234803",
+  "started": 1793372326.030036,
+  "restoredJobs": 29
+}

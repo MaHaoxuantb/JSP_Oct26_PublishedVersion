@@ -1,0 +1,75 @@
+warning: /Users/thomasb/Library/org.swift.swiftpm/configuration is not accessible or not writable, disabling user-level cache features.
+warning: /Users/thomasb/Library/org.swift.swiftpm/security is not accessible or not writable, disabling user-level cache features.
+warning: /Users/thomasb/Library/Caches/org.swift.swiftpm is not accessible or not writable, disabling user-level cache features.
+warning: 'solver_bench': failed storing manifest for 'solver_bench' in cache: attempt to write a readonly database
+Building for production...
+[0/16] Write sources
+[0/16] /private/tmp/jsp-structural-shared-tests/arm64-apple-macosx/release/PuzzleBenchPackageTests.derived/runner.swift
+[0/16] Write sources
+[9/16] Write swift-version--58304C5D6DBC2206.txt
+[11/17] Compiling PuzzleRules Rules.swift
+[12/18] Compiling ShapeDomain CoverSearch.swift
+[13/20] Compiling BoardPreparation Preparation.swift
+[14/20] Compiling SolverCore Engine.swift
+[15/23] Compiling BenchWorker main.swift
+[15/23] Write Objects.LinkFileList
+[16/23] Linking bench-worker
+[18/23] Compiling BenchTools main.swift
+[18/23] Write Objects.LinkFileList
+[19/23] Linking bench-tools
+[21/23] Compiling BenchTests ExchangeTests.swift
+sandbox-exec: sandbox_apply: Operation not permitted
+sandbox-exec: sandbox_apply: Operation not permitted
+[22/24] Compiling PuzzleBenchPackageTests runner.swift
+[22/24] Write Objects.LinkFileList
+[23/24] Linking PuzzleBenchPackageTests
+Build complete! (39.27s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+Test Suite 'All tests' started at 2026-10-31 12:56:27.383.
+Test Suite 'PuzzleBenchPackageTests.xctest' started at 2026-10-31 12:56:27.384.
+Test Suite 'ExchangeTests' started at 2026-10-31 12:56:27.384.
+Test Case '-[BenchTests.ExchangeTests test3000SecondBudgetCanCancelWithoutWaiting]' started.
+Test Case '-[BenchTests.ExchangeTests test3000SecondBudgetCanCancelWithoutWaiting]' passed (0.015 seconds).
+Test Case '-[BenchTests.ExchangeTests testInitialSolutionIsReevaluatedWithoutSearch]' started.
+Test Case '-[BenchTests.ExchangeTests testInitialSolutionIsReevaluatedWithoutSearch]' passed (0.009 seconds).
+Test Case '-[BenchTests.ExchangeTests testMalformedPeerCannotEnterSearch]' started.
+Test Case '-[BenchTests.ExchangeTests testMalformedPeerCannotEnterSearch]' passed (0.008 seconds).
+Test Case '-[BenchTests.ExchangeTests testPeerSolutionIsReevaluatedAndTerminates]' started.
+Test Case '-[BenchTests.ExchangeTests testPeerSolutionIsReevaluatedAndTerminates]' passed (0.011 seconds).
+Test Suite 'ExchangeTests' passed at 2026-10-31 12:56:27.426.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.042 (0.042) seconds
+Test Suite 'RulesTests' started at 2026-10-31 12:56:27.426.
+Test Case '-[BenchTests.RulesTests testBinaryRepresentationEqualityAndCommonInitialization]' started.
+Test Case '-[BenchTests.RulesTests testBinaryRepresentationEqualityAndCommonInitialization]' passed (0.001 seconds).
+Test Case '-[BenchTests.RulesTests testCountsAndPruningEquivalence]' started.
+Test Case '-[BenchTests.RulesTests testCountsAndPruningEquivalence]' passed (0.062 seconds).
+Test Case '-[BenchTests.RulesTests testCoverCheckpointAndFrozenCache]' started.
+Test Case '-[BenchTests.RulesTests testCoverCheckpointAndFrozenCache]' passed (0.066 seconds).
+Test Case '-[BenchTests.RulesTests testGeometry]' started.
+Test Case '-[BenchTests.RulesTests testGeometry]' passed (0.000 seconds).
+Test Case '-[BenchTests.RulesTests testKnownExample]' started.
+Test Case '-[BenchTests.RulesTests testKnownExample]' passed (0.000 seconds).
+Test Case '-[BenchTests.RulesTests testMasksAndRoundTrip]' started.
+Test Case '-[BenchTests.RulesTests testMasksAndRoundTrip]' passed (0.000 seconds).
+Test Case '-[BenchTests.RulesTests testNoise]' started.
+Test Case '-[BenchTests.RulesTests testNoise]' passed (0.016 seconds).
+Test Case '-[BenchTests.RulesTests testOracleExhaustiveAndNoCacheNeeded]' started.
+Test Case '-[BenchTests.RulesTests testOracleExhaustiveAndNoCacheNeeded]' passed (0.026 seconds).
+Test Case '-[BenchTests.RulesTests testQueryCheckpoint]' started.
+Test Case '-[BenchTests.RulesTests testQueryCheckpoint]' passed (0.004 seconds).
+Test Case '-[BenchTests.RulesTests testRestrictedFourByFourOracle]' started.
+Test Case '-[BenchTests.RulesTests testRestrictedFourByFourOracle]' passed (1.011 seconds).
+Test Case '-[BenchTests.RulesTests testSeededOracleDomainAndDuplicateSuppression]' started.
+Test Case '-[BenchTests.RulesTests testSeededOracleDomainAndDuplicateSuppression]' passed (0.009 seconds).
+Test Case '-[BenchTests.RulesTests testUniqueAndFourthSolution]' started.
+Test Case '-[BenchTests.RulesTests testUniqueAndFourthSolution]' passed (0.001 seconds).
+Test Suite 'RulesTests' passed at 2026-10-31 12:56:28.624.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 1.197 (1.198) seconds
+Test Suite 'PuzzleBenchPackageTests.xctest' passed at 2026-10-31 12:56:28.624.
+	 Executed 16 tests, with 0 failures (0 unexpected) in 1.239 (1.240) seconds
+Test Suite 'All tests' passed at 2026-10-31 12:56:28.624.
+	 Executed 16 tests, with 0 failures (0 unexpected) in 1.239 (1.241) seconds
+􀟈  Test run started.
+􀄵  Testing Library Version: 2084
+􀄵  Target Platform: arm64e-apple-macos14.0
+􁁛  Test run with 0 tests in 0 suites passed after 0.001 seconds.

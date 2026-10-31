@@ -1,0 +1,53 @@
+{
+  "launch": {
+    "root": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/campaigns/JSP-Oct26-Structural-Search-20261031-130850",
+    "controllerPID": 73533,
+    "log": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/campaigns/JSP-Oct26-Structural-Search-20261031-130850.controller.log",
+    "ssh": "thomasb@192.168.4.173",
+    "softwareVersion": 10,
+    "segmentSeconds": 3000,
+    "maximumSegments": 2,
+    "continuation": true,
+    "experiment": "JSP-Oct26-Structural-Search",
+    "previousRun": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/campaigns/JSP-Oct26-Structural-Search-20261031-125842",
+    "started": 1793420038.44367,
+    "restoredJobs": 29,
+    "restoredStructural": 4,
+    "preparation": "/Users/thomasb/Library/Application Support/JaneStreetPuzzleBench/preparation/JSP-Oct26-Structural-Search-v10-20261031-130850"
+  },
+  "restoration": {
+    "quality": {
+      "issues": 0,
+      "residual": 0.16496219632232606,
+      "wrong": 13
+    },
+    "seconds": 12.085990250110626,
+    "cpu": 7.532008061910091,
+    "restoredJobs": 29,
+    "restoredStructural": 4,
+    "exactNodesBefore": 17853448,
+    "exactNodesAfter": 17857012
+  },
+  "component": {
+    "9": {
+      "budgetPerCall": 0.04,
+      "completed": 20,
+      "cpuSeconds": 0.161299042,
+      "extraRegions": 256,
+      "identityResults": true,
+      "nodes": 20,
+      "seconds": 0.16131208324804902,
+      "trials": 20
+    },
+    "10": {
+      "budgetPerCall": 0.04,
+      "completed": 20,
+      "cpuSeconds": 0.0007715839999999918,
+      "extraRegions": 256,
+      "identityResults": true,
+      "nodes": 20,
+      "seconds": 0.0007836250588297844,
+      "trials": 20
+    }
+  }
+}

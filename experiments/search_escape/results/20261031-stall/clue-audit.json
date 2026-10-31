@@ -1,0 +1,171 @@
+{
+  "experiment": "JSP-Oct26-Search-Escape-Stall",
+  "copyright": "\u00a92026 ThomasB",
+  "author": "ThomasB",
+  "bounds": {
+    "minimumLargestRegion": 26,
+    "witness": {
+      "cells": [
+        115,
+        118
+      ],
+      "clues": [
+        0,
+        77
+      ],
+      "steps": 3
+    },
+    "adjacentSizeBounds": [
+      {
+        "cells": [
+          1,
+          2
+        ],
+        "minimumRegionSize": 4
+      },
+      {
+        "cells": [
+          41,
+          52
+        ],
+        "minimumRegionSize": 2
+      },
+      {
+        "cells": [
+          68,
+          79
+        ],
+        "minimumRegionSize": 6
+      },
+      {
+        "cells": [
+          118,
+          119
+        ],
+        "minimumRegionSize": 16
+      }
+    ],
+    "singletonCapitalDisjunctions": [
+      {
+        "clueCell": 27,
+        "candidateCells": [
+          16,
+          38,
+          26,
+          28
+        ]
+      },
+      {
+        "clueCell": 39,
+        "candidateCells": [
+          28,
+          50,
+          38,
+          40
+        ]
+      },
+      {
+        "clueCell": 54,
+        "candidateCells": [
+          43,
+          65,
+          53
+        ]
+      }
+    ]
+  },
+  "maximumIncumbentRegion": 14,
+  "incorrectClues": [
+    {
+      "row": 1,
+      "column": 2,
+      "target": 8,
+      "actual": 7,
+      "regionSize": 6
+    },
+    {
+      "row": 1,
+      "column": 6,
+      "target": 11,
+      "actual": 7,
+      "regionSize": 4
+    },
+    {
+      "row": 3,
+      "column": 11,
+      "target": 14,
+      "actual": 1,
+      "regionSize": 8
+    },
+    {
+      "row": 4,
+      "column": 1,
+      "target": 28,
+      "actual": 22,
+      "regionSize": 11
+    },
+    {
+      "row": 4,
+      "column": 4,
+      "target": 51,
+      "actual": 7,
+      "regionSize": 6
+    },
+    {
+      "row": 5,
+      "column": 2,
+      "target": 22,
+      "actual": 20,
+      "regionSize": 11
+    },
+    {
+      "row": 5,
+      "column": 9,
+      "target": 4,
+      "actual": 5,
+      "regionSize": 5
+    },
+    {
+      "row": 6,
+      "column": 6,
+      "target": 10,
+      "actual": 3,
+      "regionSize": 6
+    },
+    {
+      "row": 7,
+      "column": 3,
+      "target": 11,
+      "actual": 15,
+      "regionSize": 10
+    },
+    {
+      "row": 9,
+      "column": 9,
+      "target": 45,
+      "actual": 18,
+      "regionSize": 9
+    },
+    {
+      "row": 10,
+      "column": 4,
+      "target": 10,
+      "actual": 12,
+      "regionSize": 6
+    },
+    {
+      "row": 11,
+      "column": 9,
+      "target": 77,
+      "actual": 31,
+      "regionSize": 14
+    },
+    {
+      "row": 11,
+      "column": 10,
+      "target": 61,
+      "actual": 41,
+      "regionSize": 14
+    }
+  ]
+}
