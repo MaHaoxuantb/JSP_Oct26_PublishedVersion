@@ -371,6 +371,23 @@ writes a separate result under `<project>/logs/repairs/`. Original logs are
 untouched. Failure of this bounded repair does not prove that no solution exists.
 Old logs are supported even if their configuration lacks the new repair settings.
 
+## Experiment reports
+
+The [midterm report](JSP-Oct26-Midterm-Report.md) summarizes all experiment families and the latest archived outcomes. Detailed reports, run records and raw results are linked below.
+
+- [Branch pruning](experiments/branch_pruning/results/20261029-160117/previous-report.md) · [raw results](experiments/branch_pruning/results/20261029-160117/results.json)
+- [Branch pruning versus discrete search](experiments/branch_vs_discrete/results/20261029-162908/results.json) · [experiment notes](experiments/branch_vs_discrete/README.md)
+- [CPU8 completion](experiments/cpu8_completion/JSP-Oct26-CPU8-Completion-Run.md) · [continuation run](experiments/cpu8_completion/JSP-Oct26-CPU8-Continuation-Run.md)
+- [Discrete versus continuous](experiments/discrete_vs_continuous/SOLVE_TIME_REPORT.md) · [throughput report](experiments/discrete_vs_continuous/results/REPORT.md) · [all result sets](experiments/discrete_vs_continuous/)
+- [GPU multicore](experiments/gpu_multicore/results/20261030-mini8/JSP-Oct26-GPU-Multicore-Report.md)
+- [GPU quick benchmark](experiments/gpu_quick/results/20261030-quick/JSP-Oct26-GPU-Quick-Report.md)
+- [Hybrid investigation](experiments/hybrid_investigation/README.md)
+- [Regional energy](experiments/regional_energy/results/pilot-20261029-133155/REPORT.md)
+- [Regional production](experiments/regional_production/results/20261029-151354/REPORT.md)
+- [Repair completion](experiments/repair_completion/JSP-Oct26-Repair-Completion-Verification.md) · [run record](experiments/repair_completion/JSP-Oct26-Repair-Completion-Run.md)
+- [Search escape and structural search](experiments/search_escape/results/20261030-screen/JSP-Oct26-Search-Escape-Report.md) · [stall report](experiments/search_escape/results/20261031-stall/JSP-Oct26-Search-Escape-Stall-Report.md) · [structural search report](experiments/search_escape/results/20261031-structural/JSP-Oct26-Structural-Search-Report.md)
+- [Regional-SA-BP matched campaign](experiments/solver_bench/analysis/final-20261030-120757/JSP-Oct26-Regional-SA-BP-Final-Report.md) · [campaign overview](experiments/solver_bench/REPORT.md)
+
 ## Search and performance
 
 ### GPU path evaluation
