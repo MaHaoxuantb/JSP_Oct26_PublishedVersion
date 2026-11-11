@@ -7,7 +7,7 @@ from reportlab.graphics.shapes import Drawing,String,Line,Circle,PolyLine,Rect
 from reportlab.graphics import renderSVG
 from reportlab.lib.colors import HexColor
 here=Path(__file__).resolve().parent
-folder=Path(sys.argv[1]) if len(sys.argv)>1 else Path((here/'latest-run.txt').read_text().strip())
+folder=Path(sys.argv[1]) if len(sys.argv)>1 else (here / (here/'latest-run.txt').read_text().strip())
 meta=json.loads((folder/'metadata.json').read_text());results=json.loads((folder/'results.json').read_text())
 assert len(results)==4 and 'completed' in meta
 old=Path(meta['oldReport']).parent;fixtures=json.loads((folder/'fixtures.json').read_text())['puzzles']

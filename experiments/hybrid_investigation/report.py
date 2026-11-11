@@ -2,7 +2,7 @@
 from pathlib import Path
 import hashlib,json,os,sys
 here=Path(__file__).resolve().parent
-out=Path((here/'latest-run.txt').read_text().strip())
+out=(here / (here/'latest-run.txt').read_text().strip())
 prior=here.parent/'branch_vs_discrete/results/20261029-162908'
 oldmeta=json.loads((prior/'metadata.json').read_text());report=Path(oldmeta['report'])
 meta=json.loads((out/'metadata.json').read_text());assert 'completed' in meta

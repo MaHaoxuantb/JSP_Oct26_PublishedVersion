@@ -52,7 +52,7 @@ with tempfile.TemporaryDirectory(prefix='jsp-regional-',dir='/private/tmp') as s
               'build_flags':['-O','-D','PATHS_CPU_ONLY'],'parent_pid':os.getpid(),
               'note':'Shared experimental mutation framework, not the full production repair solver. ON/OFF controls matched within representation.'}
     (out/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
-    (here/'latest-run.txt').write_text(str(out)+'\n')
+    (here/'latest-run.txt').write_text(str(out.relative_to(here) if out.is_relative_to(here) else out)+'\n')
     completed=[]; jobs=[]; interrupted=False
     def save_status():
         value={'updated_at_jst':datetime.now(ZoneInfo('Asia/Tokyo')).isoformat(),'completed':len(completed),'total':8,

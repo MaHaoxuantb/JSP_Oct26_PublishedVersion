@@ -9,7 +9,7 @@ from rules import validate
 p=argparse.ArgumentParser(); p.add_argument('--seconds',type=float,default=300); p.add_argument('--seeds',type=int,nargs='+',default=[20261029,20261030,20261031]); p.add_argument('--output',type=Path); a=p.parse_args()
 out=(a.output or here/'results'/datetime.now().strftime('%Y%m%d-%H%M%S')).resolve()
 assert not out.exists(); out.mkdir(parents=True)
-(here/'latest-run.txt').write_text(str(out)+'\n')
+(here/'latest-run.txt').write_text(str(out.relative_to(here) if out.is_relative_to(here) else out)+'\n')
 fixtures=json.loads((here.parent/'discrete_vs_continuous/until_solved/fixtures.json').read_text())['puzzles'][:2]
 for f in fixtures: assert validate(f['witness'],f['n'],f['clues'])['solved']
 (out/'fixtures.json').write_text(json.dumps({'puzzles':[{k:f[k] for k in ['n','name','clues']} for f in fixtures]},indent=2))

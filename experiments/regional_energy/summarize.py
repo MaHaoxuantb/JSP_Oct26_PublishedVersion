@@ -12,7 +12,7 @@ from reportlab.lib.colors import HexColor
 
 here=Path(__file__).resolve().parent
 p=argparse.ArgumentParser(); p.add_argument('directory',type=Path,nargs='?')
-a=p.parse_args(); folder=a.directory or Path((here/'latest-run.txt').read_text().strip())
+a=p.parse_args(); folder=a.directory or (here / (here/'latest-run.txt').read_text().strip())
 meta=json.loads((folder/'metadata.json').read_text()); limit=meta['seconds_per_trial']
 conditions=meta['conditions']; all_results={}; samples={}; csv_rows=[]
 for condition in conditions:

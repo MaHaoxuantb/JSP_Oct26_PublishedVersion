@@ -4,7 +4,7 @@ import csv,hashlib,json,math,os,subprocess,sys
 from collections import defaultdict
 from pathlib import Path
 here=Path(__file__).resolve().parent
-folder=Path(sys.argv[1]) if len(sys.argv)>1 else Path((here/'latest-run.txt').read_text().strip())
+folder=Path(sys.argv[1]) if len(sys.argv)>1 else (here / (here/'latest-run.txt').read_text().strip())
 meta=json.loads((folder/'metadata.json').read_text());results=json.loads((folder/'results.json').read_text())
 fixtures=json.loads((folder/'fixtures.json').read_text())['puzzles']
 sys.path[:0]=[str(here.parent/'discrete_vs_continuous'),str(here.parent/'regional_production')]

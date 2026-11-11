@@ -23,11 +23,11 @@ The output path is saved in `latest-run.txt`. Builds and compiler caches stay in
 a unique `/private/tmp` directory. No installed worker, core source, live SQLite
 file, credential or coordinator state is changed. No deployment occurs.
 
-Generate curves/report using the bundled Python runtime, which supplies ReportLab:
+Generate curves/report using Python 3 with ReportLab and Node.js with Sharp:
 
 ```sh
-/Users/thomasb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 experiments/regional_energy/summarize.py
-/Users/thomasb/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node experiments/regional_energy/render_curves.cjs
+python3 experiments/regional_energy/summarize.py
+node experiments/regional_energy/render_curves.cjs
 ```
 
 `PLAN.md` describes the controls; `design.json` is the frozen condition matrix.

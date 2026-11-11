@@ -4,9 +4,9 @@ import hashlib,json,os,shutil,subprocess,sys,tempfile,time
 from pathlib import Path
 from datetime import datetime
 here=Path(__file__).resolve().parent;root=here.parents[1]
-old=Path((here.parent/'regional_production/latest-run.txt').read_text().strip())
+old=(here.parent / 'regional_production' / (here.parent/'regional_production/latest-run.txt').read_text().strip())
 out=here/'results'/datetime.now().strftime('%Y%m%d-%H%M%S');out.mkdir(parents=True)
-(here/'latest-run.txt').write_text(str(out)+'\n')
+(here/'latest-run.txt').write_text(str(out.relative_to(here))+'\n')
 sys.path.insert(0,str(here.parent/'discrete_vs_continuous'))
 from rules import validate
 core=lambda:{str(x.relative_to(root)):hashlib.sha256(x.read_bytes()).hexdigest() for x in (root/'JaneStreetPuzzle_Oct26').rglob('*.swift')}

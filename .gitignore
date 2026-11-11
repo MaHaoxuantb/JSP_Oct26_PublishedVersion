@@ -23,3 +23,8 @@ __pycache__/
 
 # Persistent TLS private identities
 server-private-key*.pem
+
+# SQLite sidecars and local runtime credentials
+*.sqlite-wal
+*.sqlite-shm
+web-admin-password*

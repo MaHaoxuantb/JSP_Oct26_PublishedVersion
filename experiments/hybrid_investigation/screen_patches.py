@@ -5,7 +5,7 @@ from pathlib import Path
 import heapq,json,math
 from fractions import Fraction
 here=Path(__file__).resolve().parent
-out=Path((here/'latest-run.txt').read_text().strip())
+out=(here / (here/'latest-run.txt').read_text().strip())
 def audit(n):
     inp=json.loads((out/f'{n}-input.json').read_text());labels=inp['labels'];clues=sum(inp['fixture']['clues'],[]);count=n*n
     def near(c):

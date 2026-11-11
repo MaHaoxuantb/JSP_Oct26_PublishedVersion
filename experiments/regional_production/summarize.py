@@ -11,7 +11,7 @@ here=Path(__file__).resolve().parent
 sys.path.insert(0,str(here.parent/'discrete_vs_continuous'))
 from rules import validate
 p=argparse.ArgumentParser(); p.add_argument('directory',nargs='?',type=Path); a=p.parse_args()
-folder=a.directory or Path((here/'latest-run.txt').read_text().strip())
+folder=a.directory or (here / (here/'latest-run.txt').read_text().strip())
 meta=json.loads((folder/'metadata.json').read_text()); fixtures=json.loads((folder/'fixtures.json').read_text())['puzzles']
 results=json.loads((folder/'results.json').read_text()); samples={}; rows=[]; checks=[]
 for r in results:

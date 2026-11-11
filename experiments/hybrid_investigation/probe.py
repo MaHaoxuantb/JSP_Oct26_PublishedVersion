@@ -7,7 +7,7 @@ here=Path(__file__).resolve().parent;root=here.parents[1]
 previous=here.parent/'branch_vs_discrete/results/20261029-162908'
 source=previous/'control-sources'
 out=here/'results'/datetime.now().strftime('%Y%m%d-%H%M%S');out.mkdir(parents=True)
-(here/'latest-run.txt').write_text(str(out)+'\n')
+(here/'latest-run.txt').write_text(str(out.relative_to(here))+'\n')
 core=lambda:{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'JaneStreetPuzzle_Oct26').rglob('*.swift')}
 meta={'started':datetime.now().isoformat(),'budgetSeconds':60,'source':str(source),'sourceHashes':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in source.glob('*.swift')},'coreBefore':core(),'concurrentProcesses':4,'note':'Warm-start diagnostic only. Four processes share the host; timings do not establish solve-speed advantage. BP is deeper existing local cover, not a complete alternating hybrid.'}
 (out/'metadata.json').write_text(json.dumps(meta,indent=2));(out/'Probe.swift').write_bytes((here/'Probe.swift').read_bytes());(out/'probe.py').write_bytes(Path(__file__).read_bytes())

@@ -6,10 +6,12 @@ continuous `Energy` API remains available for separate experiments; it no longer
 drives the main search. Final solutions still require the independent integer
 validator in `Validation.swift`.
 
+[Midterm report and experiment index](JSP-Oct26-Midterm-Report.md)
+
 ## Software versions
 
 `SoftwareVersion.current` in `JaneStreetPuzzle_Oct26/SoftwareVersion.swift` is the
-monotonically increasing release number (currently 1). `--version`, startup logs,
+monotonically increasing release number. `--version`, startup logs,
 standalone worker logs, and dashboard machine rows expose it. The dashboard also
 shows the coordinator version and its accepted range. `AGENTS.md` requires a version
 bump for core worker/coordinator changes. This number is separate from the wire

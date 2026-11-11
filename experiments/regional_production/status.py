@@ -1,6 +1,6 @@
 from pathlib import Path
 import json
-p=Path((Path(__file__).parent/'latest-run.txt').read_text().strip())
+p=Path(__file__).resolve().parent / (Path(__file__).resolve().parent/'latest-run.txt').read_text().strip()
 s=json.loads((p/'status.json').read_text())
 print(s)
 if s.get('running'):
