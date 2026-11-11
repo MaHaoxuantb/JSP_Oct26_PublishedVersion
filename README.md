@@ -1,3 +1,5 @@
+[JSP-Oct26 Midterm Report (PDF)](output/pdf/JSP-Oct26-Midterm-Report.pdf)
+
 # JaneStreetPuzzle_Oct26
 
 The default search now uses discrete partitions, exact shortest-path scores,
@@ -5,8 +7,6 @@ constrained region repairs and a shared elite archive across ten workers. The
 continuous `Energy` API remains available for separate experiments; it no longer
 drives the main search. Final solutions still require the independent integer
 validator in `Validation.swift`.
-
-[Midterm report and experiment index](JSP-Oct26-Midterm-Report.md)
 
 ## Software versions
 
